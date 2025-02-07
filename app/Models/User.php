@@ -56,4 +56,17 @@ class User extends Authenticatable implements Auditable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relación uno a uno con el modelo Personal.
+     * 
+     * Este método obtiene el registro de personal al que pertenece este usuario.
+     * La relación se establece a través de la clave foránea 'personal_id' en la tabla 'users'.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function personal()
+    {
+        return $this->belongsTo(Personal::class, 'personal_id');
+    }
 }
