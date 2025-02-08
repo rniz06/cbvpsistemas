@@ -315,19 +315,65 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+        ['header' => 'MODULOS'],
+        [
+            'text' => 'Personales',
+            'icon' => 'fas fa-portrait',
+            'submenu' => [
+                [
+                    'text' => 'Listar',
+                    'route' => 'personal.index',
+                    'can' => 'Personal Listar',
+                    'icon' => 'fas fa-list-ul',
+                ],
+                [
+                    'text' => 'Agregar',
+                    'route' => 'personal.create',
+                    'can' => 'Personal Crear',
+                    'icon' => 'fas fa-plus',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Admin',
+            'icon' => 'fas fa-users-cog',
+            'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    //'route' => 'personal.index',
+                    'can' => 'Usuarios Listar',
+                    'url' => '#',
+                    //'icon' => 'fas fa-list-ul',
+                ],
+                [
+                    'text' => 'Roles',
+                    //'route' => 'personal.create',
+                    'can' => 'Roles Listar',
+                    'url' => '#',
+                    //'icon' => 'fas fa-plus',
+                ],
+                [
+                    'text' => 'Permisos',
+                    //'route' => 'personal.create',
+                    'can' => 'Permisos Listar',
+                    'url' => '#',
+                    //'icon' => 'fas fa-plus',
+                ],
+            ],
+        ],
         // [
         //     'text' => 'blog',
         //     'url' => 'admin/blog',
         //     'can' => 'manage-blog',
         // ],
-        [
-            'text' => 'pages',
-            'url' => '#',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
+        // [
+        //     'text' => 'pages',
+        //     'url' => '#',
+        //     'icon' => 'far fa-fw fa-file',
+        //     'label' => 4,
+        //     'label_color' => 'success',
+        // ],
+        // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
         //     'url' => 'admin/settings',
