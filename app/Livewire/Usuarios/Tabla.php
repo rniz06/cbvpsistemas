@@ -1,14 +1,9 @@
 <?php
 
-namespace App\Livewire\Personal;
+namespace App\Livewire\Usuarios;
 
-use App\Models\Role;
-use Livewire\Attributes\Url;
 use Livewire\WithPagination;
-use App\Models\User;
-use App\Models\Vistas\VtCompania;
 use App\Models\Vistas\VtUsers;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Tabla extends Component
@@ -58,6 +53,6 @@ class Tabla extends Component
             ->paginate($this->paginado);                        // Pagina los resultados
 
         // Retorna la vista 'livewire.personal.tabla' con los datos de los usuarios
-        return view('livewire.personal.tabla', compact('usuarios'));
+        return view('livewire.usuarios.tabla', compact('usuarios'));
     }
 }

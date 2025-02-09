@@ -18,7 +18,7 @@
     @endif
 
     {{-- Llamamos al componente livewire que renderiza el listado de usuarios --}}
-    @livewire('personal.tabla')
+    @livewire('usuarios.tabla')
 
 @stop
 
