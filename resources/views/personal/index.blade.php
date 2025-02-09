@@ -9,7 +9,7 @@
 {{-- Content body: main page content --}}
 
 @section('content_body')
-    <p>Personal.</p>
+    @livewire('personal.tabla')
 @stop
 
 {{-- Push extra CSS --}}
