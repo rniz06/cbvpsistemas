@@ -147,7 +147,18 @@ class Personal extends Model implements Auditable
     }
 
     /**
-     * Relación "pertenece a" con la tabla "vt_companias".
+     * Relación "pertenece a" con la tabla "companias".
+     * Un "personal" pertenece a una "compañía" a través de la columna "compania_id".
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function compania()
+    {
+        return $this->belongsTo(Compania::class, 'compania_id', 'idcompanias');
+    }
+
+    /**
+     * Relación "pertenece a" con la vista "vt_companias".
      * Un "personal" pertenece a una "compañía" a través de la columna "compania_id".
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
