@@ -345,10 +345,8 @@ return [
                 ],
                 [
                     'text' => 'Roles',
-                    //'route' => 'personal.create',
+                    'route' => 'roles.index',
                     'can' => 'Roles Listar',
-                    'url' => '#',
-                    //'icon' => 'fas fa-plus',
                 ],
                 [
                     'text' => 'Permisos',
