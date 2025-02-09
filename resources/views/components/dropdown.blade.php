@@ -4,7 +4,11 @@
         <i class="fas fa-align-justify"></i>
     </button>
     <div class="dropdown-menu">
-        @if (isset($show) || isset($edit) || isset($action))
+        @if (isset($show) || isset($edit) || isset($action) || isset($ficha))
+            @if (isset($ficha))
+                <a class="dropdown-item" tabindex="-1" href="{{ $ficha }}"><i class="far fa-file-alt pr-2"
+                        style="color: #6c757d"></i></i>Ficha PDF</a>
+            @endif
             @if (isset($show))
                 <a class="dropdown-item" tabindex="-1" href="{{ $show }}"><i class="fas fa-eye pr-2"
                         style="color: #6c757d"></i>Ver</a>

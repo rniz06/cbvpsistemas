@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #000;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    /* border: 1px solid #000; */
+    min-height: 100vh; /* Hace que el recuadro abarque toda la página */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header img {
+    width: 100px;
+    height: auto;
+}
+
+.header h1 {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.header p {
+    font-size: 12px;
+    margin: 3px 0;
+}
+
+.section {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.section h2 {
+    font-size: 16px;
+    background-color: #ddd;
+    padding: 5px;
+    margin: -10px -10px 10px -10px;
+    text-align: center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table td {
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+.table td,
+.table th {
+    border: 1px solid black;
+    padding: 5px;
+    /* Agrega espacio interno */
+    text-align: left;
+}
+
+.table td:first-child {
+    font-weight: bold;
+}

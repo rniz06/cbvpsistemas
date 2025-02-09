@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
         Route::delete('personal/{personal}', 'destroy')->name('personal.destroy');
+        Route::get('personal/ficha/{personal}', 'fichapdf')->name('personal.fichapdf');
     });
 
     /*

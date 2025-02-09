@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Personal;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonalController extends Controller
 {
@@ -24,6 +27,38 @@ class PersonalController extends Controller
     public function index()
     {
         return view('personal.index');
+    }
+
+    /**
+     * Genera y descarga un PDF con la ficha de un personal.
+     */
+    public function fichapdf($id)
+    {
+        $usuario = Auth::user();
+        // Cargar todas las relaciones en una sola consulta
+        $personal = Personal::with([
+            'categoria',
+            'estado',
+            'sexo',
+            'pais',
+            'estadoActualizar',
+            'grupoSanguineo',
+            'contactos.tipoContacto',
+            'contactosEmergencias.tipoContacto',
+            'contactosEmergencias.parentesco',
+            'contactosEmergencias.ciudad',
+            'vtcompania'
+        ])
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('personal.fichapdf', [
+            'personal' => $personal,
+            'usuario' => $usuario,
+            'contactos' => $personal->contactos,
+            'contactosEmergencias' => $personal->contactosEmergencias
+        ]);
+
+        return $pdf->download('CBVP Ficha  de personal ' . $personal->codigo . '.pdf');
     }
 
     /**

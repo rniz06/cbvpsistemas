@@ -66,6 +66,10 @@
                         <td>
                             <x-dropdown>
                                 @if (auth()->user()->can('Personal Editar'))
+                                    <x-slot name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
+                                @endif
+
+                                @if (auth()->user()->can('Personal Editar'))
                                     <x-slot name="show">#</x-slot>
                                 @endif
 
