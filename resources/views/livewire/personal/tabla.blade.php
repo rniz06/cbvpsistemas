@@ -51,7 +51,7 @@
                                     <i class="fas fa-align-justify"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @if (auth()->user()->can('Usuarios Editar'))
+                                    @if (auth()->user()->can('Usuarios Asignar Roles'))
                                         <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarrolevista', $usuario->id_user) }}"><i
                                                 class="fas fa-eye pr-2" style="color: #6c757d"></i>Asignar Roles</a>
                                     @endif
