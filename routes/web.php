@@ -3,6 +3,7 @@
 //use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,5 +35,22 @@ Route::middleware('auth')->group(function () {
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
         Route::delete('personal/{personal}', 'destroy')->name('personal.destroy');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modulo Usuario
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(UsuarioController::class)->group(function () {
+        Route::get('usuarios', 'index')->name('usuarios.index');
+        Route::get('usuarios/create', 'create')->name('usuarios.create');
+        Route::post('usuarios/store', 'store')->name('usuarios.store');
+        Route::get('usuarios/{user}/asignarrole', 'asignarrolevista')->name('usuarios.asignarrolevista');
+        Route::post('usuarios/{user}/asignarrole', 'asignarrole')->name('usuarios.asignarrole');
+        Route::get('usuarios/{user}', 'show')->name('usuarios.show');
+        Route::get('usuarios/{user}/edit', 'edit')->name('usuarios.edit');
+        Route::put('usuarios/{user}', 'update')->name('usuarios.update');
+        Route::delete('usuarios/{user}', 'destroy')->name('usuarios.destroy');
     });
 });

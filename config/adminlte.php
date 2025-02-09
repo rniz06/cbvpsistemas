@@ -340,10 +340,8 @@ return [
             'submenu' => [
                 [
                     'text' => 'Usuarios',
-                    //'route' => 'personal.index',
+                    'route' => 'usuarios.index',
                     'can' => 'Usuarios Listar',
-                    'url' => '#',
-                    //'icon' => 'fas fa-list-ul',
                 ],
                 [
                     'text' => 'Roles',
@@ -592,5 +590,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

@@ -22,6 +22,7 @@ class RoleYPermisoSeeder extends Seeder
             'Usuarios Ver',
             'Usuarios Editar',
             'Usuarios Eliminar',
+            'Usuarios Asignar Roles',
 
             'Roles Listar',
             'Roles Crear',
