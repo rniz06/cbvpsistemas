@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PersonalExport;
 use App\Models\Personal;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalController extends Controller
 {
@@ -59,6 +61,15 @@ class PersonalController extends Controller
         ]);
 
         return $pdf->download('CBVP Ficha  de personal ' . $personal->codigo . '.pdf');
+    }
+
+    /**
+    * Metodo para exportar datos en formato excel 
+    * @return \Illuminate\Support\Collection
+    */
+    public function exportar() 
+    {
+        return Excel::download(new PersonalExport, 'personal.xlsx');
     }
 
     /**

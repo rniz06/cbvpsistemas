@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::get('personal', 'index')->name('personal.index');
         Route::get('personal/create', 'create')->name('personal.create');
         Route::post('personal/store', 'store')->name('personal.store');
+        Route::get('personal/exportar', 'exportar')->name('personal.exportar');
         Route::get('personal/{personal}', 'show')->name('personal.show');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');

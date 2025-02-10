@@ -1,6 +1,8 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Listado de Personales</h3>
+        <h3 class="card-title">Listado de Personales <a href="{{ route('personal.exportar') }}"
+                class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i> Exportar</a> <a href="#"
+                class="btn btn-sm btn-success">Registrar Personal</a></h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive">
@@ -66,7 +68,8 @@
                         <td>
                             <x-dropdown>
                                 @if (auth()->user()->can('Personal Editar'))
-                                    <x-slot name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
+                                    <x-slot
+                                        name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Editar'))
