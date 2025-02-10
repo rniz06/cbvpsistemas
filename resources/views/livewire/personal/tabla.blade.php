@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Listado de Personales <a href="{{ route('personal.exportar') }}"
-                class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i> Exportar</a> <a href="#"
+                class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i> Exportar</a> <a href="{{ route('personal.create') }}"
                 class="btn btn-sm btn-success">Registrar Personal</a></h3>
     </div>
     <!-- /.card-header -->

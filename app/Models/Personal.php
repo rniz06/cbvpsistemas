@@ -24,6 +24,8 @@ class Personal extends Model implements Auditable
 
     protected $primaryKey = 'idpersonal';
 
+    public $timestamps = false;
+
     /**
      * Los campos que se pueden asignar.
      *
