@@ -4,14 +4,14 @@
         <i class="fas fa-align-justify"></i>
     </button>
     <div class="dropdown-menu">
-        @if (isset($show) || isset($edit) || isset($action) || isset($ficha))
-            @if (isset($ficha))
-                <a class="dropdown-item" tabindex="-1" href="{{ $ficha }}"><i class="far fa-file-alt pr-2"
-                        style="color: #6c757d"></i></i>Ficha PDF</a>
-            @endif
+        @if (isset($show) || isset($edit) || isset($action) || isset($ficha))            
             @if (isset($show))
                 <a class="dropdown-item" tabindex="-1" href="{{ $show }}"><i class="fas fa-eye pr-2"
                         style="color: #6c757d"></i>Ver</a>
+            @endif
+            @if (isset($ficha))
+                <a class="dropdown-item" tabindex="-1" href="{{ $ficha }}"><i class="far fa-file-alt pr-2"
+                        style="color: #6c757d"></i></i>Ficha PDF</a>
             @endif
             @if (isset($edit))
                 <a class="dropdown-item" tabindex="-1" href="{{ $edit }}"><i class="fas fa-edit pr-2"

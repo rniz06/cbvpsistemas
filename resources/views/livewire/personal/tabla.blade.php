@@ -63,17 +63,17 @@
                         <td>{{ $personal->estado_actualizar_id ?? 'N/A' }}</td>
                         <td>{{ $personal->pais ?? 'N/A' }}</td>
                         <td>{{ $personal->sexo ?? 'N/A' }}</td>
-                        <td>{{ $personal->grupo_sanguineo_id ?? 'N/A' }}</td>
+                        <td>{{ $personal->grupo_sanguineo ?? 'N/A' }}</td>
                         <td>{{ $personal->compania ?? 'N/A' }}</td>
                         <td>
-                            <x-dropdown>
-                                @if (auth()->user()->can('Personal Editar'))
-                                    <x-slot
-                                        name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
+                            <x-dropdown>                            
+                                @if (auth()->user()->can('Personal Ver'))
+                                    <x-slot name="show">{{route('personal.show', $personal->idpersonal)}}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Editar'))
-                                    <x-slot name="show">#</x-slot>
+                                    <x-slot
+                                        name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Eliminar'))

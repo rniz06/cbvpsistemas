@@ -326,12 +326,6 @@ return [
                     'can' => 'Personal Listar',
                     'icon' => 'fas fa-list-ul',
                 ],
-                [
-                    'text' => 'Agregar',
-                    'route' => 'personal.create',
-                    'can' => 'Personal Crear',
-                    'icon' => 'fas fa-plus',
-                ],
             ],
         ],
         [

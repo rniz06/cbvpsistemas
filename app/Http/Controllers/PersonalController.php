@@ -13,6 +13,9 @@ use App\Models\Personal\Pais;
 use App\Models\Personal\Sexo;
 use App\Models\User;
 use App\Models\Vistas\VtCompania;
+use App\Models\Vistas\VtPersonalContacto;
+use App\Models\Vistas\VtPersonalContactoEmergencia;
+use App\Models\Vistas\VtPersonales;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,9 +137,11 @@ class PersonalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(VtPersonales $personal)
     {
-        //
+        $contactos = VtPersonalContacto::select('personal_id', 'tipo_contacto', 'contacto')->where('personal_id', $personal->idpersonal)->get();
+        $contactos_emergencias = VtPersonalContactoEmergencia::select('personal_id', 'tipo_contacto', 'parentesco', 'nombre_contacto', 'contacto')->where('personal_id', $personal->idpersonal)->get();
+        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias'));
     }
 
     /**
