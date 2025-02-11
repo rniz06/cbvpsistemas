@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PersonalExport;
+use App\Http\Requests\Personal\StoreAgregarContactoRequest;
 use App\Http\Requests\Personal\StorePersonalRequest;
 use App\Models\Ciudad;
 use App\Models\Personal;
 use App\Models\Personal\Categoria;
+use App\Models\Personal\Contacto;
+use App\Models\Personal\ContactoEmergencia;
 use App\Models\Personal\Estado;
 use App\Models\Personal\GrupoSanguineo;
 use App\Models\Personal\Pais;
+use App\Models\Personal\Parentesco;
 use App\Models\Personal\Sexo;
+use App\Models\Personal\TipoContacto;
 use App\Models\User;
 use App\Models\Vistas\VtCompania;
 use App\Models\Vistas\VtPersonalContacto;
@@ -121,7 +126,7 @@ class PersonalController extends Controller
                 'estado_actualizar_id' => 2,
                 'grupo_sanguineo_id' => $request->grupo_sanguineo_id,
             ]);
-    
+
             User::create([
                 'personal_id' => $personal->idpersonal,
                 'codigo' => $personal->codigo,
@@ -141,7 +146,44 @@ class PersonalController extends Controller
     {
         $contactos = VtPersonalContacto::select('personal_id', 'tipo_contacto', 'contacto')->where('personal_id', $personal->idpersonal)->get();
         $contactos_emergencias = VtPersonalContactoEmergencia::select('personal_id', 'tipo_contacto', 'parentesco', 'nombre_contacto', 'contacto')->where('personal_id', $personal->idpersonal)->get();
-        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias'));
+        $tipo_contactos = TipoContacto::select('id_tipo_contacto', 'tipo_contacto')->get();
+        $parentescos = Parentesco::select('id_parentesco', 'parentesco')->get();
+        $ciudades = Ciudad::select('idciudades', 'ciudad')->get();
+        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades'));
+    }
+
+    /**
+     * Almacena un nuevo registro de personal_contactos en la base de datos.
+     */
+    public function agregarcontacto(StoreAgregarContactoRequest $request)
+    {
+        Contacto::create([
+            'personal_id' => $request->personal_id,
+            'tipo_contacto_id' => $request->tipo_contacto_id,
+            'contacto' => $request->contacto,
+        ]);
+
+        return redirect()->route('personal.show', $request->personal_id)
+            ->with('success', 'Contacto Registrado Correctamente');
+    }
+
+    /**
+     * Almacena un nuevo registro de personal_contactos en la base de datos.
+     */
+    public function agregarcontactoemergencia(StoreAgregarContactoRequest $request)
+    {
+        ContactoEmergencia::create([
+            'personal_id' => $request->personal_id,
+            'tipo_contacto_id' => $request->tipo_contacto_id,
+            'parentesco_id' => $request->parentesco_id,
+            'ciudad_id' => $request->ciudad_id,
+            'nombre_completo' => $request->nombre_completo,
+            'direccion' => $request->direccion,
+            'contacto' => $request->contacto,
+        ]);
+
+        return redirect()->route('personal.show', $request->personal_id)
+            ->with('success', 'Contacto de Emergencia Registrado Correctamente');
     }
 
     /**

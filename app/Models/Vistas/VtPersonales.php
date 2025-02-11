@@ -23,6 +23,7 @@ class VtPersonales extends Model
         ->orWhere('fecha_juramento', 'like', "%{$value}%")
         ->orWhere('categoria', 'like', "%{$value}%")
         ->orWhere('estado', 'like', "%{$value}%")
+        ->orWhere('estado_actualizar', 'like', "%{$value}%")
         ->orWhere('pais', 'like', "%{$value}%")
         ->orWhere('sexo', 'like', "%{$value}%")
         ->orWhere('compania', 'like', "%{$value}%");
@@ -74,6 +75,13 @@ class VtPersonales extends Model
     public function scopeBuscarEstado($query, $value)
     {
         $query->where('estado', 'like', "%{$value}%");
+    }
+    /**
+     * Se implementa funcion para buscador del campo documento.
+     */
+    public function scopeBuscarEstadoActualizar($query, $value)
+    {
+        $query->where('estado_actualizar', 'like', "%{$value}%");
     }
 
     /**

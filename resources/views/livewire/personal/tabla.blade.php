@@ -22,7 +22,7 @@
                             wire:model.live="buscarCategoria"></th>
                     <th>Estado: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarEstado"></th>
-                    <th>Actualizar: <br> <input class="form-control form-control-sm" type="text" placeholder=""></th>
+                    <th>Actualizar: <br> <input class="form-control form-control-sm" type="text" placeholder="" wire:model.live="buscarEstadoActualizar"></th>
                     <th>Pais: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarPais"></th>
                     <th>Sexo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
@@ -60,7 +60,7 @@
                         <td>{{ $personal->fecha_juramento ?? 'N/A' }}</td>
                         <td>{{ $personal->categoria ?? 'N/A' }}</td>
                         <td>{{ $personal->estado ?? 'N/A' }}</td>
-                        <td>{{ $personal->estado_actualizar_id ?? 'N/A' }}</td>
+                        <td>{{ $personal->estado_actualizar ?? 'N/A' }}</td>
                         <td>{{ $personal->pais ?? 'N/A' }}</td>
                         <td>{{ $personal->sexo ?? 'N/A' }}</td>
                         <td>{{ $personal->grupo_sanguineo ?? 'N/A' }}</td>

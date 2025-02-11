@@ -25,6 +25,7 @@ class Tabla extends Component
     public $buscarFechajuramento = ''; // Almacena el criterio de búsqueda por fecha_juramento
     public $buscarCategoria = "";      // Almacena el criterio de búsqueda por categoría
     public $buscarEstado = '';         // Almacena el criterio de búsqueda por Estado
+    public $buscarEstadoActualizar = '';// Almacena el criterio de búsqueda por estado_actualizar
     public $buscarPais = '';           // Almacena el criterio de búsqueda por Pais
     public $buscarSexo = '';           // Almacena el criterio de búsqueda por Sexo
     public $buscarCompania = '';       // Almacena el criterio de búsqueda por compañía
@@ -50,6 +51,7 @@ class Tabla extends Component
             ->buscarFechajuramento($this->buscarFechajuramento) // Aplica filtro por fecha_juramento
             ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoria
             ->buscarEstado($this->buscarEstado)                 // Aplica filtro por estado
+            ->buscarEstadoActualizar($this->buscarEstadoActualizar)// Aplica filtro por estado
             ->buscarPais($this->buscarPais)                     // Aplica filtro por pais
             ->buscarSexo($this->buscarSexo)                     // Aplica filtro por sexo
             ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
