@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Exports\PersonalExport;
 use App\Http\Requests\Personal\StoreAgregarContactoRequest;
 use App\Http\Requests\Personal\StorePersonalRequest;
+use App\Http\Requests\Personal\UpdatePersonalRequest;
 use App\Models\Ciudad;
 use App\Models\Personal;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Contacto;
 use App\Models\Personal\ContactoEmergencia;
 use App\Models\Personal\Estado;
+use App\Models\Personal\EstadoActualizar;
 use App\Models\Personal\GrupoSanguineo;
 use App\Models\Personal\Pais;
 use App\Models\Personal\Parentesco;
@@ -189,17 +191,39 @@ class PersonalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(VtPersonales $personal)
     {
-        //
+        $categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+        $estados = Estado::select('idpersonal_estados', 'estado')->get();
+        $sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
+        $paises = Pais::select('idpaises', 'pais')->get();
+        $grupo_sanguineo = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
+        $companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
+        $estado_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
+        return view('personal.edit',compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'companias', 'estado_actualizar'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePersonalRequest $request, Personal $personal)
     {
-        //
+        $personal->update([
+            'nombrecompleto' => $request->nombrecompleto,
+            'categoria_id' => $request->categoria_id,
+            'compania_id' => $request->compania_id,
+            'fecha_juramento' => $request->fecha_juramento,
+            'estado_id' => $request->estado_id,
+            'documento' => $request->documento,
+            'sexo_id' => $request->sexo_id,
+            'nacionalidad_id' => $request->nacionalidad_id,
+            'ultima_actualizacion' => now(),
+            'estado_actualizar_id' => $request->estado_actualizar_id,
+            'grupo_sanguineo_id' => $request->grupo_sanguineo_id,
+        ]);
+
+        return redirect()->route('personal.show', $personal->idpersonal)
+            ->with('success', 'Ficha Actualizada Correctamente');
     }
 
     /**

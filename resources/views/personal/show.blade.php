@@ -23,7 +23,7 @@
             <div class="card-tools">
                 <a href="{{ route('personal.index') }}" class="btn btn-sm btn-secondary"><i class="fas fa-arrow-left"></i>
                     Volver</a>
-                <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Actualizar</a>
+                <a href="{{ route('personal.edit', $personal->idpersonal) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Actualizar</a>
                 <a href="{{ route('personal.fichapdf', $personal->idpersonal) }}" class="btn btn-sm btn-success"><i
                         class="fas fa-file-export"></i> Exportar</a>
                 <!-- Button Modal Contacto -->

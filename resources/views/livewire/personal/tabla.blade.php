@@ -71,9 +71,14 @@
                                     <x-slot name="show">{{route('personal.show', $personal->idpersonal)}}</x-slot>
                                 @endif
 
-                                @if (auth()->user()->can('Personal Editar'))
+                                @if (auth()->user()->can('Personal Ver'))
                                     <x-slot
                                         name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
+                                @endif
+
+                                @if (auth()->user()->can('Personal Editar'))
+                                    <x-slot
+                                        name="edit">{{ route('personal.edit', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Eliminar'))

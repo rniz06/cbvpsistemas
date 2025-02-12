@@ -15,7 +15,7 @@
             @endif
             @if (isset($edit))
                 <a class="dropdown-item" tabindex="-1" href="{{ $edit }}"><i class="fas fa-edit pr-2"
-                        style="color: #ffc107"></i>Editar</a>
+                        style="color: #ffc107"></i>Actualizar</a>
             @endif
             @if (isset($action))
                 <form action="{{ $action }}" method="post">

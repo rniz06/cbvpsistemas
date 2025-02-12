@@ -318,16 +318,22 @@ return [
         ['header' => 'MODULOS'],
         [
             'text' => 'Personales',
-            'icon' => 'fas fa-portrait',
-            'submenu' => [
-                [
-                    'text' => 'Listar',
-                    'route' => 'personal.index',
-                    'can' => 'Personal Listar',
-                    'icon' => 'fas fa-list-ul',
-                ],
-            ],
+            'route' => 'personal.index',
+            'can' => 'Personal Listar',
+            'icon' => 'fas fa-list-ul',
         ],
+        // [
+        //     'text' => 'Personales',
+        //     'icon' => 'fas fa-portrait',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Listar',
+        //             'route' => 'personal.index',
+        //             'can' => 'Personal Listar',
+        //             'icon' => 'fas fa-list-ul',
+        //         ],
+        //     ],
+        // ],
         [
             'text' => 'Admin',
             'icon' => 'fas fa-users-cog',
