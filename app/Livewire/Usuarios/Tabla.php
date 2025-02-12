@@ -23,6 +23,7 @@ class Tabla extends Component
     public $buscarDocumento = '';      // Almacena el criterio de búsqueda por documento
     public $buscarCategoria = '';      // Almacena el criterio de búsqueda por categoría
     public $buscarCompania = '';       // Almacena el criterio de búsqueda por compañía
+    public $buscarRoles = '';          // Almacena el criterio de búsqueda por roles
     public $paginado = 5;              // Define la cantidad de registros a mostrar por página
 
     /**
@@ -32,7 +33,7 @@ class Tabla extends Component
      */
     public function updating($key)
     {
-        if (in_array($key, ['buscarNombrecompleto', 'buscarCodigo', 'buscarDocumento', 'buscarCategoria', 'buscarCompania', 'paginado'])) {
+        if (in_array($key, ['buscarNombrecompleto', 'buscarCodigo', 'buscarDocumento', 'buscarCategoria', 'buscarCompania', 'buscarRoles', 'paginado'])) {
             $this->resetPage();
         }
     }
@@ -44,12 +45,13 @@ class Tabla extends Component
      */
     public function render()
     {
-        $usuarios = VtUsers::select('id_user', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania')
+        $usuarios = VtUsers::select('id_user', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania', 'roles')
             ->buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
             ->buscarCodigo($this->buscarCodigo)                 // Aplica filtro por código
             ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
             ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoría
             ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
+            ->buscarRoles($this->buscarRoles)                   // Aplica filtro por roles
             ->paginate($this->paginado);                        // Pagina los resultados
 
         // Retorna la vista 'livewire.personal.tabla' con los datos de los usuarios

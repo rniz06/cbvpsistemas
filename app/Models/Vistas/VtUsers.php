@@ -21,7 +21,8 @@ class VtUsers extends Model
         ->orWhere('codigo', 'like', "%{$value}%")
         ->orWhere('documento', 'like', "%{$value}%")
         ->orWhere('categoria', 'like', "%{$value}%")
-        ->orWhere('compania', 'like', "%{$value}%");
+        ->orWhere('compania', 'like', "%{$value}%")
+        ->orWhere('roles', 'like', "%{$value}%");
     }
 
     /**
@@ -62,5 +63,13 @@ class VtUsers extends Model
     public function scopeBuscarCompania($query, $value)
     {
         $query->where('compania', 'like', "%{$value}%");
+    }
+
+    /**
+     * Se implementa funcion para buscador del campo roles.
+     */
+    public function scopeBuscarRoles($query, $value)
+    {
+        $query->where('roles', 'like', "%{$value}%");
     }
 }

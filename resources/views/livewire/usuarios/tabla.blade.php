@@ -19,7 +19,7 @@
                     <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarCompania"></th>
                     <th>Roles: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscar"></th>
+                            wire:model.live="buscarRoles"></th>
                     <th></th>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                         <td>{{ $usuario->documento ?? 'N/A' }}</td>
                         <td>{{ $usuario->categoria ?? 'N/A' }}</td>
                         <td>{{ $usuario->compania ?? 'N/A' }}</td>
-                        <td>{{ $usuario->roles ?? 'N/A' }}</td>
+                        <td><span class="badge badge-secondary">{{ $usuario->roles ?? 'N/A' }}</span></td>
                         <td>
                             <!-- Small button groups (default and split) -->
                             <div class="btn-group">
