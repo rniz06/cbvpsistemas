@@ -41,6 +41,10 @@ class RoleYPermisoSeeder extends Seeder
             'Personal Ver',
             'Personal Editar',
             'Personal Eliminar',
+            'Personal Exportar Excel',
+            'Personal Generar Ficha',
+            'Personal Agregar Contacto',
+            'Personal Agregar Contacto Emergencia',
         ];
 
         foreach ($permisos as $permiso) {

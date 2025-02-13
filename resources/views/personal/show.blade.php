@@ -23,19 +23,26 @@
             <div class="card-tools">
                 <a href="{{ route('personal.index') }}" class="btn btn-sm btn-secondary"><i class="fas fa-arrow-left"></i>
                     Volver</a>
-                <a href="{{ route('personal.edit', $personal->idpersonal) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Actualizar</a>
-                <a href="{{ route('personal.fichapdf', $personal->idpersonal) }}" class="btn btn-sm btn-success"><i
-                        class="fas fa-file-export"></i> Exportar</a>
-                <!-- Button Modal Contacto -->
-                <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#staticBackdrop">
-                    <i class="fas fa-plus"></i> Contacto
-                </button>
-                <!-- Button Modal Contacto Emergencia -->
-                <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#contactoemergencia">
-                    <i class="fas fa-plus"></i> Emergencia
-                </button>
-                {{-- <a href="#" class="btn btn-sm btn-dark"><i class="fas fa-plus"></i> Contacto</a> --}}
-                {{-- <a href="#" class="btn btn-sm btn-dark"><i class="fas fa-plus"></i> Emergencia</a> --}}
+                @can('Personal Editar')
+                    <a href="{{ route('personal.edit', $personal->idpersonal) }}" class="btn btn-sm btn-warning"><i
+                            class="fas fa-edit"></i> Actualizar</a>
+                @endcan
+                @can('Personal Generar Ficha')
+                    <a href="{{ route('personal.fichapdf', $personal->idpersonal) }}" class="btn btn-sm btn-success"><i
+                            class="fas fa-file-export"></i> Exportar</a>
+                @endcan
+                @can('Personal Agregar Contacto')
+                    <!-- Button Modal Contacto -->
+                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#staticBackdrop">
+                        <i class="fas fa-plus"></i> Contacto
+                    </button>
+                @endcan
+                @can('Personal Agregar Contacto Emergencia')
+                    <!-- Button Modal Contacto Emergencia -->
+                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#contactoemergencia">
+                        <i class="fas fa-plus"></i> Emergencia
+                    </button>
+                @endcan
             </div>
         </div>
         <div class="card-body">

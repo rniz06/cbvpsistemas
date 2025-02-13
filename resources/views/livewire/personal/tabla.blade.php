@@ -1,8 +1,13 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Listado de Personales <a href="{{ route('personal.exportar') }}"
-                class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i> Exportar</a> <a href="{{ route('personal.create') }}"
-                class="btn btn-sm btn-success">Registrar Personal</a></h3>
+        <h3 class="card-title">Listado de Personales @can('Personal Exportar Excel')
+                <a href="{{ route('personal.exportar') }}" class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i>
+                    Exportar</a>
+            @endcan 
+            @can('Personal Crear')
+            <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success">Registrar Personal</a>
+            @endcan
+        </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive">
@@ -22,7 +27,8 @@
                             wire:model.live="buscarCategoria"></th>
                     <th>Estado: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarEstado"></th>
-                    <th>Actualizar: <br> <input class="form-control form-control-sm" type="text" placeholder="" wire:model.live="buscarEstadoActualizar"></th>
+                    <th>Actualizar: <br> <input class="form-control form-control-sm" type="text" placeholder=""
+                            wire:model.live="buscarEstadoActualizar"></th>
                     <th>Pais: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarPais"></th>
                     <th>Sexo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
@@ -66,19 +72,18 @@
                         <td>{{ $personal->grupo_sanguineo ?? 'N/A' }}</td>
                         <td>{{ $personal->compania ?? 'N/A' }}</td>
                         <td>
-                            <x-dropdown>                            
+                            <x-dropdown>
                                 @if (auth()->user()->can('Personal Ver'))
-                                    <x-slot name="show">{{route('personal.show', $personal->idpersonal)}}</x-slot>
+                                    <x-slot name="show">{{ route('personal.show', $personal->idpersonal) }}</x-slot>
                                 @endif
 
-                                @if (auth()->user()->can('Personal Ver'))
+                                @if (auth()->user()->can('Personal Generar Ficha'))
                                     <x-slot
                                         name="ficha">{{ route('personal.fichapdf', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Editar'))
-                                    <x-slot
-                                        name="edit">{{ route('personal.edit', $personal->idpersonal) }}</x-slot>
+                                    <x-slot name="edit">{{ route('personal.edit', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Eliminar'))
