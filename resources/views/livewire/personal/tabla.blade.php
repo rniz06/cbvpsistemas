@@ -35,8 +35,12 @@
                             wire:model.live="buscarSexo"></th>
                     <th>Grupo Sanguineo: <br> <input class="form-control form-control-sm" type="text" placeholder="">
                     </th>
-                    <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarCompania"></th>
+                    <th>Compañia: <br> <select wire:model.live="companiaId" class="js-example-basic-single form-control">
+                        <option value=""></option>
+                        @foreach ($companias as $compania)
+                            <option value="{{$compania->idcompanias}}">{{$compania->compania ?? 'N/A'}}</option>
+                        @endforeach
+                    </select></th>
 
                     <th></th>
                 </tr>

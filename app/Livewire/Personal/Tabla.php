@@ -3,6 +3,7 @@
 namespace App\Livewire\Personal;
 
 use App\Models\Personal\Categoria;
+use App\Models\Vistas\VtCompania;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtPersonales;
 use Livewire\Component;
@@ -28,7 +29,7 @@ class Tabla extends Component
     public $buscarEstadoActualizar = '';// Almacena el criterio de búsqueda por estado_actualizar
     public $buscarPais = '';           // Almacena el criterio de búsqueda por Pais
     public $buscarSexo = '';           // Almacena el criterio de búsqueda por Sexo
-    public $buscarCompania = '';       // Almacena el criterio de búsqueda por compañía
+    public $companiaId = '';           // Almacena el criterio de búsqueda por compañía
     public $paginado = 5;              // Define la cantidad de registros a mostrar por página
 
     /**
@@ -38,14 +39,19 @@ class Tabla extends Component
      */
     public function updating($key): void
     {
-        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoria' || $key === 'buscarEstado' || $key === 'buscarPais' || $key === 'buscarSexo' || $key === 'buscarCompania' || $key === 'paginado') {
+        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoria' || $key === 'buscarEstado' || $key === 'buscarPais' || $key === 'buscarSexo' || $key === 'companiaId' || $key === 'paginado') {
             $this->resetPage();
         }
     }
 
     public function render()
     {
-        $personales = VtPersonales::buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
+        $companias = VtCompania::select('idcompanias', 'compania')->orderBy('orden', 'asc')->get();
+        $personales = VtPersonales::
+            when($this->companiaId !== '', function($query){
+                $query->where('compania_id', $this->companiaId);
+            })
+            ->buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
             ->buscarCodigo($this->buscarCodigo)                 // Aplica filtro por código
             ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
             ->buscarFechajuramento($this->buscarFechajuramento) // Aplica filtro por fecha_juramento
@@ -54,8 +60,7 @@ class Tabla extends Component
             ->buscarEstadoActualizar($this->buscarEstadoActualizar)// Aplica filtro por estado
             ->buscarPais($this->buscarPais)                     // Aplica filtro por pais
             ->buscarSexo($this->buscarSexo)                     // Aplica filtro por sexo
-            ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
             ->paginate($this->paginado);                        // Pagina los resultados
-        return view('livewire.personal.tabla', compact('personales'));
+        return view('livewire.personal.tabla', compact('personales', 'companias'));
     }
 }

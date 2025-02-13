@@ -18,15 +18,29 @@
     @livewire('personal.tabla')
 @stop
 
+@section('plugins.Select2', true)
+
 {{-- Push extra CSS --}}
 
 @push('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+    <style>
+        /* Corrige estilos del select2 */
+        .selection span {
+            height: 38px !important;
+        }
+    </style>
 @endpush
 
 {{-- Push extra scripts --}}
 
 @push('js')
-    {{-- <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2({
+                placeholder: '',
+                language: "es",
+
+            });
+        });
+    </script>
 @endpush
