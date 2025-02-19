@@ -6,6 +6,7 @@ use App\Models\Personal\Categoria;
 use App\Models\Vistas\VtCompania;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtPersonales;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Tabla extends Component
@@ -47,19 +48,28 @@ class Tabla extends Component
 
     public function render()
     {
-        $companias = VtCompania::select('idcompanias', 'compania')->orderBy('orden', 'asc')->get();
-        $personales = VtPersonales::query()
-            ->buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
-            ->buscarCodigo($this->buscarCodigo)                 // Aplica filtro por código
-            ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
-            ->buscarFechajuramento($this->buscarFechajuramento) // Aplica filtro por fecha_juramento
-            ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoria
-            ->buscarEstado($this->buscarEstado)                 // Aplica filtro por estado
-            ->buscarEstadoActualizar($this->buscarEstadoActualizar) // Aplica filtro por estado
-            ->buscarPais($this->buscarPais)                     // Aplica filtro por pais
-            ->buscarSexo($this->buscarSexo)                     // Aplica filtro por sexo
-            ->buscarCompania($this->buscarCompania)                     // Aplica filtro por sexo
-            ->paginate($this->paginado);                        // Pagina los resultados
-        return view('livewire.personal.tabla', compact('personales', 'companias'));
+        $usuario = Auth::user();
+        $personales = VtPersonales::query();
+
+        // Aplicar el filtro de compañía si no es moderador
+        if ($usuario->hasRole('moderador_personal_compania')) {
+            $personales->where('compania_id', $usuario->personal->compania_id);
+        }
+
+        // Continuar con el resto de los filtros en la MISMA query
+        $personales = $personales
+            ->buscarNombrecompleto($this->buscarNombrecompleto)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarDocumento($this->buscarDocumento)
+            ->buscarFechajuramento($this->buscarFechajuramento)
+            ->buscarCategoria($this->buscarCategoria)
+            ->buscarEstado($this->buscarEstado)
+            ->buscarEstadoActualizar($this->buscarEstadoActualizar)
+            ->buscarPais($this->buscarPais)
+            ->buscarSexo($this->buscarSexo)
+            ->buscarCompania($this->buscarCompania)
+            ->paginate($this->paginado);
+
+        return view('livewire.personal.tabla', compact('personales'));
     }
 }
