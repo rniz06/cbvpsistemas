@@ -3,9 +3,9 @@
         <h3 class="card-title">Listado de Personales @can('Personal Exportar Excel')
                 <a href="{{ route('personal.exportar') }}" class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i>
                     Exportar</a>
-            @endcan 
+            @endcan
             @can('Personal Crear')
-            <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success">Registrar Personal</a>
+                <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success">Registrar Personal</a>
             @endcan
         </h3>
     </div>
@@ -33,15 +33,10 @@
                             wire:model.live="buscarPais"></th>
                     <th>Sexo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarSexo"></th>
-                    <th>Grupo Sanguineo: <br> <input class="form-control form-control-sm" type="text" placeholder="">
-                    </th>
-                    <th>Compañia: <br> <select wire:model.live="companiaId" class="js-example-basic-single form-control">
-                        <option value=""></option>
-                        @foreach ($companias as $compania)
-                            <option value="{{$compania->idcompanias}}">{{$compania->compania ?? 'N/A'}}</option>
-                        @endforeach
-                    </select></th>
-
+                    <th>G. Sanguineo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
+                            wire:model.live="buscarGrupo"></th>
+                    <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
+                            wire:model.live="buscarCompania"></th>
                     <th></th>
                 </tr>
                 <tr>

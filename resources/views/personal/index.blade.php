@@ -18,29 +18,14 @@
     @livewire('personal.tabla')
 @stop
 
-@section('plugins.Select2', true)
-
 {{-- Push extra CSS --}}
 
 @push('css')
-    <style>
-        /* Corrige estilos del select2 */
-        .selection span {
-            height: 38px !important;
-        }
-    </style>
+
 @endpush
 
 {{-- Push extra scripts --}}
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2({
-                placeholder: '',
-                language: "es",
 
-            });
-        });
-    </script>
 @endpush
