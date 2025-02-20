@@ -424,6 +424,11 @@ return [
             'icon_color' => 'yellow',
             'url' => 'https://soporte.cbvp.org.py/',
         ],
+        [
+            'text' => 'Cambiar Contraseña',
+            'icon_color' => 'danger',
+            'route' => 'cambiar-contrasena',
+        ],
         // [
         //     'text' => 'warning',
         //     'icon_color' => 'yellow',

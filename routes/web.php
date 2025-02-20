@@ -2,13 +2,14 @@
 
 //use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 
@@ -21,6 +22,8 @@ Auth::routes([
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/cambiar-contrasena', [CambiarContrasenaController::class, 'cambiarContrasena'])->name('cambiar-contrasena');
+Route::post('/actualizar-contrasena', [CambiarContrasenaController::class, 'updatePassword'])->name('actualizar-contrasena');
 
 Route::middleware('auth')->group(function () {
     /*
