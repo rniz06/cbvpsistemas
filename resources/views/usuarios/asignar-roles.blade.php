@@ -39,9 +39,9 @@
 
                 <div class="col-12">
                     <label for="">Roles:</label>
-                    <select name="roles[]" class="form-control" multiple="multiple">
+                    <select name="roles[]" id="roles" class="form-control" multiple="multiple" style="width: 100%">
                         @foreach ($roles as $value => $label)
-                            <option value="{{ $value }}">
+                            <option value="{{ $value }}" {{ isset($userRole[$value]) ? 'selected' : ''}}>
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -60,15 +60,29 @@
 
 @stop
 
+@section('plugins.Select2', true)
+
 {{-- Push extra CSS --}}
 
 @push('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+    {{-- <style>
+        /* Corrige estilos del select2 */
+        .selection span {
+            height: 38px !important;
+        }
+    </style> --}}
 @endpush
 
 {{-- Push extra scripts --}}
 
 @push('js')
-    {{-- <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#roles').select2({
+                placeholder: 'Seleccionar...',
+                language: "es",
+
+            });
+        });
+    </script>
 @endpush

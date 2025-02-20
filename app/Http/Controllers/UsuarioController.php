@@ -38,7 +38,9 @@ class UsuarioController extends Controller
     {
         $usuario = VtUsers::where('id_user',$user)->first();
         $roles = Role::pluck('name','name')->all();
-        return view('usuarios.asignar-roles', compact('roles', 'usuario'));
+        $user = User::find($user);
+        $userRole = $user->roles->pluck('name','name')->all();
+        return view('usuarios.asignar-roles', compact('roles', 'usuario', 'userRole'));
     }
 
     /**
