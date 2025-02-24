@@ -23,10 +23,10 @@ class StorePersonalRequest extends FormRequest
     {
         return [
             'nombrecompleto' => 'required|string',
-            'codigo' => 'required|numeric|unique:personal,codigo',
+            'codigo' => 'required|numeric|max:5',
             'categoria_id' => 'required',
             'compania_id' => 'required',
-            'fecha_juramento' => 'required|numeric|min:4',
+            'fecha_juramento' => 'required|numeric|min:4|max:4',
             'estado_id' => 'required',
             'documento' => 'required|numeric|min:6',
             'sexo_id' => 'required',
@@ -42,7 +42,7 @@ class StorePersonalRequest extends FormRequest
             'nombrecompleto.string' => 'El nombre debe ser tipo texto',
             'codigo.required' => 'El Codigo es requerido',
             'codigo.numeric' => 'El Codigo debe ser númerico',
-            'codigo.unique' => 'El Codigo ya existe',
+            //'codigo.unique' => 'El Codigo ya existe',
             'categoria_id.required' => 'La Categoria es requerida',
             'compania_id.required' => 'La Compañia es requerida',
             'fecha_juramento.required' => 'La Fecha De Juramento es requerida',

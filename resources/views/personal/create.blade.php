@@ -41,8 +41,8 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="fecha_juramento" value="{{ old('fecha_juramento') }}"
-                            class="form-control" id="inputEmail3" placeholder="Fecha Juramento..." required>
+                        <input type="number" name="fecha_juramento" value="{{ old('fecha_juramento') }}"
+                            class="form-control" id="inputEmail3" placeholder="Fecha Juramento..." minlength="4" maxlength="4" required>
                         @error('fecha_juramento')
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror

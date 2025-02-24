@@ -17,6 +17,6 @@ class UpdateUserPasswordsSeeder extends Seeder
     {
         DB::table('users')
         ->where('codigo', 8699)
-        ->update(['password' => Hash::make('Cbvp2025')]);
+        ->update(['password' => Hash::make('Rann2006')]);
     }
 }

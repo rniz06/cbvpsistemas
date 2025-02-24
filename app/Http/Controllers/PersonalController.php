@@ -129,12 +129,12 @@ class PersonalController extends Controller
                 'grupo_sanguineo_id' => $request->grupo_sanguineo_id,
             ]);
 
-            User::create([
-                'personal_id' => $personal->idpersonal,
-                'codigo' => $personal->codigo,
-                'password' => Hash::make($personal->codigo),
-                // Otros campos del usuario aquí
-            ]);
+            // User::create([
+            //     'personal_id' => $personal->idpersonal,
+            //     'codigo' => $personal->codigo,
+            //     'password' => Hash::make($personal->codigo),
+            //     // Otros campos del usuario aquí
+            // ]);
         });
 
         return redirect()->route('personal.index')
