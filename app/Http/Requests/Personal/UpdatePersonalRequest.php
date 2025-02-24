@@ -24,11 +24,13 @@ class UpdatePersonalRequest extends FormRequest
     {
         return [
             'nombrecompleto' => 'required|string',
-            // 'codigo' => 'required|numeric|unique:personal,codigo',
             // 'codigo' => [
             //     'required',
-            //     'numeric',
-            //     Rule::unique('personal', 'codigo')->ignore($this->route('personal')),
+            //     Rule::unique('personal', 'codigo')
+            //         ->where(function ($query) {
+            //             return $query->where('categoria_id', $this->categoria_id);
+            //         })
+            //         ->ignore($this->idpersonal), // Ignora el registro actual
             // ],
             'categoria_id' => 'required|exists:personal_categorias,idpersonal_categorias',
             'compania_id' => 'required',

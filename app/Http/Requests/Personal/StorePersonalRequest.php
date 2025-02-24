@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Personal;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePersonalRequest extends FormRequest
 {
@@ -23,13 +24,19 @@ class StorePersonalRequest extends FormRequest
     {
         return [
             'nombrecompleto' => 'required|string',
-            'codigo' => 'required|numeric|max:5',
-            'categoria_id' => 'required',
+            //'codigo' => ['required','numeric','unique:personal,codigo,'.$this->categoria_id.',categoria_id'],    
+            'codigo' => [
+                'required', 'numeric',
+                Rule::unique('personal')->where(function ($query) {
+                    return $query->where('categoria_id', $this->categoria_id);
+                }),
+            ],
+            'categoria_id' => 'required|exists:personal_categorias,idpersonal_categorias',
             'compania_id' => 'required',
-            'fecha_juramento' => 'required|numeric|min:4|max:4',
+            'fecha_juramento' => 'required|numeric|min:4',
             'estado_id' => 'required',
             'documento' => 'required|numeric|min:6',
-            'sexo_id' => 'required',
+            'sexo_id' => 'required|exists:personal_sexo,idpersonal_sexo',
             'nacionalidad_id' => 'required',
             'grupo_sanguineo_id' => 'required',
         ];
@@ -42,6 +49,7 @@ class StorePersonalRequest extends FormRequest
             'nombrecompleto.string' => 'El nombre debe ser tipo texto',
             'codigo.required' => 'El Codigo es requerido',
             'codigo.numeric' => 'El Codigo debe ser númerico',
+            'codigo.unique' => 'El Codigo ya existe en esa categoria',
             //'codigo.unique' => 'El Codigo ya existe',
             'categoria_id.required' => 'La Categoria es requerida',
             'compania_id.required' => 'La Compañia es requerida',
