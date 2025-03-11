@@ -21,9 +21,7 @@ Auth::routes([
 ]);
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/cambiar-contrasena', [CambiarContrasenaController::class, 'cambiarContrasena'])->name('cambiar-contrasena');
-Route::post('/actualizar-contrasena', [CambiarContrasenaController::class, 'updatePassword'])->name('actualizar-contrasena');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
 
 Route::middleware('auth')->group(function () {
     /*
@@ -60,6 +58,8 @@ Route::middleware('auth')->group(function () {
         Route::get('usuarios/{user}/edit', 'edit')->name('usuarios.edit');
         Route::put('usuarios/{user}', 'update')->name('usuarios.update');
         Route::delete('usuarios/{user}', 'destroy')->name('usuarios.destroy');
+        Route::get('/cambiar-contrasena', [CambiarContrasenaController::class, 'cambiarContrasena'])->name('cambiar-contrasena');
+        Route::post('/actualizar-contrasena', [CambiarContrasenaController::class, 'updatePassword'])->name('actualizar-contrasena');
     });
 
     /*
