@@ -54,7 +54,6 @@ class RoleYPermisoSeeder extends Seeder
         // CREAR USUARIO ADMINISTRADOR
         $user = User::create([
             'personal_id' => '8526',
-            'codigo' => '8699',
             'email' => null,
             'password' => Hash::make('8699')
         ]);

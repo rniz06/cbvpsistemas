@@ -16,7 +16,7 @@
         </div>
 
         <!-- form start -->
-        <form action="{{ route('usuarios.asignarrole', $usuario->id_user) }}" method="POST">
+        <form action="{{ route('usuarios.asignarrole', $usuario->id_usuario) }}" method="POST">
             @method('post')
             @csrf
             <div class="card-body row">

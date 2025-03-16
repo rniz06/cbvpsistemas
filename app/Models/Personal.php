@@ -60,6 +60,11 @@ class Personal extends Model implements Auditable
         return $this->hasOne(User::class, 'personal_id');
     }
 
+    public function tableusuario()
+    {
+        return $this->hasOne(Usuario::class, 'personal_id');
+    }
+
     /**
      * Relación de "uno a muchos" con la tabla "personal_categorias".
      * Cada registro de este modelo pertenece a una categoría específica a través del campo "categoria_id".

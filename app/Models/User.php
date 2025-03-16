@@ -21,7 +21,8 @@ class User extends Authenticatable implements Auditable
      *
      * @var string
      */
-    protected $primaryKey = 'id_user';
+    protected $table = 'vt_usuarios';
+    protected $primaryKey = 'id_usuario';
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +31,6 @@ class User extends Authenticatable implements Auditable
      */
     protected $fillable = [
         'personal_id',
-        'codigo',
         'name',
         'email',
         'password',

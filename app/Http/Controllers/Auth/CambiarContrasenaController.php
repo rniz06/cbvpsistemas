@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,7 +41,7 @@ class CambiarContrasenaController extends Controller
 
 
         #Update the new Password
-        User::where('id_user', auth()->user()->id_user)->update([
+        Usuario::where('id_usuario', auth()->user()->id_usuario)->update([
             'password' => Hash::make($request->new_password)
         ]);
 

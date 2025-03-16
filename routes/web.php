@@ -3,6 +3,7 @@
 //use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UsuarioController;
@@ -14,11 +15,15 @@ Route::get('/', function () {
 
 
 //Auth::routes();
-Auth::routes([
-    'register' => false, // Desactivar route Register...
-    'reset' => false, // Desactivar route Reset Password...
-    'verify' => false, // Desactivar route Email Verification...
-]);
+// Auth::routes([
+//     'register' => false, // Desactivar route Register...
+//     'reset' => false, // Desactivar route Reset Password...
+//     'verify' => false, // Desactivar route Email Verification...
+// ]);
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
@@ -36,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('personal/exportar', 'exportar')->name('personal.exportar');
         Route::post('personal/agregar-contacto', 'agregarcontacto')->name('personal.agregarcontacto');
         Route::post('personal/agregar-contacto-emergencia', 'agregarcontactoemergencia')->name('personal.agregarcontactoemergencia');
+        Route::get('personal/search', 'search')->name('personal.search'); // ruta para búsqueda AJAX
         Route::get('personal/{personal}', 'show')->name('personal.show');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
@@ -60,6 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('usuarios/{user}', 'destroy')->name('usuarios.destroy');
         Route::get('/cambiar-contrasena', [CambiarContrasenaController::class, 'cambiarContrasena'])->name('cambiar-contrasena');
         Route::post('/actualizar-contrasena', [CambiarContrasenaController::class, 'updatePassword'])->name('actualizar-contrasena');
+        Route::get('usuarios/{usuario}/resetear-contrasena', 'passwordreset')->name('usuarios.passwordreset');
     });
 
     /*

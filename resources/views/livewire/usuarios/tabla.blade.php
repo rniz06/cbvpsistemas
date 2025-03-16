@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Listado de Usuarios Bomberos</h3>
+        <h3 class="card-title">Listado de Usuarios Bomberos <a href="{{ route('usuarios.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</a></h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive">
@@ -36,7 +36,7 @@
             <tbody>
                 @forelse ($usuarios as $usuario)
                     <tr>
-                        <td>{{ $usuario->id_user ?? null }}</td>
+                        <td>{{ $usuario->id_usuario ?? null }}</td>
                         <td>{{ $usuario->nombrecompleto ?? 'N/A' }}</td>
                         <td>{{ $usuario->codigo ?? 'N/A' }}</td>
                         <td>{{ $usuario->documento ?? 'N/A' }}</td>
@@ -52,12 +52,17 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     @if (auth()->user()->can('Usuarios Asignar Roles'))
-                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarrolevista', $usuario->id_user) }}"><i
+                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarrolevista', $usuario->id_usuario) }}"><i
                                                 class="fas fa-eye pr-2" style="color: #6c757d"></i>Asignar Roles</a>
                                     @endif
 
+                                    @if (auth()->user()->can('Usuarios Editar'))
+                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.passwordreset', $usuario->id_usuario) }}"><i
+                                                class="fas fa-unlock-alt pr-2" style="color: #6c757d"></i>Resetear Contraseña</a>
+                                    @endif
+
                                     @if (auth()->user()->can('Usuarios Eliminar'))
-                                        <form action="{{ route('usuarios.destroy', $usuario->id_user) }}"
+                                        <form action="{{ route('usuarios.destroy', $usuario->id_usuario) }}"
                                             method="post">
                                             @csrf
                                             @method('delete')

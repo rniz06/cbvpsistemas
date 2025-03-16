@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Usuario\StoreUsuarioRequest;
+use App\Models\Personal;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Vistas\VtUsers;
+use App\Models\Usuario;
+use App\Models\Vistas\VtUsuario;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -27,7 +32,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
         return view('usuarios.index', compact('roles'));
     }
 
@@ -36,10 +41,10 @@ class UsuarioController extends Controller
      */
     public function asignarrolevista($user)
     {
-        $usuario = VtUsers::where('id_user',$user)->first();
-        $roles = Role::pluck('name','name')->all();
+        $usuario = VtUsuario::where('id_usuario', $user)->first();
+        $roles = Role::pluck('name', 'name')->all();
         $user = User::find($user);
-        $userRole = $user->roles->pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->all();
         return view('usuarios.asignar-roles', compact('roles', 'usuario', 'userRole'));
     }
 
@@ -50,7 +55,7 @@ class UsuarioController extends Controller
     {
         $user->assignRole($request->input('roles'));
         return redirect()->route('usuarios.index')
-                        ->with('success','Rol asignado correctamente');
+            ->with('success', 'Rol asignado correctamente');
     }
 
     /**
@@ -58,15 +63,28 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::pluck('name', 'name')->all();
+        return view('usuarios.create', compact('roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUsuarioRequest $request)
     {
-        //
+        $personal = Personal::find($request->personal_id);
+        $usuario = Usuario::create([
+            'personal_id' => $request->personal_id,
+            'password' => Hash::make($personal->codigo ?? 'Cbvp2025'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        if ($request->input('roles')) {
+            $usuario->assignRole($request->input('roles'));
+        }
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario Creado Correctamente');
     }
 
     /**
@@ -101,5 +119,16 @@ class UsuarioController extends Controller
         $user->delete();
         return redirect()->route('usuarios.index')
             ->with('success', 'Usuario eliminado exitosamente');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function passwordreset(Usuario $usuario)
+    {
+        $vtUsuario = User::find($usuario->id_usuario);
+        $usuario->update(['password' => Hash::make($vtUsuario->codigo)]);
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Contraseña restablecida correctamente');
     }
 }

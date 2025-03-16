@@ -3,7 +3,7 @@
 namespace App\Livewire\Usuarios;
 
 use Livewire\WithPagination;
-use App\Models\Vistas\VtUsers;
+use App\Models\Vistas\VtUsuario;
 use Livewire\Component;
 
 class Tabla extends Component
@@ -45,13 +45,13 @@ class Tabla extends Component
      */
     public function render()
     {
-        $usuarios = VtUsers::select('id_user', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania', 'roles')
+        $usuarios = VtUsuario::select('id_usuario', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania')
             ->buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
             ->buscarCodigo($this->buscarCodigo)                 // Aplica filtro por código
             ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
             ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoría
             ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
-            ->buscarRoles($this->buscarRoles)                   // Aplica filtro por roles
+            //->buscarRoles($this->buscarRoles)                   // Aplica filtro por roles
             ->paginate($this->paginado);                        // Pagina los resultados
 
         // Retorna la vista 'livewire.personal.tabla' con los datos de los usuarios

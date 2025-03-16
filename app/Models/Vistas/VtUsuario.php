@@ -2,13 +2,17 @@
 
 namespace App\Models\Vistas;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class VtUsers extends Model
+class VtUsuario extends Authenticatable
 {
-    protected $table = 'vt_users';
+    use SoftDeletes;
 
-    protected $primaryKey = 'id_user';
+    protected $table = 'vt_usuarios';
+
+    protected $primaryKey = 'id_usuario';
 
     public $timestamps = false;
 
@@ -21,8 +25,8 @@ class VtUsers extends Model
         ->orWhere('codigo', 'like', "%{$value}%")
         ->orWhere('documento', 'like', "%{$value}%")
         ->orWhere('categoria', 'like', "%{$value}%")
-        ->orWhere('compania', 'like', "%{$value}%")
-        ->orWhere('roles', 'like', "%{$value}%");
+        ->orWhere('compania', 'like', "%{$value}%");
+        // ->orWhere('roles', 'like', "%{$value}%");
     }
 
     /**
@@ -68,8 +72,8 @@ class VtUsers extends Model
     /**
      * Se implementa funcion para buscador del campo roles.
      */
-    public function scopeBuscarRoles($query, $value)
-    {
-        $query->where('roles', 'like', "%{$value}%");
-    }
+    // public function scopeBuscarRoles($query, $value)
+    // {
+    //     $query->where('roles', 'like', "%{$value}%");
+    // }
 }

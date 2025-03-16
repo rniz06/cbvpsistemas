@@ -200,7 +200,7 @@ class PersonalController extends Controller
         $grupo_sanguineo = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
         $companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
         $estado_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
-        return view('personal.edit',compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'companias', 'estado_actualizar'));
+        return view('personal.edit', compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'companias', 'estado_actualizar'));
     }
 
     /**
@@ -232,5 +232,41 @@ class PersonalController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $query = VtPersonales::query();
+
+        if ($term) {
+            $query->where(function ($q) use ($term) {
+                $q->where('nombrecompleto', 'LIKE', "%{$term}%")
+                    ->orWhere('codigo', 'LIKE', "%{$term}%")
+                    ->orWhere('categoria', 'LIKE', "%{$term}%");
+            });
+        }
+
+        $total = $query->count();
+        $personal = $query->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $formattedPersonal = $personal->map(function ($p) {
+            return [
+                'id' => $p->idpersonal, // Usando idpersonal como identificador
+                'nombrecompleto' => $p->nombrecompleto,
+                'codigo' => $p->codigo,
+                'categoria' => $p->categoria,
+            ];
+        });
+
+        return response()->json([
+            'items' => $formattedPersonal,
+            'total_count' => $total
+        ]);
     }
 }
