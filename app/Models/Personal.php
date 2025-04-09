@@ -37,6 +37,7 @@ class Personal extends Model implements Auditable
         'categoria_id',
         'compania_id',
         'fecha_juramento',
+        'fecha_de_juramento',
         'estado_id',
         'documento',
         'sexo_id',

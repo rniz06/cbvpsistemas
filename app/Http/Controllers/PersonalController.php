@@ -19,6 +19,7 @@ use App\Models\Personal\Parentesco;
 use App\Models\Personal\Sexo;
 use App\Models\Personal\TipoContacto;
 use App\Models\User;
+use App\Models\Usuario;
 use App\Models\Vistas\VtCompania;
 use App\Models\Vistas\VtPersonalContacto;
 use App\Models\Vistas\VtPersonalContactoEmergencia;
@@ -120,6 +121,7 @@ class PersonalController extends Controller
                 'categoria_id' => $request->categoria_id,
                 'compania_id' => $request->compania_id,
                 'fecha_juramento' => $request->fecha_juramento,
+                'fecha_de_juramento' => $request->fecha_de_juramento,
                 'estado_id' => $request->estado_id,
                 'documento' => $request->documento,
                 'sexo_id' => $request->sexo_id,
@@ -129,12 +131,12 @@ class PersonalController extends Controller
                 'grupo_sanguineo_id' => $request->grupo_sanguineo_id,
             ]);
 
-            // User::create([
-            //     'personal_id' => $personal->idpersonal,
-            //     'codigo' => $personal->codigo,
-            //     'password' => Hash::make($personal->codigo),
-            //     // Otros campos del usuario aquí
-            // ]);
+            Usuario::create([
+                'personal_id' => $personal->idpersonal,
+                //'codigo' => $personal->codigo,
+                'password' => Hash::make($personal->codigo),
+                // Otros campos del usuario aquí
+            ]);
         });
 
         return redirect()->route('personal.index')
@@ -191,7 +193,7 @@ class PersonalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VtPersonales $personal)
+    public function edit(Personal $personal)
     {
         $categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
         $estados = Estado::select('idpersonal_estados', 'estado')->get();
@@ -207,21 +209,22 @@ class PersonalController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdatePersonalRequest $request, Personal $personal)
-    {
+    {        
         $personal->update([
             'nombrecompleto' => $request->nombrecompleto,
             'categoria_id' => $request->categoria_id,
             'compania_id' => $request->compania_id,
             'fecha_juramento' => $request->fecha_juramento,
+            'fecha_de_juramento' => $request->fecha_de_juramento,
             'estado_id' => $request->estado_id,
             'documento' => $request->documento,
             'sexo_id' => $request->sexo_id,
             'nacionalidad_id' => $request->nacionalidad_id,
             'ultima_actualizacion' => now(),
             'estado_actualizar_id' => $request->estado_actualizar_id,
-            'grupo_sanguineo_id' => $request->grupo_sanguineo_id,
+            'grupo_sanguineo_id' => $request->grupo_sanguineo_id
         ]);
-
+        //return dd($personal);
         return redirect()->route('personal.show', $personal->idpersonal)
             ->with('success', 'Ficha Actualizada Correctamente');
     }

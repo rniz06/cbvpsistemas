@@ -10,6 +10,17 @@
 
 @section('content_body')
 
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <strong>Hubo algunos problemas!</strong><br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="card card-info">
         <!-- form start -->
         <form class="form-horizontal" action="{{ route('personal.update', $personal->idpersonal) }}" method="POST">
@@ -28,7 +39,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Codigo:</label>
                     <div class="col-sm-10">
@@ -37,7 +48,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Año Juramento:</label>
                     <div class="col-sm-10">
                         <input type="text" name="fecha_juramento"
                             value="{{ old('fecha_juramento', $personal->fecha_juramento) }}" class="form-control"
@@ -46,7 +57,18 @@
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
+                    <div class="col-sm-10">
+                        <input type="date" name="fecha_de_juramento"
+                            value="{{ old('fecha_de_juramento', $personal->fecha_de_juramento) }}" class="form-control"
+                            id="inputEmail3" placeholder="Fecha Juramento..." required>
+                        @error('fecha_de_juramento')
+                            <p class="text-danger">*{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Documento:</label>

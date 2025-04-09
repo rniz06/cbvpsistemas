@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Año Juramento:</label>
                     <div class="col-sm-10">
                         <input type="number" name="fecha_juramento" value="{{ old('fecha_juramento') }}"
                             class="form-control" id="inputEmail3" placeholder="Fecha Juramento..." minlength="4" maxlength="4" required>
@@ -47,8 +47,19 @@
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror
                     </div>
-
                 </div>
+
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
+                    <div class="col-sm-10">
+                        <input type="date" name="fecha_de_juramento" value="{{ old('fecha_de_juramento') }}"
+                            class="form-control" placeholder="Año Juramento..." required>
+                        @error('fecha_de_juramento')
+                            <p class="text-danger">*{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Documento:</label>
                     <div class="col-sm-10">
