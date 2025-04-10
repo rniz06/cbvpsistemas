@@ -42,7 +42,7 @@ class VtPersonales extends Model
      */
     public function scopeBuscarCodigo($query, $value)
     {
-        $query->where('codigo', 'like', "%{$value}%");
+        $query->where('codigo', 'like', "%{$value}%")->orderBy('codigo', 'asc');
     }
 
     /**

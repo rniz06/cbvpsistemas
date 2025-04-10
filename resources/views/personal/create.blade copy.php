@@ -4,34 +4,22 @@
 
 @section('subtitle', 'Personal')
 @section('content_header_title', 'Personal')
-@section('content_header_subtitle', 'Editar Ficha')
+@section('content_header_subtitle', 'Registrar')
 
 {{-- Content body: main page content --}}
 
 @section('content_body')
 
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>Hubo algunos problemas!</strong><br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="card card-info">
         <!-- form start -->
-        <form class="form-horizontal" action="{{ route('personal.update', $personal->idpersonal) }}" method="POST">
+        <form class="form-horizontal" action="{{ route('personal.store') }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('POST')
             <div class="card-body">
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre Completo:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="nombrecompleto"
-                            value="{{ old('nombrecompleto', $personal->nombrecompleto) }}" class="form-control"
+                        <input type="text" name="nombrecompleto" value="{{ old('nombrecompleto') }}" class="form-control"
                             id="inputEmail3" placeholder="Nombre Completo..." required>
                         @error('nombrecompleto')
                             <p class="text-danger">*{{ $message }}</p>
@@ -39,20 +27,22 @@
                     </div>
 
                 </div>
-
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Codigo:</label>
                     <div class="col-sm-10">
-                        <input type="text" value="{{ old('codigo', $personal->codigo) }}"class="form-control" disabled>
+                        <input type="text" name="codigo" value="{{ old('codigo') }}" class="form-control"
+                            id="inputEmail3" placeholder="Codigo..." required>
+                        @error('codigo')
+                            <p class="text-danger">*{{ $message }}</p>
+                        @enderror
                     </div>
-                </div>
 
+                </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Año Juramento:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="fecha_juramento"
-                            value="{{ old('fecha_juramento', $personal->fecha_juramento) }}" class="form-control"
-                            id="inputEmail3" placeholder="Fecha Juramento...">
+                        <input type="number" name="fecha_juramento" value="{{ old('fecha_juramento') }}"
+                            class="form-control" id="inputEmail3" placeholder="Fecha Juramento..." minlength="4" maxlength="4" required>
                         @error('fecha_juramento')
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror
@@ -62,19 +52,19 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha Juramento:</label>
                     <div class="col-sm-10">
-                        <input type="date" name="fecha_de_juramento"
-                            value="{{ old('fecha_de_juramento', $personal->fecha_de_juramento) }}" class="form-control"
-                            id="inputEmail3" placeholder="Fecha Juramento..." required>
+                        <input type="date" name="fecha_de_juramento" value="{{ old('fecha_de_juramento') }}"
+                            class="form-control" placeholder="Año Juramento..." required>
                         @error('fecha_de_juramento')
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Documento:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="documento" value="{{ old('documento', $personal->documento) }}"
-                            class="form-control" id="inputEmail3" placeholder="Documento..." required>
+                        <input type="text" name="documento" value="{{ old('documento') }}" class="form-control"
+                            id="inputEmail3" placeholder="Documento..." required>
                         @error('documento')
                             <p class="text-danger">*{{ $message }}</p>
                         @enderror
@@ -86,9 +76,9 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Categoría:</label>
                     <div class="col-sm-10">
                         <select name="categoria_id" class="form-control" id="inputEmail3" required>
+                            <option>Seleccionar...</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->idpersonal_categorias }}"
-                                    {{ $categoria->idpersonal_categorias == $personal->categoria_id ? 'selected' : '' }}>
+                                <option value="{{ $categoria->idpersonal_categorias }}">
                                     {{ $categoria->categoria ?? 'N/A' }}
                                 </option>
                             @endforeach
@@ -99,14 +89,12 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Compañia:</label>
                     <div class="col-sm-10">
+                        {{-- <input type="email" class="form-control" id="inputEmail3" placeholder="Compañia..."> --}}
                         <select class="js-example-basic-single form-control" name="compania_id" required>
                             <option value="">Seleccionar...</option>
                             @foreach ($companias as $compania)
-                                <option value="{{ $compania->idcompanias }}"
-                                    {{ $compania->idcompanias == $personal->compania_id ? 'selected' : '' }}>
-                                    {{ $compania->compania ?? 'N/A' }} - {{ $compania->departamento ?? 'N/A' }} -
-                                    {{ $compania->ciudad ?? 'N/A' }}
-                                </option>
+                                <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }} -
+                                    {{ $compania->departamento ?? 'N/A' }} - {{ $compania->ciudad ?? 'N/A' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -116,11 +104,9 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Estado:</label>
                     <div class="col-sm-10">
                         <select name="estado_id" class="form-control" id="inputEmail3" required>
+                            <option>Seleccionar...</option>
                             @foreach ($estados as $estado)
-                                <option value="{{ $estado->idpersonal_estados }}">
-                                    {{ $estado->idpersonal_categorias == $personal->estado_id ? 'selected' : '' }}
-                                    {{ $estado->estado ?? 'N/A' }}
-                                </option>
+                                <option value="{{ $estado->idpersonal_estados }}">{{ $estado->estado ?? 'N/A' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -130,14 +116,11 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Sexo:</label>
                     <div class="col-sm-10">
                         <select name="sexo_id" class="form-control" id="inputEmail3" required>
+                            <option>Seleccionar...</option>
                             @foreach ($sexos as $sexo)
-                                <option value="{{ $sexo->idpersonal_sexo }}"
-                                    {{ $sexo->idpersonal_sexo == $personal->sexo_id ? 'selected' : '' }}>
-                                    {{ $sexo->sexo ?? 'N/A' }}
-                                </option>
+                                <option value="{{ $sexo->idpersonal_sexo }}">{{ $sexo->sexo ?? 'N/A' }}</option>
                             @endforeach
                         </select>
-
                     </div>
                 </div>
 
@@ -147,10 +130,7 @@
                         <select name="nacionalidad_id" class="form-control" id="inputEmail3" required>
                             <option>Seleccionar...</option>
                             @foreach ($paises as $pais)
-                                <option value="{{ $pais->idpaises }}"
-                                    {{ $pais->idpaises == $personal->nacionalidad_id ? 'selected' : '' }}>
-                                    {{ $pais->pais ?? 'N/A' }}
-                                </option>
+                                <option value="{{ $pais->idpaises }}">{{ $pais->pais ?? 'N/A' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -162,24 +142,8 @@
                         <select name="grupo_sanguineo_id" class="form-control" id="inputEmail3" required>
                             <option>Seleccionar...</option>
                             @foreach ($grupo_sanguineo as $valor)
-                                <option value="{{ $valor->idpersonal_grupo_sanguineo }}"
-                                    {{ $valor->idpersonal_grupo_sanguineo == $personal->grupo_sanguineo_id ? 'selected' : '' }}>
-                                    {{ $valor->grupo_sanguineo ?? 'N/A' }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Ficha actualizada completamente?</label>
-                    <div class="col-sm-10">
-                        <select name="estado_actualizar_id" class="form-control" id="inputEmail3" required>
-                            @foreach ($estado_actualizar as $registro)
-                                <option value="{{ $registro->idpersonal_estado_actualizar }}"
-                                    {{ $registro->idpersonal_estado_actualizar == 1 ? 'selected' : '' }}>
-                                    {{ $registro->estado ?? 'N/A' }}
-                                </option>
+                                <option value="{{ $valor->idpersonal_grupo_sanguineo }}">
+                                    {{ $valor->grupo_sanguineo ?? 'N/A' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -188,7 +152,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Actualizar</button>
+                <button type="submit" class="btn btn-success">Registrar</button>
                 <a href="{{ route('personal.index') }}" class="btn btn-secondary float-right"><i
                         class="fas fa-arrow-left"></i>
                     Volver</a>

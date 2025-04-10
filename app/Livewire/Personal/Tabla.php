@@ -7,6 +7,7 @@ use App\Models\Vistas\VtCompania;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtPersonales;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Tabla extends Component

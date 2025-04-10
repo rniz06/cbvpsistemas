@@ -25,6 +25,7 @@ use App\Models\Vistas\VtPersonalContacto;
 use App\Models\Vistas\VtPersonalContactoEmergencia;
 use App\Models\Vistas\VtPersonales;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,7 +121,7 @@ class PersonalController extends Controller
                 'codigo' => $request->codigo,
                 'categoria_id' => $request->categoria_id,
                 'compania_id' => $request->compania_id,
-                'fecha_juramento' => $request->fecha_juramento,
+                'fecha_juramento' => Carbon::parse($request->fecha_de_juramento)->year,
                 'fecha_de_juramento' => $request->fecha_de_juramento,
                 'estado_id' => $request->estado_id,
                 'documento' => $request->documento,
@@ -209,12 +210,12 @@ class PersonalController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdatePersonalRequest $request, Personal $personal)
-    {        
+    {   
         $personal->update([
             'nombrecompleto' => $request->nombrecompleto,
             'categoria_id' => $request->categoria_id,
             'compania_id' => $request->compania_id,
-            'fecha_juramento' => $request->fecha_juramento,
+            'fecha_juramento' => Carbon::parse($request->fecha_de_juramento)->year,
             'fecha_de_juramento' => $request->fecha_de_juramento,
             'estado_id' => $request->estado_id,
             'documento' => $request->documento,
