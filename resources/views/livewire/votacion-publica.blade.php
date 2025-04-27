@@ -33,6 +33,27 @@
         @endforeach
     </div>
     
+    <!-- Widget de total general simplificado -->
+    <div class="mt-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-600">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Total General</h2>
+                    <p class="text-gray-600 mt-1">Recuento de todos los votos registrados</p>
+                </div>
+                <div class="flex items-center">
+                    <div class="bg-blue-50 rounded-lg p-5 flex items-center">
+                        <i class="fas fa-vote-yea text-blue-600 text-3xl mr-3"></i>
+                        <div>
+                            <p class="text-sm text-blue-600 font-medium">Total Votos</p>
+                            <p class="text-4xl font-bold text-blue-800">{{ $mesas->sum('votos_totales') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="text-center py-4 text-gray-600 text-sm">
         <p>Actualización automática cada 2 segundos</p>
     </div>
