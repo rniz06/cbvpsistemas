@@ -48,6 +48,13 @@ class Personal extends Model implements Auditable
         'grupo_sanguineo_id',
     ];
 
+    public function mesas()
+    {
+        return $this->belongsToMany(Mesa::class, 'mesa_personal', 'personal_id', 'mesa_id')
+            ->withPivot('votos')
+            ->withTimestamps()->using(MesaPersonal::class);
+    }
+
     /**
      * Relación uno a uno con el modelo User.
      * 

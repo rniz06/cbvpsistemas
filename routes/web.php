@@ -4,9 +4,11 @@
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UsuarioController;
+use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +26,7 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
+Route::get('/mesas/pantalla', VotacionPublica::class);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
@@ -82,5 +85,17 @@ Route::middleware('auth')->group(function () {
         Route::get('roles/{role}/edit', 'edit')->name('roles.edit');
         Route::put('roles/{role}', 'update')->name('roles.update');
         Route::delete('roles/{role}', 'destroy')->name('roles.destroy');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modulo Mesas asignarpersonalmesa
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(MesaController::class)->group(function () {
+        Route::get('mesas', 'index')->name('mesas.index');
+        Route::get('mesas/asignarpersonalmesa', 'asignarpersonalmesa')->name('mesas.asignarpersonalmesa');
+        Route::post('mesas/asignarpersonalmesa', 'asignarpersonalmesapost')->name('mesas.asignarpersonalmesapost');
+        Route::get('mesas/{mesa}', 'show')->name('mesas.show');        
     });
 });

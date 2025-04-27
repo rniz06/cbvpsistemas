@@ -317,6 +317,12 @@ return [
         ],
         ['header' => 'MODULOS'],
         [
+            'text' => 'Mesas',
+            'route' => 'mesas.index',
+            //'can' => 'Personal Listar',
+            'icon' => 'fas fa-clipboard',
+        ],
+        [
             'text' => 'Personales',
             'route' => 'personal.index',
             'can' => 'Personal Listar',
