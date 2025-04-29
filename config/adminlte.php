@@ -316,12 +316,12 @@ return [
             'text' => 'search',
         ],
         ['header' => 'MODULOS'],
-        [
-            'text' => 'Mesas',
-            'route' => 'mesas.index',
-            //'can' => 'Personal Listar',
-            'icon' => 'fas fa-clipboard',
-        ],
+        // [
+        //     'text' => 'Mesas',
+        //     'route' => 'mesas.index',
+        //     //'can' => 'Personal Listar',
+        //     'icon' => 'fas fa-clipboard',
+        // ],
         [
             'text' => 'Personales',
             'route' => 'personal.index',
