@@ -321,7 +321,7 @@
                             <td>{{ $resolucion->n_resolucion ?? 'N/A' }}</td>
                             <td>{{ $resolucion->concepto ?? 'N/A' }}</td>
                             <td>{{ date('d/m/Y', strtotime($resolucion->fecha)) ?? 'N/A' }}</td>
-                            <td>{{ $resolucion->origen ?? 'N/A' }}</td>
+                            <td>{{ $resolucion->fuente_origen ?? 'N/A' }}</td>
                             <td><a href="http://resoluciones.cbvp.org.py/descargar-resolucion/{{ $resolucion->id_resolucion }}" target="_blank"
                                     class="btn btn-sm btn-success"><i class="fas fa-file-pdf"></i></a></td>
                         </tr>
