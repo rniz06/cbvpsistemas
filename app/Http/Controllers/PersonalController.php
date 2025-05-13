@@ -154,7 +154,13 @@ class PersonalController extends Controller
         $tipo_contactos = TipoContacto::select('id_tipo_contacto', 'tipo_contacto')->get();
         $parentescos = Parentesco::select('id_parentesco', 'parentesco')->get();
         $ciudades = Ciudad::select('idciudades', 'ciudad')->get();
-        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades'));
+        $resoluciones = DB::select(
+            'SELECT id_resolucion, n_resolucion, concepto, fecha, fuente_origen, ruta_archivo, id_personal
+             FROM cbvp_resoluciones_db.vt_resoluciones_personales
+             WHERE id_personal = ?',
+            [$personal->idpersonal]
+        );
+        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades', 'resoluciones'));
     }
 
     /**
@@ -210,7 +216,7 @@ class PersonalController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdatePersonalRequest $request, Personal $personal)
-    {   
+    {
         $personal->update([
             'nombrecompleto' => $request->nombrecompleto,
             'categoria_id' => $request->categoria_id,

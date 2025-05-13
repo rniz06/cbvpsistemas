@@ -26,7 +26,7 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
-Route::get('/mesas/pantalla', VotacionPublica::class);
+//Route::get('/mesas/pantalla', VotacionPublica::class);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
