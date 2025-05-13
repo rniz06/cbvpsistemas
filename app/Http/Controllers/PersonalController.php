@@ -155,7 +155,7 @@ class PersonalController extends Controller
         $parentescos = Parentesco::select('id_parentesco', 'parentesco')->get();
         $ciudades = Ciudad::select('idciudades', 'ciudad')->get();
         $resoluciones = DB::select(
-            'SELECT id_resolucion, n_resolucion, concepto, fecha, fuente_origen, ruta_archivo, id_personal
+            'SELECT id_resolucion, n_resolucion, concepto, fecha, fuente_origen, id_personal
              FROM cbvp_resoluciones_db.vt_resoluciones_personales
              WHERE id_personal = ?',
             [$personal->idpersonal]
