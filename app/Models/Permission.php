@@ -7,5 +7,8 @@ use Spatie\Permission\Models\Permission as ModelsPermission;
 
 class Permission extends ModelsPermission
 {
-    //
+    public function modulo()
+    {
+        return $this->belongsTo(SysModulo::class, 'modulo_id');
+    }
 }

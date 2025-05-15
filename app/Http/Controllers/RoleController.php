@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\SysModulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,8 +24,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permisos = Permission::get();
-        return view('roles.create', compact('permisos'));
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        return view('roles.create', compact('modulos'));
     }
 
     /**
@@ -64,11 +65,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
-            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
-            ->all();
-        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        return view('roles.edit', compact('role', 'modulos', 'rolePermissions'));
     }
 
     /**
