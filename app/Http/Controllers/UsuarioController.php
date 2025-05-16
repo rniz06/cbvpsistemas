@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Usuario\StoreUsuarioRequest;
 use App\Models\Personal;
 use App\Models\Role;
+use App\Models\SysModulo;
 use App\Models\User;
 use App\Models\Usuario;
 use App\Models\Vistas\VtUsuario;
@@ -25,6 +26,7 @@ class UsuarioController extends Controller
         $this->middleware('permission:Usuarios Editar', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Usuarios Eliminar', ['only' => ['destroy']]);
         $this->middleware('permission:Usuarios Asignar Roles', ['only' => ['asignarrolevista', 'asignarrole']]);
+        $this->middleware('permission:Usuarios Asignar Permisos', ['only' => ['asignarpermisovista', 'asignarpermiso']]);
     }
 
     /**
@@ -35,6 +37,57 @@ class UsuarioController extends Controller
         $roles = Role::pluck('name', 'name')->all();
         return view('usuarios.index', compact('roles'));
     }
+
+    /**
+     * Metodo que muestra el formulario para asignar permisos a un usuario.
+     */
+    public function asignarpermisovista($user)
+    {
+        $usuario = VtUsuario::where('id_usuario', $user)->first();
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        $user = User::find($user);
+        $userPermiso = $user->permissions->pluck('id')->toArray();
+        return view('usuarios.asignar-permisos', compact('modulos', 'usuario', 'userPermiso'));
+    }
+
+    /**
+     * Metodo para asignar permisos especificos a un usuario.
+     */
+    public function asignarpermiso(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'permission' => 'nullable|array',
+        ]);
+
+        // Obtener los permisos o un array vacío si no hay ninguno seleccionado
+        $permissions = $request->input('permission', []);
+
+        // Convertir a array de integers (esto ya maneja el caso de array vacío)
+        $permissionsID = array_map('intval', $permissions);
+
+        $user->syncPermissions($permissionsID);
+
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Permisos actualizados correctamente');
+    }
+    // public function asignarpermiso(Request $request, User $user)
+    // {
+    //     $this->validate($request, [
+    //         'permission' => 'nullable|array',
+    //     ]);
+
+    //     $permissionsID = array_map(
+    //         function ($value) {
+    //             return (int)$value;
+    //         },
+    //         $request->input('permission')
+    //     );
+
+    //     $user->syncPermissions($permissionsID);
+
+    //     return redirect()->route('usuarios.index')
+    //         ->with('success', 'Permisos asignados correctamente');
+    // }
 
     /**
      * Metodo que muestra el formulario para asignar rol a un usuario.

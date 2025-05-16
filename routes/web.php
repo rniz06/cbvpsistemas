@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
         Route::post('usuarios/store', 'store')->name('usuarios.store');
         Route::get('usuarios/{user}/asignarrole', 'asignarrolevista')->name('usuarios.asignarrolevista');
         Route::post('usuarios/{user}/asignarrole', 'asignarrole')->name('usuarios.asignarrole');
+        Route::get('usuarios/{user}/asignarpermiso', 'asignarpermisovista')->name('usuarios.asignarpermisovista');
+        Route::post('usuarios/{user}/asignarpermiso', 'asignarpermiso')->name('usuarios.asignarpermiso');
         Route::get('usuarios/{user}', 'show')->name('usuarios.show');
         Route::get('usuarios/{user}/edit', 'edit')->name('usuarios.edit');
         Route::put('usuarios/{user}', 'update')->name('usuarios.update');
@@ -92,10 +94,10 @@ Route::middleware('auth')->group(function () {
     | Modulo Mesas asignarpersonalmesa
     |--------------------------------------------------------------------------
     */
-    Route::controller(MesaController::class)->group(function () {
-        Route::get('mesas', 'index')->name('mesas.index');
-        Route::get('mesas/asignarpersonalmesa', 'asignarpersonalmesa')->name('mesas.asignarpersonalmesa');
-        Route::post('mesas/asignarpersonalmesa', 'asignarpersonalmesapost')->name('mesas.asignarpersonalmesapost');
-        Route::get('mesas/{mesa}', 'show')->name('mesas.show');        
-    });
+    // Route::controller(MesaController::class)->group(function () {
+    //     Route::get('mesas', 'index')->name('mesas.index');
+    //     Route::get('mesas/asignarpersonalmesa', 'asignarpersonalmesa')->name('mesas.asignarpersonalmesa');
+    //     Route::post('mesas/asignarpersonalmesa', 'asignarpersonalmesapost')->name('mesas.asignarpersonalmesapost');
+    //     Route::get('mesas/{mesa}', 'show')->name('mesas.show');        
+    // });
 });

@@ -53,7 +53,12 @@
                                 <div class="dropdown-menu">
                                     @if (auth()->user()->can('Usuarios Asignar Roles'))
                                         <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarrolevista', $usuario->id_usuario) }}"><i
-                                                class="fas fa-eye pr-2" style="color: #6c757d"></i>Asignar Roles</a>
+                                                class="fas fa-user-tag pr-2" style="color: #6c757d"></i>Asignar Roles</a>
+                                    @endif
+
+                                    @if (auth()->user()->can('Usuarios Asignar Permisos'))
+                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarpermisovista', $usuario->id_usuario) }}"><i
+                                                class="fas fa-user-lock pr-2" style="color: #6c757d"></i>Asignar Permisos</a>
                                     @endif
 
                                     @if (auth()->user()->can('Usuarios Editar'))
