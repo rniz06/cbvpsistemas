@@ -1,6 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Listado de Usuarios Bomberos <a href="{{ route('usuarios.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</a></h3>
+        <h3 class="card-title">Listado de Usuarios Bomberos
+            @can('Usuarios Crear')
+                <a href="{{ route('usuarios.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</a>
+            @endcan
+        </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive">
@@ -52,18 +56,24 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     @if (auth()->user()->can('Usuarios Asignar Roles'))
-                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarrolevista', $usuario->id_usuario) }}"><i
-                                                class="fas fa-user-tag pr-2" style="color: #6c757d"></i>Asignar Roles</a>
+                                        <a class="dropdown-item" tabindex="-1"
+                                            href="{{ route('usuarios.asignarrolevista', $usuario->id_usuario) }}"><i
+                                                class="fas fa-user-tag pr-2" style="color: #6c757d"></i>Asignar
+                                            Roles</a>
                                     @endif
 
                                     @if (auth()->user()->can('Usuarios Asignar Permisos'))
-                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.asignarpermisovista', $usuario->id_usuario) }}"><i
-                                                class="fas fa-user-lock pr-2" style="color: #6c757d"></i>Asignar Permisos</a>
+                                        <a class="dropdown-item" tabindex="-1"
+                                            href="{{ route('usuarios.asignarpermisovista', $usuario->id_usuario) }}"><i
+                                                class="fas fa-user-lock pr-2" style="color: #6c757d"></i>Asignar
+                                            Permisos</a>
                                     @endif
 
                                     @if (auth()->user()->can('Usuarios Editar'))
-                                        <a class="dropdown-item" tabindex="-1" href="{{ route('usuarios.passwordreset', $usuario->id_usuario) }}"><i
-                                                class="fas fa-unlock-alt pr-2" style="color: #6c757d"></i>Resetear Contraseña</a>
+                                        <a class="dropdown-item" tabindex="-1"
+                                            href="{{ route('usuarios.passwordreset', $usuario->id_usuario) }}"><i
+                                                class="fas fa-unlock-alt pr-2" style="color: #6c757d"></i>Resetear
+                                            Contraseña</a>
                                     @endif
 
                                     @if (auth()->user()->can('Usuarios Eliminar'))
