@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('ciudad_curso_id')->nullable();
             $table->integer('ciudad_licencia_id')->nullable();
             $table->foreignId('tipo_vehiculo_id')->nullable()->references('idconductor_tipo_vehiculo')->on('conductores_tipo_vehiculo')->onDelete('set null');
-            $table->integer('numero_licencia')->nullable();
+            $table->integer('numero_licencia')->unique()->nullable();
             $table->foreignId('clase_licencia_id')->nullable()->references('idconductor_clase_licencia')->on('conductores_clase_licencias')->onDelete('set null');
             $table->foreignId('creadoPor')->nullable()->references('id_usuario')->on('users')->onDelete('set null');
             $table->timestamps();

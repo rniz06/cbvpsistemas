@@ -341,6 +341,27 @@ return [
         //     ],
         // ],
         [
+            'text' => 'Materiales',
+            'icon' => 'fas fa-clipboard-list',
+            'submenu' => [
+                [
+                    'text' => 'Conductores',
+                    'route' => 'conductores.index',
+                    'can' => 'Conductores Listar',
+                ],
+                // [
+                //     'text' => 'Roles',
+                //     'route' => 'roles.index',
+                //     'can' => 'Roles Listar',
+                // ],
+                // [
+                //     'text' => 'Permisos',
+                //     'route' => 'permisos.index',
+                //     'can' => 'Permisos Listar',
+                // ],
+            ],
+        ],
+        [
             'text' => 'Admin',
             'icon' => 'fas fa-users-cog',
             'submenu' => [
@@ -501,16 +522,16 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],
@@ -526,11 +547,11 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],

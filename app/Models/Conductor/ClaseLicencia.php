@@ -23,6 +23,10 @@ class ClaseLicencia extends Model implements Auditable
      */
     public function conductores(): HasMany
     {
-        return $this->hasMany(ConductorBombero::class);
+        return $this->hasMany(
+            ConductorBombero::class,            // Modelo relacionado
+            'clase_licencia_id',                // FK en conductores_bomberos
+            'idconductor_clase_licencia'        // PK en conductores_clase_licencias
+        );
     }
 }

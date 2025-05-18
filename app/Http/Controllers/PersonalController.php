@@ -271,6 +271,7 @@ class PersonalController extends Controller
                 'nombrecompleto' => $p->nombrecompleto,
                 'codigo' => $p->codigo,
                 'categoria' => $p->categoria,
+                'compania' => $p->compania,
             ];
         });
 

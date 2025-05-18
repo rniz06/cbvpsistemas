@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ConductorController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
@@ -87,6 +88,21 @@ Route::middleware('auth')->group(function () {
         Route::get('roles/{role}/edit', 'edit')->name('roles.edit');
         Route::put('roles/{role}', 'update')->name('roles.update');
         Route::delete('roles/{role}', 'destroy')->name('roles.destroy');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modulo Conductores
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(ConductorController::class)->group(function () {
+        Route::get('conductores', 'index')->name('conductores.index');
+        Route::get('conductores/create', 'create')->name('conductores.create');
+        Route::post('conductores/store', 'store')->name('conductores.store');
+        Route::get('conductores/{conductor}', 'show')->name('conductores.show');
+        Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
+        Route::put('conductores/{conductor}', 'update')->name('conductores.update');
+        Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
     });
 
     /*

@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ConductorBombero extends Model
+class ConductorBombero extends Model implements Auditable
 {
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
@@ -77,6 +78,10 @@ class ConductorBombero extends Model
      */
     public function claseLicencia(): BelongsTo
     {
-        return $this->belongsTo(ClaseLicencia::class, 'clase_licencia_id');
+        return $this->belongsTo(
+            ClaseLicencia::class,               // Modelo relacionado
+            'clase_licencia_id',                // FK en conductores_bomberos
+            'idconductor_clase_licencia'        // PK en conductores_clase_licencias
+        );
     }
 }
