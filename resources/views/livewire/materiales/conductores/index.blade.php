@@ -1,72 +1,4 @@
 <div>
-    <!-- Formulario -->
-    {{-- <x-card-form>
-        <x-card-select class="col-3" id="personal" label="Conductor" campo="personal_id">
-        </x-card-select>
-
-        <x-card-input class="col-3" label="Resolución de Comandancia" placeholder="Resolución de Comandancia..."
-            campo="resolucion" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
-
-        <x-card-input class="col-3" label="Fecha de realización del Curso" type="date" campo="fecha_curso"
-            :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
-
-        <x-card-select class="col-3" id="ciudadRealizacion" label="Ciudad de realización" campo="ciudad_curso_id"
-            :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-            <option value="">Seleccione una ciudad</option>
-            @foreach ($ciudades as $ciudad)
-                <option value="{{ $ciudad->idciudades }}">{{ $ciudad->ciudad ?? 'N/A' }}</option>
-            @endforeach
-        </x-card-select>
-
-        <x-card-select class="col-3" label="Tipo de vehiculo" campo="tipo_vehiculo_id" :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-            @foreach ($tipoVehiculos as $tipoVehiculo)
-                <option value="{{ $tipoVehiculo->idconductor_tipo_vehiculo }}">{{ $tipoVehiculo->tipo ?? 'N/A' }}
-                </option>
-            @endforeach
-        </x-card-select>
-
-        <x-card-input class="col-3" label="Número de Licencia" placeholder="Número de Licencia..."
-            campo="numero_licencia" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
-
-        <x-card-select class="col-3" id="ciudadLicencia" label="Municipio" campo="ciudad_licencia_id"
-            :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-            <option value="">Seleccione una ciudad</option>
-            @foreach ($ciudades as $ciudad)
-                <option value="{{ $ciudad->idciudades }}">{{ $ciudad->ciudad ?? 'N/A' }}</option>
-            @endforeach
-        </x-card-select>
-
-        <x-card-select class="col-3" label="Clase" campo="clase_licencia_id" :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-            @foreach ($licencias as $licencia)
-                <option value="{{ $licencia->idconductor_clase_licencia }}">{{ $licencia->clase ?? 'N/A' }}</option>
-            @endforeach
-        </x-card-select>
-
-        <x-slot name="buttons">
-            @can('Conductores Crear')
-                <x-button type="button" icon="fas fa-plus" color="success" click="agregar"
-                    :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
-            @endcan
-
-            @can('Conductores Editar')
-                <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
-                    :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
-            @endcan
-
-            @can('Conductores Eliminar')
-                <x-button type="button" icon="fas fa-trash" color="danger" id="btn-eliminar"
-                    :disabled="in_array($modo, ['agregar', 'modificar', 'inicio'])">Eliminar</x-button>
-            @endcan
-
-            @canany(['Conductores Crear', 'Conductores Editar'])
-                <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
-            @endcanany
-
-            <x-button type="button" icon="fas fa-window-close" color="warning" click="cancelar"
-                :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
-        </x-slot>
-    </x-card-form> --}}
-
     <!-- Tabla -->
     <x-tabla titulo="Listado de Conductores" excel pdf>
         <x-slot name="headerBotones">
@@ -92,6 +24,10 @@
                     @can('Conductores Ver')
                         <a href="{{ route('conductores.show', $conductor->id_conductor_bombero) }}"
                             class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Ver Ficha</a>
+                    @endcan
+                    @can('Conductores Editar')
+                        <a href="{{ route('conductores.edit', $conductor->id_conductor_bombero) }}"
+                            class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Actualizar</a>
                     @endcan
                 </td>
             </tr>

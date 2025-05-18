@@ -102,7 +102,7 @@ Route::middleware('auth')->group(function () {
         Route::get('conductores/{conductor}', 'show')->name('conductores.show');
         Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
         Route::put('conductores/{conductor}', 'update')->name('conductores.update');
-        Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
+        //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
     });
 
     /*
