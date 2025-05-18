@@ -59,6 +59,11 @@ class ConductorController extends Controller
         return redirect()->route('conductores.index')->with('success', 'Conductor Registrado Correctamente');
     }
 
+    public function show(VtConductor $conductor)
+    {
+        return view('materiales.conductores.show', compact('conductor'));
+    }
+
     public function edit(VtConductor $conductor)
     {
         $ciudades = Ciudad::select('idciudades', 'ciudad')->orderBy('ciudad')->get();
