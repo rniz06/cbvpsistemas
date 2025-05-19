@@ -19,10 +19,15 @@ class MaterialParametroController extends Controller
     public function ejes()
     {
         return view('materiales.mayor.ejes');    
-    }
+    }//acronimos
 
     public function combustibles()
     {
         return view('materiales.mayor.combustibles');    
+    }
+
+    public function acronimos()
+    {
+        return view('materiales.mayor.acronimos');    
     }
 }

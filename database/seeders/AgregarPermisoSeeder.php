@@ -69,6 +69,12 @@ class AgregarPermisoSeeder extends Seeder
             'Material Mayor Combustibles Eliminar',
             'Material Mayor Combustibles Cambiar Estado',
 
+            'Material Mayor Acronimos Listar',
+            'Material Mayor Acronimos Crear',
+            'Material Mayor Acronimos Editar',
+            'Material Mayor Acronimos Eliminar',
+            'Material Mayor Acronimos Cambiar Estado',
+
             'Equipos Hidraulicos Listar',
             'Equipos Hidraulicos Crear',
             'Equipos Hidraulicos Ver',

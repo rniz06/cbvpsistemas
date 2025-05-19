@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_movil');
             $table->string('tipo', 45);
             $table->string('descripcion', 45);
+            $table->boolean('activo')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
