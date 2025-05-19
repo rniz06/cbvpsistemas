@@ -15,4 +15,9 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.mayor.transmision');    
     }
+
+    public function ejes()
+    {
+        return view('materiales.mayor.ejes');    
+    }
 }
