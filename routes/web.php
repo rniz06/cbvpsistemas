@@ -5,6 +5,7 @@
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ConductorController;
+use App\Http\Controllers\MaterialParametroController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
@@ -103,6 +104,21 @@ Route::middleware('auth')->group(function () {
         Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
         Route::put('conductores/{conductor}', 'update')->name('conductores.update');
         //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Materiales
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(MaterialParametroController::class)->prefix('materiales')->group(function () {
+        Route::get('parametros', 'index')->name('materiales.parametros');
+        Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
+        Route::get('mayor/ejes', 'ejes')->name('materiales.mayor.ejes');
+        Route::get('mayor/combustibles', 'combustibles')->name('materiales.mayor.combustibles');
+        Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
+        Route::get('mayor/acronimos', 'acronimos')->name('materiales.mayor.acronimos');
+
     });
 
     /*

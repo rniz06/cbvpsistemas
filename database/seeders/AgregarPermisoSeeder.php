@@ -51,6 +51,12 @@ class AgregarPermisoSeeder extends Seeder
             'Material Mayor Exportar Excel',
             'Material Mayor Exportar Pdf',
 
+            'Material Mayor Transmision Listar',
+            'Material Mayor Transmision Crear',
+            'Material Mayor Transmision Editar',
+            'Material Mayor Transmision Eliminar',
+            'Material Mayor Transmision Cambiar Estado',
+
             'Equipos Hidraulicos Listar',
             'Equipos Hidraulicos Crear',
             'Equipos Hidraulicos Ver',
