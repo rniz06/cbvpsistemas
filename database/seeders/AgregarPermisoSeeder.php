@@ -57,6 +57,18 @@ class AgregarPermisoSeeder extends Seeder
             'Material Mayor Transmision Eliminar',
             'Material Mayor Transmision Cambiar Estado',
 
+            'Material Mayor Ejes Listar',
+            'Material Mayor Ejes Crear',
+            'Material Mayor Ejes Editar',
+            'Material Mayor Ejes Eliminar',
+            'Material Mayor Ejes Cambiar Estado',
+
+            'Material Mayor Combustibles Listar',
+            'Material Mayor Combustibles Crear',
+            'Material Mayor Combustibles Editar',
+            'Material Mayor Combustibles Eliminar',
+            'Material Mayor Combustibles Cambiar Estado',
+
             'Equipos Hidraulicos Listar',
             'Equipos Hidraulicos Crear',
             'Equipos Hidraulicos Ver',

@@ -116,7 +116,6 @@ Route::middleware('auth')->group(function () {
         Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
         Route::get('mayor/ejes', 'ejes')->name('materiales.mayor.ejes');
         Route::get('mayor/combustibles', 'combustibles')->name('materiales.mayor.combustibles');
-        Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
         Route::get('mayor/acronimos', 'acronimos')->name('materiales.mayor.acronimos');
 
     });

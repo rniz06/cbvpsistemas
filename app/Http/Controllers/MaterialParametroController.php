@@ -20,4 +20,9 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.mayor.ejes');    
     }
+
+    public function combustibles()
+    {
+        return view('materiales.mayor.combustibles');    
+    }
 }
