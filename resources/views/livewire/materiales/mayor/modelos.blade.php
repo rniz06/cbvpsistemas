@@ -34,9 +34,9 @@
             </x-slot>
         </x-card-form>
     @endcanany
-
+    
     <!-- Tabla -->
-    <x-tabla titulo="Parametros - Ejes">
+    <x-tabla titulo="Parametros - Modelos de {{ $marca->marca ?? 'N/A' }}">
         <x-slot name="cabeceras">
             <th>Modelo:</th>
             <th>Estado:</th>

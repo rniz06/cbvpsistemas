@@ -110,6 +110,7 @@ class Modelos extends Component
         return view('livewire.materiales.mayor.modelos', [
             'modelos' => Modelo::select('id_movil_modelo', 'modelo', 'marca_id', 'activo')->where('marca_id', $this->marca_id)
                 ->buscador($this->buscador)->orderBy('modelo', 'asc')->paginate($this->paginado),
+            'marca' => Marca::findOrFail($this->marca_id),
         ]);
     }
 
