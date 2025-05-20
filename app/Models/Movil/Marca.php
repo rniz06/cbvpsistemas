@@ -17,6 +17,11 @@ class Marca extends Model implements Auditable
 
     protected $fillable = ['marca'];
 
+    public function modelos()
+    {
+        return $this->hasMany(Modelo::class);
+    }
+
     /**
      * Se implementa funcion para buscador general del componente livewire.
      */

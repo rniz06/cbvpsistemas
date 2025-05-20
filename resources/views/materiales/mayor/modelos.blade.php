@@ -2,8 +2,8 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Mayor - Marcas')
-@section('content_header_title', 'Mayor - Marcas')
+@section('subtitle', 'Mayor - Modelos')
+@section('content_header_title', 'Mayor - Modelos')
 @section('content_header_subtitle', 'Listar')
 
 {{-- Content body: main page content --}}
@@ -18,7 +18,7 @@
     @endif
 
     {{-- Llamamos al componente livewire que renderiza el listado de Conductores --}}
-    @livewire('materiales.mayor.marcas')
+    @livewire('materiales.mayor.modelos',['marca_id' => $marca])
 
 @stop
 

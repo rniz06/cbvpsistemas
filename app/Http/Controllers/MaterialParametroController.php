@@ -35,4 +35,9 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.mayor.marcas');    
     }
+
+    public function modelos($marca)
+    {
+        return view('materiales.mayor.modelos', compact('marca'));    
+    }
 }
