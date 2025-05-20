@@ -113,6 +113,12 @@ Route::middleware('auth')->group(function () {
     */
     Route::controller(MaterialParametroController::class)->prefix('materiales')->group(function () {
         Route::get('parametros', 'index')->name('materiales.parametros');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Material Mayor
+        |--------------------------------------------------------------------------
+        */
         Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
         Route::get('mayor/ejes', 'ejes')->name('materiales.mayor.ejes');
         Route::get('mayor/combustibles', 'combustibles')->name('materiales.mayor.combustibles');
@@ -120,6 +126,12 @@ Route::middleware('auth')->group(function () {
         Route::get('mayor/marcas', 'marcas')->name('materiales.mayor.marcas');
         Route::get('mayor/marcas/{marca}/modelos', 'modelos')->name('materiales.mayor.modelos');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Equipos Hidraulicos
+        |--------------------------------------------------------------------------
+        */
+        Route::get('hidraulico-motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
     });
 
     /*

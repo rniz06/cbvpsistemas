@@ -56,7 +56,7 @@
     <h6>Equipo Hidraulico</h6>
     <div class="row">
         <!-- Cada callout ocupa 3 columnas (12/4=3) -->
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.parametros') }}">
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.hidraulico.motor') }}">
             <div class="callout callout-warning">
                 <h5>Motor</h5>
             </div>
