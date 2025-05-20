@@ -19,7 +19,7 @@ class MaterialParametroController extends Controller
     public function ejes()
     {
         return view('materiales.mayor.ejes');    
-    }//acronimos
+    }
 
     public function combustibles()
     {
@@ -29,5 +29,10 @@ class MaterialParametroController extends Controller
     public function acronimos()
     {
         return view('materiales.mayor.acronimos');    
+    }
+
+    public function marcas()
+    {
+        return view('materiales.mayor.marcas');    
     }
 }
