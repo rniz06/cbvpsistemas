@@ -134,6 +134,16 @@ Route::middleware('auth')->group(function () {
         Route::get('equipo-hidraulico/motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
         Route::get('equipo-hidraulico/marcas', 'hidraulicoMarcas')->name('materiales.hidraulico.marcas');
         Route::get('equipo-hidraulico/marcas/{marca}/modelos', 'hidraulicoModelos')->name('materiales.hidraulico.modelos');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Herramientas
+        |--------------------------------------------------------------------------
+        */
+        Route::get('equipo-hidraulico/herramientas/motores', 'hidraulicoHerramientasMotores')->name('materiales.hidraulico.herramientas.motor');
+        Route::get('equipo-hidraulico/herramientas/marcas', 'hidraulicoHerramientasMarcas')->name('materiales.hidraulico.herramientas.marcas');
+        Route::get('equipo-hidraulico/herramientas/marcas/{marca}/modelos', 'hidraulicoHerramientasModelos')->name('materiales.hidraulico.herramientas.modelos');
+        Route::get('equipo-hidraulico/herramientas/tipos', 'hidraulicoHerramientasTipos')->name('materiales.hidraulico.herramientas.tipos');
     });
 
     /*

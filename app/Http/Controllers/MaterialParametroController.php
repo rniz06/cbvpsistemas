@@ -55,4 +55,24 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.equipo-hidraulico.modelos', compact('marca'));    
     }
+
+    public function hidraulicoHerramientasMotores()
+    {
+        return view('materiales.equipo-hidraulico.herramientas.motor');    
+    }
+
+    public function hidraulicoHerramientasMarcas()
+    {
+        return view('materiales.equipo-hidraulico.herramientas.marcas');    
+    }
+
+    public function hidraulicoHerramientasModelos($marca)
+    {
+        return view('materiales.equipo-hidraulico.herramientas.modelos', compact('marca'));    
+    }
+
+    public function hidraulicoHerramientasTipos()
+    {
+        return view('materiales.equipo-hidraulico.herramientas.tipos');    
+    }
 }

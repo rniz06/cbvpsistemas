@@ -72,19 +72,19 @@
     <h6>Herramientas</h6>
     <div class="row">
         <!-- Cada callout ocupa 3 columnas (12/4=3) -->
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.parametros') }}">
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.hidraulico.herramientas.motor') }}">
             <div class="callout callout-warning">
                 <h5>Motor</h5>
             </div>
         </a>
 
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.parametros') }}">
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.hidraulico.herramientas.marcas') }}">
             <div class="callout callout-warning">
                 <h5>Marcas y Modelos</h5>
             </div>
         </a>
 
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.parametros') }}">
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.hidraulico.herramientas.tipos') }}">
             <div class="callout callout-warning">
                 <h5>Tipos</h5>
             </div>
