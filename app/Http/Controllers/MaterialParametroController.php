@@ -50,4 +50,9 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.equipo-hidraulico.marcas');    
     }
+
+    public function hidraulicoModelos($marca)
+    {
+        return view('materiales.equipo-hidraulico.modelos', compact('marca'));    
+    }
 }

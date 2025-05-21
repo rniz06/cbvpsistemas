@@ -133,6 +133,7 @@ Route::middleware('auth')->group(function () {
         */
         Route::get('equipo-hidraulico/motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
         Route::get('equipo-hidraulico/marcas', 'hidraulicoMarcas')->name('materiales.hidraulico.marcas');
+        Route::get('equipo-hidraulico/marcas/{marca}/modelos', 'hidraulicoModelos')->name('materiales.hidraulico.modelos');
     });
 
     /*

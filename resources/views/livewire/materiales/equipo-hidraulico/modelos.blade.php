@@ -1,31 +1,31 @@
 <div>
     <!-- Formulario -->
     @canany([
-        'Equipo Hidraulico Marcas Crear',
-        'Equipo Hidraulico Marcas Editar',
-        'Equipo Hidraulico Marcas
+        'Equipo Hidraulico Modelos Crear',
+        'Equipo Hidraulico Modelos Editar',
+        'Equipo Hidraulico Modelos
         Eliminar',
         ])
         <x-card-form>
-            <x-card-input label="Marca" placeholder="Marca..." campo="marca" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
+            <x-card-input label="Modelo" placeholder="Modelo..." campo="modelo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
 
 
             <x-slot name="buttons">
-                @can('Equipo Hidraulico Marcas Crear')
+                @can('Equipo Hidraulico Modelos Crear')
                     <x-button type="button" icon="fas fa-plus" color="success" click="agregar" :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
                 @endcan
 
-                @can('Equipo Hidraulico Marcas Editar')
+                @can('Equipo Hidraulico Modelos Editar')
                     <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
                         :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
                 @endcan
 
-                @can('Equipo Hidraulico Marcas Eliminar')
+                @can('Equipo Hidraulico Modelos Eliminar')
                     <x-button type="button" icon="fas fa-trash" color="danger" id="btn-eliminar"
                         :disabled="in_array($modo, ['agregar', 'modificar', 'inicio'])">Eliminar</x-button>
                 @endcan
 
-                @canany(['Equipo Hidraulico Marcas Crear', 'Equipo Hidraulico Marcas Editar'])
+                @canany(['Equipo Hidraulico Modelos Crear', 'Equipo Hidraulico Modelos Editar'])
                     <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
                 @endcanany
 
@@ -34,25 +34,21 @@
             </x-slot>
         </x-card-form>
     @endcanany
-
+    
     <!-- Tabla -->
-    <x-tabla titulo="Parametros - Equipo Hidraulico - Marcas">
+    <x-tabla titulo="Parametros - Equipo Hidraulico - Modelos de {{ $marca->marca ?? 'N/A' }}">
         <x-slot name="cabeceras">
-            <th>Marca:</th>
-            <th>Ver Modelos:</th>
+            <th>Modelo:</th>
         </x-slot>
 
-        @foreach ($marcas as $marca)
-            <tr wire:click="seleccionado({{ $marca->id_hidraulico_marca }})" wire:key="{{ $marca->id_hidraulico_marca }}">
-                <td>{{ $marca->marca ?? 'N/A' }}</td>
-                <td>
-                    <a href="{{ route('materiales.hidraulico.modelos', $marca->id_hidraulico_marca) }}" class="btn btn-block btn-outline-success btn-sm">Ver Modelos</a>
-                </td>
-
+        @foreach ($modelos as $modelo)
+            <tr wire:click="seleccionado({{ $modelo->id_hidraulico_modelo }})"
+                wire:key="{{ $modelo->id_hidraulico_modelo }}">
+                <td>{{ $modelo->modelo ?? 'N/A' }}</td>
             </tr>
         @endforeach
         <x-slot name="paginacion">
-            {{ $marcas->links() }}
+            {{ $modelos->links() }}
         </x-slot>
     </x-tabla>
 
