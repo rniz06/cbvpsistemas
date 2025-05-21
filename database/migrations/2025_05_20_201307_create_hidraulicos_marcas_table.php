@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hidraulicos_marcas', function (Blueprint $table) {
             $table->id('id_hidraulico_marca');
-            $table->string('marcas', 45);
+            $table->string('marca', 45);
             $table->timestamps();
             $table->softDeletes();
         });

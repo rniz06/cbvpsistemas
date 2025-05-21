@@ -62,7 +62,7 @@
             </div>
         </a>
 
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.parametros') }}">
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.hidraulico.marcas') }}">
             <div class="callout callout-warning">
                 <h5>Marcas y Modelos</h5>
             </div>

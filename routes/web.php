@@ -131,7 +131,8 @@ Route::middleware('auth')->group(function () {
         | Equipos Hidraulicos
         |--------------------------------------------------------------------------
         */
-        Route::get('hidraulico-motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
+        Route::get('equipo-hidraulico/motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
+        Route::get('equipo-hidraulico/marcas', 'hidraulicoMarcas')->name('materiales.hidraulico.marcas');
     });
 
     /*

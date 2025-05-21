@@ -45,4 +45,9 @@ class MaterialParametroController extends Controller
     {
         return view('materiales.equipo-hidraulico.motor');    
     }
+
+    public function hidraulicoMarcas()
+    {
+        return view('materiales.equipo-hidraulico.marcas');    
+    }
 }
