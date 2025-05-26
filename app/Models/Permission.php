@@ -11,4 +11,9 @@ class Permission extends ModelsPermission
     {
         return $this->belongsTo(SysModulo::class, 'modulo_id');
     }
+
+    public function subModulo()
+{
+    return $this->belongsTo(SysSubModulo::class, 'sub_modulo_id');
+}
 }

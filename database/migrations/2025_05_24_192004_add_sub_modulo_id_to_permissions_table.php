@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->unsignedBigInteger('modulo_id')->nullable()->after('guard_name');
-            $table->foreign('modulo_id')->references('id_sys_modulo')->on('sys_modulos')->onDelete('set null');
+            $table->unsignedBigInteger('sub_modulo_id')->nullable()->after('modulo_id');
+            $table->foreign('sub_modulo_id')->references('id_sub_modulo')->on('sys_sub_modulos')->onDelete('set null');
         });
     }
 
@@ -23,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->dropForeign(['modulo_id']);
-            $table->dropColumn('modulo_id');
+            $table->dropForeign(['sub_modulo_id']);
+            $table->dropColumn('sub_modulo_id');
         });
     }
 };
