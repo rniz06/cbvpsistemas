@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Conductor;
+namespace App\Models\Materiales\Conductor;
 
 use App\Models\Ciudad;
 use App\Models\Personal;

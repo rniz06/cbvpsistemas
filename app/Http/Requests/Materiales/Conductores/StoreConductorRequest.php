@@ -23,15 +23,15 @@ class StoreConductorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'personal_id' => ['required', Rule::unique('conductores_bomberos')],
+            'personal_id' => ['required', Rule::unique('MAT_conductores_bomberos')],
             'resolucion' => ['required', 'max:50'],
             'resolucion_enlace' => ['nullable', 'max:255'],
             'fecha_curso' => ['required', 'date'],
             'ciudad_curso_id' => ['required'],
             'ciudad_licencia_id' => ['required'],
-            'tipo_vehiculo_id' => ['required', 'exists:conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
-            'numero_licencia' => ['required', 'unique:conductores_bomberos,numero_licencia', 'numeric', 'min_digits:6', 'max_digits:7'],
-            'clase_licencia_id' => ['required', 'exists:conductores_clase_licencias,idconductor_clase_licencia'],
+            'tipo_vehiculo_id' => ['required', 'exists:MAT_conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
+            'numero_licencia' => ['required', 'unique:MAT_conductores_bomberos,numero_licencia', 'numeric', 'min_digits:6', 'max_digits:7'],
+            'clase_licencia_id' => ['required', 'exists:MAT_conductores_clase_licencias,idconductor_clase_licencia'],
         ];
     }
 }

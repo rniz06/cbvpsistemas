@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Conductor;
+namespace App\Models\Materiales\Conductor;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

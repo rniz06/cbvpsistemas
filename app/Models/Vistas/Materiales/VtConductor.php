@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Vistas;
+namespace App\Models\Vistas\Materiales;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

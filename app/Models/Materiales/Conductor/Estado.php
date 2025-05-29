@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models\Conductor;
+namespace App\Models\Materiales\Conductor;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class TipoVehiculo extends Model implements Auditable
+class Estado extends Model implements Auditable
 {
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "MAT_conductores_tipo_vehiculo";
+    protected $table = "MAT_conductores_estados";
 
-    protected $primaryKey = 'idconductor_tipo_vehiculo';
+    protected $primaryKey = 'id_conductor_estado';
 
-    protected $fillable = ['tipo'];
+    protected $fillable = ['estado'];
 
     /**
      * Relacion uno a muchos con tabla conductores_bomberos
