@@ -44,11 +44,17 @@ class UsuarioController extends Controller
     public function asignarpermisovista($user)
     {
         $usuario = VtUsuario::where('id_usuario', $user)->first();
-        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')
+            ->with('subModulos.permissions') // Relación anidada
+            ->orderBy('orden')
+            ->get();
+
         $user = User::find($user);
         $userPermiso = $user->permissions->pluck('id')->toArray();
+
         return view('usuarios.asignar-permisos', compact('modulos', 'usuario', 'userPermiso'));
     }
+
 
     /**
      * Metodo para asignar permisos especificos a un usuario.

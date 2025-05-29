@@ -424,6 +424,16 @@ return [
         // ],
         ['header' => 'Info'],
         [
+            'text' => 'Mi Ficha',
+            'icon' => 'fas fa-id-badge mr-2',
+            'route' => 'perfil.mi_ficha',
+        ],
+        [
+            'text' => 'Sessiones Directorio',
+            'icon' => 'fas fa-video mr-1',
+            'route' => 'sessiones_directorio.session_en_vivo',
+        ],
+        [
             'text' => 'Soporte',
             'icon_color' => 'yellow',
             'url' => 'https://soporte.cbvp.org.py/',

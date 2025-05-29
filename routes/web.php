@@ -4,9 +4,11 @@
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SessionesDirectorioController;
 use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
 
 Route::middleware('auth')->group(function () {
+
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('perfil/mi_ficha', 'verMiFicha')->name('perfil.mi_ficha');
+    });
+
+    Route::controller(SessionesDirectorioController::class)->group(function () {
+        Route::get('sessiones_directorio/session_en_vivo', 'sessionEnVivo')->name('sessiones_directorio.session_en_vivo');
+    });
     /*
     |--------------------------------------------------------------------------
     | Modulo Personal

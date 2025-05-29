@@ -2,6 +2,8 @@
 
 namespace App\Models\Vistas;
 
+use App\Models\Personal\Contacto;
+use App\Models\Personal\ContactoEmergencia;
 use Illuminate\Database\Eloquent\Model;
 
 class VtPersonales extends Model
@@ -106,5 +108,27 @@ class VtPersonales extends Model
     public function scopeBuscarCompania($query, $value)
     {
         $query->where('compania', 'like', "%{$value}%");
+    }
+
+    /**
+     * Relación de "uno a muchos" (inversa) con la tabla "personal_contactos".
+     * Un TipoContacto puede tener varios registros asociados en la tabla "personal_contactos".
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contactos()
+    {
+        return $this->hasMany(Contacto::class, 'personal_id');
+    }
+
+    /**
+     * Relación de "uno a muchos" (inversa) con la tabla "personal_contactos_emergencias".
+     * Un Personal puede tener varios registros asociados en la tabla "personal_contactos_emergencias".
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contactosEmergencias()
+    {
+        return $this->hasMany(ContactoEmergencia::class, 'personal_id');
     }
 }
