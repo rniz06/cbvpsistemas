@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico;
 
-use App\Models\EquipoHidraulico\Modelo;
-use App\Models\EquipoHidraulico\Marca;
+use App\Models\Materiales\EquipoHidraulico\Modelo;
+use App\Models\Materiales\EquipoHidraulico\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico\Herramientas;
 
-use App\Models\EquipoHidraulico\Herramienta\Tipo;
+use App\Models\Materiales\EquipoHidraulico\Herramienta\Tipo;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -64,7 +64,7 @@ class Tipos extends Component
     protected function rules()
     {
         return [
-            'tipo' => ['required', 'max:45', Rule::unique('hidraulicos_herr_tipos')->ignore($this->tipo_id, 'idhidraulico_herr_tipo')],
+            'tipo' => ['required', 'max:45', Rule::unique(Tipo::class)->ignore($this->tipo_id, 'idhidraulico_herr_tipo')],
         ];
     }
 

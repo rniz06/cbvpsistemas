@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\EquipoHidraulico;
+namespace App\Models\Materiales\EquipoHidraulico;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

@@ -4,7 +4,8 @@ namespace App\Livewire\Materiales\EquipoHidraulico;
 
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
-use App\Models\EquipoHidraulico\Motor as EquipoHidraulicoMotor;
+use App\Livewire\Materiales\EquipoHidraulico\Herramientas\Motor as HerramientasMotor;
+use App\Models\Materiales\EquipoHidraulico\Motor as EquipoHidraulicoMotor;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -68,7 +69,7 @@ class Motor extends Component
     protected function rules()
     {
         return [
-            'motor' => ['required', 'max:45', Rule::unique('hidraulicos_motor')->ignore($this->motor_id, 'id_hidraulico_motor')],
+            'motor' => ['required', 'max:45', Rule::unique(EquipoHidraulicoMotor::class)->ignore($this->motor_id, 'id_hidraulico_motor')],
         ];
     }
 

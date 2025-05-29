@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Models\EquipoHidraulico;
+namespace App\Models\Materiales\EquipoHidraulico\Herramienta;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Motor extends Model implements Auditable
+class Marca extends Model implements Auditable
 {
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "MAT_hidraulicos_motor";
+    protected $table = "MAT_hidraulicos_herr_marcas";
 
-    protected $primaryKey = 'id_hidraulico_motor';
+    protected $primaryKey = 'idhidraulico_herr_marca';
 
-    protected $fillable = ['motor'];
+    protected $fillable = ['marca'];
 
     /**
      * Se implementa funcion para buscador general del componente livewire.
      */
     public function scopeBuscador($query, $value)
     {
-        $query->where('motor', 'like', "%{$value}%");
+        $query->where('marca', 'like', "%{$value}%");
     }
 }

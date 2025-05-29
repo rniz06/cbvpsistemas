@@ -4,7 +4,7 @@ namespace App\Livewire\Materiales\EquipoHidraulico\Herramientas;
 
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
-use App\Models\EquipoHidraulico\Herramienta\Motor as HerramientaMotor;
+use App\Models\Materiales\EquipoHidraulico\Herramienta\Motor as HerramientaMotor;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -38,7 +38,7 @@ class Motor extends Component
     public function seleccionado($id)
     {
         $motor = HerramientaMotor::findOrFail($id);
-        $this->motor_id = $motor->id_hidraulico_motor;
+        $this->motor_id = $motor->idhidraulico_herr_motor;
         $this->motor = $motor->motor;
         $this->modo = 'seleccionado';
     }
@@ -68,7 +68,7 @@ class Motor extends Component
     protected function rules()
     {
         return [
-            'motor' => ['required', 'max:45', Rule::unique('hidraulicos_herr_motor')->ignore($this->motor_id, 'idhidraulico_herr_motor')],
+            'motor' => ['required', 'max:45', Rule::unique(HerramientaMotor::class)->ignore($this->motor_id, 'idhidraulico_herr_motor')],
         ];
     }
 

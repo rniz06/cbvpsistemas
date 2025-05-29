@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico\Herramientas;
 
-use App\Models\EquipoHidraulico\Herramienta\Modelo;
-use App\Models\EquipoHidraulico\Herramienta\Marca;
+use App\Models\Materiales\EquipoHidraulico\Herramienta\Modelo;
+use App\Models\Materiales\EquipoHidraulico\Herramienta\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -36,7 +36,7 @@ class Modelos extends Component
     public function seleccionado($id)
     {
         $modelo = Modelo::findOrFail($id);
-        $this->modelo_id = $modelo->id_hidraulico_modelo;
+        $this->modelo_id = $modelo->idhidraulico_herr_modelo;
         $this->modelo = $modelo->modelo;
         $this->modo = 'seleccionado';
     }
@@ -108,7 +108,7 @@ class Modelos extends Component
     public function render()
     {
         return view('livewire.materiales.equipo-hidraulico.herramientas.modelos', [
-            'modelos' => Modelo::select('id_hidraulico_modelo', 'modelo', 'marca_id')->where('marca_id', $this->marca_id)
+            'modelos' => Modelo::select('idhidraulico_herr_modelo', 'modelo', 'marca_id')->where('marca_id', $this->marca_id)
                 ->buscador($this->buscador)->orderBy('modelo', 'asc')->paginate($this->paginado),
             'marca' => Marca::findOrFail($this->marca_id),
         ]);

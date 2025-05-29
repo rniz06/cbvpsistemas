@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico;
 
-use App\Models\EquipoHidraulico\Marca;
+use App\Models\Materiales\EquipoHidraulico\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -64,7 +64,7 @@ class Marcas extends Component
     protected function rules()
     {
         return [
-            'marca' => ['required', 'max:45', Rule::unique('hidraulicos_marcas')->ignore($this->marca_id, 'id_hidraulico_marca')],
+            'marca' => ['required', 'max:45', Rule::unique(Marca::class)->ignore($this->marca_id, 'id_hidraulico_marca')],
         ];
     }
 

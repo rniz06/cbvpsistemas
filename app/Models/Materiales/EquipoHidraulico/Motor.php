@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\EquipoHidraulico\Herramienta;
+namespace App\Models\Materiales\EquipoHidraulico;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,9 +11,9 @@ class Motor extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "MAT_hidraulicos_herr_motor";
+    protected $table = "MAT_hidraulicos_motor";
 
-    protected $primaryKey = 'idhidraulico_herr_motor';
+    protected $primaryKey = 'id_hidraulico_motor';
 
     protected $fillable = ['motor'];
 

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico\Herramientas;
 
-use App\Models\EquipoHidraulico\Herramienta\Marca;
+use App\Models\Materiales\EquipoHidraulico\Herramienta\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -34,7 +34,7 @@ class Marcas extends Component
     public function seleccionado($id)
     {
         $marca = Marca::findOrFail($id);
-        $this->marca_id = $marca->id_hidraulico_marca;
+        $this->marca_id = $marca->idhidraulico_herr_marca;
         $this->marca = $marca->marca;
         $this->modo = 'seleccionado';
     }
@@ -64,7 +64,7 @@ class Marcas extends Component
     protected function rules()
     {
         return [
-            'marca' => ['required', 'max:45', Rule::unique('hidraulicos_herr_marcas')->ignore($this->marca_id, 'idhidraulico_herr_marca')],
+            'marca' => ['required', 'max:45', Rule::unique(Marca::class)->ignore($this->marca_id, 'idhidraulico_herr_marca')],
         ];
     }
 
