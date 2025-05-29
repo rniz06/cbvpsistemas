@@ -11,7 +11,7 @@ class Marca extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "moviles_marcas";
+    protected $table = "MAT_moviles_marcas";
 
     protected $primaryKey = 'id_movil_marca';
 

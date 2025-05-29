@@ -11,7 +11,7 @@ class Transmision extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "moviles_transmision";
+    protected $table = "MAT_moviles_transmision";
 
     protected $primaryKey = 'id_movil_transmision';
 

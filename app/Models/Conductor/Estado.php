@@ -12,7 +12,7 @@ class Estado extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "conductores_estados";
+    protected $table = "MAT_conductores_estados";
 
     protected $primaryKey = 'id_conductor_estado';
 

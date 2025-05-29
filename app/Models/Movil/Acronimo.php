@@ -11,7 +11,7 @@ class Acronimo extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "moviles";
+    protected $table = "MAT_moviles_tipos";
 
     protected $primaryKey = 'id_movil';
 

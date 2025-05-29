@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moviles_marcas', function (Blueprint $table) {
-            $table->id('id_movil_marca');
-            $table->string('marca', 45);
-            $table->boolean('activo')->default(true);
+        Schema::create('MAT_hidraulicos_herr_tipos', function (Blueprint $table) {
+            $table->id('idhidraulico_herr_tipo');
+            $table->string('tipo', 45);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moviles_marcas');
+        Schema::dropIfExists('MAT_hidraulicos_herr_tipos');
     }
 };

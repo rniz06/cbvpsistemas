@@ -11,7 +11,7 @@ class Motor extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "hidraulicos_motor";
+    protected $table = "MAT_hidraulicos_motor";
 
     protected $primaryKey = 'id_hidraulico_motor';
 

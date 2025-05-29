@@ -15,7 +15,7 @@ class ConductorBombero extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "conductores_bomberos";
+    protected $table = "MAT_conductores_bomberos";
 
     protected $primaryKey = 'id_conductor_bombero';
 

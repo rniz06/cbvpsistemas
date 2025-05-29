@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acciones', function (Blueprint $table) {
-            $table->id('id_accion');
-            $table->string('accion', 45);
+        Schema::create('MAT_conductores_clase_licencias', function (Blueprint $table) {
+            $table->id('idconductor_clase_licencia');
+            $table->string('clase', 45);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acciones');
+        Schema::dropIfExists('MAT_conductores_clase_licencias');
     }
 };

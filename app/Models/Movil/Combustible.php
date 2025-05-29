@@ -11,7 +11,7 @@ class Combustible extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "moviles_combustibles";
+    protected $table = "MAT_moviles_combustibles";
 
     protected $primaryKey = 'id_movil_combustible';
 

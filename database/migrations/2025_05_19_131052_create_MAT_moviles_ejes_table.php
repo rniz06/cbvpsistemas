@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conductores_clase_licencias', function (Blueprint $table) {
-            $table->id('idconductor_clase_licencia');
-            $table->string('clase', 45);
+        Schema::create('MAT_moviles_ejes', function (Blueprint $table) {
+            $table->id('id_movil_eje');
+            $table->string('eje', 45);
+            $table->boolean('activo')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conductores_clase_licencias');
+        Schema::dropIfExists('MAT_moviles_ejes');
     }
 };

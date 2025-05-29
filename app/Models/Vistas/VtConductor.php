@@ -9,7 +9,7 @@ class VtConductor extends Model
 {
     use SoftDeletes;
 
-    protected $table = "vt_conductores";
+    protected $table = "MAT_vt_conductores";
 
     protected $primaryKey = 'id_conductor_bombero';
 

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hidraulicos_marcas', function (Blueprint $table) {
-            $table->id('id_hidraulico_marca');
-            $table->string('marca', 45);
+        Schema::create('MAT_hidraulicos_herr_modelos', function (Blueprint $table) {
+            $table->id('idhidraulico_herr_modelo');
+            $table->string('modelo', 45);
+            $table->foreignId('marca_id')->references('idhidraulico_herr_marca')->on('MAT_hidraulicos_herr_marcas')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hidraulicos_marcas');
+        Schema::dropIfExists('MAT_hidraulicos_herr_modelos');
     }
 };

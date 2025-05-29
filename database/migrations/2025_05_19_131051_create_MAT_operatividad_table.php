@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moviles_transmision', function (Blueprint $table) {
-            $table->id('id_movil_transmision');
-            $table->string('transmision', 45);
-            $table->boolean('activo')->default(true);
+        Schema::create('MAT_operatividad', function (Blueprint $table) {
+            $table->id('id_operatividad');
+            $table->string('estado', 45);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moviles_transmision');
+        Schema::dropIfExists('MAT_operatividad');
     }
 };

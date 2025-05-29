@@ -11,7 +11,7 @@ class Eje extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "moviles_ejes";
+    protected $table = "MAT_moviles_ejes";
 
     protected $primaryKey = 'id_movil_eje';
 

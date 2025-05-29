@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conductores_tipo_vehiculo', function (Blueprint $table) {
-            $table->id('idconductor_tipo_vehiculo');
-            $table->string('tipo', 45);
+        Schema::create('MAT_conductores_estados', function (Blueprint $table) {
+            $table->id('id_conductor_estado');
+            $table->string('estado', 45);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conductores_tipo_vehiculo');
+        Schema::dropIfExists('MAT_conductores_estados');
     }
 };

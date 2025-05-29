@@ -12,7 +12,7 @@ class ClaseLicencia extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "conductores_clase_licencias";
+    protected $table = "MAT_conductores_clase_licencias";
 
     protected $primaryKey = 'idconductor_clase_licencia';
 

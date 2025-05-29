@@ -12,7 +12,7 @@ class TipoVehiculo extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "conductores_tipo_vehiculo";
+    protected $table = "MAT_conductores_tipo_vehiculo";
 
     protected $primaryKey = 'idconductor_tipo_vehiculo';
 

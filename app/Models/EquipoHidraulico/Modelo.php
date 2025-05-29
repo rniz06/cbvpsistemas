@@ -11,7 +11,7 @@ class Modelo extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "hidraulicos_modelos";
+    protected $table = "MAT_hidraulicos_modelos";
 
     protected $primaryKey = 'id_hidraulico_modelo';
 
