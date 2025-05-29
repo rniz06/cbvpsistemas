@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Models\Movil;
+namespace App\Models\Materiales\Movil;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Transmision extends Model implements Auditable
+class Combustible extends Model implements Auditable
 {
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "MAT_moviles_transmision";
+    protected $table = "MAT_moviles_combustibles";
 
-    protected $primaryKey = 'id_movil_transmision';
+    protected $primaryKey = 'id_movil_combustible';
 
-    protected $fillable = ['transmision'];
+    protected $fillable = ['tipo', 'activo'];
 
     /**
      * Se implementa funcion para buscador general del componente livewire.
      */
     public function scopeBuscador($query, $value)
     {
-        $query->where('transmision', 'like', "%{$value}%");
+        $query->where('tipo', 'like', "%{$value}%")
+        ->orWhere('activo', 'like', "%{$value}%");
     }
 }

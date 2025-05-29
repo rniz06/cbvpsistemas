@@ -5,9 +5,7 @@ namespace App\Livewire\Materiales\Mayor;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use Livewire\Attributes\Validate;
-use App\Models\Ciudad;
-use App\Models\Compras\Proveedor;
-use App\Models\Movil\Transmision as MovilTransmision;
+use App\Models\Materiales\Movil\Transmision as MovilTransmision;
 use App\Models\Vistas\Compras\VtProveedor;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -71,7 +69,7 @@ class Transmision extends Component
     protected function rules()
     {
         return [
-            'transmision' => ['required', 'max:45', Rule::unique('moviles_transmision')->ignore($this->transmision_id, 'id_movil_transmision')],
+            'transmision' => ['required', 'max:45', Rule::unique(MovilTransmision::class)->ignore($this->transmision_id, 'id_movil_transmision')],
         ];
     }
 

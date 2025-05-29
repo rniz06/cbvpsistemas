@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Movil\Modelo;
-use App\Models\Movil\Marca;
+use App\Models\Materiales\Movil\Modelo;
+use App\Models\Materiales\Movil\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;

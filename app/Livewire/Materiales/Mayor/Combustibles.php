@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Movil\Combustible;
+use App\Models\Materiales\Movil\Combustible;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -64,7 +64,7 @@ class Combustibles extends Component
     protected function rules()
     {
         return [
-            'tipo' => ['required', 'max:45', Rule::unique('moviles_combustibles')->ignore($this->combustible_id, 'id_movil_combustible')],
+            'tipo' => ['required', 'max:45', Rule::unique(Combustible::class)->ignore($this->combustible_id, 'id_movil_combustible')],
         ];
     }
 

@@ -47,20 +47,20 @@
         </x-slot>
 
         @foreach ($acronimos as $acronimo)
-            <tr wire:click="seleccionado({{ $acronimo->id_movil }})"
-                wire:key="{{ $acronimo->id_movil }}">
+            <tr wire:click="seleccionado({{ $acronimo->id_movil_tipo }})"
+                wire:key="{{ $acronimo->id_movil_tipo }}">
                 <td>{{ $acronimo->tipo ?? 'N/A' }}</td>
                 <td>{{ $acronimo->descripcion ?? 'N/A' }}</td>
                 <td>{{ $acronimo->activo ? 'Activo' : 'Inactivo' }}</td>
                 <td>
                     <button class="btn btn-sm" style="border:none;background:transparent;"
-                        wire:click="cambiarEstado({{ $acronimo->id_movil }}, true)"
+                        wire:click="cambiarEstado({{ $acronimo->id_movil_tipo }}, true)"
                         onclick="confirm('¿Seguro que desea cambiar el estado a ACTIVO?') || event.stopImmediatePropagation()">
                         <img width="30px" src="{{ asset('img/ok.webp') }}">
                     </button>
 
                     <button class="btn btn-sm" style="border:none;background:transparent;"
-                        wire:click="cambiarEstado({{ $acronimo->id_movil }}, false)"
+                        wire:click="cambiarEstado({{ $acronimo->id_movil_tipo }}, false)"
                         onclick="confirm('¿Seguro que desea cambiar el estado a INACTIVO?') || event.stopImmediatePropagation()">
                         <img width="30px" src="{{ asset('img/wrong.webp') }}">
                     </button>

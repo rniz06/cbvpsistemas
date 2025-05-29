@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Movil\Marca;
+use App\Models\Materiales\Movil\Marca;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -64,7 +64,7 @@ class Marcas extends Component
     protected function rules()
     {
         return [
-            'marca' => ['required', 'max:45', Rule::unique('moviles_marcas')->ignore($this->marca_id, 'id_movil_marca')],
+            'marca' => ['required', 'max:45', Rule::unique(Marca::class)->ignore($this->marca_id, 'id_movil_marca')],
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Movil\Acronimo;
+use App\Models\Materiales\Movil\Acronimo;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -34,7 +34,7 @@ class Acronimos extends Component
     public function seleccionado($id)
     {
         $acronimo = Acronimo::findOrFail($id);
-        $this->acronimo_id = $acronimo->id_movil;
+        $this->acronimo_id = $acronimo->id_movil_tipo;
         $this->tipo = $acronimo->tipo;
         $this->descripcion = $acronimo->descripcion;
         $this->modo = 'seleccionado';
@@ -65,7 +65,7 @@ class Acronimos extends Component
     protected function rules()
     {
         return [
-            'tipo' => ['required', 'max:45', Rule::unique('moviles')->ignore($this->acronimo_id, 'id_movil')],
+            'tipo' => ['required', 'max:45', Rule::unique('MAT_moviles_tipos')->ignore($this->acronimo_id, 'id_movil_tipo')],
             'descripcion' => ['required', 'max:45'],
         ];
     }
@@ -104,7 +104,7 @@ class Acronimos extends Component
     public function render()
     {
         return view('livewire.materiales.mayor.acronimos', [
-            'acronimos' => Acronimo::select('id_movil', 'tipo', 'descripcion', 'activo')
+            'acronimos' => Acronimo::select('id_movil_tipo', 'tipo', 'descripcion', 'activo')
                 ->buscador($this->buscador)->orderBy('tipo', 'asc')->paginate($this->paginado),
         ]);
     }

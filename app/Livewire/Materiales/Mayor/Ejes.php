@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Movil\Eje;
+use App\Models\Materiales\Movil\Eje;
 use Livewire\Attributes\Validate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -64,7 +64,7 @@ class Ejes extends Component
     protected function rules()
     {
         return [
-            'eje' => ['required', 'max:45', Rule::unique('moviles_ejes')->ignore($this->eje_id, 'id_movil_eje')],
+            'eje' => ['required', 'max:45', Rule::unique('MAT_moviles_ejes')->ignore($this->eje_id, 'id_movil_eje')],
         ];
     }
 
