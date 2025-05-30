@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('MAT_moviles', function (Blueprint $table) {
             $table->id('id_movil');
+            $table->string('movil', 45)->nullable();
             $table->string('chasis', 45)->nullable();
             $table->string('detalles', 45)->nullable();
             $table->boolean('operativo')->default(true);

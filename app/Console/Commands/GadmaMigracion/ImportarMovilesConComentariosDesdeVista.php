@@ -40,6 +40,7 @@ class ImportarMovilesConComentariosDesdeVista extends Command
         foreach ($registros as $registro) {
             // 1. Insertar el móvil en la nueva tabla y obtener el ID generado
             $nuevoIdMovil = DB::table('personalcbvp.MAT_moviles')->insertGetId([
+                'movil'            => $registro->movil ?? null,
                 'chasis'           => $registro->chasis ?? null,
                 'detalles'         => $registro->detalles ?? null,
                 'operativo'        => $registro->operativo ?? null,

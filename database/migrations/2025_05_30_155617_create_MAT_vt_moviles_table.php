@@ -16,6 +16,7 @@ return new class extends Migration
             CREATE VIEW `MAT_vt_moviles` AS
             SELECT
                 m.id_movil,
+                m.movil,
                 m.chasis,
                 m.detalles,
                 m.operativo,
