@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('MAT_operatividad', function (Blueprint $table) {
             $table->id('id_operatividad');
-            $table->string('estado', 45);
+            $table->string('operatividad', 45);
             $table->timestamps();
             $table->softDeletes();
         });
