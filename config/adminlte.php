@@ -345,6 +345,11 @@ return [
             'icon' => 'fas fa-clipboard-list',
             'submenu' => [
                 [
+                    'text' => 'Material Mayor',
+                    'route' => 'materiales.mayor.index',
+                    'can' => 'Material Mayor Listar',
+                ],
+                [
                     'text' => 'Conductores',
                     'route' => 'conductores.index',
                     'can' => 'Conductores Listar',

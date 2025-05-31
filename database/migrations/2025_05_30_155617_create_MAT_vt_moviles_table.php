@@ -41,6 +41,8 @@ return new class extends Migration
                 o.operatividad,
                 m.compania_id,
                 c.compania,
+                c.ciudad_id,
+                ciu.departamento_id,
                 m.creadoPor,
                 m.actualizadoPor,
                 m.created_at,
@@ -54,7 +56,8 @@ return new class extends Migration
             JOIN MAT_moviles_ejes me ON (me.id_movil_eje = m.eje_id)
             JOIN MAT_moviles_combustibles mcombu ON (mcombu.id_movil_combustible = m.combustible_id)
             JOIN MAT_operatividad o ON (o.id_operatividad = m.operatividad_id)
-            JOIN emepy_bd.vt_companias c ON (c.idcompanias = m.compania_id)
+            JOIN emepy_bd.companias c ON (c.idcompanias = m.compania_id)
+            JOIN emepy_bd.ciudades ciu ON (c.ciudad_id = ciu.idciudades)
         ");
     }
 

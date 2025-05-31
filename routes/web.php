@@ -5,6 +5,7 @@
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ConductorController;
+use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\MaterialParametroController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
@@ -111,6 +112,7 @@ Route::middleware('auth')->group(function () {
     | Materiales
     |--------------------------------------------------------------------------
     */
+    
     Route::controller(MaterialParametroController::class)->prefix('materiales')->group(function () {
         Route::get('parametros', 'index')->name('materiales.parametros');
 
@@ -144,6 +146,11 @@ Route::middleware('auth')->group(function () {
         Route::get('equipo-hidraulico/herramientas/marcas', 'hidraulicoHerramientasMarcas')->name('materiales.hidraulico.herramientas.marcas');
         Route::get('equipo-hidraulico/herramientas/marcas/{marca}/modelos', 'hidraulicoHerramientasModelos')->name('materiales.hidraulico.herramientas.modelos');
         Route::get('equipo-hidraulico/herramientas/tipos', 'hidraulicoHerramientasTipos')->name('materiales.hidraulico.herramientas.tipos');
+    });
+
+    Route::controller(MayorController::class)->group(function (){
+        Route::get('materiales/mayor', 'index')->name('materiales.mayor.index');
+        Route::get('materiales/mayor/{movil}', 'show')->name('materiales.mayor.show');
     });
 
     /*
