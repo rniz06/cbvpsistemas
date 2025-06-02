@@ -40,18 +40,17 @@
 
         {{-- Operativos --}}
         <div class="col-md-6">
-
-
-            <x-tabla titulo="Operativos">
+            <x-table.table titulo="Operativos" personalizarBuscador="buscadorOperativo"
+                personalizarPaginacion="paginadoOperativo">
 
                 <x-slot name="headerBotones">
                     <x-button.button click="excelOperativo" color="btn-block btn-outline-success btn-sm"
-                        icon="fas fa-file-excel" class="ml-2 btn-sm float-right" title="Exportar a Excel">
+                        icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
                         Excel
                     </x-button.button>
 
                     <x-button.button click="pdfOperativo" color="btn-block btn-outline-secondary btn-sm"
-                        icon="fas fa-file-pdf" class="ml-2 btn-sm float-right" title="Exportar a Excel">
+                        icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
                         Pdf
                     </x-button.button>
                 </x-slot>
@@ -73,12 +72,13 @@
                 <x-slot name="paginacion">
                     {{ $operativos->links() }}
                 </x-slot>
-            </x-tabla>
+            </x-table.table>
         </div>
 
         {{-- Inoperativos --}}
         <div class="col-md-6">
-            <x-tabla titulo="Inoperativos">
+            <x-table.table titulo="Inoperativos" personalizarBuscador="buscadorInoperativo"
+                personalizarPaginacion="paginadoInoperativo">
 
                 <x-slot name="headerBotones">
                     <x-button.button click="excelInoperativo" color="btn-block btn-outline-success btn-sm"
@@ -109,12 +109,13 @@
                 <x-slot name="paginacion">
                     {{ $inoperativos->links() }}
                 </x-slot>
-            </x-tabla>
+            </x-table.table>
         </div>
 
         {{-- Resumen --}}
         <div class="col-md-12">
-            <x-tabla titulo="Resumen">
+            <x-table.table titulo="Resumen" ocultarBuscador
+                personalizarPaginacion="paginadoResumen">
 
                 <x-slot name="headerBotones">
                     <x-button.button click="excelResumen" color="btn-block btn-outline-success btn-sm"
@@ -144,8 +145,7 @@
                 <x-slot name="paginacion">
                     {{ $resumen->links() }}
                 </x-slot>
-            </x-tabla>
+            </x-table.table>
         </div>
-        {{-- {{ $resumen }} --}}
     </div>
 </div>

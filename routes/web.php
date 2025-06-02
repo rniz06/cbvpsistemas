@@ -14,6 +14,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
 
+include_once __DIR__.'/materiales.php'; // Incluir las rutas de materiales
+
 Route::get('/', function () {
     return redirect()->route('home');
 });
@@ -106,52 +108,7 @@ Route::middleware('auth')->group(function () {
         Route::put('conductores/{conductor}', 'update')->name('conductores.update');
         //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
     });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Materiales
-    |--------------------------------------------------------------------------
-    */
     
-    Route::controller(MaterialParametroController::class)->prefix('materiales')->group(function () {
-        Route::get('parametros', 'index')->name('materiales.parametros');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Material Mayor
-        |--------------------------------------------------------------------------
-        */
-        Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');
-        Route::get('mayor/ejes', 'ejes')->name('materiales.mayor.ejes');
-        Route::get('mayor/combustibles', 'combustibles')->name('materiales.mayor.combustibles');
-        Route::get('mayor/acronimos', 'acronimos')->name('materiales.mayor.acronimos');
-        Route::get('mayor/marcas', 'marcas')->name('materiales.mayor.marcas');
-        Route::get('mayor/marcas/{marca}/modelos', 'modelos')->name('materiales.mayor.modelos');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Equipos Hidraulicos
-        |--------------------------------------------------------------------------
-        */
-        Route::get('equipo-hidraulico/motores', 'hidraulicoMotores')->name('materiales.hidraulico.motor');
-        Route::get('equipo-hidraulico/marcas', 'hidraulicoMarcas')->name('materiales.hidraulico.marcas');
-        Route::get('equipo-hidraulico/marcas/{marca}/modelos', 'hidraulicoModelos')->name('materiales.hidraulico.modelos');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Herramientas
-        |--------------------------------------------------------------------------
-        */
-        Route::get('equipo-hidraulico/herramientas/motores', 'hidraulicoHerramientasMotores')->name('materiales.hidraulico.herramientas.motor');
-        Route::get('equipo-hidraulico/herramientas/marcas', 'hidraulicoHerramientasMarcas')->name('materiales.hidraulico.herramientas.marcas');
-        Route::get('equipo-hidraulico/herramientas/marcas/{marca}/modelos', 'hidraulicoHerramientasModelos')->name('materiales.hidraulico.herramientas.modelos');
-        Route::get('equipo-hidraulico/herramientas/tipos', 'hidraulicoHerramientasTipos')->name('materiales.hidraulico.herramientas.tipos');
-    });
-
-    Route::controller(MayorController::class)->group(function (){
-        Route::get('materiales/mayor', 'index')->name('materiales.mayor.index');
-        Route::get('materiales/mayor/{movil}', 'show')->name('materiales.mayor.show');
-    });
 
     /*
     |--------------------------------------------------------------------------

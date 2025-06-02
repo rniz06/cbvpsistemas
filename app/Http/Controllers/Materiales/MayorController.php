@@ -23,6 +23,6 @@ class MayorController extends Controller
 
     public function show($movil)
     {
-        return view('materiales.mayor.index');
+        return view('materiales.mayor.ficha', compact('movil'));
     }
 }

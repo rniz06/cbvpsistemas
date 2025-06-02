@@ -4,7 +4,7 @@
 
 @section('subtitle', 'Material Mayor')
 @section('content_header_title', 'Material Mayor')
-@section('content_header_subtitle', 'Listar')
+@section('content_header_subtitle', 'Ver')
 
 {{-- Content body: main page content --}}
 
@@ -17,8 +17,8 @@
         </div>
     @endif
 
-    {{-- Llamamos al componente livewire que renderiza el listado de Moviles --}}
-    @livewire('materiales.mayor.index')
+    {{-- Llamamos al componente livewire que renderiza la ficha del movil --}}
+    @livewire('materiales.mayor.ficha', ['movil_id' => $movil])
 
 @stop
 
