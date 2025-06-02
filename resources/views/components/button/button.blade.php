@@ -2,7 +2,7 @@
     type="{{ $type ?? 'button' }}"
     class="btn btn-{{ $color ?? 'success' }} {{ $class ?? '' }}"
     wire:click="{{ $click ?? false }}"
-    wire:confirm="{{ $confirm ?? false }}"
+    @if (isset($confirm)) wire:confirm="{{ $confirm ?? 'Estas Seguro?' }}" @endif
     id="{{ $id ?? false }}"
     @disabled($disabled ?? false)
 >
