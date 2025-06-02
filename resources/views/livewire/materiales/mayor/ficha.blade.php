@@ -23,31 +23,31 @@
     <x-table.table titulo="Comentarios">
         <x-slot name="headerBotones">
 
-            
-            <x-button.button click="excelComentarios" color="btn-block btn-outline-success btn-sm"
-                icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
-                Excel
-            </x-button.button>
+            @can('Material Mayor Exportar Excel')
+                <x-button.button click="excelComentarios" color="btn-block btn-outline-success btn-sm"
+                    icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
+                    Excel
+                </x-button.button>
+            @endcan
+
 
             <x-button.button click="pdfComentarios" color="btn-block btn-outline-secondary btn-sm"
                 icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
                 Pdf
             </x-button.button>
+            @can('Material Mayor Exportar Pdf')
+                <x-button.button click="pdfComentarios" color="btn-block btn-outline-secondary btn-sm"
+                    icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
+                    Pdf
+                </x-button.button>
+            @endcan
 
-            {{-- <x-button.button color="btn-block btn-outline-secondary btn-sm" data-toggle="modal" data-target="#staticBackdrop"
-                icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                Agregar Accion
-            </x-button.button> --}}
-
-            <!-- Button trigger modal -->
-            {{-- <button type="button" class="btn btn-block btn-outline-success btn-sm" data-toggle="modal" data-target="#staticBackdrop">
-                <i class="fas fa-plus"></i> Agregar Accion
-            </button> --}}
-
-            <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
-                icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                Agregar Accion
-            </x-button.button>
+            @can('Material Mayor Agregar Accion')
+                <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
+                    icon="fas fa-plus" class="ml-2 btn-sm float-right">
+                    Agregar Accion
+                </x-button.button>
+            @endcan
 
             @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil])
 

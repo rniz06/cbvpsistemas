@@ -44,15 +44,19 @@
                 personalizarPaginacion="paginadoOperativo">
 
                 <x-slot name="headerBotones">
-                    <x-button.button click="excelOperativo" color="btn-block btn-outline-success btn-sm"
-                        icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
-                        Excel
-                    </x-button.button>
+                    @can('Material Mayor Exportar Excel')
+                        <x-button.button click="excelOperativo" color="btn-block btn-outline-success btn-sm"
+                            icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
+                            Excel
+                        </x-button.button>
+                    @endcan
 
-                    <x-button.button click="pdfOperativo" color="btn-block btn-outline-secondary btn-sm"
-                        icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
-                        Pdf
-                    </x-button.button>
+                    @can('Material Mayor Exportar Pdf')
+                        <x-button.button click="pdfOperativo" color="btn-block btn-outline-secondary btn-sm"
+                            icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
+                            Pdf
+                        </x-button.button>
+                    @endcan
                 </x-slot>
 
                 <x-slot name="cabeceras">
@@ -81,15 +85,19 @@
                 personalizarPaginacion="paginadoInoperativo">
 
                 <x-slot name="headerBotones">
-                    <x-button.button click="excelInoperativo" color="btn-block btn-outline-success btn-sm"
-                        icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
-                        Excel
-                    </x-button.button>
+                    @can('Material Mayor Exportar Excel')
+                        <x-button.button click="excelInoperativo" color="btn-block btn-outline-success btn-sm"
+                            icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
+                            Excel
+                        </x-button.button>
+                    @endcan
 
-                    <x-button.button click="pdfInoperativo" color="btn-block btn-outline-secondary btn-sm"
-                        icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
-                        Pdf
-                    </x-button.button>
+                    @can('Material Mayor Exportar Pdf')
+                        <x-button.button click="pdfInoperativo" color="btn-block btn-outline-secondary btn-sm"
+                            icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
+                            Pdf
+                        </x-button.button>
+                    @endcan
                 </x-slot>
 
                 <x-slot name="cabeceras">
@@ -114,19 +122,22 @@
 
         {{-- Resumen --}}
         <div class="col-md-12">
-            <x-table.table titulo="Resumen" ocultarBuscador
-                personalizarPaginacion="paginadoResumen">
+            <x-table.table titulo="Resumen" ocultarBuscador personalizarPaginacion="paginadoResumen">
 
                 <x-slot name="headerBotones">
-                    <x-button.button click="excelResumen" color="btn-block btn-outline-success btn-sm"
-                        icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
-                        Excel
-                    </x-button.button>
+                    @can('Material Mayor Exportar Excel')
+                        <x-button.button click="excelResumen" color="btn-block btn-outline-success btn-sm"
+                            icon="fas fa-file-excel" class="ml-2 btn-sm float-right">
+                            Excel
+                        </x-button.button>
+                    @endcan
 
-                    <x-button.button click="pdfResumen" color="btn-block btn-outline-secondary btn-sm"
-                        icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
-                        Pdf
-                    </x-button.button>
+                    @can('Material Mayor Exportar Pdf')
+                        <x-button.button click="pdfResumen" color="btn-block btn-outline-secondary btn-sm"
+                            icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
+                            Pdf
+                        </x-button.button>
+                    @endcan
                 </x-slot>
 
                 <x-slot name="cabeceras">
