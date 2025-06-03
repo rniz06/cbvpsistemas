@@ -62,15 +62,16 @@
                 <x-slot name="cabeceras">
                     <th>Móvil:</th>
                     <th>Compañia:</th>
-                    <th>Ficha:</th>
                 </x-slot>
 
                 @foreach ($operativos as $operativo)
                     <tr>
                         <td>{{ $operativo->tipo ?? 'N/A' }}-{{ $operativo->movil ?? 'N/A' }}</td>
                         <td>{{ $operativo->compania ?? 'N/A' }}</td>
-                        <td><a href="{{ route('materiales.mayor.show', $operativo->id_movil) }}"
-                                class="btn btn-block btn-sm btn-success">Ver Ficha</a></td>
+                        @can('Material Mayor Ver')
+                            <td><a href="{{ route('materiales.mayor.show', $operativo->id_movil) }}"
+                                    class="btn btn-block btn-sm btn-success">Ver Ficha</a></td>
+                        @endcan
                     </tr>
                 @endforeach
                 <x-slot name="paginacion">
@@ -103,15 +104,16 @@
                 <x-slot name="cabeceras">
                     <th>Móvil:</th>
                     <th>Compañia:</th>
-                    <th>Ficha:</th>
                 </x-slot>
 
                 @foreach ($inoperativos as $inoperativo)
                     <tr>
                         <td>{{ $inoperativo->tipo ?? 'N/A' }}-{{ $inoperativo->movil ?? 'N/A' }}</td>
                         <td>{{ $inoperativo->compania ?? 'N/A' }}</td>
-                        <td><a href="{{ route('materiales.mayor.show', $inoperativo->id_movil) }}"
-                                class="btn btn-block btn-sm btn-danger">Ver Ficha</a></td>
+                        @can('Material Mayor Ver')
+                            <td><a href="{{ route('materiales.mayor.show', $operativo->id_movil) }}"
+                                    class="btn btn-block btn-sm btn-danger">Ver Ficha</a></td>
+                        @endcan
                     </tr>
                 @endforeach
                 <x-slot name="paginacion">

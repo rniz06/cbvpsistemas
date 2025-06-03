@@ -49,4 +49,7 @@ Route::controller(EquipoHidraulicoController::class)->prefix('materiales/equipo-
     Route::get('{hidraulico}', 'show')
         ->where('hidraulico', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.hidraulicos.show');
+    Route::get('{hidraulico}/herramienta/{herramienta}', 'showHerramientas')
+        ->where('hidraulico', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
+        ->name('materiales.hidraulicos.herramientas.show');
 });

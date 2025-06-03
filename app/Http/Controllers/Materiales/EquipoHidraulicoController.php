@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Materiales;
 
 use App\Http\Controllers\Controller;
+use App\Models\Vistas\Materiales\VtHidraulico;
+use App\Models\Vistas\Materiales\VtHidraulicoHerr;
 use Illuminate\Http\Request;
 
 class EquipoHidraulicoController extends Controller
@@ -15,6 +17,7 @@ class EquipoHidraulicoController extends Controller
     {
         $this->middleware('permission:Equipos Hidraulicos Listar', ['only' => ['index']]);
         $this->middleware('permission:Equipos Hidraulicos Ver', ['only' => ['show']]);
+        $this->middleware('permission:Equipos Hidraulicos Herramientas Ver', ['only' => ['showHerramientas']]);
     }
 
     public function index()
@@ -25,5 +28,10 @@ class EquipoHidraulicoController extends Controller
     public function show($hidraulico)
     {
         return view('materiales.equipo-hidraulico.ficha', compact('hidraulico'));
+    }
+
+    public function showHerramientas(VtHidraulico $hidraulico, VtHidraulicoHerr $herramienta)
+    {
+        return view('materiales.equipo-hidraulico.herramientas.ficha', compact('hidraulico', 'herramienta'));
     }
 }

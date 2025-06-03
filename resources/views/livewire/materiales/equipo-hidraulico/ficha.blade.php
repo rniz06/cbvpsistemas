@@ -37,15 +37,29 @@
             <th>Estado:</th>
         </x-slot>
 
-        @foreach ($herramientas as $herramienta)
+        @forelse ($herramientas as $herramienta)
             <tr>
                 <td>{{ $herramienta->tipo ?? 'N/A' }}</td>
                 <td>{{ $herramienta->marca ?? 'N/A' }}</td>
                 <td>{{ $herramienta->modelo ?? 'N/A' }}</td>
                 <td>{{ $herramienta->motor ?? 'N/A' }}</td>
                 <td>{{ $herramienta->operatividad ?? 'N/A' }}</td>
+                @can('Equipos Hidraulicos Herramientas Ver')
+                    <td>
+                        <a href="{{ route('materiales.hidraulicos.herramientas.show', [
+                            'hidraulico' => $hidraulico->id_hidraulico,
+                            'herramienta' => $herramienta->id_hidraulico_herr,
+                        ]) }}"
+                            class="btn btn-block btn-sm btn-success">Ver Ficha</a>
+                    </td>
+                @endcan
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="100%" class="text-center">No hay datos.</td>
+            </tr>
+            
+        @endforelse
         <x-slot name="paginacion">
             {{ $herramientas->links() }}
         </x-slot>
