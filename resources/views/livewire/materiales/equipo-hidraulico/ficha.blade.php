@@ -54,14 +54,14 @@
     <x-table.table titulo="Comentarios" ocultarBuscador personalizarPaginacion="paginadoComentarios">
         <x-slot name="headerBotones">
 
-            {{-- @can('Equipos Hidraulicos Agregar Accion')
-                <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
+            @can('Equipos Hidraulicos Agregar Accion')
+                <x-button.button click="openFormAgregarComentario" color="btn-block btn-outline-secondary btn-sm"
                     icon="fas fa-plus" class="ml-2 btn-sm float-right">
                     Agregar Accion
                 </x-button.button>
             @endcan
 
-            @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil]) --}}
+            @livewire('materiales.equipo-hidraulico.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico])
 
         </x-slot>
 
@@ -77,7 +77,7 @@
                 <td>{{ $comentario->accion ?? 'N/A' }}</td>
                 <td>{{ $comentario->comentario ?? 'N/A' }}</td>
                 <td>{{ $comentario->nombrecompleto ?? 'N/A' }}</td>
-                <td>{{ date('d/m/Y h:m:s', strtotime($comentario->created_at)) }}</td>
+                <td>{{ date('d/m/Y H:m:s', strtotime($comentario->created_at)) }}</td>
             </tr>
         @endforeach
         <x-slot name="paginacion">

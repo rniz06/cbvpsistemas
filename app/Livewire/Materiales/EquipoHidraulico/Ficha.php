@@ -39,4 +39,9 @@ class Ficha extends Component
                 ->paginate($this->paginadoComentarios, ['*'], 'comentarios_page')
         ]);
     }
+
+    public function openFormAgregarComentario()
+    {
+        $this->dispatch('openFormAgregarComentario');
+    }
 }
