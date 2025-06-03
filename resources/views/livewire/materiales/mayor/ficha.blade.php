@@ -30,11 +30,6 @@
                 </x-button.button>
             @endcan
 
-
-            <x-button.button click="pdfComentarios" color="btn-block btn-outline-secondary btn-sm"
-                icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">
-                Pdf
-            </x-button.button>
             @can('Material Mayor Exportar Pdf')
                 <x-button.button click="pdfComentarios" color="btn-block btn-outline-secondary btn-sm"
                     icon="fas fa-file-pdf" class="ml-2 btn-sm float-right">

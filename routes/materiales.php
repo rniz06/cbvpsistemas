@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Materiales\EquipoHidraulicoController;
 use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\MaterialParametroController;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,12 @@ Route::controller(MayorController::class)->prefix('materiales/mayor')->group(fun
     Route::get('{movil}', 'show')
         ->where('movil', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.mayor.show');
+});
+
+// Rutas con parámetro, luego de las anteriores
+Route::controller(EquipoHidraulicoController::class)->prefix('materiales/equipo-hidraulico')->group(function () {
+    Route::get('/', 'index')->name('materiales.hidraulicos.index');
+    Route::get('{hidraulico}', 'show')
+        ->where('hidraulico', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
+        ->name('materiales.hidraulicos.show');
 });
