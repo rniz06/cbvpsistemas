@@ -24,6 +24,6 @@ class EquipoHidraulicoController extends Controller
 
     public function show($hidraulico)
     {
-        return view('materiales.equipo-hidraulico.show');
+        return view('materiales.equipo-hidraulico.ficha', compact('hidraulico'));
     }
 }
