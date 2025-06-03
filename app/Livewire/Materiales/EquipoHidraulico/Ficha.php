@@ -44,4 +44,9 @@ class Ficha extends Component
     {
         $this->dispatch('openFormAgregarComentario');
     }
+
+    public function openFormAgregarHerramienta()
+    {
+        $this->dispatch('openFormAgregarHerramienta');
+    }
 }

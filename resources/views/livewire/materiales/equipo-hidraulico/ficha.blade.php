@@ -18,14 +18,14 @@
     <x-table.table titulo="Herramientas" ocultarBuscador personalizarPaginacion="paginadoHerramientas">
         <x-slot name="headerBotones">
 
-            {{-- @can('Material Mayor Agregar Accion')
-                <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
+            @can('Equipos Hidraulicos Agregar Herramienta')
+                <x-button.button click="openFormAgregarHerramienta" color="btn-block btn-outline-secondary btn-sm"
                     icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                    Agregar Accion
+                    Agregar Herramienta
                 </x-button.button>
             @endcan
 
-            @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil]) --}}
+            @livewire('materiales.equipo-hidraulico.agregar-herramienta', ['hidraulico_id' => $hidraulico->id_hidraulico])
 
         </x-slot>
 

@@ -13,8 +13,6 @@
 
                     <form wire:submit="save">
                         <div class="modal-body">
-                            <!-- Debug info -->
-                            <p><strong>ID del Hidraulico:</strong> {{ $hidraulico_id ?? 'N/A' }}</p>
 
                             <!-- Campo Acción -->
                             <div class="form-group">
