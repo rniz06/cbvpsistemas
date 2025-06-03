@@ -25,9 +25,20 @@
             titulo="Estado">{{ $herramienta->operatividad ?? 'N/A' }}</x-callout.ficha>
     </div>
 
-    {{-- Resumen --}}
+    {{-- Comentarios de Herramientas --}}
     <div class="col-md-12">
         <x-table.table titulo="Comentarios de Herramientas" ocultarBuscador>
+
+            <x-slot name="headerBotones">
+                @can('Equipos Hidraulicos Herramienta Agregar Accion')
+                    <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
+                        icon="fas fa-plus" class="ml-2 btn-sm float-right">
+                        Agregar Accion
+                    </x-button.button>
+                @endcan
+
+                @livewire('materiales.equipo-hidraulico.herramientas.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico, 'herramienta_id' => $herramienta->id_hidraulico_herr])
+            </x-slot>
 
             <x-slot name="cabeceras">
                 <th>Accion:</th>

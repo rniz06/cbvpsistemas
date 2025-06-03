@@ -21,4 +21,9 @@ class Ficha extends Component
                 ->paginate($this->paginado, ['*'], 'comentarios_page'),
         ]);
     }
+
+    public function openFormAgregarAccion()
+    {
+        $this->dispatch('openFormAgregarAccion');
+    }
 }
