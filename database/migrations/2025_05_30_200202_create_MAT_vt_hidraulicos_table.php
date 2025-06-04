@@ -27,7 +27,7 @@ return new class extends Migration
                 h.compania_id,
                 c.compania,
                 c.ciudad_id,
-                ciu.departamento_id,,
+                ciu.departamento_id,
                 h.operatividad_id,
                 o.operatividad,
                 h.creadoPor,
