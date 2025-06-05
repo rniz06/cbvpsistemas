@@ -3,6 +3,7 @@
 namespace App\Console\Commands\GadmaMigracion\Parametros\Hidraulicos;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class Marcas extends Command
 {
@@ -11,7 +12,7 @@ class Marcas extends Command
      *
      * @var string
      */
-    protected $signature = 'app:marcas';
+    protected $signature = 'gadma-migracion:hidraulicos-marcas';
 
     /**
      * The console command description.
@@ -25,6 +26,19 @@ class Marcas extends Command
      */
     public function handle()
     {
-        //
+        $this->info("Iniciando importación de MAT_hidraulicos_marcas...");
+
+        // Obtener todos los registros de móviles de la tabla origen
+        $registros = DB::table('materialescbvp.hidraulicos_marcas')->get();
+
+        foreach ($registros as $registro) {
+            DB::table('personalcbvp.MAT_hidraulicos_marcas')->insert([
+                'marca'            => $registro->marca ?? null,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
+        }
+
+        $this->info("Importación finalizada. Total de registros migrados: " . count($registros));
     }
 }

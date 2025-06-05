@@ -41,5 +41,16 @@ class EjecutarMigracion extends Command
         Artisan::call('gadma-migracion:moviles-modelos');
         Artisan::call('gadma-migracion:moviles-combustibles');
         Artisan::call('app:importar-moviles-con-comentarios-desde-vista');
+
+        // Importando los datos del modulo de Equipo Hidraulico y Herramientas
+        $this->info("Importando los datos del modulo de Equipo Hidraulico y Herramientas...");
+        Artisan::call('gadma-migracion:hidraulicos-motor');
+        Artisan::call('gadma-migracion:hidraulicos-marcas');
+        Artisan::call('gadma-migracion:hidraulicos-modelos');
+
+        Artisan::call('gadma-migracion:hidraulicos-herramientas-marcas');
+        Artisan::call('gadma-migracion:hidraulicos-herramientas-modelos');
+        Artisan::call('gadma-migracion:hidraulicos-herramientas-motor');
+        Artisan::call('gadma-migracion:hidraulicos-herramientas-tipos');
     }
 }
