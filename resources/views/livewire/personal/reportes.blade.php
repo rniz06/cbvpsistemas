@@ -1,17 +1,64 @@
-@extends('layouts.app')
+<div>
 
-{{-- Customize layout sections --}}
+    {{-- Filtros de Búsqueda --}}
+    <x-card.card-filtro>
+        <div class="row">
+            <div class="col-sm-3">
+                <!-- select -->
+                <div class="form-group">
+                    <label>Compañia:</label>
+                    <select class="form-control" wire:model.live="compania_id">
+                        <option value="">Todos</option>
+                        @foreach ($companias as $compania)
+                            <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-@section('subtitle', 'Personal')
-@section('content_header_title', 'Personal')
-@section('content_header_subtitle', 'Reportes')
+            <div class="col-sm-3">
+                <!-- select -->
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select class="form-control" wire:model.live="categoria_id">
+                        <option value="">Todos</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->idpersonal_categorias }}">{{ $categoria->categoria ?? 'N/A' }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-{{-- Content body: main page content --}}
+            <div class="col-sm-3">
+                <!-- select -->
+                <div class="form-group">
+                    <label>Estado:</label>
+                    <select class="form-control" wire:model.live="estado_id">
+                        <option value="">Todos</option>
+                        @foreach ($estados as $estado)
+                            <option value="{{ $estado->idpersonal_estados }}">{{ $estado->estado ?? 'N/A' }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-@section('content_body')
+            <div class="col-sm-3">
+                <!-- select -->
+                <div class="form-group">
+                    <label>Estado Actualizar:</label>
+                    <select class="form-control" wire:model.live="estado_actualizar_id">
+                        <option value="">Todos</option>
+                        @foreach ($estados_actualizar as $estado_actualizar)
+                            <option value="{{ $estado_actualizar->idpersonal_estado_actualizar }}">{{ $estado_actualizar->estado ?? 'N/A' }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-    @livewire('personal.reportes')
-    {{-- <div class="row">
+        </div>
+    </x-card.card-filtro>
+
+    <div class="row">
         <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
@@ -89,7 +136,7 @@
         <!-- ./col -->
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
             <div class="card card-warning">
                 <div class="card-header">
@@ -121,18 +168,48 @@
             </div>
         </div>
     </div> --}}
-@stop
+</div>
 
-@section('plugins.Chartjs', true)
+@push('scripts')
+    {{-- <script>
+        // Obtener los datos desde PHP
+        const totalPersonal = {{ $total_personal }};
+        const totalCombatientes = {{ $total_combatientes }};
+        const totalActivos = {{ $total_activos }};
+        const totalFaltaActualizar = {{ $total_falta_actualizar }};
 
-{{-- Push extra CSS --}}
-
-@push('css')
-@endpush
-
-{{-- Push extra scripts --}}
-
-@push('js')
-    {{-- Incluir scripts js adicionales desde el componente --}}
-    @stack('scripts')
+        // Inicializar el gráfico
+        const ctx = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total', 'Combatientes', 'Activos', 'Falta Actualizar'],
+                datasets: [{
+                    label: 'Cantidad Total en General de Personal',
+                    data: [totalPersonal, totalCombatientes, totalActivos, totalFaltaActualizar],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.6)', // Total
+                        'rgba(75, 192, 192, 0.6)', // Combatientes
+                        'rgba(153, 102, 255, 0.6)' // Activos
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // IMPORTANTE: permite que la altura CSS se aplique
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+    </script> --}}
 @endpush

@@ -281,10 +281,6 @@ class PersonalController extends Controller
 
     public function reportes()
     {
-        $total_personal = Personal::count();
-        $total_combatientes = Personal::where('categoria_id', 1)->count();
-        $total_activos = Personal::where('categoria_id', 2)->count();
-        $total_falta_actualizar = Personal::where('estado_actualizar_id', 1)->count();
-        return view('personal.reportes', compact('total_personal', 'total_combatientes', 'total_activos', 'total_falta_actualizar'));
+        return view('personal.reportes');
     }
 }
