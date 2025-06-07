@@ -7,6 +7,7 @@ use App\Models\Personal;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Estado;
 use App\Models\Personal\EstadoActualizar;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Reportes extends Component
@@ -15,8 +16,18 @@ class Reportes extends Component
     public $categoria_id = '';
     public $estado_id = '';
     public $estado_actualizar_id = '';
+    public $esModerador = false;
+    public $compania = null;
 
-
+    public function mount()
+    {
+        // Verificamos si el usuario tiene el rol
+        if (Auth::user()->hasRole('moderador_personal_compania')) {
+            $this->esModerador = true;
+            $this->compania_id = Auth::user()->compania_id;
+            $this->compania = Auth::user()->compania;
+        }
+    }
 
     public function render()
     {

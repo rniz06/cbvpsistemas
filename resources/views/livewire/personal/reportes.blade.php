@@ -1,20 +1,29 @@
 <div>
 
     {{-- Filtros de Búsqueda --}}
+
+    @unless (!$this->esModerador)
+        <blockquote class="quote-warning">
+            <p>Filtrado directamente por la Compañia: {{ $this->compania ?? 'N/A' }}</p>
+        </blockquote>
+    @endunless
+
     <x-card.card-filtro>
         <div class="row">
-            <div class="col-sm-3">
-                <!-- select -->
-                <div class="form-group">
-                    <label>Compañia:</label>
-                    <select class="form-control" wire:model.live="compania_id">
-                        <option value="">Todos</option>
-                        @foreach ($companias as $compania)
-                            <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
-                        @endforeach
-                    </select>
+            @unless ($this->esModerador)
+                <div class="col-sm-3">
+                    <!-- select -->
+                    <div class="form-group">
+                        <label>Compañia:</label>
+                        <select class="form-control" wire:model.live="compania_id">
+                            <option value="">Todos</option>
+                            @foreach ($companias as $compania)
+                                <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
+            @endunless
 
             <div class="col-sm-3">
                 <!-- select -->
@@ -23,7 +32,8 @@
                     <select class="form-control" wire:model.live="categoria_id">
                         <option value="">Todos</option>
                         @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->idpersonal_categorias }}">{{ $categoria->categoria ?? 'N/A' }}</option>
+                            <option value="{{ $categoria->idpersonal_categorias }}">{{ $categoria->categoria ?? 'N/A' }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -49,7 +59,8 @@
                     <select class="form-control" wire:model.live="estado_actualizar_id">
                         <option value="">Todos</option>
                         @foreach ($estados_actualizar as $estado_actualizar)
-                            <option value="{{ $estado_actualizar->idpersonal_estado_actualizar }}">{{ $estado_actualizar->estado ?? 'N/A' }}</option>
+                            <option value="{{ $estado_actualizar->idpersonal_estado_actualizar }}">
+                                {{ $estado_actualizar->estado ?? 'N/A' }}</option>
                         @endforeach
                     </select>
                 </div>

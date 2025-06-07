@@ -334,7 +334,7 @@ return [
                 [
                     'text' => 'Reportes',
                     'route' => 'personal.reportes',
-                    'can' => 'Personal Reportes',
+                    'can' => 'Personal Reportes Listar',
                 ],
             ],
         ],

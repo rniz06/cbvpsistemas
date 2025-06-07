@@ -44,7 +44,7 @@ class PersonalController extends Controller
         $this->middleware('permission:Personal Crear', ['only' => ['create', 'store']]);
         $this->middleware('permission:Personal Editar', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Personal Eliminar', ['only' => ['destroy']]);
-        $this->middleware('permission:Personal Reportes', ['only' => ['reportes']]);
+        $this->middleware('permission:Personal Reportes Listar', ['only' => ['reportes']]);
     }
 
     /**
