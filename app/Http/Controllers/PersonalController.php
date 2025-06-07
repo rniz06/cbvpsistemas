@@ -44,6 +44,7 @@ class PersonalController extends Controller
         $this->middleware('permission:Personal Crear', ['only' => ['create', 'store']]);
         $this->middleware('permission:Personal Editar', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Personal Eliminar', ['only' => ['destroy']]);
+        $this->middleware('permission:Personal Reportes', ['only' => ['reportes']]);
     }
 
     /**
@@ -134,9 +135,7 @@ class PersonalController extends Controller
 
             Usuario::create([
                 'personal_id' => $personal->idpersonal,
-                //'codigo' => $personal->codigo,
                 'password' => Hash::make($personal->codigo),
-                // Otros campos del usuario aquí
             ]);
         });
 
@@ -278,5 +277,14 @@ class PersonalController extends Controller
             'items' => $formattedPersonal,
             'total_count' => $total
         ]);
+    }
+
+    public function reportes()
+    {
+        $total_personal = Personal::count();
+        $total_combatientes = Personal::where('categoria_id', 1)->count();
+        $total_activos = Personal::where('categoria_id', 2)->count();
+        $total_falta_actualizar = Personal::where('estado_actualizar_id', 1)->count();
+        return view('personal.reportes', compact('total_personal', 'total_combatientes', 'total_activos', 'total_falta_actualizar'));
     }
 }

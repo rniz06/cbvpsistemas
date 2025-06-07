@@ -39,9 +39,9 @@ Route::middleware('auth')->group(function () {
         Route::get('perfil/mi_ficha', 'verMiFicha')->name('perfil.mi_ficha');
     });
 
-    Route::controller(SessionesDirectorioController::class)->group(function () {
-        Route::get('sessiones_directorio/session_en_vivo', 'sessionEnVivo')->name('sessiones_directorio.session_en_vivo');
-    });
+    // Route::controller(SessionesDirectorioController::class)->group(function () {
+    //     Route::get('sessiones_directorio/session_en_vivo', 'sessionEnVivo')->name('sessiones_directorio.session_en_vivo');
+    // });
     /*
     |--------------------------------------------------------------------------
     | Modulo Personal
@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
         Route::post('personal/agregar-contacto', 'agregarcontacto')->name('personal.agregarcontacto');
         Route::post('personal/agregar-contacto-emergencia', 'agregarcontactoemergencia')->name('personal.agregarcontactoemergencia');
         Route::get('personal/search', 'search')->name('personal.search'); // ruta para búsqueda AJAX
+        Route::get('personal/reportes', 'reportes')->name('personal.reportes');
         Route::get('personal/{personal}', 'show')->name('personal.show');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
