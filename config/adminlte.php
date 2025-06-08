@@ -431,11 +431,11 @@ return [
         //     'icon' => 'fas fa-video mr-1',
         //     'route' => 'sessiones_directorio.session_en_vivo',
         // ],
-        [
-            'text' => 'Soporte',
-            'icon_color' => 'yellow',
-            'url' => 'https://soporte.cbvp.org.py/',
-        ],
+        // [
+        //     'text' => 'Soporte',
+        //     'icon_color' => 'yellow',
+        //     'url' => 'https://soporte.cbvp.org.py/',
+        // ],
         [
             'text' => 'Cambiar Contraseña',
             'icon_color' => 'danger',

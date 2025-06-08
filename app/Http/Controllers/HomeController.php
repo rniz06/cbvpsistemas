@@ -42,7 +42,7 @@ class HomeController extends Controller
         $resoluciones = VtResolucionPersonal::select('id_resolucion', 'n_resolucion', 'concepto', 'fecha', 'fuente_origen', 'id_personal')
             ->where('id_personal', $usuario->personal_id)
             ->orderBy('fecha', 'desc')
-            ->paginate(4, ['*'], 'resoluciones_page');
+            ->paginate(5, ['*'], 'resoluciones_page');
         return view('mi_ficha', compact('personal', 'personalContactos', 'personalContactosEmergencias', 'resoluciones'));
     }
 }

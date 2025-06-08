@@ -15,99 +15,134 @@ class VtPersonales extends Model
     public $timestamps = false;
 
     /**
-     * Se implementa funcion para buscador general del componente livewire.
+     * Buscador general del componente Livewire.
      */
     public function scopeBuscar($query, $value)
     {
-        $query->where('nombrecompleto', 'like', "%{$value}%")
-        ->orWhere('codigo', 'like', "%{$value}%")
-        ->orWhere('documento', 'like', "%{$value}%")
-        ->orWhere('fecha_juramento', 'like', "%{$value}%")
-        ->orWhere('categoria', 'like', "%{$value}%")
-        ->orWhere('estado', 'like', "%{$value}%")
-        ->orWhere('estado_actualizar', 'like', "%{$value}%")
-        ->orWhere('pais', 'like', "%{$value}%")
-        ->orWhere('sexo', 'like', "%{$value}%")
-        ->orWhere('compania', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where(function ($q) use ($value) {
+                $q->where('nombrecompleto', 'like', "%{$value}%")
+                    ->orWhere('codigo', 'like', "%{$value}%")
+                    ->orWhere('documento', 'like', "%{$value}%")
+                    ->orWhere('fecha_juramento', 'like', "%{$value}%")
+                    ->orWhere('categoria', 'like', "%{$value}%")
+                    ->orWhere('estado', 'like', "%{$value}%")
+                    ->orWhere('estado_actualizar', 'like', "%{$value}%")
+                    ->orWhere('pais', 'like', "%{$value}%")
+                    ->orWhere('sexo', 'like', "%{$value}%")
+                    ->orWhere('compania', 'like', "%{$value}%");
+            });
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo nombrecompleto.
+     * Buscador del campo nombrecompleto.
      */
     public function scopeBuscarNombrecompleto($query, $value)
     {
-        $query->where('nombrecompleto', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('nombrecompleto', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo codigo.
+     * Buscador del campo código.
      */
     public function scopeBuscarCodigo($query, $value)
     {
-        $query->where('codigo', 'like', "%{$value}%")->orderBy('codigo', 'asc');
+        if (!empty($value)) {
+            $query->where('codigo', 'like', "%{$value}%")->orderBy('codigo', 'asc');
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo codigo.
+     * Buscador del campo documento.
      */
     public function scopeBuscarDocumento($query, $value)
     {
-        $query->where('documento', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('documento', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo codigo.
+     * Buscador del campo fecha_juramento.
      */
     public function scopeBuscarFechajuramento($query, $value)
     {
-        $query->where('fecha_juramento', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('fecha_juramento', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo categoría.
      */
     public function scopeBuscarCategoria($query, $value)
     {
-        $query->where('categoria', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('categoria', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo estado.
      */
     public function scopeBuscarEstado($query, $value)
     {
-        $query->where('estado', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('estado', 'like', "%{$value}%");
+        }
     }
+
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo estado_actualizar.
      */
     public function scopeBuscarEstadoActualizar($query, $value)
     {
-        $query->where('estado_actualizar', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('estado_actualizar', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo país.
      */
     public function scopeBuscarPais($query, $value)
     {
-        $query->where('pais', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('pais', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo sexo.
      */
     public function scopeBuscarSexo($query, $value)
     {
-        $query->where('sexo', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('sexo', 'like', "%{$value}%");
+        }
     }
 
     /**
-     * Se implementa funcion para buscador del campo documento.
+     * Buscador del campo grupo_sanguineo.
+     */
+    public function scopeBuscarGrupoSanguineo($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('grupo_sanguineo', 'like', "%{$value}%");
+        }
+    }
+
+    /**
+     * Buscador del campo compañía.
      */
     public function scopeBuscarCompania($query, $value)
     {
-        $query->where('compania', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('compania', 'like', "%{$value}%");
+        }
     }
 
     /**

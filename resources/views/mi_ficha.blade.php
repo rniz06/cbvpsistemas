@@ -22,8 +22,8 @@
 
                     <h3 class="profile-username text-center">{{ $personal->nombrecompleto ?? 'N/A' }}</h3>
 
-                    <p class="text-muted text-center">{{ $personal->categoria ?? 'N/A' }} - {{ $personal->codigo ?? 'N/A' }}
-                        - {{ $personal->compania ?? 'N/A' }}</p>
+                    {{-- <p class="text-muted text-center">{{ $personal->categoria ?? 'N/A' }} - {{ $personal->codigo ?? 'N/A' }}
+                        - {{ $personal->compania ?? 'N/A' }}</p> --}}
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
@@ -50,6 +50,17 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <p><strong class="">Código: </strong>{{ $personal->codigo ?? 'No Registra' }}</p>
+                    <p><strong class="">Documento: </strong>{{ $personal->documento ?? 'No Registra' }}</p>
+                    <p><strong class="">Categoria: </strong>{{ $personal->categoria ?? 'No Registra' }}</p>
+                    <p><strong class="">Compañia: </strong>{{ $personal->compania ?? 'No Registra' }}</p>
+                    <p><strong class="">Fecha de Juramento: </strong>{{ $personal->fecha_de_juramento ?? 'No Registra' }}</p>
+                    <p><strong class="">Año de Juramento: </strong>{{ $personal->fecha_juramento ?? 'No Registra' }}</p>
+                    <p><strong class="">Estado: </strong>{{ $personal->estado ?? 'No Registra' }}</p>
+                    <p><strong class="">Sexo: </strong>{{ $personal->sexo ?? 'No Registra' }}</p>
+                    <p><strong class="">Nacionalidad: </strong>{{ $personal->pais ?? 'No Registra' }}</p>
+                    <p><strong class="">G. Sanguineo: </strong>{{ $personal->grupoSanguineo ?? 'No Registra' }}</p>
+                    <hr>
                     @forelse ($personalContactos as $personalContacto)
                         <strong><i class="fas fa-info mr-1"></i>
                             {{ $personalContacto->tipo_contacto ?? 'N/A' }}</strong>

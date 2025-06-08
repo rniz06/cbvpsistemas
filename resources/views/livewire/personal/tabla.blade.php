@@ -34,7 +34,7 @@
                     <th>Sexo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarSexo"></th>
                     <th>G. Sanguineo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarGrupo"></th>
+                            wire:model.live="buscarGrupoSanguineo"></th>
                     <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarCompania"></th>
                     <th></th>
