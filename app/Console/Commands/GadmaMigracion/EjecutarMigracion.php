@@ -52,5 +52,6 @@ class EjecutarMigracion extends Command
         Artisan::call('gadma-migracion:hidraulicos-herramientas-modelos');
         Artisan::call('gadma-migracion:hidraulicos-herramientas-motor');
         Artisan::call('gadma-migracion:hidraulicos-herramientas-tipos');
+        Artisan::call('app:importar-hidraulicos-con-comentarios-desde-vista');
     }
 }

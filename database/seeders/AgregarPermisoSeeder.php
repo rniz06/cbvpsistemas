@@ -15,28 +15,28 @@ class AgregarPermisoSeeder extends Seeder
      */
     public function run(): void
     {
-        $modulos = [
-            [
-                'modulo' => 'Material Mayor',
-                'orden' => 5,
-            ],
-            [
-                'modulo' => 'Material Menor',
-                'orden' => 6,
-            ],
-            [
-                'modulo' => 'Equipos Hidraulicos',
-                'orden' => 7,
-            ],
-            [
-                'modulo' => 'Conductores',
-                'orden' => 8,
-            ],
-        ];
+        // $modulos = [
+        //     [
+        //         'modulo' => 'Material Mayor',
+        //         'orden' => 5,
+        //     ],
+        //     [
+        //         'modulo' => 'Material Menor',
+        //         'orden' => 6,
+        //     ],
+        //     [
+        //         'modulo' => 'Equipos Hidraulicos',
+        //         'orden' => 7,
+        //     ],
+        //     [
+        //         'modulo' => 'Conductores',
+        //         'orden' => 8,
+        //     ],
+        // ];
 
-        foreach ($modulos as $modulo) {
-            SysModulo::create($modulo);
-        }
+        // foreach ($modulos as $modulo) {
+        //     SysModulo::create($modulo);
+        // }
 
 
         $permisos = [
@@ -50,30 +50,8 @@ class AgregarPermisoSeeder extends Seeder
             'Material Mayor Agregar Accion',
             'Material Mayor Exportar Excel',
             'Material Mayor Exportar Pdf',
-
-            'Material Mayor Transmision Listar',
-            'Material Mayor Transmision Crear',
-            'Material Mayor Transmision Editar',
-            'Material Mayor Transmision Eliminar',
-            'Material Mayor Transmision Cambiar Estado',
-
-            'Material Mayor Ejes Listar',
-            'Material Mayor Ejes Crear',
-            'Material Mayor Ejes Editar',
-            'Material Mayor Ejes Eliminar',
-            'Material Mayor Ejes Cambiar Estado',
-
-            'Material Mayor Combustibles Listar',
-            'Material Mayor Combustibles Crear',
-            'Material Mayor Combustibles Editar',
-            'Material Mayor Combustibles Eliminar',
-            'Material Mayor Combustibles Cambiar Estado',
-
-            'Material Mayor Acronimos Listar',
-            'Material Mayor Acronimos Crear',
-            'Material Mayor Acronimos Editar',
-            'Material Mayor Acronimos Eliminar',
-            'Material Mayor Acronimos Cambiar Estado',
+            'Material Mayor Dar De Baja',
+            'Material Mayor Cambiar de Compania',
 
             'Equipos Hidraulicos Listar',
             'Equipos Hidraulicos Crear',
@@ -92,14 +70,6 @@ class AgregarPermisoSeeder extends Seeder
             'Conductores Eliminar',
             'Conductores Exportar Excel',
             'Conductores Exportar Pdf',
-
-            'Material Menor Listar',
-            'Material Menor Crear',
-            'Material Menor Ver',
-            'Material Menor Editar',
-            'Material Menor Eliminar',
-            'Material Menor Exportar Excel',
-            'Material Menor Exportar Pdf',
         ];
 
         // Crear permisos y guardarlos en un array para luego asignarlos

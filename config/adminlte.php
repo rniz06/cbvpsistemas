@@ -362,7 +362,7 @@ return [
                 [
                     'text' => 'Parametros',
                     'route' => 'materiales.parametros',
-                    //'can' => 'Conductores Listar',
+                    'can' => 'Materiales Parametros',
                 ],
                 // [
                 //     'text' => 'Roles',
