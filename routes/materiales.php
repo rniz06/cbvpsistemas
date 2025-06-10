@@ -38,6 +38,7 @@ Route::controller(MaterialParametroController::class)
 // Rutas con parámetro, luego de las anteriores
 Route::controller(MayorController::class)->prefix('materiales/mayor')->group(function () {
     Route::get('/', 'index')->name('materiales.mayor.index');
+    Route::get('mayor/ver-compania/{compania}', 'verCompania')->name('materiales.mayor.ver-compania');
     Route::get('{movil}', 'show')
         ->where('movil', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.mayor.show');

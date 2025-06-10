@@ -15,6 +15,7 @@ class MayorController extends Controller
     {
         $this->middleware('permission:Material Mayor Listar', ['only' => ['index']]);
         $this->middleware('permission:Material Mayor Ver', ['only' => ['show']]);
+        $this->middleware('permission:Material Mayor Ver', ['only' => ['verCompania']]);
     }
 
     public function index()
@@ -25,5 +26,10 @@ class MayorController extends Controller
     public function show($movil)
     {
         return view('materiales.mayor.ficha', compact('movil'));
+    }
+
+    public function verCompania($compania)
+    {
+        return view('materiales.mayor.ver-compania', compact('compania'));
     }
 }

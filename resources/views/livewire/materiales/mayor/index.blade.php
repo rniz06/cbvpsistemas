@@ -2,7 +2,7 @@
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <x-select.select campo="departamento_id" label="Departamentos">
                     <option value="">Todos</option>
                     @foreach ($departamentos as $departamento)
@@ -12,7 +12,7 @@
                 </x-select.select>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <x-select.select campo="ciudad_id" label="Ciudades">
                     <option value="">Todos</option>
                     @foreach ($ciudades as $ciudad)
@@ -22,7 +22,7 @@
                 </x-select.select>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <x-select.select campo="compania_id" label="Compañias">
                     <option value="">Todos</option>
                     @foreach ($companias as $compania)
@@ -30,6 +30,19 @@
                             {{ $compania->compania ?? 'N/A' }}</option>
                     @endforeach
                 </x-select.select>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="mr-2">Ver Compañia:</label>
+                    @if ($compania_id !== '')
+                        <button class="form-control btn-success text-center" wire:click="verCompania">Ver
+                            Compañia</button>
+                    @else
+                        <button class="form-control btn-default text-center" disabled>Ver
+                            Compañia</button>
+                    @endif
+
+                </div>
             </div>
 
         </div>
