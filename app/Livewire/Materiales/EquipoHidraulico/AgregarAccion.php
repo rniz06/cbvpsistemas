@@ -56,7 +56,7 @@ class AgregarAccion extends Component
     public function render()
     {
         return view('livewire.materiales.equipo-hidraulico.agregar-accion',[
-            'acciones' => Accion::select('id_accion', 'accion')->get()
+            'acciones' => Accion::select('id_accion', 'accion')->limit(3)->get() // Solo EN SERVICIO, FUERA DE SERVICIO y REPORTE
         ]);
     }
 }
