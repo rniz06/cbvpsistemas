@@ -1,39 +1,21 @@
 <div>
     <!-- Formulario -->
-    @canany([
-        'Material Mayor Marcas Crear',
-        'Material Mayor Marcas Editar',
-        'Material Mayor Marcas
-        Eliminar',
-        ])
-        <x-card-form>
-            <x-card-input label="Marca" placeholder="Marca..." campo="marca" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
+    <x-card-form>
+        <x-card-input label="Marca" placeholder="Marca..." campo="marca" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
 
 
-            <x-slot name="buttons">
-                @can('Material Mayor Marcas Crear')
-                    <x-button type="button" icon="fas fa-plus" color="success" click="agregar" :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
-                @endcan
+        <x-slot name="buttons">
+            <x-button type="button" icon="fas fa-plus" color="success" click="agregar" :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
 
-                @can('Material Mayor Marcas Editar')
-                    <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
-                        :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
-                @endcan
+            <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
+                :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
 
-                @can('Material Mayor Marcas Eliminar')
-                    <x-button type="button" icon="fas fa-trash" color="danger" id="btn-eliminar"
-                        :disabled="in_array($modo, ['agregar', 'modificar', 'inicio'])">Eliminar</x-button>
-                @endcan
+            <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
 
-                @canany(['Material Mayor Marcas Crear', 'Material Mayor Marcas Editar'])
-                    <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
-                @endcanany
-
-                <x-button type="button" icon="fas fa-window-close" color="warning" click="cancelar"
-                    :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
-            </x-slot>
-        </x-card-form>
-    @endcanany
+            <x-button type="button" icon="fas fa-window-close" color="warning" click="cancelar"
+                :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
+        </x-slot>
+    </x-card-form>
 
     <!-- Tabla -->
     <x-tabla titulo="Parametros - Marcas">
@@ -62,7 +44,8 @@
                     </button>
                 </td>
                 <td>
-                    <a href="{{ route('materiales.mayor.modelos', $marca->id_movil_marca) }}" class="btn btn-block btn-outline-success btn-sm">Ver Modelos</a>
+                    <a href="{{ route('materiales.mayor.modelos', $marca->id_movil_marca) }}"
+                        class="btn btn-block btn-outline-success btn-sm">Ver Modelos</a>
                 </td>
 
             </tr>

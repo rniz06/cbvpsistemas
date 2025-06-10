@@ -1,39 +1,21 @@
 <div>
     <!-- Formulario -->
-    @canany([
-        'Material Mayor Combustibles Crear',
-        'Material Mayor Combustibles Editar',
-        'Material Mayor Combustibles
-        Eliminar',
-        ])
-        <x-card-form>
-            <x-card-input label="Tipo de Combustible" placeholder="Tipo de Combustible..." campo="tipo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
+    <x-card-form>
+        <x-card-input label="Tipo de Combustible" placeholder="Tipo de Combustible..." campo="tipo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
 
 
-            <x-slot name="buttons">
-                @can('Material Mayor Combustibles Crear')
-                    <x-button type="button" icon="fas fa-plus" color="success" click="agregar" :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
-                @endcan
+        <x-slot name="buttons">
+            <x-button type="button" icon="fas fa-plus" color="success" click="agregar" :disabled="in_array($modo, ['agregar', 'modificar', 'seleccionado'])">Agregar</x-button>
 
-                @can('Material Mayor Combustibles Editar')
-                    <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
-                        :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
-                @endcan
+            <x-button type="button" icon="fas fa-edit" color="primary" click="editar"
+                :disabled="in_array($modo, ['inicio', 'modificar', 'agregar'])">Modificar</x-button>
 
-                @can('Material Mayor Combustibles Eliminar')
-                    <x-button type="button" icon="fas fa-trash" color="danger" id="btn-eliminar"
-                        :disabled="in_array($modo, ['agregar', 'modificar', 'inicio'])">Eliminar</x-button>
-                @endcan
+            <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
 
-                @canany(['Material Mayor Combustibles Crear', 'Material Mayor Combustibles Editar'])
-                    <x-button type="submit" color="default" :disabled="in_array($modo, ['inicio', 'seleccionado'])" id="btn-grabar">Grabar</x-button>
-                @endcanany
-
-                <x-button type="button" icon="fas fa-window-close" color="warning" click="cancelar"
-                    :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
-            </x-slot>
-        </x-card-form>
-    @endcanany
+            <x-button type="button" icon="fas fa-window-close" color="warning" click="cancelar"
+                :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
+        </x-slot>
+    </x-card-form>
 
     <!-- Tabla -->
     <x-tabla titulo="Parametros - Combustibles">
