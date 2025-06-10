@@ -49,7 +49,7 @@
             <div class="col-md-3 mb-3">
                 <label class="form-label">Fecha de realización del Curso:</label>
                 
-                <div class="form-control">{{ date('d-m-Y', strtotime($conductor->fecha_curso)) }}</div>
+                <div class="form-control">{{ date('d/m/Y', strtotime($conductor->fecha_curso)) }}</div>
             </div>
 
             <div class="col-md-3 mb-3">

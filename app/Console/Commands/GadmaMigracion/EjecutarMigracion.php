@@ -53,5 +53,12 @@ class EjecutarMigracion extends Command
         Artisan::call('gadma-migracion:hidraulicos-herramientas-motor');
         Artisan::call('gadma-migracion:hidraulicos-herramientas-tipos');
         Artisan::call('app:importar-hidraulicos-con-comentarios-desde-vista');
+
+        // Importando los datos del modulo conductores
+        $this->info("Importando los datos del modulo de conductores...");
+        Artisan::call('gadma-migracion:conductores-tipo-vehiculo');
+        Artisan::call('gadma-migracion:conductores-estados');
+        Artisan::call('gadma-migracion:conductores-clase-licencias');
+        Artisan::call('gadma-migracion:conductores-bomberos');
     }
 }

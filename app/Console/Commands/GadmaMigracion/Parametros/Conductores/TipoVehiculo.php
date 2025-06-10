@@ -3,6 +3,7 @@
 namespace App\Console\Commands\GadmaMigracion\Parametros\Conductores;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class TipoVehiculo extends Command
 {
@@ -11,7 +12,7 @@ class TipoVehiculo extends Command
      *
      * @var string
      */
-    protected $signature = 'app:tipo-vehiculo';
+    protected $signature = 'gadma-migracion:conductores-tipo-vehiculo';
 
     /**
      * The console command description.
@@ -25,6 +26,19 @@ class TipoVehiculo extends Command
      */
     public function handle()
     {
-        //
+        $this->info("Iniciando importación de MAT_conductores_tipo_vehiculo...");
+
+        // Obtener todos los registros de la tabla origen
+        $registros = DB::table('materialescbvp.conductores_tipo_vehiculo')->get();
+
+        foreach ($registros as $registro) {
+            DB::table('personalcbvp.MAT_conductores_tipo_vehiculo')->insert([
+                'tipo'             => $registro->tipo ?? null,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
+        }
+
+        $this->info("Importación finalizada. Total de registros migrados: " . count($registros));
     }
 }
