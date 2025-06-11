@@ -55,7 +55,6 @@ class VerCompania extends Component
     public function guardar()
     {
         $validados = $this->validate();
-        // return dd($validados);
         // Agregar el ID del usuario autenticado al array validado
         $validados['creadoPor'] = Auth::id();
         $validados['compania_id'] = $this->compania_id;

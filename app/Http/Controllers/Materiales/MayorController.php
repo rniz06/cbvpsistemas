@@ -14,8 +14,7 @@ class MayorController extends Controller
     function __construct()
     {
         $this->middleware('permission:Material Mayor Listar', ['only' => ['index']]);
-        $this->middleware('permission:Material Mayor Ver', ['only' => ['show']]);
-        $this->middleware('permission:Material Mayor Ver', ['only' => ['verCompania']]);
+        $this->middleware('permission:Material Mayor Ver', ['only' => ['show', 'verCompania']]);
     }
 
     public function index()

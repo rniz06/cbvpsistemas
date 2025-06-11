@@ -38,7 +38,7 @@ Route::controller(MaterialParametroController::class)
 // Rutas con parámetro, luego de las anteriores
 Route::controller(MayorController::class)->prefix('materiales/mayor')->group(function () {
     Route::get('/', 'index')->name('materiales.mayor.index');
-    Route::get('mayor/ver-compania/{compania}', 'verCompania')->name('materiales.mayor.ver-compania');
+    Route::get('ver-compania/{compania}', 'verCompania')->name('materiales.mayor.ver-compania');
     Route::get('{movil}', 'show')
         ->where('movil', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.mayor.show');
@@ -47,6 +47,7 @@ Route::controller(MayorController::class)->prefix('materiales/mayor')->group(fun
 // Rutas con parámetro, luego de las anteriores
 Route::controller(EquipoHidraulicoController::class)->prefix('materiales/equipo-hidraulico')->group(function () {
     Route::get('/', 'index')->name('materiales.hidraulicos.index');
+    Route::get('/ver-compania/{compania}', 'verCompania')->name('materiales.hidraulicos.ver-compania');
     Route::get('{hidraulico}', 'show')
         ->where('hidraulico', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.hidraulicos.show');

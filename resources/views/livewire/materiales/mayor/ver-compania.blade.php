@@ -75,6 +75,11 @@
                 <x-card-input class="col-md-2" label="Cubiertas delanteras" placeholder="Cubiertas delanteras..."
                     campo="cubiertas_frente" />
 
+                {{-- <div class="form-group col-md-2">
+                    <label >Cubiertas delanteras</label>
+                    <input type="text" class="form-control" placeholder="Cubiertas delanteras..." oninput="this.value = this.value.toUpperCase()" wire:model.live="cubiertas_frente">
+                </div> --}}
+
                 <x-card-input class="col-md-2" label="Cubiertas Traseras" placeholder="Cubiertas Traseras..."
                     campo="cubiertas_atras" />
 

@@ -16,7 +16,7 @@ class EquipoHidraulicoController extends Controller
     function __construct()
     {
         $this->middleware('permission:Equipos Hidraulicos Listar', ['only' => ['index']]);
-        $this->middleware('permission:Equipos Hidraulicos Ver', ['only' => ['show']]);
+        $this->middleware('permission:Equipos Hidraulicos Ver', ['only' => ['show', 'verCompania']]);
         $this->middleware('permission:Equipos Hidraulicos Herramientas Ver', ['only' => ['showHerramientas']]);
     }
 
@@ -33,5 +33,10 @@ class EquipoHidraulicoController extends Controller
     public function showHerramientas(VtHidraulico $hidraulico, VtHidraulicoHerr $herramienta)
     {
         return view('materiales.equipo-hidraulico.herramientas.ficha', compact('hidraulico', 'herramienta'));
+    }
+
+    public function verCompania($compania)
+    {
+        return view('materiales.equipo-hidraulico.ver-compania', compact('compania'));
     }
 }

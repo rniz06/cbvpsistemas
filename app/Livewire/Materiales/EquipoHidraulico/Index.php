@@ -25,6 +25,12 @@ class Index extends Component
     public $paginadoOperativo = 5;
     public $paginadoInoperativo = 5;
 
+    // Funcion que deriva a la vista ver compania
+    public function verCompania()
+    {
+        return redirect()->route('materiales.hidraulicos.ver-compania', $this->compania_id);
+    }
+
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
     {
