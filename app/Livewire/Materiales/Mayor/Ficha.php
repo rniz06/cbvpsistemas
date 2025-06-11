@@ -17,6 +17,7 @@ class Ficha extends Component
     public $movil_id;
     public $buscador = '';
     public $paginado = 5;
+    public $mostrarFormAgregarAccion = false;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
@@ -38,9 +39,9 @@ class Ficha extends Component
         ]);
     }
 
-    public function openFormAgregarAccion()
+    public function mostrarFormAgregarAccion()
     {
-        $this->dispatch('openFormAgregarAccion');
+        $this->mostrarFormAgregarAccion = true;
     }
 
     public function excelComentarios()

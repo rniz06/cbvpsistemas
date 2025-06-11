@@ -7,18 +7,14 @@ use App\Models\Materiales\Accion;
 use App\Models\Materiales\Movil\Movil;
 use App\Models\Materiales\Movil\MovilComentario;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Exists;
 use Livewire\Component;
 
 class AgregarAccion extends Component
 {
     public $movil_id;
-    public $mostrar = false;
     public $accion_id = '';
     public $compania_id = '';
     public $comentario = '';
-
-    protected $listeners = ['openFormAgregarAccion' => 'open'];
 
     protected $rules = [
         'movil_id' => ['required', 'exists:MAT_moviles,id_movil'],
@@ -31,20 +27,7 @@ class AgregarAccion extends Component
         $this->movil_id = $movil_id;
     }
 
-    public function open()
-    {
-        $this->mostrar = true;
-        // NO resetees movil_id porque lo necesitas
-        $this->reset(['accion_id', 'compania_id', 'comentario']);
-        $this->resetValidation();
-    }
-
-    public function close()
-    {
-        $this->mostrar = false;
-    }
-
-    public function save()
+    public function guardar()
     {
         $this->validate();
         $movil = Movil::findOrFail($this->movil_id);
@@ -79,7 +62,6 @@ class AgregarAccion extends Component
             'comentario' => $this->comentario,
             'creadoPor' => Auth::id(),
         ]);
-        $this->close();
         session()->flash('success', 'Comentario Agregado Correctamente!');
         $this->redirectRoute('materiales.mayor.show', ['movil' => $this->movil_id]);
     }

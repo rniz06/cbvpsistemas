@@ -1,5 +1,5 @@
 <div>
-    <h4>Datos Generales</h4>
+    <h4>Ficha de Material Mayor</h4>
     {{-- Minimal without header / body only --}}
     <x-adminlte-card theme="warning" theme-mode="outline">
         <div class="row">
@@ -19,8 +19,8 @@
                 disabled />
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Transmisión:"
                 value="{{ $movil->transmision ?? 'N/A' }}" disabled />
-            <x-adminlte-input name="" fgroup-class="col-md-2" label="Eje:"
-                value="{{ $movil->eje ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Eje:" value="{{ $movil->eje ?? 'N/A' }}"
+                disabled />
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Combustible:"
                 value="{{ $movil->combustible ?? 'N/A' }}" disabled />
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Cubiertas delanteras:"
@@ -34,30 +34,9 @@
         </div>
     </x-adminlte-card>
 
-
-
-    {{-- <div class="row m-1">
-        <x-adminlte-input name="compania" label="Compañía:" value="{{ $movil->compania ?? 'N/A' }}" disabled />
-    </div> --}}
-    {{-- <div class="row">
-        <x-callout.ficha titulo="Compañía">{{ $movil->compania ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Acrónimo">{{ $movil->tipo ?? 'N/A' }}-{{ $movil->movil ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Marca">{{ $movil->marca ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Modelo">{{ $movil->modelo ?? 'N/A' }}</x-callout.ficha>
-
-        <x-callout.ficha titulo="Tipo de Vehículo">{{ $movil->tipo ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Estado">{{ $movil->operatividad ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Año">{{ $movil->anho ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Transmisión">{{ $movil->transmision ?? 'N/A' }}</x-callout.ficha>
-
-        <x-callout.ficha titulo="Ejes">{{ $movil->eje ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Combustible">{{ $movil->combustible ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Cubiertas delanteras">{{ $movil->cubiertas_frente ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Cubiertas traseras">{{ $movil->cubiertas_atras ?? 'N/A' }}</x-callout.ficha>
-
-        <x-callout.ficha titulo="Chapa" colClass="col-md-6 mb-3">{{ $movil->chapa ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Chasis" colClass="col-md-6 mb-3">{{ $movil->chasis ?? 'N/A' }}</x-callout.ficha>
-    </div> --}}
+    @if ($mostrarFormAgregarAccion)
+        @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil])
+    @endif
 
     <x-table.table titulo="Comentarios">
         <x-slot name="headerBotones">
@@ -77,13 +56,15 @@
             @endcan
 
             @can('Material Mayor Agregar Accion')
-                <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
+                    icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
+                    wire:click="$toggle('mostrarFormAgregarAccion')" />
+                {{-- <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
                     icon="fas fa-plus" class="ml-2 btn-sm float-right">
                     Agregar Accion
-                </x-button.button>
+                </x-button.button> --}}
             @endcan
-
-            @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil])
 
         </x-slot>
 
