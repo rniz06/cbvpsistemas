@@ -16,7 +16,6 @@
                     :disabled="in_array($modo, ['inicio'])">Cancelar</x-button>
             </x-slot>
         </x-card-form>
-    @endcanany
     
     <!-- Tabla -->
     <x-tabla titulo="Parametros - Equipo Hidraulico - Herramientas - Modelos de {{ $marca->marca ?? 'N/A' }}">

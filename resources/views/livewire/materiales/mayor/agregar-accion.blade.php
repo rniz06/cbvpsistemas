@@ -64,8 +64,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="close">Cancelar</button>
-                            <button type="submit" class="btn btn-primary"
-                                wire:confirm="Are you sure you want to delete this post?">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
                 </div>

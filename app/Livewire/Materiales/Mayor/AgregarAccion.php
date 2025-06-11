@@ -80,6 +80,7 @@ class AgregarAccion extends Component
             'creadoPor' => Auth::id(),
         ]);
         $this->close();
+        session()->flash('success', 'Comentario Agregado Correctamente!');
         $this->redirectRoute('materiales.mayor.show', ['movil' => $this->movil_id]);
     }
 
