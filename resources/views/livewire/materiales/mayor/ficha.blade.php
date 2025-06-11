@@ -1,6 +1,45 @@
 <div>
     <h4>Datos Generales</h4>
-    <div class="row">
+    {{-- Minimal without header / body only --}}
+    <x-adminlte-card theme="warning" theme-mode="outline">
+        <div class="row">
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Compañía:"
+                value="{{ $movil->compania ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Acrónimo:" value="{{ $movil->tipo ?? 'N/A' }}"
+                disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Marca:" value="{{ $movil->marca ?? 'N/A' }}"
+                disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Modelo:"
+                value="{{ $movil->modelo ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Tipo de Vehículo:"
+                value="{{ $movil->tipo ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Estado:"
+                value="{{ $movil->operatividad ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Año:" value="{{ $movil->anho ?? 'N/A' }}"
+                disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Transmisión:"
+                value="{{ $movil->transmision ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Eje:"
+                value="{{ $movil->eje ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Combustible:"
+                value="{{ $movil->combustible ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Cubiertas delanteras:"
+                value="{{ $movil->cubiertas_frente ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Cubiertas traseras:"
+                value="{{ $movil->cubiertas_atras ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Chapa:"
+                value="{{ $movil->chapa ?? 'N/A' }}" disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Chasis:"
+                value="{{ $movil->chasis ?? 'N/A' }}" disabled />
+        </div>
+    </x-adminlte-card>
+
+
+
+    {{-- <div class="row m-1">
+        <x-adminlte-input name="compania" label="Compañía:" value="{{ $movil->compania ?? 'N/A' }}" disabled />
+    </div> --}}
+    {{-- <div class="row">
         <x-callout.ficha titulo="Compañía">{{ $movil->compania ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha titulo="Acrónimo">{{ $movil->tipo ?? 'N/A' }}-{{ $movil->movil ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha titulo="Marca">{{ $movil->marca ?? 'N/A' }}</x-callout.ficha>
@@ -18,7 +57,7 @@
 
         <x-callout.ficha titulo="Chapa" colClass="col-md-6 mb-3">{{ $movil->chapa ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha titulo="Chasis" colClass="col-md-6 mb-3">{{ $movil->chasis ?? 'N/A' }}</x-callout.ficha>
-    </div>
+    </div> --}}
 
     <x-table.table titulo="Comentarios">
         <x-slot name="headerBotones">
