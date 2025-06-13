@@ -12,7 +12,7 @@
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
             titulo="Año de fabricación">{{ $hidraulico->anho ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
-            titulo="Estado">{{ $hidraulico->operatividad ?? 'N/A' }}</x-callout.ficha>
+            titulo="Estado"><span class="badge badge-{{ $hidraulico->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $hidraulico->operatividad ?? 'N/A' }}</span></x-callout.ficha>
     </div>
 
     <x-table.table titulo="Herramientas" ocultarBuscador personalizarPaginacion="paginadoHerramientas">
@@ -58,25 +58,24 @@
             <tr>
                 <td colspan="100%" class="text-center">No hay datos.</td>
             </tr>
-            
         @endforelse
         <x-slot name="paginacion">
             {{ $herramientas->links() }}
         </x-slot>
     </x-table.table>
 
+    @if ($mostrarFormAgregarAccion)
+        @livewire('materiales.equipo-hidraulico.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico])
+    @endif
+
     <x-table.table titulo="Comentarios" ocultarBuscador personalizarPaginacion="paginadoComentarios">
         <x-slot name="headerBotones">
-
             @can('Equipos Hidraulicos Agregar Accion')
-                <x-button.button click="openFormAgregarComentario" color="btn-block btn-outline-secondary btn-sm"
-                    icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                    Agregar Accion
-                </x-button.button>
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
+                    icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
+                    wire:click="$toggle('mostrarFormAgregarAccion')" />
             @endcan
-
-            @livewire('materiales.equipo-hidraulico.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico])
-
         </x-slot>
 
         <x-slot name="cabeceras">

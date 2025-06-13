@@ -70,6 +70,7 @@ class VerCompania extends Component
             'accion_id' => 3, // REPORTE
             'creadoPor' => Auth::id(), // REPORTE
         ]);
+        $this->reset(['marca_id', 'modelo_id', 'movil_tipo_id', 'movil', 'anho', 'chasis', 'transmision_id', 'eje_id', 'cubiertas_frente', 'cubiertas_atras', 'combustible_id', 'chapa']);
         session()->flash('success', 'Se Dio De Alta Material Mayor Correctamente En El Sistema!');
     }
 

@@ -23,7 +23,7 @@
 
                 <div class="col-md-6">
                     {{-- Minimal --}}
-                    <x-adminlte-textarea name="comentario" label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
+                    <x-adminlte-textarea name="comentario" oninput="this.value = this.value.toUpperCase()" label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
                 </div>
 
                 {{-- BOTON DE GUARDADO --}}

@@ -15,6 +15,7 @@ class Ficha extends Component
     public $hidraulico_id;
     public $paginadoHerramientas = 5;
     public $paginadoComentarios = 5;
+    public $mostrarFormAgregarAccion = false;
 
     // Limpiar la paginación al cambiar de pagina
     public function updating($key): void
@@ -40,9 +41,9 @@ class Ficha extends Component
         ]);
     }
 
-    public function openFormAgregarComentario()
+    public function mostrarFormAgregarAccion()
     {
-        $this->dispatch('openFormAgregarComentario');
+        $this->mostrarFormAgregarAccion = true;
     }
 
     public function openFormAgregarHerramienta()
