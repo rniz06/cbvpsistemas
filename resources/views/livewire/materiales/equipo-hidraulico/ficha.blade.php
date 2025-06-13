@@ -15,17 +15,26 @@
             titulo="Estado"><span class="badge badge-{{ $hidraulico->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $hidraulico->operatividad ?? 'N/A' }}</span></x-callout.ficha>
     </div>
 
+    @if ($mostrarFormAgregarHerramienta)
+        @livewire('materiales.equipo-hidraulico.agregar-herramienta', ['hidraulico_id' => $hidraulico->id_hidraulico])
+    @endif
+
     <x-table.table titulo="Herramientas" ocultarBuscador personalizarPaginacion="paginadoHerramientas">
         <x-slot name="headerBotones">
 
             @can('Equipos Hidraulicos Agregar Herramienta')
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormAgregarHerramienta ? 'Cancelar' : 'Agregar Herramienta' }}"
+                    icon="fas fa-{{ $mostrarFormAgregarHerramienta ? 'minus' : 'plus' }}" theme="outline-success"
+                    wire:click="$toggle('mostrarFormAgregarHerramienta')" />
+            @endcan
+
+            {{-- @can('Equipos Hidraulicos Agregar Herramienta')
                 <x-button.button click="openFormAgregarHerramienta" color="btn-block btn-outline-secondary btn-sm"
                     icon="fas fa-plus" class="ml-2 btn-sm float-right">
                     Agregar Herramienta
                 </x-button.button>
-            @endcan
-
-            @livewire('materiales.equipo-hidraulico.agregar-herramienta', ['hidraulico_id' => $hidraulico->id_hidraulico])
+            @endcan --}}
 
         </x-slot>
 

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico;
 
+use App\Models\Materiales\EquipoHidraulico\Comentario;
 use App\Models\Materiales\EquipoHidraulico\Herramienta;
 use App\Models\Materiales\EquipoHidraulico\Herramienta\Marca;
 use App\Models\Materiales\EquipoHidraulico\Herramienta\Modelo;
 use App\Models\Materiales\EquipoHidraulico\Herramienta\Motor;
 use App\Models\Materiales\EquipoHidraulico\Herramienta\Tipo;
+use App\Models\Materiales\EquipoHidraulico\Hidraulico;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -14,21 +16,18 @@ use Livewire\Component;
 class AgregarHerramienta extends Component
 {
     public $hidraulico_id;
-    public $mostrar = false;
-    public $serie, $marca_id, $modelo_id, $motor_id, $tipo_id;
-
-    protected $listeners = ['openFormAgregarHerramienta' => 'open'];
+    public $serie = 0, $marca_id, $modelo_id, $motor_id, $tipo_id;
 
     // Reglas de validación
     protected function rules()
     {
         return [
-            'hidraulico_id' => ['required', 'exists:MAT_hidraulicos,id_hidraulico'],
-            'serie' => ['required', 'string', 'max:11'],
-            'marca_id' => ['required', 'exists:MAT_hidraulicos_herr_marcas,idhidraulico_herr_marca'],
-            'modelo_id' => ['required', 'exists:MAT_hidraulicos_herr_modelos,idhidraulico_herr_modelo'],
-            'motor_id' => ['required', 'exists:MAT_hidraulicos_herr_motor,idhidraulico_herr_motor'],
-            'tipo_id' => ['required', 'exists:MAT_hidraulicos_herr_tipos,idhidraulico_herr_tipo'],
+            'hidraulico_id' => ['required', Rule::exists(Hidraulico::class, 'id_hidraulico')],
+            'serie' => ['required', 'numeric', 'max_digits:11'],
+            'marca_id' => ['required', Rule::exists(Marca::class, 'idhidraulico_herr_marca')],
+            'modelo_id' => ['required', Rule::exists(Modelo::class, 'idhidraulico_herr_modelo')],
+            'motor_id' => ['required', Rule::exists(Motor::class, 'idhidraulico_herr_motor')],
+            'tipo_id' => ['required', Rule::exists(Tipo::class, 'idhidraulico_herr_tipo')],
         ];
     }
 
@@ -37,20 +36,7 @@ class AgregarHerramienta extends Component
         $this->hidraulico_id = $hidraulico_id;
     }
 
-    public function open()
-    {
-        $this->mostrar = true;
-        // NO resetees movil_id porque lo necesitas
-        $this->reset(['serie', 'marca_id', 'modelo_id', 'motor_id', 'tipo_id']);
-        $this->resetValidation();
-    }
-
-    public function close()
-    {
-        $this->mostrar = false;
-    }
-
-    public function save()
+    public function guardar()
     {
         $this->validate();
         Herramienta::create([
@@ -64,7 +50,13 @@ class AgregarHerramienta extends Component
             'operatividad_id' => 1, // Operatividad por defecto 'Operativo'
             'creadoPor' => Auth::id(),
         ]);
-        $this->close();
+        Comentario::create([
+            'hidraulico_id' => $this->hidraulico_id,
+            'accion_id' => 3, // REPORTE
+            'comentario' => "SE HA AÑADIDO UNA HERRAMIENTA NUEVA",
+            'creadoPor' => Auth::id(),
+        ]);
+        session()->flash('success', 'Herramienta Agregada Exitosamente!');
         $this->redirectRoute('materiales.hidraulicos.show', ['hidraulico' => $this->hidraulico_id]);
     }
 
