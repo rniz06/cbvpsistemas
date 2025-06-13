@@ -11,6 +11,7 @@ class Ficha extends Component
     public $hidraulico;
     public $herramienta;
     public $paginado = 5;
+    public $mostrarFormAgregarAccion = false;
 
     public function render()
     {
@@ -22,8 +23,8 @@ class Ficha extends Component
         ]);
     }
 
-    public function openFormAgregarAccion()
+    public function mostrarFormAgregarAccion()
     {
-        $this->dispatch('openFormAgregarAccion');
+        $this->mostrarFormAgregarAccion = true;
     }
 }

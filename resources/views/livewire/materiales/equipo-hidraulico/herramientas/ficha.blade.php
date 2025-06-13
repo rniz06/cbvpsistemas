@@ -12,7 +12,7 @@
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
             titulo="Año de fabricación">{{ $hidraulico->anho ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
-            titulo="Estado">{{ $hidraulico->operatividad ?? 'N/A' }}</x-callout.ficha>
+            titulo="Estado"><span class="badge badge-{{ $hidraulico->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $hidraulico->operatividad ?? 'N/A' }}</span></x-callout.ficha>
     </div>
 
     <h4>Herramientas</h4>
@@ -22,8 +22,12 @@
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
             titulo="Marca">{{ $herramienta->marca ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
-            titulo="Estado">{{ $herramienta->operatividad ?? 'N/A' }}</x-callout.ficha>
+            titulo="Estado"><span class="badge badge-{{ $herramienta->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $herramienta->operatividad ?? 'N/A' }}</span></x-callout.ficha>
     </div>
+
+    @if ($mostrarFormAgregarAccion)
+        @livewire('materiales.equipo-hidraulico.herramientas.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico, 'herramienta_id' => $herramienta->id_hidraulico_herr])
+    @endif
 
     {{-- Comentarios de Herramientas --}}
     <div class="col-md-12">
@@ -31,13 +35,11 @@
 
             <x-slot name="headerBotones">
                 @can('Equipos Hidraulicos Herramienta Agregar Accion')
-                    <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
-                        icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                        Agregar Accion
-                    </x-button.button>
-                @endcan
-
-                @livewire('materiales.equipo-hidraulico.herramientas.agregar-accion', ['hidraulico_id' => $hidraulico->id_hidraulico, 'herramienta_id' => $herramienta->id_hidraulico_herr])
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Accion' }}"
+                    icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
+                    wire:click="$toggle('mostrarFormAgregarAccion')" />
+            @endcan
             </x-slot>
 
             <x-slot name="cabeceras">

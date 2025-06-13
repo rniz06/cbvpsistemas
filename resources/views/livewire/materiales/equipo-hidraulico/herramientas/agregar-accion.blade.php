@@ -1,53 +1,32 @@
 <div>
-    @if ($mostrar)
-        <!-- Modal backdrop -->
-        <div class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Agregar Acción</h4>
-                        <button type="button" class="close" wire:click="close">
-                            <span>&times;</span>
-                        </button>
-                    </div>
+    <!-- Formulario para Agregar Accion Equipo Hidraulico -->
+    <form wire:submit="guardar">
 
-                    <form wire:submit="save">
-                        <div class="modal-body">
+        <x-adminlte-card title="Agregar Acción" icon="fas fa-plus" theme-mode="outline" header-class="bg-success">
 
-                            <!-- Campo Acción -->
-                            <div class="form-group">
-                                <label for="accion_id">Acción</label>
-                                <select wire:model="accion_id" class="form-control" id="accion_id">
-                                    <option value="">Seleccione una acción</option>
-                                    @foreach ($acciones as $accion)
-                                        <option value="{{ $accion->id_accion }}">{{ $accion->accion }}</option>
-                                    @endforeach
-                                </select>
-                                @error('accion_id')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+            <div class="row align-items-end">
+                {{-- CAMPO ACCION --}}
+                <div class="col-md-2">
+                    <x-adminlte-select name="accion_id" label="Acción:" wire:model.live="accion_id">
+                        <option value="">Seleccione una acción</option>
+                        <option value="1">EN SERVICIO</option>
+                        <option value="2">FUERA DE SERVICIO</option>
+                        <option value="3">REPORTAR NOVEDAD</option>
+                    </x-adminlte-select>
+                </div>
 
-                            <!-- Campo Comentario -->
-                            <div class="form-group">
-                                <label for="comentario">Comentario</label>
-                                <textarea wire:model="comentario" class="form-control" id="comentario" rows="4"></textarea>
-                                @error('comentario')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    {{-- Minimal --}}
+                    <x-adminlte-textarea name="comentario" oninput="this.value = this.value.toUpperCase()" label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
+                </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" wire:click="close">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" wire:confirm="Are you sure you want to delete this post?">Guardar</button>
-                        </div>
-                    </form>
+                {{-- BOTON DE GUARDADO --}}
+                <div class="col-md-2">
+                    <x-adminlte-button label="Guardar" icon="fas fa-save" type="submit" theme="success"
+                        class="mb-3" />
                 </div>
             </div>
-        </div>
 
-        <!-- Modal backdrop overlay -->
-        <div class="modal-backdrop fade show"></div>
-    @endif
+        </x-adminlte-card>
+    </form>
 </div>
