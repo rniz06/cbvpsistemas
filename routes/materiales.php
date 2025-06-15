@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(MaterialParametroController::class)
     ->prefix('materiales')
     ->group(function () {
-        Route::get('parametros', 'index')->name('materiales.parametros');
+        Route::get('/', 'index')->name('materiales.index');
+        Route::get('parametros', 'indexParametros')->name('materiales.parametros');
 
         // Rutas estáticas primero
         Route::get('mayor/transmision', 'transmision')->name('materiales.mayor.transmision');

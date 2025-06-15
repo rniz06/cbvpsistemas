@@ -19,7 +19,8 @@ return new class extends Migration
                 mc.comentario,
                 mc.movil_id,
                 m.movil,
-                m.tipo,
+                m.movil_tipo_id,
+                mt.tipo AS tipo,
                 mc.accion_id,
                 a.accion,
                 mc.creadoPor,
@@ -27,10 +28,11 @@ return new class extends Migration
                 mc.created_at,
                 mc.updated_at,
                 mc.deleted_at
-            FROM MAT_moviles_comentarios mc
-            JOIN MAT_vt_moviles m ON (m.id_movil = mc.movil_id)
-            JOIN MAT_acciones a ON (a.id_accion = mc.accion_id)
-            JOIN vt_usuarios u ON (u.id_usuario = mc.creadoPor)
+            FROM personalcbvp.MAT_moviles_comentarios mc
+            JOIN personalcbvp.MAT_moviles m ON m.id_movil = mc.movil_id
+            JOIN personalcbvp.MAT_moviles_tipos mt ON mt.id_movil_tipo = m.movil_tipo_id
+            JOIN personalcbvp.MAT_acciones a ON a.id_accion = mc.accion_id
+            JOIN personalcbvp.vt_usuarios u ON u.id_usuario = mc.creadoPor;
         ");
     }
 

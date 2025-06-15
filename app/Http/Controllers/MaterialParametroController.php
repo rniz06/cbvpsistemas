@@ -30,6 +30,11 @@ class MaterialParametroController extends Controller
 
     public function index()
     {
+        return view('materiales.index');
+    }
+
+    public function indexParametros()
+    {
         return view('materiales.parametros.index');
     }
 

@@ -18,6 +18,10 @@ return new class extends Migration
                 hc.id_hidraulico_comentario,
                 hc.comentario,
                 hc.hidraulico_id,
+                h.marca_id,
+                hm.marca,
+                h.compania_id,
+                c.compania,
                 hc.accion_id,
                 a.accion,
                 hc.creadoPor,
@@ -25,10 +29,12 @@ return new class extends Migration
                 hc.created_at,
                 hc.updated_at,
                 hc.deleted_at
-            FROM MAT_hidraulicos_comentarios hc
-            JOIN MAT_hidraulicos h ON (h.id_hidraulico = hc.hidraulico_id)
-            JOIN MAT_acciones a ON (a.id_accion = hc.accion_id)
-            JOIN vt_usuarios u ON (u.id_usuario = hc.creadoPor)
+            FROM personalcbvp.MAT_hidraulicos_comentarios hc
+            JOIN personalcbvp.MAT_hidraulicos h ON h.id_hidraulico = hc.hidraulico_id
+            JOIN personalcbvp.MAT_acciones a ON a.id_accion = hc.accion_id
+            JOIN personalcbvp.vt_usuarios u ON u.id_usuario = hc.creadoPor
+            JOIN personalcbvp.MAT_hidraulicos_marcas hm ON hm.id_hidraulico_marca = h.marca_id
+            JOIN emepy_bd.companias c ON c.idcompanias = h.compania_id;
         ");
     }
 
