@@ -21,9 +21,21 @@
                     </x-adminlte-select>
                 </div>
 
+                @if ($accion_id == 5)
+                    <div class="col-md-2">
+                        <x-adminlte-select name="compania_id" label="Compañía:" wire:model.live="compania_id">
+                            @foreach ($companias as $compania)
+                                <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
+                            @endforeach
+
+                        </x-adminlte-select>
+                    </div>
+                @endif
+
                 <div class="col-md-6">
                     {{-- Minimal --}}
-                    <x-adminlte-textarea name="comentario" oninput="this.value = this.value.toUpperCase()" label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
+                    <x-adminlte-textarea name="comentario" oninput="this.value = this.value.toUpperCase()"
+                        label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
                 </div>
 
                 {{-- BOTON DE GUARDADO --}}

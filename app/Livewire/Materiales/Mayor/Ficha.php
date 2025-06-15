@@ -18,6 +18,7 @@ class Ficha extends Component
     public $buscador = '';
     public $paginado = 5;
     public $mostrarFormAgregarAccion = false;
+    public $mostrarFormEditarFicha = false;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
@@ -42,6 +43,11 @@ class Ficha extends Component
     public function mostrarFormAgregarAccion()
     {
         $this->mostrarFormAgregarAccion = true;
+    }
+
+    public function mostrarFormEditarFicha()
+    {
+        $this->mostrarFormEditarFicha = true;
     }
 
     public function excelComentarios()

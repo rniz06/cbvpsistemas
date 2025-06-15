@@ -38,6 +38,10 @@
         @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil])
     @endif
 
+    @if ($mostrarFormEditarFicha)
+        @livewire('materiales.mayor.ficha-editar', ['movil_id' => $movil->id_movil])
+    @endif
+
     <x-table.table titulo="Comentarios">
         <x-slot name="headerBotones">
 
@@ -60,10 +64,13 @@
                     label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
                     icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
                     wire:click="$toggle('mostrarFormAgregarAccion')" />
-                {{-- <x-button.button click="openFormAgregarAccion" color="btn-block btn-outline-secondary btn-sm"
-                    icon="fas fa-plus" class="ml-2 btn-sm float-right">
-                    Agregar Accion
-                </x-button.button> --}}
+            @endcan
+
+            @can('Material Mayor Editar')
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
+                    icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
+                    wire:click="$toggle('mostrarFormEditarFicha')" />
             @endcan
 
         </x-slot>
