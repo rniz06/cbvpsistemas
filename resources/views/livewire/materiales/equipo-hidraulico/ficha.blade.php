@@ -11,12 +11,16 @@
             titulo="Motor">{{ $hidraulico->motor ?? 'N/A' }}</x-callout.ficha>
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
             titulo="Año de fabricación">{{ $hidraulico->anho ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
-            titulo="Estado"><span class="badge badge-{{ $hidraulico->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $hidraulico->operatividad ?? 'N/A' }}</span></x-callout.ficha>
+        <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3" titulo="Estado"><span
+                class="badge badge-{{ $hidraulico->operatividad == 'OPERATIVO' ? 'success' : 'danger' }}">{{ $hidraulico->operatividad ?? 'N/A' }}</span></x-callout.ficha>
     </div>
 
     @if ($mostrarFormAgregarHerramienta)
         @livewire('materiales.equipo-hidraulico.agregar-herramienta', ['hidraulico_id' => $hidraulico->id_hidraulico])
+    @endif
+
+    @if ($mostrarFormEditarFicha)
+        @livewire('materiales.equipo-hidraulico.ficha-editar', ['hidraulico_id' => $hidraulico->id_hidraulico])
     @endif
 
     <x-table.table titulo="Herramientas" ocultarBuscador personalizarPaginacion="paginadoHerramientas">
@@ -75,6 +79,13 @@
                     label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
                     icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
                     wire:click="$toggle('mostrarFormAgregarAccion')" />
+            @endcan
+
+            @can('Equipos Hidraulicos Editar')
+                <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
+                    icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
+                    wire:click="$toggle('mostrarFormEditarFicha')" />
             @endcan
         </x-slot>
 

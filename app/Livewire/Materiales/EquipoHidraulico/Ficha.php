@@ -17,6 +17,7 @@ class Ficha extends Component
     public $paginadoComentarios = 5;
     public $mostrarFormAgregarAccion = false;
     public $mostrarFormAgregarHerramienta = false;
+    public $mostrarFormEditarFicha = false;
 
     // Limpiar la paginación al cambiar de pagina
     public function updating($key): void
@@ -50,5 +51,10 @@ class Ficha extends Component
     public function mostrarFormAgregarHerramienta()
     {
         $this->mostrarFormAgregarHerramienta = true;
+    }
+
+    public function mostrarFormEditarFicha()
+    {
+        $this->mostrarFormEditarFicha = true;
     }
 }
