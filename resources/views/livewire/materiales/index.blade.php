@@ -22,7 +22,7 @@
                     <td>{{ $movil->accion ?? 'N/A' }}</td>
                     <td>{{ $movil->comentario ?? 'N/A' }}</td>
                     <td>{{ $movil->nombrecompleto ?? 'N/A' }}</td>
-                    <td>{{ $movil->created_at }}</td>
+                    <td>{{ date('d/m/Y H:m:s', strtotime($movil->created_at)) }} Hs</td>
                 </tr>
             @endforeach
         </x-adminlte-datatable>
@@ -37,7 +37,7 @@
             $heads = ['Compañia', 'Marca', 'Acción:', 'Comentario:', 'Usuario:', 'Fecha y Hora:'];
             $config = [
                 'lengthMenu' => [5, 10, 15, 20],
-                'searching' => false, // 👈 Esto oculta el buscador
+                'searching' => false, // Ocultar el buscador
                 'language' => [
                     'url' => '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
                 ],
@@ -52,7 +52,7 @@
                     <td>{{ $hidraulico->accion ?? 'N/A' }}</td>
                     <td>{{ $hidraulico->comentario ?? 'N/A' }}</td>
                     <td>{{ $hidraulico->nombrecompleto ?? 'N/A' }}</td>
-                    <td>{{ $hidraulico->created_at }}</td>
+                    <td>{{ date('d/m/Y H:m:s', strtotime($hidraulico->created_at)) }} Hs</td>
                 </tr>
             @endforeach
         </x-adminlte-datatable>
