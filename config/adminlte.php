@@ -315,7 +315,7 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        ['header' => 'MODULOS'],
+        ['header' => 'Módulos'],
         // [
         //     'text' => 'Mesas',
         //     'route' => 'mesas.index',
@@ -323,23 +323,21 @@ return [
         //     'icon' => 'fas fa-clipboard',
         // ],
         [
-            'text' => 'Personales',
-            'route' => 'personal.index',
-            'can' => 'Personal Listar',
-            'icon' => 'fas fa-list-ul',
+            'text' => 'Personal',
+            'icon' => 'fas fa-user-friends',
+            'submenu' => [
+                [
+                    'text' => 'Listar',
+                    'route' => 'personal.index',
+                    'can' => 'Personal Listar',
+                ],
+                [
+                    'text' => 'Reportes',
+                    'route' => 'personal.reportes',
+                    'can' => 'Personal Reportes Listar',
+                ],
+            ],
         ],
-        // [
-        //     'text' => 'Personales',
-        //     'icon' => 'fas fa-portrait',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'Listar',
-        //             'route' => 'personal.index',
-        //             'can' => 'Personal Listar',
-        //             'icon' => 'fas fa-list-ul',
-        //         ],
-        //     ],
-        // ],
         [
             'text' => 'Materiales',
             'icon' => 'fas fa-clipboard-list',
@@ -465,10 +463,20 @@ return [
         // ],
         ['header' => 'Info'],
         [
-            'text' => 'Soporte',
-            'icon_color' => 'yellow',
-            'url' => 'https://soporte.cbvp.org.py/',
+            'text' => 'Mi Ficha',
+            'icon' => 'fas fa-id-badge mr-2',
+            'route' => 'perfil.mi_ficha',
         ],
+        // [
+        //     'text' => 'Sessiones Directorio',
+        //     'icon' => 'fas fa-video mr-1',
+        //     'route' => 'sessiones_directorio.session_en_vivo',
+        // ],
+        // [
+        //     'text' => 'Soporte',
+        //     'icon_color' => 'yellow',
+        //     'url' => 'https://soporte.cbvp.org.py/',
+        // ],
         [
             'text' => 'Cambiar Contraseña',
             'icon_color' => 'danger',
@@ -602,12 +610,13 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'asset' => true,
+                    // 'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => 'vendor/chart.js/Chart.bundle.min.js',
                 ],
             ],
         ],

@@ -44,6 +44,7 @@ class PersonalController extends Controller
         $this->middleware('permission:Personal Crear', ['only' => ['create', 'store']]);
         $this->middleware('permission:Personal Editar', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Personal Eliminar', ['only' => ['destroy']]);
+        $this->middleware('permission:Personal Reportes Listar', ['only' => ['reportes']]);
     }
 
     /**
@@ -134,9 +135,7 @@ class PersonalController extends Controller
 
             Usuario::create([
                 'personal_id' => $personal->idpersonal,
-                //'codigo' => $personal->codigo,
                 'password' => Hash::make($personal->codigo),
-                // Otros campos del usuario aquí
             ]);
         });
 
@@ -279,5 +278,10 @@ class PersonalController extends Controller
             'items' => $formattedPersonal,
             'total_count' => $total
         ]);
+    }
+
+    public function reportes()
+    {
+        return view('personal.reportes');
     }
 }

@@ -42,7 +42,7 @@ class Tabla extends Component
      */
     public function updating($key): void
     {
-        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoria' || $key === 'buscarEstado' || $key === 'buscarPais' || $key === 'buscarSexo' || $key === 'buscarCompania' || $key === 'paginado') {
+        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoria' || $key === 'buscarEstado' || $key === 'buscarPais' || $key === 'buscarSexo' || $key === 'buscarGrupoSanguineo' || $key === 'buscarCompania' || $key === 'paginado') {
             $this->resetPage();
         }
     }
@@ -68,6 +68,7 @@ class Tabla extends Component
             ->buscarEstadoActualizar($this->buscarEstadoActualizar)
             ->buscarPais($this->buscarPais)
             ->buscarSexo($this->buscarSexo)
+            ->buscarGrupoSanguineo($this->buscarGrupoSanguineo)
             ->buscarCompania($this->buscarCompania)
             ->paginate($this->paginado);
 

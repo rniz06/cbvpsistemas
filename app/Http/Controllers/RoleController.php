@@ -24,7 +24,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('subModulos.permissions')->orderBy('orden')->get();
         return view('roles.create', compact('modulos'));
     }
 
@@ -65,8 +65,13 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')->with('permissions:id,name,modulo_id')->orderBy('orden')->get();
+        $modulos = SysModulo::select('id_sys_modulo', 'modulo', 'orden')
+            ->with('subModulos.permissions')
+            ->orderBy('orden')
+            ->get();
+
         $rolePermissions = $role->permissions->pluck('id')->toArray();
+
         return view('roles.edit', compact('role', 'modulos', 'rolePermissions'));
     }
 

@@ -21,4 +21,9 @@ class SysModulo extends Model implements Auditable
     {
         return $this->hasMany(Permission::class, 'modulo_id');
     }
+
+    public function subModulos()
+    {
+        return $this->hasMany(SysSubModulo::class, 'modulo_id');
+    }
 }

@@ -5,11 +5,11 @@
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ConductorController;
-use App\Http\Controllers\Materiales\MayorController;
-use App\Http\Controllers\MaterialParametroController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SessionesDirectorioController;
 use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +37,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Implementa el middleware auth en el constructor
 
 Route::middleware('auth')->group(function () {
+
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('perfil/mi_ficha', 'verMiFicha')->name('perfil.mi_ficha');
+    });
+
+    // Route::controller(SessionesDirectorioController::class)->group(function () {
+    //     Route::get('sessiones_directorio/session_en_vivo', 'sessionEnVivo')->name('sessiones_directorio.session_en_vivo');
+    // });
     /*
     |--------------------------------------------------------------------------
     | Modulo Personal
@@ -50,6 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::post('personal/agregar-contacto', 'agregarcontacto')->name('personal.agregarcontacto');
         Route::post('personal/agregar-contacto-emergencia', 'agregarcontactoemergencia')->name('personal.agregarcontactoemergencia');
         Route::get('personal/search', 'search')->name('personal.search'); // ruta para búsqueda AJAX
+        Route::get('personal/reportes', 'reportes')->name('personal.reportes');
         Route::get('personal/{personal}', 'show')->name('personal.show');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
