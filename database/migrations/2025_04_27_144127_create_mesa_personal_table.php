@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mesa_personal', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mesa_id')->constrained('mesas', 'id_mesa')->onDelete('cascade');
-            $table->integer('personal_id')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal        
+            $table->integer('personal_id')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal
             $table->integer('votos')->default(0);
             $table->timestamps();
 

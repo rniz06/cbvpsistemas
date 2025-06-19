@@ -36,7 +36,7 @@ class StorePersonalRequest extends FormRequest
             ],
             'categoria_id' => 'required|exists:personal_categorias,idpersonal_categorias',
             'compania_id' => 'required',
-            'fecha_juramento' => 'required|numeric|min_digits:4|max_digits:4',
+            //'fecha_juramento' => 'required|numeric|min_digits:4|max_digits:4',
             'fecha_de_juramento' => 'required|date',
             'estado_id' => 'required',
             'documento' => 'required|numeric|min_digits:6|max_digits:7',

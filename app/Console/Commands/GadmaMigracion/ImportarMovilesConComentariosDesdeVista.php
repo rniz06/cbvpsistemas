@@ -62,6 +62,14 @@ class ImportarMovilesConComentariosDesdeVista extends Command
                 'updated_at'       => now(),
             ]);
 
+            // Guardar mapeo entre id original y nuevo
+            DB::table('personalcbvp.MAT_moviles_id_map')->insert([
+                'old_id' => $registro->idmoviles_ficha,
+                'new_id' => $nuevoIdMovil,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             // 2. Obtener los comentarios relacionados con el móvil original
             $comentarios = DB::table('materialescbvp.vt_comentarios_mayor')
                 ->where('movil_id', $registro->idmoviles_ficha)
