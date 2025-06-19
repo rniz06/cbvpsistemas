@@ -4,7 +4,13 @@
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
+<<<<<<< HEAD
 use App\Http\Controllers\HomeController;
+=======
+use App\Http\Controllers\ConductorController;
+use App\Http\Controllers\Materiales\MayorController;
+use App\Http\Controllers\MaterialParametroController;
+>>>>>>> gadma
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
@@ -12,6 +18,8 @@ use App\Http\Controllers\SessionesDirectorioController;
 use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
+
+include_once __DIR__.'/materiales.php'; // Incluir las rutas de materiales
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -99,6 +107,22 @@ Route::middleware('auth')->group(function () {
         Route::put('roles/{role}', 'update')->name('roles.update');
         Route::delete('roles/{role}', 'destroy')->name('roles.destroy');
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modulo Conductores
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(ConductorController::class)->group(function () {
+        Route::get('conductores', 'index')->name('conductores.index');
+        Route::get('conductores/create', 'create')->name('conductores.create');
+        Route::post('conductores/store', 'store')->name('conductores.store');
+        Route::get('conductores/{conductor}', 'show')->name('conductores.show');
+        Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
+        Route::put('conductores/{conductor}', 'update')->name('conductores.update');
+        //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
+    });
+    
 
     /*
     |--------------------------------------------------------------------------

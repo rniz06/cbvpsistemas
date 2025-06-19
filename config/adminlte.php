@@ -339,6 +339,47 @@ return [
             ],
         ],
         [
+            'text' => 'Materiales',
+            'icon' => 'fas fa-clipboard-list',
+            'submenu' => [
+                [
+                    'text' => 'Ult. Actualizaciones',
+                    'route' => 'materiales.index',
+                    'can' => 'Materiales Principal',
+                ],
+                [
+                    'text' => 'Material Mayor',
+                    'route' => 'materiales.mayor.index',
+                    'can' => 'Material Mayor Listar',
+                ],
+                [
+                    'text' => 'Equipo Hidraulico',
+                    'route' => 'materiales.hidraulicos.index',
+                    'can' => 'Equipos Hidraulicos Listar',
+                ],
+                [
+                    'text' => 'Conductores',
+                    'route' => 'conductores.index',
+                    'can' => 'Conductores Listar',
+                ],
+                [
+                    'text' => 'Parametros',
+                    'route' => 'materiales.parametros',
+                    'can' => 'Materiales Parametros',
+                ],
+                // [
+                //     'text' => 'Roles',
+                //     'route' => 'roles.index',
+                //     'can' => 'Roles Listar',
+                // ],
+                // [
+                //     'text' => 'Permisos',
+                //     'route' => 'permisos.index',
+                //     'can' => 'Permisos Listar',
+                // ],
+            ],
+        ],
+        [
             'text' => 'Admin',
             'icon' => 'fas fa-users-cog',
             'submenu' => [
@@ -489,36 +530,81 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
         ],
-        'Select2' => [
-            'active' => false,
+        'DatatablesPlugins' => [
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.print.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/jszip/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'Select2' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],
@@ -535,12 +621,13 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'asset' => true,
+                    // 'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
+                    'location' => 'vendor/sweetalert2/sweetalert2.all.min.js',
                 ],
             ],
         ],

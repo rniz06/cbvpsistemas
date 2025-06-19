@@ -1,0 +1,142 @@
+<?php
+
+namespace App\Livewire\Materiales\Mayor;
+
+use App\Exports\ExcelGenericoExport;
+use App\Exports\PdfGenericoExport;
+use Livewire\Attributes\Validate;
+use App\Models\Materiales\Movil\Transmision as MovilTransmision;
+use App\Models\Vistas\Compras\VtProveedor;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+class Transmision extends Component
+{
+    // Usar el trait WithPagination para la paginación
+    use WithPagination;
+
+    // Variables para el formulario
+    public $transmision_id;
+    #[Validate]
+    public $transmision;
+
+    // Variables para la paginación, busqueda y estado(modo) del formulario
+    public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
+    public $buscador = '';
+    public $paginado = 5;
+
+    // Habilita el formulario para agregar un registro
+    public function agregar()
+    {
+        $this->resetearForm();
+        $this->modo = 'agregar';
+    }
+
+    // Habilita los botones de editar, eliminar y cancelar
+    public function seleccionado($id)
+    {
+        $transmision = MovilTransmision::findOrFail($id);
+        $this->transmision_id = $transmision->id_movil_transmision;
+        $this->transmision = $transmision->transmision;
+        $this->modo = 'seleccionado';
+    }
+
+    // Habilita el formulario para editar un registro (La información ya esta cargada por el metodo "seleccionado()")
+    public function editar()
+    {
+        $this->modo = 'modificar';
+    }
+
+    // Deshabilita el formulario y borra los datos ingresados o seleccionados
+    public function cancelar()
+    {
+        $this->resetearForm();
+    }
+
+    // Elimina el registro que obtuvimos con el metodo "seleccionado()"
+    public function eliminar()
+    {
+        if ($this->transmision_id) {
+            MovilTransmision::destroy($this->transmision_id);
+            $this->resetearForm();
+        }
+    }
+
+    // Reglas de validación
+    protected function rules()
+    {
+        return [
+            'transmision' => ['required', 'max:45', Rule::unique(MovilTransmision::class)->ignore($this->transmision_id, 'id_movil_transmision')],
+        ];
+    }
+
+    public function grabar()
+    {
+        // Validar los datos
+        $validados = $this->validate();
+
+        if ($this->modo === 'agregar') {
+            MovilTransmision::create($validados);
+        } elseif ($this->modo === 'modificar' && $this->transmision_id) {
+            MovilTransmision::findOrFail($this->transmision_id)->update($validados);
+        }
+
+        $this->resetearForm();
+    }
+
+    // Restablecer formulario a deshabilitado y limpiar datos ingresados o seleccionados
+    private function resetearForm()
+    {
+        $this->transmision_id = null;
+        $this->transmision = '';
+        $this->modo = 'inicio';
+    }
+
+    // Limpiar el buscador y la paginación al cambiar de pagina
+    public function updating($key): void
+    {
+        if ($key === 'buscador' || $key === 'paginado') {
+            $this->resetPage();
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.materiales.mayor.transmision', [
+            'transmisiones' => MovilTransmision::select('id_movil_transmision', 'transmision', 'activo')
+                ->buscador($this->buscador)->orderBy('transmision', 'asc')->paginate($this->paginado),
+        ]);
+    }
+
+    public function cambiarEstado($id, $nuevoEstado)
+    {
+        $transmision = MovilTransmision::find($id);
+
+        if ($transmision) {
+            $transmision->activo = $nuevoEstado;
+            $transmision->save();
+        }
+
+        session()->flash('success', 'El estado se actualizó correctamente.');
+    }
+
+    // public function excel()
+    // {
+    //     $datos = VtProveedor::select('prov_razonsocial', 'prov_ruc', 'prov_direccion', 'prov_telefono', 'prov_correo', 'ciu_descripcion')->get();
+    //     $encabezados = ['Razon Social', 'Ruc', 'Dirección', 'Teléfono', 'Correo', 'Ciudad'];
+
+    //     return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Proveedores.xlsx');
+    // }
+
+    // public function pdf()
+    // {
+    //     $nombre_archivo = "Proveedores";
+    //     $datos = VtProveedor::select('prov_razonsocial', 'prov_ruc', 'prov_direccion', 'prov_telefono', 'prov_correo', 'ciu_descripcion')->get();
+    //     $encabezados = ['Razon Social', 'Ruc', 'Dirección', 'Teléfono', 'Correo', 'Ciudad'];
+
+    //     return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
+    // }
+}
