@@ -4,13 +4,10 @@
 
 use App\Http\Controllers\Auth\CambiarContrasenaController;
 use App\Http\Controllers\Auth\LoginController;
-<<<<<<< HEAD
 use App\Http\Controllers\HomeController;
-=======
 use App\Http\Controllers\ConductorController;
 use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\MaterialParametroController;
->>>>>>> gadma
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\RoleController;
