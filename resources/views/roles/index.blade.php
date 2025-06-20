@@ -61,7 +61,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
-            {{ $roles->links('pagination::bootstrap-4') }}
+            {{ $roles->links() }}
         </div>
     </div>
 
