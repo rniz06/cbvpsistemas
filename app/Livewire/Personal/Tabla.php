@@ -53,7 +53,7 @@ class Tabla extends Component
         $personales = VtPersonales::query();
 
         // Aplicar el filtro de compañía si no es moderador
-        if ($usuario->hasRole('moderador_personal_compania')) {
+        if ($usuario->hasRole('personal_moderador_compania')) {
             $personales->where('compania_id', $usuario->personal->compania_id);
         }
 

@@ -206,9 +206,9 @@ class PersonalController extends Controller
         $sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
         $paises = Pais::select('idpaises', 'pais')->get();
         $grupo_sanguineo = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
-        $companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
+        //$companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
         $estado_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
-        return view('personal.edit', compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'companias', 'estado_actualizar'));
+        return view('personal.edit', compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'estado_actualizar'));
     }
 
     /**
@@ -219,7 +219,7 @@ class PersonalController extends Controller
         $personal->update([
             'nombrecompleto' => $request->nombrecompleto,
             'categoria_id' => $request->categoria_id,
-            'compania_id' => $request->compania_id,
+            //'compania_id' => $request->compania_id,
             'fecha_juramento' => Carbon::parse($request->fecha_de_juramento)->year,
             'fecha_de_juramento' => $request->fecha_de_juramento,
             'estado_id' => $request->estado_id,

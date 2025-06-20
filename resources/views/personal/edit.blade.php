@@ -31,7 +31,8 @@
             <x-input label="Nombre Completo:" type="text" name="nombrecompleto" placeholder="Nombre Completo..."
                 value="{{ $personal->nombrecompleto }}" />
 
-            <x-input label="Codigo" type="text" name="codigo" placeholder="Codigo..." value="{{ $personal->codigo }}" disabled />
+            <x-input label="Codigo" type="text" name="codigo" placeholder="Codigo..." value="{{ $personal->codigo }}"
+                disabled />
 
             <x-input label="Fecha de Juramento" type="date" name="fecha_de_juramento" placeholder="Fecha de Juramento..."
                 value="{{ $personal->fecha_de_juramento }}" />
@@ -49,15 +50,8 @@
                 @endforeach
             </x-select>
 
-            <x-select label="Compañia" name="compania_id" id="compania">
-                <option>Seleccionar...</option>
-                @foreach ($companias as $compania)
-                    <option value="{{ $compania->idcompanias }}"
-                        {{ $compania->idcompanias == $personal->compania_id ? 'selected' : '' }}>
-                        {{ $compania->compania ?? 'N/A' }} -
-                        {{ $compania->departamento ?? 'N/A' }} - {{ $compania->ciudad ?? 'N/A' }}</option>
-                @endforeach
-            </x-select>
+            <x-input label="Compañia" type="text" name="compania" placeholder="Documento..."
+                value="{{ $personal->vtcompania->compania . ' - ' . $personal->vtcompania->departamento . ' - ' . $personal->vtcompania->ciudad }}" disabled />
 
             <x-select label="Estado" name="estado_id" id="estado_id">
                 <option>Seleccionar...</option>
