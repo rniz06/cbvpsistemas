@@ -17,7 +17,7 @@ class Ficha extends Component
     public $movil_id;
     public $buscador = '';
     public $paginado = 5;
-    public $mostrarFormAgregarAccion = false;
+    public $mostrarFormAgregarAccion = true;
     public $mostrarFormEditarFicha = false;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
