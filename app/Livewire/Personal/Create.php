@@ -63,6 +63,7 @@ class Create extends Component
 
     public function guardar()
     {
+        $this->validate();
         $personal = Personal::create([
             'nombrecompleto' => $this->nombrecompleto,
             'codigo' => $this->codigo,
