@@ -96,6 +96,22 @@ class PersonalController extends Controller
         return Excel::download(new PersonalExport, 'personal.xlsx');
     }
 
+    public function cambiodecompania(Request $request)
+    {
+        $validated = $request->validate([
+            'personal_id' => 'required|exists:personal,idpersonal',
+            'compania_id' => 'required',
+        ]);
+
+        $personal = Personal::findOrFail($request->personal_id);
+        $personal->update([
+            'compania_id' => $request->compania_id
+        ]);
+
+        return redirect()->route('personal.show', $request->personal_id)
+            ->with('success', 'Compañia del Voluntario actualizada Correctamente!');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -153,13 +169,14 @@ class PersonalController extends Controller
         $tipo_contactos = TipoContacto::select('id_tipo_contacto', 'tipo_contacto')->get();
         $parentescos = Parentesco::select('id_parentesco', 'parentesco')->get();
         $ciudades = Ciudad::select('idciudades', 'ciudad')->get();
+        $companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
         $resoluciones = DB::select(
             'SELECT id_resolucion, n_resolucion, concepto, fecha, fuente_origen, id_personal
              FROM cbvp_resoluciones_db.vt_resoluciones_personales
              WHERE id_personal = ?',
             [$personal->idpersonal]
         );
-        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades', 'resoluciones'));
+        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades', 'companias', 'resoluciones'));
     }
 
     /**

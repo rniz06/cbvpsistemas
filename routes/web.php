@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::post('personal/agregar-contacto-emergencia', 'agregarcontactoemergencia')->name('personal.agregarcontactoemergencia');
         Route::get('personal/search', 'search')->name('personal.search'); // ruta para búsqueda AJAX
         Route::get('personal/reportes', 'reportes')->name('personal.reportes');
+        Route::post('personal/cambio-de-compania', 'cambiodecompania')->name('personal.cambiodecompania');
         Route::get('personal/{personal}', 'show')->name('personal.show');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');

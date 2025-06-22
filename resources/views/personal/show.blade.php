@@ -43,6 +43,12 @@
                         <i class="fas fa-plus"></i> Emergencia
                     </button>
                 @endcan
+                @can('Personal Cambiar de Compania')
+                    <!-- Button Modal Cambiar de Compania -->
+                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#cambiodecompania">
+                        <i class="fas fa-exchange-alt"></i> Cambio Compañia
+                    </button>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -295,6 +301,51 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Cambio de Compania -->
+        <div class="modal fade" id="cambiodecompania" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Cambiar Personal de Compañia</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('personal.cambiodecompania') }}" method="post">
+                            @csrf
+                            @method('POST')
+
+                            <input type="hidden" name="personal_id" value="{{ $personal->idpersonal }}">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Compañia Actual:</label>
+                                <input type="text" class="form-control" value="{{ $personal->compania }}" disabled>
+                            </div>
+
+                            {{-- Compania --}}
+                            <x-adminlte-select name="compania_id" label="Nueva Compañia:" id="modalcambiocompania_id" style="width: 100%">
+                                @foreach ($companias as $compania)
+                                    <option value="{{ $compania->idcompanias }}">
+                                        {{ $compania->compania . ' - ' . $compania->departamento . ' - ' . $compania->ciudad ?? 'N/A' }}
+                                    </option>
+                                @endforeach
+                            </x-adminlte-select>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i
+                                        class="fas fa-arrow-left"></i> Cerrar</button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>
+                                    Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     @livewire('personal.resolucion', ['personal_id' => $personal->idpersonal])
@@ -320,6 +371,15 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2({
                 dropdownParent: $('#contactoemergencia'),
+                placeholder: 'Seleccionar...',
+                language: "es",
+
+            });
+        });
+
+        $(document).ready(function() {
+            $('#modalcambiocompania_id').select2({
+                dropdownParent: $('#cambiodecompania'),
                 placeholder: 'Seleccionar...',
                 language: "es",
 
