@@ -22,11 +22,22 @@ class AgregarAccion extends Component
     public $accion_categoria_id, $categoria_detalle_id;
     public $companias;
 
-    protected $rules = [
-        'movil_id' => ['required', 'exists:MAT_moviles,id_movil'],
-        'accion_id' => ['required', 'exists:MAT_acciones,id_accion'],
-        'comentario' => ['required', 'string', 'max:65535'],
-    ];
+    protected function rules()
+    {
+        $rules = [
+            'movil_id' => ['required', 'exists:MAT_moviles,id_movil'],
+            'accion_id' => ['required', 'exists:MAT_acciones,id_accion'],
+            'comentario' => ['required', 'string', 'max:65535'],
+        ];
+
+        // Solo agregar estas reglas si accion_id es 2
+        if ($this->accion_id == 2) {
+            $rules['accion_categoria_id'] = ['required'];
+            $rules['categoria_detalle_id'] = ['required'];
+        };
+
+        return $rules;
+    }
 
     public function mount($movil_id)
     {
@@ -51,8 +62,8 @@ class AgregarAccion extends Component
                 break;
             case 2:
                 $movil->update([
-                    'operativo' => 0,
-                    'operatividad_id' => 1,
+                    'operativo' => 1,
+                    'operatividad_id' => 0,
                 ]);
                 break;
             case 4:
