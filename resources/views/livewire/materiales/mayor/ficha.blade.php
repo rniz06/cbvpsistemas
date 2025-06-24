@@ -86,7 +86,7 @@
                 <td>{{ $comentario->accion ?? 'N/A' }}</td>
                 <td>{{ $comentario->comentario ?? 'N/A' }}</td>
                 <td>{{ $comentario->nombrecompleto ?? 'N/A' }}</td>
-                <td>{{ date('d/m/Y H:m:s', strtotime($comentario->created_at)) }}</td>
+                <td>{{ date('d/m/Y H:i:s', strtotime($comentario->created_at)) }}</td>
             </tr>
         @endforeach
         <x-slot name="paginacion">
