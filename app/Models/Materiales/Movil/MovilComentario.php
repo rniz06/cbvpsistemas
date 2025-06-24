@@ -15,5 +15,5 @@ class MovilComentario extends Model implements Auditable
 
     protected $primaryKey = 'id_movil_comentario';
 
-    protected $fillable = ['comentario', 'movil_id', 'accion_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['comentario', 'movil_id', 'accion_id', 'accion_categoria_id', 'categoria_detalle_id', 'creadoPor', 'actualizadoPor'];
 }

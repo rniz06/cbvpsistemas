@@ -1,12 +1,22 @@
 <div>
-    <h4>Ficha de Material Mayor</h4>
+    <h4>Ficha de Material Mayor
+        - @can('Material Mayor Editar')
+            <x-adminlte-button class="btn-sm" type="button"
+                label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
+                icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
+                wire:click="$toggle('mostrarFormEditarFicha')" />
+        @endcan
+    </h4>
+    @if ($mostrarFormEditarFicha)
+        @livewire('materiales.mayor.ficha-editar', ['movil_id' => $movil->id_movil])
+    @endif
     {{-- Minimal without header / body only --}}
     <x-adminlte-card theme="warning" theme-mode="outline">
         <div class="row">
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Compañía:"
                 value="{{ $movil->compania ?? 'N/A' }}" disabled />
-            <x-adminlte-input name="" fgroup-class="col-md-2" label="Acrónimo:" value="{{ $movil->tipo ?? 'N/A' }}"
-                disabled />
+            <x-adminlte-input name="" fgroup-class="col-md-2" label="Acrónimo:"
+                value="{{ $movil->tipo ?? 'N/A' }}" disabled />
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Marca:" value="{{ $movil->marca ?? 'N/A' }}"
                 disabled />
             <x-adminlte-input name="" fgroup-class="col-md-2" label="Modelo:"
@@ -38,10 +48,6 @@
         @livewire('materiales.mayor.agregar-accion', ['movil_id' => $movil->id_movil])
     @endif
 
-    @if ($mostrarFormEditarFicha)
-        @livewire('materiales.mayor.ficha-editar', ['movil_id' => $movil->id_movil])
-    @endif
-
     <x-table.table titulo="Comentarios">
         <x-slot name="headerBotones">
 
@@ -64,13 +70,6 @@
                     label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
                     icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
                     wire:click="$toggle('mostrarFormAgregarAccion')" />
-            @endcan
-
-            @can('Material Mayor Editar')
-                <x-adminlte-button class="btn-sm" type="button"
-                    label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
-                    icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
-                    wire:click="$toggle('mostrarFormEditarFicha')" />
             @endcan
 
         </x-slot>

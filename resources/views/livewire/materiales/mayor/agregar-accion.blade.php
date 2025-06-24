@@ -32,6 +32,33 @@
                     </div>
                 @endif
 
+                {{-- FUERA DE SERVICIO --}}
+                @if ($accion_id == 2)
+                    <div class="col-md-2">
+                        <x-adminlte-select name="accion_categoria_id" label="Opciones:"
+                            wire:model.live="accion_categoria_id">
+                            <option>--- Seleccionar ---</option>
+                            @foreach ($accionCategorias as $accionCategoria)
+                                <option value="{{ $accionCategoria->id_accion_categoria }}">
+                                    {{ $accionCategoria->categoria ?? 'N/A' }}</option>
+                            @endforeach
+                        </x-adminlte-select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <x-adminlte-select name="categoria_detalle_id" label="Detalles:"
+                            wire:model.live="categoria_detalle_id">
+                            <option>--- Seleccionar ---</option>
+                            @foreach ($categoriasDetalles as $categoriaDetalle)
+                                <option value="{{ $categoriaDetalle->idaccion_categoria_detalle }}">
+                                    {{ $categoriaDetalle->detalle ?? 'N/A' }}</option>
+                            @endforeach
+                        </x-adminlte-select>
+                    </div>
+                @endif
+
+
+
                 <div class="col-md-6">
                     {{-- Minimal --}}
                     <x-adminlte-textarea name="comentario" oninput="this.value = this.value.toUpperCase()"
