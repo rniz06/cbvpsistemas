@@ -2,34 +2,35 @@
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
+
             <div class="col-md-3">
-                <x-select.select campo="departamento_id" label="Departamentos">
+                <x-adminlte-select name="departamento_id" label="Departamentos:" wire:model.live.debounce.250ms="departamento_id">
                     <option value="">Todos</option>
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->iddepartamentos }}">
                             {{ $departamento->departamento ?? 'N/A' }}</option>
                     @endforeach
-                </x-select.select>
+                </x-adminlte-select>
             </div>
 
             <div class="col-md-3">
-                <x-select.select campo="ciudad_id" label="Ciudades">
+                <x-adminlte-select name="ciudad_id" label="Ciudades:" wire:model.live.debounce.250ms="ciudad_id">
                     <option value="">Todos</option>
                     @foreach ($ciudades as $ciudad)
                         <option value="{{ $ciudad->idciudades }}">
                             {{ $ciudad->ciudad ?? 'N/A' }}</option>
                     @endforeach
-                </x-select.select>
+                </x-adminlte-select>
             </div>
 
             <div class="col-md-3">
-                <x-select.select campo="compania_id" label="Compañias">
+                <x-adminlte-select name="compania_id" label="Compañias:" wire:model.live.debounce.250ms="compania_id">
                     <option value="">Todos</option>
                     @foreach ($companias as $compania)
                         <option value="{{ $compania->idcompanias }}">
                             {{ $compania->compania ?? 'N/A' }}</option>
                     @endforeach
-                </x-select.select>
+                </x-adminlte-select>
             </div>
 
             <div class="col-md-3">
@@ -79,7 +80,7 @@
                     <th>Compañia:</th>
                 </x-slot>
 
-                @foreach ($operativos as $operativo)
+                @forelse ($operativos as $operativo)
                     <tr>
                         <td>{{ $operativo->marca ?? 'N/A' }}</td>
                         <td>{{ $operativo->modelo ?? 'N/A' }}</td>
@@ -89,7 +90,12 @@
                                     class="btn btn-block btn-sm btn-success">Ver Ficha</a></td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="100%" class="text-center font-weight-bold"><span class="font-italic">Sin
+                                Datos...</span></td>
+                    </tr>
+                @endforelse
                 <x-slot name="paginacion">
                     {{ $operativos->links() }}
                 </x-slot>
@@ -123,7 +129,7 @@
                     <th>Compañia:</th>
                 </x-slot>
 
-                @foreach ($inoperativos as $inoperativo)
+                @forelse ($inoperativos as $inoperativo)
                     <tr>
                         <td>{{ $inoperativo->marca ?? 'N/A' }}</td>
                         <td>{{ $inoperativo->modelo ?? 'N/A' }}</td>
@@ -133,7 +139,12 @@
                                     class="btn btn-block btn-sm btn-danger">Ver Ficha</a></td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="100%" class="text-center font-weight-bold"><span class="font-italic">Sin
+                                Datos...</span></td>
+                    </tr>
+                @endforelse
                 <x-slot name="paginacion">
                     {{ $inoperativos->links() }}
                 </x-slot>

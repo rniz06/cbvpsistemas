@@ -25,7 +25,7 @@ class Index extends Component
     public $paginadoOperativo = 5;
     public $paginadoInoperativo = 5;
     public $paginadoResumen = 5;
-    // #[Url]
+    #[Url]
     public $compania_id = '';
 
     // Funcion que deriva a la vista ver compania

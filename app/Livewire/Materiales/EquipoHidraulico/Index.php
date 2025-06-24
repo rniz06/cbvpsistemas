@@ -22,10 +22,10 @@ class Index extends Component
     public $buscadorInoperativo = '';
     public $departamento_id = '';
     public $ciudad_id = '';
-    // #[Url]
-    public $compania_id = '';
     public $paginadoOperativo = 5;
     public $paginadoInoperativo = 5;
+    #[Url]
+    public $compania_id = '';
 
     // Funcion que deriva a la vista ver compania
     public function verCompania()
