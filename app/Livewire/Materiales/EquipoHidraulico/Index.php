@@ -8,6 +8,7 @@ use App\Models\Ciudad;
 use App\Models\Compania;
 use App\Models\Departamento;
 use App\Models\Vistas\Materiales\VtHidraulico;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,6 +22,7 @@ class Index extends Component
     public $buscadorInoperativo = '';
     public $departamento_id = '';
     public $ciudad_id = '';
+    // #[Url]
     public $compania_id = '';
     public $paginadoOperativo = 5;
     public $paginadoInoperativo = 5;
@@ -73,8 +75,24 @@ class Index extends Component
                 ->orderBy('modelo')
                 ->paginate($this->paginadoInoperativo, ['*'], 'inoperativos_page'),
             'departamentos' => Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get(),
-            'ciudades' => Ciudad::select('idciudades', 'ciudad')->orderBy('ciudad')->get(),
-            'companias' => Compania::select('idcompanias', 'compania')->orderBy('orden')->get(),
+
+            'ciudades' => $this->departamento_id
+                ? Ciudad::select('idciudades', 'ciudad')
+                ->where('departamento_id', $this->departamento_id)
+                ->orderBy('ciudad')
+                ->get()
+                : Ciudad::select('idciudades', 'ciudad')
+                ->orderBy('ciudad')
+                ->get(),
+
+            'companias' => $this->ciudad_id
+                ? Compania::select('idcompanias', 'compania')
+                ->where('ciudad_id', $this->ciudad_id)
+                ->orderBy('orden')
+                ->get()
+                : Compania::select('idcompanias', 'compania')
+                ->orderBy('orden')
+                ->get(),
         ]);
     }
 
