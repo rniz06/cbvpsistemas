@@ -32,7 +32,7 @@ class Ficha extends Component
     {
         return view('livewire.materiales.mayor.ficha', [
             'movil' => VtMayor::findOrFail($this->movil_id),
-            'comentarios' => VtMayorComentario::select('id_movil_comentario', 'movil_id', 'accion', 'comentario', 'nombrecompleto', 'created_at')
+            'comentarios' => VtMayorComentario::select('id_movil_comentario', 'movil_id', 'accion', 'accion_categoria', 'categoria_detalle', 'comentario', 'nombrecompleto', 'created_at')
                 ->where('movil_id', $this->movil_id)
                 ->buscador($this->buscador)
                 ->orderBy('created_at', 'desc')

@@ -76,6 +76,8 @@
 
         <x-slot name="cabeceras">
             <th>Acción:</th>
+            <th>Categoria:</th>
+            <th>Detalle:</th>
             <th>Comentarios:</th>
             <th>Usuario:</th>
             <th>Fecha y Hora:</th>
@@ -84,6 +86,8 @@
         @foreach ($comentarios as $comentario)
             <tr>
                 <td>{{ $comentario->accion ?? 'N/A' }}</td>
+                <td>{{ $comentario->accion_categoria ?? 'S/D' }}</td>
+                <td>{{ $comentario->categoria_detalle ?? 'S/D' }}</td>
                 <td>{{ $comentario->comentario ?? 'N/A' }}</td>
                 <td>{{ $comentario->nombrecompleto ?? 'N/A' }}</td>
                 <td>{{ date('d/m/Y H:i:s', strtotime($comentario->created_at)) }}</td>
