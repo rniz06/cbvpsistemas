@@ -59,7 +59,7 @@
                     <p><strong class="">Estado: </strong>{{ $personal->estado ?? 'No Registra' }}</p>
                     <p><strong class="">Sexo: </strong>{{ $personal->sexo ?? 'No Registra' }}</p>
                     <p><strong class="">Nacionalidad: </strong>{{ $personal->pais ?? 'No Registra' }}</p>
-                    <p><strong class="">G. Sanguineo: </strong>{{ $personal->grupoSanguineo ?? 'No Registra' }}</p>
+                    <p><strong class="">G. Sanguineo: </strong>{{ $personal->grupo_sanguineo ?? 'No Registra' }}</p>
                     <hr>
                     @forelse ($personalContactos as $personalContacto)
                         <strong><i class="fas fa-info mr-1"></i>
