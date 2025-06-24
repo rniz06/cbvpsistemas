@@ -12,6 +12,7 @@
                 'language' => [
                     'url' => '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
                 ],
+                'order' => false,
             ];
         @endphp
         <x-adminlte-datatable id="table1" :heads="$heads" striped bordered compressed hoverable :config="$config"
@@ -22,7 +23,7 @@
                     <td>{{ $movil->accion ?? 'N/A' }}</td>
                     <td>{{ $movil->comentario ?? 'N/A' }}</td>
                     <td>{{ $movil->nombrecompleto ?? 'N/A' }}</td>
-                    <td>{{ date('d/m/Y H:m:s', strtotime($movil->created_at)) }} Hs</td>
+                    <td>{{ date('d/m/Y H:i:s', strtotime($movil->created_at)) }} Hs</td>
                 </tr>
             @endforeach
         </x-adminlte-datatable>
@@ -41,6 +42,7 @@
                 'language' => [
                     'url' => '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
                 ],
+                'order' => false,
             ];
         @endphp
         <x-adminlte-datatable id="table2" :heads="$heads" striped bordered compressed hoverable :config="$config"
