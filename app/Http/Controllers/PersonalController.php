@@ -237,8 +237,11 @@ class PersonalController extends Controller
             'nombrecompleto' => $request->nombrecompleto,
             'categoria_id' => $request->categoria_id,
             //'compania_id' => $request->compania_id,
-            'fecha_juramento' => Carbon::parse($request->fecha_de_juramento)->year,
+            'fecha_juramento' => $request->filled('fecha_de_juramento')
+                ? Carbon::parse($request->fecha_de_juramento)->year
+                : null,
             'fecha_de_juramento' => $request->fecha_de_juramento,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
             'estado_id' => $request->estado_id,
             'documento' => $request->documento,
             'sexo_id' => $request->sexo_id,
@@ -247,7 +250,6 @@ class PersonalController extends Controller
             'estado_actualizar_id' => $request->estado_actualizar_id,
             'grupo_sanguineo_id' => $request->grupo_sanguineo_id
         ]);
-        //return dd($personal);
         return redirect()->route('personal.show', $personal->idpersonal)
             ->with('success', 'Ficha Actualizada Correctamente');
     }

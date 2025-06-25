@@ -21,7 +21,7 @@ use Livewire\Component;
 class Create extends Component
 {
     #[Validate]
-    public $nombrecompleto, $codigo, $categoria_id, $compania_id, $fecha_juramento, $fecha_de_juramento, $estado_id, $documento, $sexo_id, $nacionalidad_id, $ultima_actualizacion, $estado_actualizar_id, $grupo_sanguineo_id;
+    public $nombrecompleto, $codigo, $categoria_id, $compania_id, $fecha_juramento, $fecha_de_juramento, $fecha_nacimiento, $estado_id, $documento, $sexo_id, $nacionalidad_id, $ultima_actualizacion, $estado_actualizar_id, $grupo_sanguineo_id;
 
     public $categorias, $companias, $estados, $sexos, $paises, $estadosActualizar, $gruposSanguineos;
 
@@ -53,6 +53,7 @@ class Create extends Component
             'compania_id' => 'required',
             'fecha_de_juramento' => ['nullable', 'date'],
             'fecha_juramento' => ['nullable', 'numeric', 'min_digits:4', 'max_digits:4'],
+            'fecha_nacimiento' => ['nullable', 'date'],
             'estado_id' => ['nullable', Rule::exists(Estado::class, 'idpersonal_estados')],
             'documento' => ['nullable', 'numeric', 'min_digits:6', 'max_digits:7', Rule::unique(Personal::class, 'documento')],
             'sexo_id' => ['nullable', Rule::exists(Sexo::class, 'idpersonal_sexo')],
@@ -69,8 +70,9 @@ class Create extends Component
             'codigo' => $this->codigo,
             'categoria_id' => $this->categoria_id,
             'compania_id' => $this->compania_id,
-            'fecha_juramento' => Carbon::parse($this->fecha_de_juramento)->year,
+            'fecha_juramento' => $this->fecha_de_juramento ? Carbon::parse($this->fecha_de_juramento)->year : null,
             'fecha_de_juramento' => $this->fecha_de_juramento,
+            'fecha_nacimiento' => $this->fecha_nacimiento,
             'estado_id' => $this->estado_id,
             'documento' => $this->documento,
             'sexo_id' => $this->sexo_id,

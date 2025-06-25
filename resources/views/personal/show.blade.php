@@ -81,62 +81,72 @@
                         </div>
                     </div> --}}
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Nombre Completo:</label>
                             <p class="form-control">{{ $personal->nombrecompleto ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Codigo:</label>
                             <p class="form-control">{{ $personal->codigo ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Documento:</label>
                             <p class="form-control">{{ $personal->documento ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
-                            <label for="">Fecha Juramento:</label>
+                        <div class="col-md-4">
+                            <label for="">Año Juramento:</label>
                             <p class="form-control">{{ $personal->fecha_juramento ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
+                            <label for="">Fecha de Juramento:</label>
+                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_de_juramento ?? 'S/D')) }}</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="">Fecha de Nacimiento:</label>
+                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_nacimiento ?? 'S/D')) }}</p>
+                        </div>
+
+                        <div class="col-md-4">
                             <label for="">Categoría:</label>
                             <p class="form-control">{{ $personal->categoria ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Estado:</label>
                             <p class="form-control">{{ $personal->estado ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Pais:</label>
                             <p class="form-control">{{ $personal->pais ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Sexo:</label>
                             <p class="form-control">{{ $personal->sexo ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Grupo Sanguineo:</label>
                             <p class="form-control">{{ $personal->grupo_sanguineo ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Compañia:</label>
                             <p class="form-control">{{ $personal->compania ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Estado actualizar:</label>
                             <p class="form-control">{{ $personal->estado_actualizar ?? 'N/A' }}</p>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label for="">Ultima actualización:</label>
                             <p class="form-control">{{ date('d/m/Y', strtotime($personal->ultima_actualizacion)) }}</p>
                         </div>

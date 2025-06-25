@@ -39,6 +39,10 @@
             <x-adminlte-input type="date" name="fecha_de_juramento" label="Fecha de Juramento:"
                 fgroup-class="col-md-3" wire:model.blur="fecha_de_juramento" />
 
+            {{-- Fecha de Nacimiento --}}
+            <x-adminlte-input type="date" name="fecha_nacimiento" label="Fecha de Nacimiento:"
+                fgroup-class="col-md-3" wire:model.blur="fecha_nacimiento" />
+
             {{-- Estado --}}
             <x-adminlte-select name="estado_id" label="Estado:" fgroup-class="col-md-3" wire:model.blur="estado_id">
                 <option>-- Seleccionar --</option>

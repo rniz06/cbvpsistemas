@@ -37,6 +37,9 @@
             <x-input label="Fecha de Juramento" type="date" name="fecha_de_juramento" placeholder="Fecha de Juramento..."
                 value="{{ $personal->fecha_de_juramento }}" />
 
+                <x-input label="Fecha de Nacimiento" type="date" name="fecha_nacimiento" placeholder="Fecha de Nacimiento..."
+                value="{{ $personal->fecha_nacimiento }}" />
+
             <x-input label="Documento" type="text" name="documento" placeholder="Documento..."
                 value="{{ $personal->documento }}" />
 
