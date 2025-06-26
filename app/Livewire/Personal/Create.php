@@ -73,13 +73,13 @@ class Create extends Component
             'fecha_juramento' => $this->fecha_de_juramento ? Carbon::parse($this->fecha_de_juramento)->year : null,
             'fecha_de_juramento' => $this->fecha_de_juramento,
             'fecha_nacimiento' => $this->fecha_nacimiento,
-            'estado_id' => $this->estado_id,
+            'estado_id' => $this->estado_id ?? 1,  // VIGENTE
             'documento' => $this->documento,
-            'sexo_id' => $this->sexo_id,
-            'nacionalidad_id' => $this->nacionalidad_id,
+            'sexo_id' => $this->sexo_id ?? 3,  // SIN DEFINIR
+            'nacionalidad_id' => $this->nacionalidad_id ?? 2,  // VIGENTE
             'ultima_actualizacion' => now(),
-            'estado_actualizar_id' => $this->estado_actualizar_id,
-            'grupo_sanguineo_id' => $this->grupo_sanguineo_id,
+            'estado_actualizar_id' => $this->estado_actualizar_id ?? 1, // FALTA ACTUALIZAR
+            'grupo_sanguineo_id' => $this->grupo_sanguineo_id ?? 1, // SIN DATOS
         ]);
 
         Usuario::create([
