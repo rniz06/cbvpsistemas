@@ -2,13 +2,21 @@
 
 namespace App\Livewire\Personal;
 
+use App\Exports\ExcelGenericoExport;
+use App\Models\Compania;
 use App\Models\Personal\Categoria;
+use App\Models\Personal\Estado;
+use App\Models\Personal\EstadoActualizar;
+use App\Models\Personal\GrupoSanguineo;
+use App\Models\Personal\Pais;
+use App\Models\Personal\Sexo;
 use App\Models\Vistas\VtCompania;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtPersonales;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Tabla extends Component
 {
@@ -26,14 +34,34 @@ class Tabla extends Component
     public $buscarCodigo = '';         // Almacena el criterio de búsqueda por código
     public $buscarDocumento = '';      // Almacena el criterio de búsqueda por documento
     public $buscarFechajuramento = ''; // Almacena el criterio de búsqueda por fecha_juramento
-    public $buscarCategoria = "";      // Almacena el criterio de búsqueda por categoría
-    public $buscarEstado = '';         // Almacena el criterio de búsqueda por Estado
-    public $buscarEstadoActualizar = ''; // Almacena el criterio de búsqueda por estado_actualizar
-    public $buscarPais = '';           // Almacena el criterio de búsqueda por Pais
-    public $buscarSexo = '';           // Almacena el criterio de búsqueda por Sexo
-    public $buscarGrupoSanguineo = ''; // Almacena el criterio de búsqueda por Sexo
-    public $buscarCompania = '';       // Almacena el criterio de búsqueda por compañía
+    public $buscarCategoriaId = "";      // Almacena el criterio de búsqueda por categoría
+    public $buscarEstadoId = '';         // Almacena el criterio de búsqueda por Estado
+    public $buscarEstadoActualizarId = ''; // Almacena el criterio de búsqueda por estado_actualizar
+    public $buscarPaisId = '';           // Almacena el criterio de búsqueda por Pais
+    public $buscarSexoId = '';           // Almacena el criterio de búsqueda por Sexo
+    public $buscarGrupoSanguineoId = ''; // Almacena el criterio de búsqueda por Sexo
+    public $buscarCompaniaId = '';       // Almacena el criterio de búsqueda por compañía
     public $paginado = 5;              // Define la cantidad de registros a mostrar por página
+
+    // Propiedades para los select del filtro
+    public $categorias, $estados, $estados_actualizar, $paises, $sexos, $gruposSanguineos, $companias;
+
+    public function mount()
+    {
+        $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+ 
+        $this->estados = Estado::select('idpersonal_estados', 'estado')->get();
+
+        $this->estados_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
+
+        $this->paises = Pais::select('idpaises', 'pais')->get();
+
+        $this->sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
+
+        $this->gruposSanguineos = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
+
+        $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
+    }
 
     /**
      * Método que se ejecuta al actualizar una de las propiedades de búsqueda o paginación.
@@ -42,7 +70,7 @@ class Tabla extends Component
      */
     public function updating($key): void
     {
-        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoria' || $key === 'buscarEstado' || $key === 'buscarPais' || $key === 'buscarSexo' || $key === 'buscarGrupoSanguineo' || $key === 'buscarCompania' || $key === 'paginado') {
+        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoriaId' || $key === 'buscarEstadoId' || $key === 'buscarPaisId' || $key === 'buscarSexoId' || $key === 'buscarGrupoSanguineoId' || $key === 'buscarCompaniaId' || $key === 'paginado') {
             $this->resetPage();
         }
     }
@@ -63,15 +91,38 @@ class Tabla extends Component
             ->buscarCodigo($this->buscarCodigo)
             ->buscarDocumento($this->buscarDocumento)
             ->buscarFechajuramento($this->buscarFechajuramento)
-            ->buscarCategoria($this->buscarCategoria)
-            ->buscarEstado($this->buscarEstado)
-            ->buscarEstadoActualizar($this->buscarEstadoActualizar)
-            ->buscarPais($this->buscarPais)
-            ->buscarSexo($this->buscarSexo)
-            ->buscarGrupoSanguineo($this->buscarGrupoSanguineo)
-            ->buscarCompania($this->buscarCompania)
+            ->buscarCategoriaId($this->buscarCategoriaId)
+            ->buscarEstadoId($this->buscarEstadoId)
+            ->buscarEstadoActualizarId($this->buscarEstadoActualizarId)
+            ->buscarPaisId($this->buscarPaisId)
+            ->buscarSexoId($this->buscarSexoId)
+            ->buscarGrupoSanguineoId($this->buscarGrupoSanguineoId)
+            //->buscarCompania($this->buscarCompania)
+            ->buscarCompaniaId($this->buscarCompaniaId)
             ->paginate($this->paginado);
 
         return view('livewire.personal.tabla', compact('personales'));
+    }
+
+    public function excel()
+    {
+        $datos = VtPersonales::select('nombrecompleto', 'codigo', 'documento', 'fecha_juramento', 'fecha_de_juramento',
+        'categoria', 'estado', 'estado_actualizar', 'pais', 'sexo', 'grupo_sanguineo', 'compania')
+            ->buscarNombrecompleto($this->buscarNombrecompleto)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarDocumento($this->buscarDocumento)
+            ->buscarFechajuramento($this->buscarFechajuramento)
+            ->buscarCategoriaId($this->buscarCategoriaId)
+            ->buscarEstadoId($this->buscarEstadoId)
+            ->buscarEstadoActualizarId($this->buscarEstadoActualizarId)
+            ->buscarPaisId($this->buscarPaisId)
+            ->buscarSexoId($this->buscarSexoId)
+            ->buscarGrupoSanguineoId($this->buscarGrupoSanguineoId)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->get();
+        $encabezados = ['Nombre Completo', 'Codigo', 'Documento', 'Año Juramento', 'Fecha Juramento', 'Categoria',
+          'Estado', 'Actualizar', 'Nacionalidad', 'Sexo', 'Grupo Sanguineo','Compañia'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Personal CBVP.xlsx');
     }
 }

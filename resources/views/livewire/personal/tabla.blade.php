@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Listado de Personales @can('Personal Exportar Excel')
-                <a href="{{ route('personal.exportar') }}" class="btn btn-sm btn-secondary"><i class="fas fa-file-export"></i>
-                    Exportar</a>
+                <button class="btn btn-sm btn-secondary" wire:click="excel"><i class="fas fa-file-export"></i>
+                    Exportar</button>
             @endcan
             @can('Personal Crear')
                 <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success">Registrar Personal</a>
@@ -23,20 +23,87 @@
                             wire:model.live="buscarDocumento"></th>
                     <th>Fecha Juramento: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarFechajuramento"></th>
-                    <th>Categoria: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarCategoria"></th>
-                    <th>Estado: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarEstado"></th>
-                    <th>Actualizar: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarEstadoActualizar"></th>
-                    <th>Pais: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarPais"></th>
-                    <th>Sexo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarSexo"></th>
-                    <th>G. Sanguineo: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarGrupoSanguineo"></th>
-                    <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarCompania"></th>
+                    <th>Categoria: <br> <select class="form-control form-control-sm"
+                            wire:model.live="buscarCategoriaId">
+                            <option value="">Todos</option>
+                            @forelse ($categorias as $categoria)
+                                <option value="{{ $categoria->idpersonal_categorias ?? '0' }}">
+                                    {{ $categoria->categoria ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select>
+                    </th>
+                    <th>Estado: <br> <select class="form-control form-control-sm" wire:model.live="buscarEstadoId">
+                            <option value="">Todos</option>
+                            @forelse ($estados as $estado)
+                                <option value="{{ $estado->idpersonal_estados ?? '0' }}">
+                                    {{ $estado->estado ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select></th>
+                    <th>Actualizar: <br> <select class="form-control form-control-sm"
+                            wire:model.live="buscarEstadoActualizarId">
+                            <option value="">Todos</option>
+                            @forelse ($estados_actualizar as $estado_actualizar)
+                                <option value="{{ $estado_actualizar->idpersonal_estado_actualizar ?? '0' }}">
+                                    {{ $estado_actualizar->estado ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select></th>
+                    <th>Pais: <br> <select class="form-control form-control-sm" wire:model.live="buscarPaisId">
+                            <option value="">Todos</option>
+                            @forelse ($paises as $pais)
+                                <option value="{{ $pais->idpaises ?? '0' }}">
+                                    {{ $pais->pais ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select></th>
+                    <th>Sexo: <br> <select class="form-control form-control-sm" wire:model.live="buscarSexoId">
+                            <option value="">Todos</option>
+                            @forelse ($sexos as $sexo)
+                                <option value="{{ $sexo->idpersonal_sexo ?? '0' }}">
+                                    {{ $sexo->sexo ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select></th>
+                    <th>G. Sanguineo: <br> <select class="form-control form-control-sm"
+                            wire:model.live="buscarGrupoSanguineoId">
+                            <option value="">Todos</option>
+                            @forelse ($gruposSanguineos as $grupoSanguineo)
+                                <option value="{{ $grupoSanguineo->idpersonal_grupo_sanguineo ?? '0' }}">
+                                    {{ $grupoSanguineo->grupo_sanguineo ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </select></th>
+                    @if (!Auth::user()->hasRole('moderador_personal_compania'))
+                        <th>Compañia: <br> <select class="form-control form-control-sm"
+                                wire:model.live="buscarCompaniaId">
+                                <option value="">Todos</option>
+                                @forelse ($companias as $compania)
+                                    <option value="{{ $compania->idcompanias ?? '0' }}">
+                                        {{ $compania->compania ?? 'S/D' }}</option>
+                                @empty
+                                    <option value="">Sin datos...</option>
+                                @endforelse
+                            </select></th>
+                    @endif
+                    {{-- <th>Compañia:<br>
+                        <x-adminlte-select name="compania_id"  wire:model.live="buscarCompaniaId" class="form-control-sm">
+                            <option value="">Todos</option>
+                            @forelse ($companias as $compania)
+                                <option value="{{ $compania->idcompanias ?? '0' }}">
+                                    {{ $compania->compania ?? 'S/D' }}</option>
+                            @empty
+                                <option value="">Sin datos...</option>
+                            @endforelse
+                        </x-adminlte-select>
+                    </th> --}}
                     <th></th>
                 </tr>
                 <tr>

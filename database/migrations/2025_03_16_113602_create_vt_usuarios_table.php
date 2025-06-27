@@ -28,7 +28,7 @@ return new class extends Migration
                 p.documento,
                 p.compania
             FROM users u
-            JOIN vt_personales p ON (p.idpersonal = u.personal_id)
+            LEFT JOIN vt_personales p ON (p.idpersonal = u.personal_id)
         ');
     }
 

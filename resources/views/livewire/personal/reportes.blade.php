@@ -70,7 +70,7 @@
     </x-card.card-filtro>
 
     <div class="row">
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -89,7 +89,7 @@
         </div>
         <!-- ./col -->
 
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -108,7 +108,7 @@
         </div>
         <!-- ./col -->
 
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -127,7 +127,7 @@
         </div>
         <!-- ./col -->
 
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -137,6 +137,25 @@
                 </div>
                 <div class="icon">
                     <i class="fas fa-edit"></i>
+                </div>
+                @can('Personal Listar')
+                    <a href="{{ route('personal.index') }}" class="small-box-footer">Ver Más... <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                @endcan
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ number_format($total_actualizado, 0, '.', '.') }}</h3>
+
+                    <p>Actualizados</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-check-circle"></i>
                 </div>
                 @can('Personal Listar')
                     <a href="{{ route('personal.index') }}" class="small-box-footer">Ver Más... <i

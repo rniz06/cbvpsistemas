@@ -19,6 +19,8 @@ class Reportes extends Component
     public $esModerador = false;
     public $compania = null;
 
+    public $companias, $categorias, $estados, $estados_actualizar;
+
     public function mount()
     {
         // Verificamos si el usuario tiene el rol
@@ -27,6 +29,10 @@ class Reportes extends Component
             $this->compania_id = Auth::user()->compania_id;
             $this->compania = Auth::user()->compania;
         }
+        $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
+        $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+        $this->estados = Estado::select('idpersonal_estados', 'estado')->get();
+        $this->estados_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
     }
 
     public function render()
@@ -54,10 +60,7 @@ class Reportes extends Component
             'total_combatientes' => (clone $query)->where('categoria_id', 1)->count(),
             'total_activos' => (clone $query)->where('categoria_id', 2)->count(),
             'total_falta_actualizar' => (clone $query)->where('estado_actualizar_id', 1)->count(),
-            'companias' => Compania::select('idcompanias', 'compania')->orderBy('orden')->get(),
-            'categorias' => Categoria::select('idpersonal_categorias', 'categoria')->get(),
-            'estados' => Estado::select('idpersonal_estados', 'estado')->get(),
-            'estados_actualizar' => EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get(),
+            'total_actualizado' => (clone $query)->where('estado_actualizar_id', 2)->count(),
         ]);
     }
 }
