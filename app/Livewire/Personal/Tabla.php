@@ -70,7 +70,7 @@ class Tabla extends Component
      */
     public function updating($key): void
     {
-        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoriaId' || $key === 'buscarEstadoId' || $key === 'buscarPaisId' || $key === 'buscarSexoId' || $key === 'buscarGrupoSanguineoId' || $key === 'buscarCompaniaId' || $key === 'paginado') {
+        if ($key === 'buscarNombrecompleto' || $key === 'buscarCodigo' || $key === 'buscarDocumento' || $key === 'buscarFechajuramento' || $key === 'buscarCategoriaId' || $key === 'buscarEstadoId' || $key === 'buscarEstadoActualizarId' || $key === 'buscarPaisId' || $key === 'buscarSexoId' || $key === 'buscarGrupoSanguineoId' || $key === 'buscarCompaniaId' || $key === 'paginado') {
             $this->resetPage();
         }
     }
