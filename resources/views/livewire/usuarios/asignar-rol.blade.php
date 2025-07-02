@@ -2,14 +2,11 @@
     {{-- Info del usuario --}}
     <h4>Información del Usuario:</h4>
     <div class="col-md-12 row">
-        {{-- <x-adminlte-callout theme="success" title="Roles" class="col-md-6">
-            {{ implode(' - ', $roles) ?: 'N/A' }}
-        </x-adminlte-callout> --}}
         <x-adminlte-callout theme="success" title="Roles" class="col-md-6">
             @forelse ($roles as $role)
-                {{ ucwords(str_replace('_', ' ', $role)) ?? 'S/D' }} -
+                {{ $role ? ucwords(str_replace('_', ' ', $role)) : 'S/D' }}
             @empty
-            <p class="font-italic">Sin roles...</p>
+                <p class="font-italic">Sin roles...</p>
             @endforelse
         </x-adminlte-callout>
         <x-adminlte-callout theme="success" title="Asignado a" class="col-md-6">
