@@ -1,6 +1,6 @@
 <div>
     {{-- Info del usuario --}}
-    <h4>Información del Usuario: aa - {{ $usuarioAuth ?? 'S/D' }}</h4>
+    <h4>Información del Usuario:</h4>
     <div class="col-md-12 row">
         <x-adminlte-callout theme="success" title="Roles" class="col-md-6">
             @forelse ($roles as $role)

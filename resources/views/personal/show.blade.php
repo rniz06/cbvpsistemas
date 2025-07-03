@@ -49,6 +49,14 @@
                         <i class="fas fa-exchange-alt"></i> Cambio Compañia
                     </button>
                 @endcan
+                @can('Personal Cambiar Codigo')
+                    <!-- Button Modal Cambiar de Compania -->
+                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#cambiodecompania">
+                        <i class="fas fa-exchange-alt"></i> Cambio Compañia
+                    </button>
+                    <a href="{{ route('personal.cambiarCodigo', $personal->idpersonal) }}"
+                        class="btn btn-sm btn-warning"><i class="fas fa-sync-alt"></i> Cambiar Código</a>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -103,7 +111,8 @@
 
                         <div class="col-md-4">
                             <label for="">Fecha de Juramento:</label>
-                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_de_juramento ?? 'S/D')) }}</p>
+                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_de_juramento ?? 'S/D')) }}
+                            </p>
                         </div>
 
                         <div class="col-md-4">
@@ -336,7 +345,8 @@
                             </div>
 
                             {{-- Compania --}}
-                            <x-adminlte-select name="compania_id" label="Nueva Compañia:" id="modalcambiocompania_id" style="width: 100%">
+                            <x-adminlte-select name="compania_id" label="Nueva Compañia:" id="modalcambiocompania_id"
+                                style="width: 100%">
                                 @foreach ($companias as $compania)
                                     <option value="{{ $compania->idcompanias }}">
                                         {{ $compania->compania . ' - ' . $compania->departamento . ' - ' . $compania->ciudad ?? 'N/A' }}
