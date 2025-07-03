@@ -8,17 +8,36 @@ use App\Models\Compania;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRoleCompania;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class AsignarRol extends Component
 {
-    public $usuario, $rolesSelect = [], $roles = [], $companias = [], $compania_id = null;
+    public $usuario, $rolesSelect = [], $roles = [], $companias = [], $compania_id = null, $usuarioAuth;
 
     public function mount(User $usuario)
     {
         $this->usuario = $usuario;
-        $this->rolesSelect = Role::pluck('name', 'name')->all();
-        $this->roles = $usuario->roles->pluck('name')->toArray();
+        $this->usuarioAuth = Auth::user()->roles()->pluck('name')->first();
+        switch ($this->usuarioAuth) {
+            case 'SuperAdmin':
+                $this->rolesSelect = Role::pluck('name', 'name')->all();
+                $this->roles = $usuario->roles->pluck('name')->toArray();
+                break;
+            case 'personal_admin':
+                $this->rolesSelect = Role::where('name', 'like', 'personal_%')->where('name', '!=', 'SuperAdmin')->pluck('name', 'name')->toArray();
+                $this->roles = $usuario->roles()->where('name', 'like', 'personal_%')->pluck('name')->toArray();
+                break;
+            case 'materiales_admin':
+                $this->rolesSelect = Role::where('name', 'like', 'materiales_%')->where('name', '!=', 'SuperAdmin')->pluck('name', 'name')->toArray();
+                $this->roles = $usuario->roles()->where('name', 'like', 'materiales_%')->pluck('name')->toArray();
+                break;
+            default:
+                $this->rolesSelect = [];
+                break;
+        }
+        //$this->rolesSelect = Role::pluck('name', 'name')->all();
+
         $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
 
         $this->cargarCompaniaSiAplica();
@@ -40,7 +59,23 @@ class AsignarRol extends Component
         $user = $this->usuario;
 
         // Asignar roles con Spatie
-        $user->syncRoles($this->roles);
+        $authUserRole = Auth::user()->roles()->pluck('name')->first();
+
+        if ($authUserRole !== 'SuperAdmin') {
+            // Obtener los roles actuales del usuario
+            $rolesActuales = $user->roles->pluck('name')->toArray();
+
+            // Unir sin duplicados
+            $todosLosRoles = collect($rolesActuales)
+                ->merge($this->roles)
+                ->unique()
+                ->toArray();
+
+            $user->syncRoles($todosLosRoles);
+        } else {
+            // SuperAdmin puede sobreescribir todos los roles
+            $user->syncRoles($this->roles);
+        }
 
         // Actualizar nuestra tabla pivote personalizada
         UserRoleCompania::where('usuario_id', $user->id_usuario)->delete(); // limpieza anterior
