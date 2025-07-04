@@ -5,7 +5,7 @@
                     Exportar</button>
             @endcan
             @can('Personal Crear')
-                <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success">Registrar Personal</a>
+                <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i>Registrar Personal</a>
             @endcan
         </h3>
     </div>
@@ -81,9 +81,8 @@
                                 <option value="">Sin datos...</option>
                             @endforelse
                         </select></th>
-                    @if (!Auth::user()->hasRole('moderador_personal_compania'))
-                        <th>Compañia: <br> <select class="form-control form-control-sm"
-                                wire:model.live="buscarCompaniaId">
+                    @unless (Auth::user()->hasRole('personal_moderador_compania') || Auth::user()->hasRole('personal_moderador_por_compania'))
+                        <th>Compañia: <br> <select class="form-control form-control-sm" wire:model.live="buscarCompaniaId">
                                 <option value="">Todos</option>
                                 @forelse ($companias as $compania)
                                     <option value="{{ $compania->idcompanias ?? '0' }}">
@@ -92,18 +91,7 @@
                                     <option value="">Sin datos...</option>
                                 @endforelse
                             </select></th>
-                    @endif
-                    {{-- <th>Compañia:<br>
-                        <x-adminlte-select name="compania_id"  wire:model.live="buscarCompaniaId" class="form-control-sm">
-                            <option value="">Todos</option>
-                            @forelse ($companias as $compania)
-                                <option value="{{ $compania->idcompanias ?? '0' }}">
-                                    {{ $compania->compania ?? 'S/D' }}</option>
-                            @empty
-                                <option value="">Sin datos...</option>
-                            @endforelse
-                        </x-adminlte-select>
-                    </th> --}}
+                    @endunless
                     <th></th>
                 </tr>
                 <tr>
@@ -144,7 +132,8 @@
                                 @endif
 
                                 @if (auth()->user()->can('Personal Cambiar Codigo'))
-                                    <x-slot name="cambiarCodigo">{{ route('personal.cambiarCodigo', $personal->idpersonal) }}</x-slot>
+                                    <x-slot
+                                        name="cambiarCodigo">{{ route('personal.cambiarCodigo', $personal->idpersonal) }}</x-slot>
                                 @endif
 
                                 @if (auth()->user()->can('Personal Generar Ficha'))

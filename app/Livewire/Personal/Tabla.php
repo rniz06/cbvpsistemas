@@ -10,6 +10,7 @@ use App\Models\Personal\EstadoActualizar;
 use App\Models\Personal\GrupoSanguineo;
 use App\Models\Personal\Pais;
 use App\Models\Personal\Sexo;
+use App\Models\UserRoleCompania;
 use App\Models\Vistas\VtCompania;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtPersonales;
@@ -49,7 +50,7 @@ class Tabla extends Component
     public function mount()
     {
         $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
- 
+
         $this->estados = Estado::select('idpersonal_estados', 'estado')->get();
 
         $this->estados_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
@@ -78,12 +79,26 @@ class Tabla extends Component
     public function render()
     {
         $usuario = Auth::user();
-        $personales = VtPersonales::query();
+        $usuarioRoles = $usuario->roles()->pluck('name')->first();
+        //$personales = VtPersonales::query();
+        switch ($usuarioRoles) {
+            case 'personal_moderador_compania':
+                $personales = VtPersonales::query()->where('compania_id', $usuario->personal->compania_id);
+                break;
+            case 'personal_moderador_por_compania':
+                $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
+                $personales = VtPersonales::query()->where('compania_id', $asignacion->compania_id);
+                break;
+
+            default:
+                $personales = VtPersonales::query();
+                break;
+        }
 
         // Aplicar el filtro de compañía si no es moderador
-        if ($usuario->hasRole('moderador_personal_compania')) {
-            $personales->where('compania_id', $usuario->personal->compania_id);
-        }
+        // if ($usuario->hasRole('moderador_personal_compania')) {
+        //     $personales->where('compania_id', $usuario->personal->compania_id);
+        // }
 
         // Continuar con el resto de los filtros en la MISMA query
         $personales = $personales
@@ -106,8 +121,20 @@ class Tabla extends Component
 
     public function excel()
     {
-        $datos = VtPersonales::select('nombrecompleto', 'codigo', 'documento', 'fecha_juramento', 'fecha_de_juramento',
-        'categoria', 'estado', 'estado_actualizar', 'pais', 'sexo', 'grupo_sanguineo', 'compania')
+        $datos = VtPersonales::select(
+            'nombrecompleto',
+            'codigo',
+            'documento',
+            'fecha_juramento',
+            'fecha_de_juramento',
+            'categoria',
+            'estado',
+            'estado_actualizar',
+            'pais',
+            'sexo',
+            'grupo_sanguineo',
+            'compania'
+        )
             ->buscarNombrecompleto($this->buscarNombrecompleto)
             ->buscarCodigo($this->buscarCodigo)
             ->buscarDocumento($this->buscarDocumento)
@@ -120,8 +147,20 @@ class Tabla extends Component
             ->buscarGrupoSanguineoId($this->buscarGrupoSanguineoId)
             ->buscarCompaniaId($this->buscarCompaniaId)
             ->get();
-        $encabezados = ['Nombre Completo', 'Codigo', 'Documento', 'Año Juramento', 'Fecha Juramento', 'Categoria',
-          'Estado', 'Actualizar', 'Nacionalidad', 'Sexo', 'Grupo Sanguineo','Compañia'];
+        $encabezados = [
+            'Nombre Completo',
+            'Codigo',
+            'Documento',
+            'Año Juramento',
+            'Fecha Juramento',
+            'Categoria',
+            'Estado',
+            'Actualizar',
+            'Nacionalidad',
+            'Sexo',
+            'Grupo Sanguineo',
+            'Compañia'
+        ];
 
         return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Personal CBVP.xlsx');
     }
