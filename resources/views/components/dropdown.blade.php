@@ -9,6 +9,10 @@
                 <a class="dropdown-item" tabindex="-1" href="{{ $show }}"><i class="fas fa-eye pr-2"
                         style="color: #6c757d"></i>Ver</a>
             @endif
+            @if (isset($cambiarCodigo))
+                <a class="dropdown-item" tabindex="-1" href="{{ $cambiarCodigo }}"><i class="fas fa-sync-alt pr-2"
+                        style="color: #ffc107"></i>Cambiar Codigo</a>
+            @endif
             @if (isset($ficha))
                 <a class="dropdown-item" tabindex="-1" href="{{ $ficha }}"><i class="far fa-file-alt pr-2"
                         style="color: #6c757d"></i></i>Ficha PDF</a>

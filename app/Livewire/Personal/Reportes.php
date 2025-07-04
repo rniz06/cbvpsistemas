@@ -7,6 +7,7 @@ use App\Models\Personal;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Estado;
 use App\Models\Personal\EstadoActualizar;
+use App\Models\UserRoleCompania;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -23,11 +24,24 @@ class Reportes extends Component
 
     public function mount()
     {
-        // Verificamos si el usuario tiene el rol
-        if (Auth::user()->hasRole('moderador_personal_compania')) {
-            $this->esModerador = true;
-            $this->compania_id = Auth::user()->compania_id;
-            $this->compania = Auth::user()->compania;
+        $usuario = Auth::user();
+        $usuarioRoles = $usuario->roles()->where('name', 'like', 'personal_%')->pluck('name')->first();
+        switch ($usuarioRoles) {
+            case 'personal_moderador_compania':
+                $this->esModerador = true;
+                $this->compania_id = $usuario->personal->compania_id;
+                $this->compania = $usuario->compania;
+                break;
+            case 'personal_moderador_por_compania':
+                $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
+                $this->esModerador = true;
+                $this->compania_id = $asignacion->compania_id;
+                $this->compania = $asignacion->compania->compania;
+                break;
+
+            default:
+                //$personales = Personal::query();
+                break;
         }
         $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
         $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();

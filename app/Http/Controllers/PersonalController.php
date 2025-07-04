@@ -45,6 +45,7 @@ class PersonalController extends Controller
         $this->middleware('permission:Personal Editar', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Personal Eliminar', ['only' => ['destroy']]);
         $this->middleware('permission:Personal Reportes Listar', ['only' => ['reportes']]);
+        $this->middleware('permission:Personal Cambiar Codigo', ['only' => ['cambiarCodigo']]);
     }
 
     /**
@@ -53,6 +54,14 @@ class PersonalController extends Controller
     public function index()
     {
         return view('personal.index');
+    }
+
+    /**
+     * Retornar la vista con form para cambiar el codigo de un personal.
+     */
+    public function cambiarCodigo($personal)
+    {
+        return view('personal.cambiar-codigo', compact('personal'));
     }
 
     /**
