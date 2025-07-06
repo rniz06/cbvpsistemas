@@ -16,6 +16,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
 
+include_once __DIR__.'/admin.php'; // Incluir las rutas de admin
 include_once __DIR__.'/materiales.php'; // Incluir las rutas de materiales
 
 Route::get('/', function () {
