@@ -117,14 +117,16 @@
             </th>
         </x-slot>
 
-        @foreach ($companias as $compania)
+        @forelse ($companias as $compania)
             <tr wire:click="seleccionado({{ $compania->id_compania }})" wire:key="{{ $compania->id_compania }}">
                 <td>{{ $compania->compania ?? 'S/D' }}</td>
                 <td>{{ $compania->departamento ?? 'S/D' }}</td>
                 <td>{{ $compania->ciudad ?? 'S/D' }}</td>
                 <td>{{ $compania->region ?? 'S/D' }}</td>
             </tr>
-        @endforeach
+        @empty
+            <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+        @endforelse
 
         <x-slot name="paginacion">
             {{ $companias->links() }}
