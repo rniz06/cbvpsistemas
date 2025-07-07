@@ -380,7 +380,7 @@ return [
             ],
         ],
         [
-            'text' => 'Admin',
+            'text' => 'AdminGral',
             'icon' => 'fas fa-users-cog',
             'submenu' => [
                 [
@@ -398,6 +398,17 @@ return [
                 //     'route' => 'permisos.index',
                 //     'can' => 'Permisos Listar',
                 // ],
+            ],
+        ],
+        [
+            'text' => 'Admin',
+            'icon' => 'fas fa-tools',
+            'submenu' => [
+                [
+                    'text' => 'Compañias',
+                    'route' => 'admin.companias.index',
+                    'can' => 'Companias Listar',
+                ],
             ],
         ],
         // [

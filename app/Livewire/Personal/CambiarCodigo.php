@@ -5,12 +5,14 @@ namespace App\Livewire\Personal;
 use App\Models\Personal;
 use App\Models\Vistas\VtPersonales;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class CambiarCodigo extends Component
 {
     public $personal;
 
+    #[Validate]
     public $codigo_a_asignar;
 
     public function mount(VtPersonales $personal)
