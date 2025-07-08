@@ -19,13 +19,11 @@ return new class extends Migration
             $table->foreignId('movil_id')->constrained('MAT_moviles', 'id_movil')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('acargo')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal
             $table->foreign('acargo')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('chofer')->nullable()->constrained('MAT_conductores_bomberos', 'id_conductor_bombero')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('chofer', 10)->nullable();
             $table->dateTime('fecha_cia')->nullable();
             $table->dateTime('fecha_movil')->nullable();
             $table->dateTime('fecha_servicio')->nullable();
             $table->dateTime('fecha_base')->nullable();
-            $table->string('acargo_old', 10)->nullable();
-            $table->string('chofer_old', 10)->nullable();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
