@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 include_once __DIR__.'/admin.php'; // Incluir las rutas de admin
 include_once __DIR__.'/materiales.php'; // Incluir las rutas de materiales
+include_once __DIR__.'/cca.php'; // Incluir las rutas de cca
 
 Route::get('/', function () {
     return redirect()->route('home');

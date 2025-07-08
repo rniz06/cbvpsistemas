@@ -340,7 +340,7 @@ return [
         ],
         [
             'text' => 'Materiales',
-            'icon' => 'fas fa-clipboard-list',
+            'icon' => 'mr-1 fas fa-clipboard-list',
             'submenu' => [
                 [
                     'text' => 'Ult. Actualizaciones',
@@ -367,20 +367,38 @@ return [
                     'route' => 'materiales.parametros',
                     'can' => 'Materiales Parametros',
                 ],
-                // [
-                //     'text' => 'Roles',
-                //     'route' => 'roles.index',
-                //     'can' => 'Roles Listar',
-                // ],
-                // [
-                //     'text' => 'Permisos',
-                //     'route' => 'permisos.index',
-                //     'can' => 'Permisos Listar',
-                // ],
             ],
         ],
         [
-            'text' => 'AdminGral',
+            'text' => 'CCA',
+            'icon' => 'mr-1 fas fa-phone-volume',
+            'submenu' => [
+                [
+                    'text' => 'Despachos',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Despachos Por Compañia',
+                            'route' => 'cca.despacho.despacho-por-compania',
+                            'can' => 'Despachos Por Compania',
+                        ],
+                        [
+                            'text' => 'Despachos Por Servicio',
+                            'url' => 'cca.despacho-por-compania',
+                            'can' => 'Despachos Por Compania',
+                        ],
+                        [
+                            'text' => 'Servicios Activos',
+                            'url' => 'cca.despacho-por-compania',
+                            'can' => 'Despachos Por Compania',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'text' => 'Admin',
             'icon' => 'fas fa-users-cog',
             'submenu' => [
                 [
@@ -393,15 +411,10 @@ return [
                     'route' => 'roles.index',
                     'can' => 'Roles Listar',
                 ],
-                // [
-                //     'text' => 'Permisos',
-                //     'route' => 'permisos.index',
-                //     'can' => 'Permisos Listar',
-                // ],
             ],
         ],
         [
-            'text' => 'Admin',
+            'text' => 'OyM',
             'icon' => 'fas fa-tools',
             'submenu' => [
                 [
