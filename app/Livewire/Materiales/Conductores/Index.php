@@ -8,7 +8,10 @@ use App\Models\Ciudad;
 use App\Models\Materiales\Conductor\ClaseLicencia;
 use App\Models\Materiales\Conductor\ConductorBombero;
 use App\Models\Materiales\Conductor\TipoVehiculo;
+use App\Models\UserRoleCompania;
 use App\Models\Vistas\Materiales\VtConductor;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -29,6 +32,15 @@ class Index extends Component
     public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
     public $buscador = '';
     public $paginado = 5;
+
+    // public $ciudades = [], $tipoVehiculo = [], $licencias = [];
+
+    // public function mount()
+    // {
+    //     $this->ciudades = Auth::user()->name;
+    //     $this->tipoVehiculo = Auth::user()->name;
+    //     $this->licencias = Auth::user()->name;
+    // }
 
     // Habilita el formulario para agregar un registro
     public function agregar()
@@ -86,9 +98,9 @@ class Index extends Component
             'fecha_curso' => ['required', 'date'],
             'ciudad_curso_id' => ['required'],
             'ciudad_licencia_id' => ['required'],
-            'tipo_vehiculo_id' => ['required','exists:conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
+            'tipo_vehiculo_id' => ['required', 'exists:conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
             'numero_licencia' => ['required', Rule::unique('conductores_bomberos')->ignore($this->conductor_id), 'numeric', 'min_digits:6', 'max_digits:7'],
-            'clase_licencia_id' => ['required','exists:conductores_clase_licencias,id_conductor_bombero'],
+            'clase_licencia_id' => ['required', 'exists:conductores_clase_licencias,id_conductor_bombero'],
         ];
     }
 
@@ -133,14 +145,38 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.materiales.conductores.index',[
-            'conductores' => VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
-                ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado),
-            'ciudades' => Ciudad::select('idciudades', 'ciudad')->orderBy('ciudad')->get(),
-            'tipoVehiculos' => TipoVehiculo::select('idconductor_tipo_vehiculo', 'tipo')->get(),
-            'licencias' => ClaseLicencia::select('idconductor_clase_licencia', 'clase')->get(),
+        $usuario = Auth::user();
+        $usuarioRoles = null;
+
+        if (!$usuario->hasRole('SuperAdmin')) {
+            $usuarioRoles = $usuario->roles()->where('name', 'like', 'materiales_%')->pluck('name')->first();
+        }
+
+        switch ($usuarioRoles) {
+            case 'materiales_moderador_compania':
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
+                    ->where('compania_id', $usuario->compania_id)
+                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                break;
+
+            case 'materiales_moderador_por_compania':
+                $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
+                    ->where('compania_id', $asignacion?->compania_id)
+                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                break;
+
+            default:
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
+                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                break;
+        }
+
+        return view('livewire.materiales.conductores.index', [
+            'conductores' => $conductores,
         ]);
     }
+
 
     public function excel()
     {

@@ -14,7 +14,7 @@
             <th>Ver Ficha:</th>
         </x-slot>
 
-        @foreach ($conductores as $conductor)
+        @forelse ($conductores as $conductor)
             <tr wire:click="seleccionado({{ $conductor->id_conductor_bombero }})">
                 <td>{{ $conductor->codigo }}</td>
                 <td>{{ $conductor->nombrecompleto }}</td>
@@ -31,7 +31,9 @@
                     @endcan
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+        @endforelse
         <x-slot name="paginacion">
             {{ $conductores->links() }}
         </x-slot>

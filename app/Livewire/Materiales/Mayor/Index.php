@@ -33,11 +33,6 @@ class Index extends Component
     // Propiedades del filtro
     public $departamentos, $ciudades, $companias;
 
-    // Propiedades de la tabla de la vista
-    //public $operativos, $inoperativos, $resumen;
-
-
-
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
     {
