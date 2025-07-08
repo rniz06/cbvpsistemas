@@ -96,10 +96,7 @@
                         @endcan
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="100%" class="text-center font-weight-bold"><span class="font-italic">Sin
-                                Datos...</span></td>
-                    </tr>
+                    <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
                 @endforelse
                 <x-slot name="paginacion">
                     {{ $operativos->links() }}
@@ -140,15 +137,12 @@
                         <td>{{ $inoperativo->modelo ?? 'N/A' }}</td>
                         <td>{{ $inoperativo->compania ?? 'N/A' }}</td>
                         @can('Equipos Hidraulicos Ver')
-                            <td><a href="{{ route('materiales.hidraulicos.show', $operativo->id_hidraulico) }}"
+                            <td><a href="{{ route('materiales.hidraulicos.show', $inoperativo->id_hidraulico) }}"
                                     class="btn btn-block btn-sm btn-danger">Ver Ficha</a></td>
                         @endcan
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="100%" class="text-center font-weight-bold"><span class="font-italic">Sin
-                                Datos...</span></td>
-                    </tr>
+                    <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
                 @endforelse
                 <x-slot name="paginacion">
                     {{ $inoperativos->links() }}
