@@ -12,7 +12,7 @@ class MaterialParametroController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:Materiales Parametros', ['only' => ['index']]);
+        $this->middleware('permission:Materiales Principal', ['only' => ['index']]);
         $this->middleware('permission:Materiales Parametros', ['only' => ['transmision']]);
         $this->middleware('permission:Materiales Parametros', ['only' => ['ejes']]);
         $this->middleware('permission:Materiales Parametros', ['only' => ['combustibles']]);

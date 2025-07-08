@@ -7,7 +7,9 @@ use App\Exports\PdfGenericoExport;
 use App\Models\Ciudad;
 use App\Models\Compania;
 use App\Models\Departamento;
+use App\Models\UserRoleCompania;
 use App\Models\Vistas\Materiales\VtHidraulico;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -26,6 +28,9 @@ class Index extends Component
     public $paginadoInoperativo = 5;
     #[Url]
     public $compania_id = '';
+
+    // Propiedades del filtro
+    public $departamentos, $ciudades, $companias;
 
     // Funcion que deriva a la vista ver compania
     public function verCompania()
@@ -50,6 +55,75 @@ class Index extends Component
         }
     }
 
+    public function mount()
+    {
+        $usuario = Auth::user()->roles()->pluck('name')->first();
+        switch ($usuario) {
+            case 'SuperAdmin':
+                $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
+                $this->ciudades = Ciudad::select('idciudades', 'ciudad')
+                    ->when($this->departamento_id, function ($query) {
+                        return $query->where('departamento_id', $this->departamento_id);
+                    })
+                    ->orderBy('ciudad')
+                    ->get();
+                $this->companias = Compania::select('idcompanias', 'compania')
+                    ->when($this->ciudad_id, function ($query) {
+                        return $query->where('ciudad_id', $this->ciudad_id);
+                    })
+                    ->orderBy('orden')
+                    ->get();
+                break;
+            case 'materiales_admin':
+                $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
+                $this->ciudades = Ciudad::select('idciudades', 'ciudad')
+                    ->when($this->departamento_id, function ($query) {
+                        return $query->where('departamento_id', $this->departamento_id);
+                    })
+                    ->orderBy('ciudad')
+                    ->get();
+                $this->companias = Compania::select('idcompanias', 'compania')
+                    ->when($this->ciudad_id, function ($query) {
+                        return $query->where('ciudad_id', $this->ciudad_id);
+                    })
+                    ->orderBy('orden')
+                    ->get();
+                break;
+            case 'materiales_semi_admin':
+                $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
+                $this->ciudades = Ciudad::select('idciudades', 'ciudad')
+                    ->when($this->departamento_id, function ($query) {
+                        return $query->where('departamento_id', $this->departamento_id);
+                    })
+                    ->orderBy('ciudad')
+                    ->get();
+                $this->companias = Compania::select('idcompanias', 'compania')
+                    ->when($this->ciudad_id, function ($query) {
+                        return $query->where('ciudad_id', $this->ciudad_id);
+                    })
+                    ->orderBy('orden')
+                    ->get();
+                break;
+            case 'materiales_moderador_compania':
+                $this->departamentos = [];
+                $this->ciudades = [];
+                $usuario_compania_id = Auth::user()->compania_id;
+                $this->companias = Compania::select('idcompanias', 'compania')->where('idcompanias', $usuario_compania_id)->get();
+                $this->compania_id = $usuario_compania_id;
+                break;
+            case 'materiales_moderador_por_compania':
+                $this->departamentos = [];
+                $this->ciudades = [];
+                $usuario_id = Auth::id();
+                $asignacion = UserRoleCompania::where('usuario_id', $usuario_id)->first();
+                $this->companias = Compania::select('idcompanias', 'compania')->where('idcompanias', $asignacion->compania_id)->get();
+                $this->compania_id = $asignacion->compania_id;
+                break;
+            default:
+                //$this->rolesSelect = [];
+                break;
+        }
+    }
 
     public function render()
     {
@@ -73,27 +147,30 @@ class Index extends Component
                 ->buscador($this->buscadorInoperativo)
                 ->orderBy('marca')
                 ->orderBy('modelo')
-                ->paginate($this->paginadoInoperativo, ['*'], 'inoperativos_page'),
-            'departamentos' => Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get(),
-
-            'ciudades' => $this->departamento_id
-                ? Ciudad::select('idciudades', 'ciudad')
-                ->where('departamento_id', $this->departamento_id)
-                ->orderBy('ciudad')
-                ->get()
-                : Ciudad::select('idciudades', 'ciudad')
-                ->orderBy('ciudad')
-                ->get(),
-
-            'companias' => $this->ciudad_id
-                ? Compania::select('idcompanias', 'compania')
-                ->where('ciudad_id', $this->ciudad_id)
-                ->orderBy('orden')
-                ->get()
-                : Compania::select('idcompanias', 'compania')
-                ->orderBy('orden')
-                ->get(),
+                ->paginate($this->paginadoInoperativo, ['*'], 'inoperativos_page')
         ]);
+    }
+
+    public function updatedDepartamentoId($value)
+    {
+        $this->ciudades = Ciudad::select('idciudades', 'ciudad')
+            ->when($value, function ($query) use ($value) {
+                return $query->where('departamento_id', $value);
+            })
+            ->orderBy('ciudad')
+            ->get();
+        $this->ciudad_id = '';
+    }
+
+    public function updatedCiudadId($value)
+    {
+        $this->companias = Compania::select('idcompanias', 'compania')
+            ->when($value, function ($query) use ($value) {
+                return $query->where('ciudad_id', $value);
+            })
+            ->orderBy('orden')
+            ->get();
+        $this->compania_id = '';
     }
 
     public function excelOperativo()
