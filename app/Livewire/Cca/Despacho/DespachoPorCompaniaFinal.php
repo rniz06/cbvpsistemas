@@ -7,6 +7,7 @@ use App\Models\Cca\Servicios\Clasificacion;
 use App\Models\Cca\Servicios\Existente;
 use App\Models\Cca\Servicios\Servicio;
 use App\Models\Materiales\Movil\Movil;
+use App\Models\Personal;
 use App\Models\Vistas\GralVtCompania;
 use App\Models\Vistas\Materiales\VtMayor;
 use App\Models\Vistas\VtPersonales;
@@ -77,6 +78,7 @@ class DespachoPorCompaniaFinal extends Component
     {
         // Validar los datos
         $this->validate();
+        $acargoId = Personal::where('codigo', $this->acargo)->first();
         $servicio = Existente::create([
             'informacion_servicio' => $this->informacion_servicio,
             'calle_referencia' => $this->calle_referencia,
@@ -86,7 +88,7 @@ class DespachoPorCompaniaFinal extends Component
             'clasificacion_id' => $this->clasificacion_id,
             'ciudad_id' => $this->ciudad_id,
             'movil_id' => $this->movil_id,
-            'acargo' => $this->acargo,
+            'acargo' => $acargoId->idpersonal,
             'chofer' => $this->chofer,
             'estado_id' => 3, // Estado: Movil Despachado
             'fecha_cia' => now(),
