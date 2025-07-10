@@ -21,4 +21,21 @@ class DespachoController extends Controller
     {
         return view('cca.despacho.ver-servicio', compact('servicio'));
     }
+
+    // Metodos de despacho por servicio
+
+    public function despachoPorServicio()
+    {
+        return view('cca.despacho.despacho-por-servicio');
+    }
+
+    public function despachoPorServicioAddCompania($servicio)
+    {
+        return view('cca.despacho.despacho-por-compania-final', compact('servicio'));
+    }
+
+    public function despachoPorServicioFinal($servicio, $compania)
+    {
+        return view('cca.despacho.despacho-por-compania-final', compact('servicio', 'compania'));
+    }
 }
