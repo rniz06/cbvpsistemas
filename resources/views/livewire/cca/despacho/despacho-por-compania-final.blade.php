@@ -5,58 +5,120 @@
     {{-- Formulario --}}
     <x-adminlte-card theme="success" theme-mode="outline">
         <form class="col-md-12 row" wire:submit="grabar">
-            {{-- Compania --}}
-            <x-adminlte-input name="compania" label="Compañia:" placeholder="Compañia..." fgroup-class="col-md-3"
-                oninput="this.value = this.value.toUpperCase()" wire:model.blur="compania" />
+            {{-- Servicio --}}
+            <div class="col-md-2">
+                <x-adminlte-select name="servicio_id" label="Servicio:" wire:model.live="servicio_id">
+                    <option>Seleccionar...</option>
+                    @forelse ($servicios as $servicio)
+                        <option value="{{ $servicio->id_servicio ?? 'null' }}">{{ $servicio->servicio ?? 'S/D' }}
+                        </option>
+                    @empty
+                        <option>Sin datos...</option>
+                    @endforelse
+                </x-adminlte-select>
+            </div>
+
+            {{-- Clasificacion --}}
+            <div class="col-md-2">
+                <x-adminlte-select name="clasificacion_id" label="Clasificación:" wire:model.live="clasificacion_id">
+                    <option>-- Seleccionar --</option>
+                    @forelse ($clasificaciones as $clasificacion)
+                        <option value="{{ $clasificacion->id_servicio_clasificacion ?? 'null' }}">
+                            {{ $clasificacion->clasificacion ?? 'S/D' }}</option>
+                    @empty
+                    @endforelse
+                </x-adminlte-select>
+            </div>
+
+            {{-- Informaciones --}}
+            <x-adminlte-input name="informacion_servicio" label="Informaciones:" placeholder="Informaciones..."
+                fgroup-class="col-md-8" oninput="this.value = this.value.toUpperCase()"
+                wire:model.blur="informacion_servicio" />
+
             {{-- Ciudad --}}
             <div class="col-md-3">
-                <x-adminlte-select name="ciudad_id" label="Ciudad:" wire:model.blur="ciudad_id" >
+                <x-adminlte-select name="ciudad_id" label="ciudad:" wire:model.blur="ciudad_id">
                     <option>-- Seleccionar --</option>
                     @forelse ($ciudades as $ciudad)
-                        <option value="{{ $ciudad->id_ciudad ?? 'S/D' }}">{{ $ciudad->ciudad ?? 'S/D' }}</option>
+                        <option value="{{ $ciudad->id_ciudad ?? 'null' }}">
+                            {{ $ciudad->ciudad ?? 'S/D' }}</option>
                     @empty
                         <option>Sin datos...</option>
                     @endforelse
                 </x-adminlte-select>
             </div>
-            {{-- Region --}}
+
+            {{-- Informaciones --}}
+            <x-adminlte-input name="calle_referencia" label="Calles/Referencias:" placeholder="Calles/Referencias..."
+                fgroup-class="col-md-9" oninput="this.value = this.value.toUpperCase()"
+                wire:model.blur="calle_referencia" />
+
+            {{-- Movil --}}
             <div class="col-md-3">
-                <x-adminlte-select name="region_id" label="Región:" wire:model.blur="region_id">
+                <x-adminlte-select name="movil_id" label="Móvil:" wire:model.blur="movil_id">
                     <option>-- Seleccionar --</option>
-                    @forelse ($regiones as $region)
-                        <option value="{{ $region->id_region ?? 'S/D' }}">{{ $region->region ?? 'S/D' }}</option>
+                    @forelse ($moviles as $movil)
+                        <option value="{{ $movil->id_movil ?? 'null' }}">
+                            {{ $movil->tipo ?? 'S/D' }}-{{ $movil->movil ?? 'S/D' }}</option>
                     @empty
                         <option>Sin datos...</option>
                     @endforelse
                 </x-adminlte-select>
             </div>
-            {{-- Orden --}}
-            <x-adminlte-input type="number" name="orden" label="Orden:" placeholder="Orden..."
-                fgroup-class="col-md-3" wire:model.blur="orden" />
+
+            {{-- A cargo --}}
+            <x-adminlte-input type="number" name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
+                fgroup-class="col-md-3" wire:model.blur="acargo" />
+
+            {{-- Chofer --}}
+            <x-adminlte-input name="chofer" label="Chofer:" placeholder="Chofer..." fgroup-class="col-md-3"
+                wire:model.blur="chofer" />
+
+            {{-- Tripulantes --}}
+            <x-adminlte-input type="number" name="cantidad_tripulantes" label="Tripulantes:"
+                placeholder="Cantidad de tripulantes..." fgroup-class="col-md-3"
+                wire:model.blur="cantidad_tripulantes" />
 
             {{-- Botones --}}
             <div class="card-footer">
-                @can('Companias Crear')
-                    <x-adminlte-button type="button" label="Agregar" theme="success" icon="fas fa-lg fa-plus"
-                        wire:click="agregar" />
-                @endcan
-                @can('Companias Editar')
-                    <x-adminlte-button type="button" label="Modificar" theme="warning" icon="fas fa-lg fa-edit"
-                        wire:click="editar" />
-                @endcan
-                @can('Companias Eliminar')
-                    <x-adminlte-button type="button" label="Eliminar" theme="danger" icon="fas fa-lg fa-trash"
-                        id="btn-eliminar" />
-                @endcan
-                @canany(['Companias Crear', 'Companias Editar'])
-                    <x-adminlte-button type="button" label="Grabar" theme="default" icon="fas fa-lg fa-save"
-                        id="btn-grabar" />
-                @endcanany
-
-
-                <x-adminlte-button type="button" label="Cancelar" theme="secondary" icon="fas fa-lg fa-window-close"
-                    wire:click="cancelar" />
+                <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save" />
             </div>
         </form>
     </x-adminlte-card>
+
+    <br>
+
+    @if (isset($acargoDetalles))
+        <h4> Detalles del A cargo:</h4>
+        <div class="col-md-12 row" wire:transition.duration.1000ms>
+            {{-- Nombrecompleto --}}
+            <x-adminlte-callout theme="success" title="Nombre Completo:" class="col-md-2 mr-1">
+                {{ $acargoDetalles->nombrecompleto ?? 'S/D' }}
+            </x-adminlte-callout>
+
+            {{-- codigo --}}
+            <x-adminlte-callout theme="success" title="Codigo:" class="col-md-2">
+                {{ $acargoDetalles->codigo ?? 'S/D' }}
+            </x-adminlte-callout>
+
+            {{-- Categoria --}}
+            <x-adminlte-callout theme="success" title="Categoria:" class="col-md-2">
+                {{ $acargoDetalles->categoria ?? 'S/D' }}
+            </x-adminlte-callout>
+
+            {{-- Estado --}}
+            <x-adminlte-callout theme="success" title="Estado:" class="col-md-2">
+                {{ $acargoDetalles->estado ?? 'S/D' }}
+            </x-adminlte-callout>
+
+            {{-- Contactos --}}
+            <x-adminlte-callout theme="success" title="Contactos:" class="col-md-2">
+                @forelse ($acargoDetalles->contactos as $contacto)
+                    - {{ $contacto->contacto ?? 'S/D' }} <br>
+                @empty
+                    Sin datos...
+                @endforelse
+            </x-adminlte-callout>
+        </div>
+    @endif
 </div>

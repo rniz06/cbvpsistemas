@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Route;
     |--------------------------------------------------------------------------
     */
 
-Route::prefix('cca')->group(function () {
+Route::prefix('cca')->middleware('auth')->group(function () {
     Route::controller(DespachoController::class)
         ->prefix('despachos')
         ->group(function () {
             Route::get('/despacho-por-compania', 'despachoPorCompania')->name('cca.despacho.despacho-por-compania');
             Route::get('/despacho-por-compania-final/{compania}', 'despachoPorCompaniaFinal')->name('cca.despacho.despacho-por-compania-final');
+            Route::get('/ver-servicio/{servicio}', 'verServicio')->name('cca.despacho.ver-servicio');
         });
 });

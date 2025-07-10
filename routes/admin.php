@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
     */
 
 Route::controller(CompaniaController::class)
+    ->middleware('auth')
     ->prefix('admin')
     ->group(function () {
         Route::get('/companias', 'index')->name('admin.companias.index');

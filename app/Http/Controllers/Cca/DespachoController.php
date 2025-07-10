@@ -16,4 +16,9 @@ class DespachoController extends Controller
     {
         return view('cca.despacho.despacho-por-compania-final', compact('compania'));
     }
+
+    public function verServicio($servicio)
+    {
+        return view('cca.despacho.ver-servicio', compact('servicio'));
+    }
 }
