@@ -1,3 +1,3 @@
 <div>
-    {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
+    El ID del servicio para add compania es: {{ $servicio ?? 'S/D' }}
 </div>

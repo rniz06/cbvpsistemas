@@ -385,13 +385,13 @@ return [
                         ],
                         [
                             'text' => 'Despachos Por Servicio',
-                            'url' => 'cca.despacho-por-compania',
-                            'can' => 'Despachos Por Compania',
+                            'route' => 'cca.despacho.despacho-por-servicio',
+                            'can' => 'Despachos Por Servicio',
                         ],
                         [
                             'text' => 'Servicios Activos',
                             'url' => 'cca.despacho-por-compania',
-                            'can' => 'Despachos Por Compania',
+                            'can' => 'Servicios Activos',
                         ],
                     ],
                 ],
