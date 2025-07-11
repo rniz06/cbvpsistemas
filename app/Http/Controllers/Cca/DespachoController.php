@@ -34,8 +34,8 @@ class DespachoController extends Controller
         return view('cca.despacho.despacho-por-servicio-add-compania', compact('servicio'));
     }
 
-    public function despachoPorServicioFinal($servicio, $compania)
+    public function despachoPorServicioFinal($servicio)
     {
-        return view('cca.despacho.despacho-por-compania-final', compact('servicio', 'compania'));
+        return view('cca.despacho.despacho-por-servicio-final', compact('servicio'));
     }
 }

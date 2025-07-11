@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    @livewire('cca.despacho.despacho-por-compania-final', ['compania' => $compania])
+    @livewire('cca.despacho.despacho-por-compania-final', ['servicio' => $servicio])
 @stop
 
 @push('css')

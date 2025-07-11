@@ -21,7 +21,7 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             // Despachos por Servicio
             Route::get('/despacho-por-servicio', 'despachoPorServicio')->name('cca.despacho.despacho-por-servicio');
             Route::get('/despacho-por-servicio-add-compania/{servicio}', 'despachoPorServicioAddCompania')->name('cca.despacho.despacho-por-servicio-add-compania');
-            Route::get('/despacho-por-servicio-final/{servicio}/compania/{compania}', 'despachoPorServicio')->name('cca.despacho.despacho-por-servicio-final');
+            Route::get('/despacho-por-servicio-final/{servicio}', 'despachoPorServicioFinal')->name('cca.despacho.despacho-por-servicio-final');
 
             Route::get('/ver-servicio/{servicio}', 'verServicio')->name('cca.despacho.ver-servicio');
         });
