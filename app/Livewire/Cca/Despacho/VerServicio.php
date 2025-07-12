@@ -15,24 +15,36 @@ class VerServicio extends Component
         $this->servicio = $servicio;
     }
 
-    public function fechaServicio()
+    public function horaAccion($accion)
     {
-        $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
-            'fecha_servicio' => now(),
-        ]);
+        switch ($accion) {
+            case '1':
+                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                    'fecha_cia' => now(),
+                ]);
+                break;
+
+            case '2':
+                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                    'fecha_movil' => now(),
+                ]);
+                break;
+
+            case '3':
+                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                    'fecha_servicio' => now(),
+                ]);
+                break;
+
+            case '4':
+                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                    'fecha_base' => now(),
+                ]);
+                break;
+        }
 
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', 'Llegada de Movil Accionada Correctamente!');
-    }
-
-    public function fechaBase()
-    {
-        $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
-            'fecha_base' => now(),
-        ]);
-
-        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
-            ->with('success', 'Móvil en base!');
     }
 
     public function render()

@@ -47,21 +47,39 @@
                 fgroup-class="col-md-2" disabled />
 
             {{-- Despacho a Cia --}}
-            <x-adminlte-input name="" label="Despacho a Cia:"
-                value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_cia)) . ' Hs.' ?? 'S/D' }}"
-                fgroup-class="col-md-2" disabled />
+            @if ($servicio->fecha_cia == null)
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Despacho a Cia:</label>
+                        <button class="btn btn-primary btn-block" wire:click="horaAccion(1)">Accionar</button>
+                    </div>
+                </div>
+            @else
+                <x-adminlte-input name="" label="Despacho a Cia:"
+                    value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_cia)) . ' Hs.' ?? 'S/D' }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
 
             {{-- Salida de móvil --}}
-            <x-adminlte-input name="" label="Salida de móvil:"
-                value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_movil)) . ' Hs.' ?? 'S/D' }}"
-                fgroup-class="col-md-2" disabled />
+            @if ($servicio->fecha_movil == null)
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Salida de móvil:</label>
+                        <button class="btn btn-primary btn-block" wire:click="horaAccion(2)">Accionar</button>
+                    </div>
+                </div>
+            @else
+                <x-adminlte-input name="" label="Salida de móvil:"
+                    value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_movil)) . ' Hs.' ?? 'S/D' }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
 
             {{-- Llegada de móvil --}}
             @if ($servicio->fecha_servicio == null)
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Llegada de móvil:</label>
-                        <button class="btn btn-primary btn-block" wire:click="fechaServicio">Accionar</button>
+                        <button class="btn btn-primary btn-block" wire:click="horaAccion(3)">Accionar</button>
                     </div>
                 </div>
             @else
@@ -75,7 +93,7 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Móvil en base:</label>
-                        <button class="btn btn-primary btn-block" wire:click="fechaBase">Accionar</button>
+                        <button class="btn btn-primary btn-block" wire:click="horaAccion(4)">Accionar</button>
                     </div>
                 </div>
             @else
