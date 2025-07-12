@@ -2,7 +2,7 @@
     {{-- Datos del servicio --}}
     <h4>Ficha de despacho - Compañia {{ $servicio->compania ?? 'S/D' }}</h4>
     <x-adminlte-card theme="success" theme-mode="outline">
-        <form wire:submit="grabar" class="col-md-12 row">
+        <div class="col-md-12 row">
             {{-- Servicio --}}
             <x-adminlte-input name="" label="Servicio:" value="{{ $servicio->servicio ?? 'S/D' }}"
                 fgroup-class="col-md-2" disabled />
@@ -41,15 +41,54 @@
             <x-adminlte-input name="" value="{{ $servicio->cantidad_tripulantes ?? 'S/D' }}"
                 label="Tripulantes:" fgroup-class="col-md-3" disabled />
 
-            {{-- <div class="col-md-2">
-               <label for="">Llegada de móvil:</label> <br>
-                <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save" />
-            </div> --}}
+            {{-- Hora denuncia --}}
+            <x-adminlte-input name="" label="Hora denuncia:"
+                value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_alfa)) . ' Hs.' ?? 'S/D' }}"
+                fgroup-class="col-md-2" disabled />
+
+            {{-- Despacho a Cia --}}
+            <x-adminlte-input name="" label="Despacho a Cia:"
+                value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_cia)) . ' Hs.' ?? 'S/D' }}"
+                fgroup-class="col-md-2" disabled />
+
+            {{-- Salida de móvil --}}
+            <x-adminlte-input name="" label="Salida de móvil:"
+                value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_movil)) . ' Hs.' ?? 'S/D' }}"
+                fgroup-class="col-md-2" disabled />
+
+            {{-- Llegada de móvil --}}
+            @if ($servicio->fecha_servicio == null)
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Llegada de móvil:</label>
+                        <button class="btn btn-primary btn-block" wire:click="fechaServicio">Accionar</button>
+                    </div>
+                </div>
+            @else
+                <x-adminlte-input name="" label="Llegada de móvil:"
+                    value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_servicio)) . ' Hs.' ?? 'S/D' }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
+
+            {{-- Móvil en base --}}
+            @if ($servicio->fecha_base == null)
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Móvil en base:</label>
+                        <button class="btn btn-primary btn-block" wire:click="fechaBase">Accionar</button>
+                    </div>
+                </div>
+            @else
+                <x-adminlte-input name="" label="Móvil en base:"
+                    value="{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_base)) . ' Hs.' ?? 'S/D' }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
+
 
             {{-- Botones --}}
             {{-- <div class="card-footer">
                 <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save" />
             </div> --}}
-        </form>
+        </div>
     </x-adminlte-card>
 </div>

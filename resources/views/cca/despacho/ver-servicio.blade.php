@@ -15,8 +15,6 @@
             <h5><i class="fas fa-check-circle mr-2" style="color: #28a745"></i>{{ $message }}</h5>
         </div>
     @endif
-    ID DEL SERVICIO DESDE LA VISTA BLADE : {{ $servicio ?? 'NULL' }}
-    <br>
     @livewire('cca.despacho.ver-servicio', ['servicio' => $servicio])
 @stop
 

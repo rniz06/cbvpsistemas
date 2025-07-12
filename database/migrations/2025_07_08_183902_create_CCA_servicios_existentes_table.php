@@ -26,7 +26,7 @@ return new class extends Migration
             //$table->foreignId('chofer')->nullable()->constrained('MAT_conductores_bomberos', 'id_conductor_bombero')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('chofer', 10)->nullable();
             $table->foreignId('estado_id')->nullable()->constrained('CCA_servicios_estados', 'id_servicio_estado')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->dateTime('fecha_alfa')->nullable();
+            $table->dateTime('fecha_alfa')->useCurrent()->nullable();
             $table->dateTime('fecha_cia')->nullable();
             $table->dateTime('fecha_movil')->nullable();
             $table->dateTime('fecha_servicio')->nullable();
