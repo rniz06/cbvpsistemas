@@ -9,10 +9,10 @@ class VerServicio extends Component
 {
     public $servicio;
 
-    // public function mount(VtExistente $servicio)
-    // {
-    //     $this->servicio = $servicio;
-    // }
+    public function mount(VtExistente $servicio)
+    {
+        $this->servicio = $servicio;
+    }
 
     public function render()
     {
