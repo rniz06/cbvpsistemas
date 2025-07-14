@@ -36,7 +36,7 @@
                     @if ($apoyo->fecha_cia == null)
                         <button class="btn btn-primary" wire:click="horaAccion(1)">Accionar</button>
                     @else
-                        {{ $apoyo->fecha_cia->format('d/m/Y H:i:s') ?? 'N/A' }} Hs.
+                        {{ $apoyo->fecha_cia->format('d/m/Y H:i:s') }} Hs.
                     @endif
                 </td>
 
@@ -58,7 +58,7 @@
 
                 <td>
                     @if ($apoyo->fecha_base == null)
-                        <button class="btn btn-primary" wire:click="horaAccion(3)">Accionar</button>
+                        <button class="btn btn-primary" wire:click="horaAccion(4)">Accionar</button>
                     @else
                         {{ $apoyo->fecha_base->format('d/m/Y H:i:s') }} Hs.
                     @endif
