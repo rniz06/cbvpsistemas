@@ -22,29 +22,33 @@ class VerServicio extends Component
                 $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
                     'fecha_cia' => now(),
                 ]);
+                $mensaje = 'Llegada de Cia Accionada Correctamente!';
                 break;
 
             case '2':
                 $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
                     'fecha_movil' => now(),
                 ]);
+                $mensaje = 'Salida de Móvil Accionada Correctamente!';
                 break;
 
             case '3':
                 $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
                     'fecha_servicio' => now(),
                 ]);
+                $mensaje = 'Llegada de Móvil Accionada Correctamente!';
                 break;
 
             case '4':
                 $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
                     'fecha_base' => now(),
                 ]);
+                $mensaje = 'Móvil en base Accionada Correctamente!';
                 break;
         }
 
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
-            ->with('success', 'Llegada de Movil Accionada Correctamente!');
+            ->with('success', $mensaje);
     }
 
     public function render()
