@@ -14,9 +14,6 @@ class Comentarios extends Component
     // Variable recibida desde la ruta
     public $servicio;
 
-    // Propiedad para renderizar los comentarios
-    //public $comentarios;
-
     // Propiedad la paginacion de los comentarios
     public $mostrarFormAgregarComentario = false;
     public $paginadoComentarios = 5;

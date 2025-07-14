@@ -15,6 +15,7 @@ return new class extends Migration
         DB::statement("
             CREATE VIEW `CCA_vt_servicios_existentes_apoyos` AS
             SELECT
+                sea.idservicio_existente_apoyo,
                 sea.cantidad_tripulantes,
                 sea.servicio_id,
                 s.servicio,

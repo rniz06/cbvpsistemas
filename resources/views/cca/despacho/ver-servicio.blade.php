@@ -20,6 +20,9 @@
 
     {{-- Renderiza Comentarios del Servicio --}}
     @livewire('cca.despacho.comentarios', ['servicio' => $servicio])
+
+    {{-- Renderiza Apoyos del Servicio --}}
+    @livewire('cca.despacho.apoyos', ['servicio' => $servicio])
 @stop
 
 @push('css')
