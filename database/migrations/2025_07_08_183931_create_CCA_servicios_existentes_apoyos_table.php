@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('acargo')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal
             $table->foreign('acargo')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('chofer', 10)->nullable();
-            $table->dateTime('fecha_cia')->nullable();
+            $table->dateTime('fecha_cia')->useCurrent()->nullable();
             $table->dateTime('fecha_movil')->nullable();
             $table->dateTime('fecha_servicio')->nullable();
             $table->dateTime('fecha_base')->nullable();

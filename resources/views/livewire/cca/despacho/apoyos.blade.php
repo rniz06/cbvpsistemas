@@ -1,6 +1,6 @@
 <div>
     @if ($mostrarFormAgregarApoyo)
-        <livewire:cca.despacho.comentario-agregar servicio="{{ $servicio }}" lazy />
+        <livewire:cca.despacho.apoyo-agregar servicio="{{ $servicio }}" lazy />
     @endif
 
     {{-- Tabla de apoyos del servicio existente --}}
@@ -65,7 +65,9 @@
                 </td>
             </tr>
         @empty
-            <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+            <tr>
+                <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+            </tr>
         @endforelse
         <x-slot name="paginacion">
             {{ $apoyos->links() }}

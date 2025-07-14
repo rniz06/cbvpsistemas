@@ -42,6 +42,7 @@ class VerServicio extends Component
             case '4':
                 $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
                     'fecha_base' => now(),
+                    'estado_id' => 4, // Servicio Culminado
                 ]);
                 $mensaje = 'Móvil en base Accionada Correctamente!';
                 break;

@@ -33,13 +33,14 @@ return new class extends Migration
                 sea.fecha_servicio,
                 sea.fecha_base,
                 sea.creadoPor,
+                sea.created_at,
                 sea.deleted_at
             FROM CCA_servicios_existentes_apoyos sea
             JOIN CCA_servicios s ON (s.id_servicio = sea.servicio_id)
             JOIN GRAL_companias c ON (c.id_compania = sea.compania_id)
             JOIN MAT_moviles m ON (m.id_movil = sea.movil_id)
             JOIN MAT_moviles_tipos mt ON (mt.id_movil_tipo = m.movil_tipo_id)
-            JOIN personal p ON (p.idpersonal = sea.acargo)
+            LEFT JOIN personal p ON (p.idpersonal = sea.acargo)
         ");
     }
 

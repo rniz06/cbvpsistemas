@@ -29,39 +29,39 @@ class Apoyos extends Component
         }
     }
 
-    public function mostrarFormAgregarComentario()
+    public function mostrarFormAgregarApoyo()
     {
         $this->mostrarFormAgregarApoyo = true;
     }
 
     // Escucha el evento cerrar-formulario-apoyo para cerrar el formulario
     #[On('cerrar-formulario-apoyo')]
-    public function mostrarFormAgregarComentarioClose()
+    public function mostrarFormAgregarApoyoClose()
     {
         $this->mostrarFormAgregarApoyo = false;
     }
 
-    // Escucha el evento comentario-agregado para recargar los comentarios
-    #[On('apoyo-agregado')]
-    public function cargarApoyos()
-    {
-        return VtExistenteApoyo::select(
-            'idservicio_existente_apoyo',
-            'compania',
-            'movil',
-            'tipo',
-            'nombrecompleto',
-            'chofer',
-            'cantidad_tripulantes',
-            'fecha_cia',
-            'fecha_movil',
-            'fecha_servicio',
-            'fecha_base'
-        )
-            ->where('servicio_id', $this->servicio)
-            ->orderByDesc('created_at')
-            ->paginate($this->paginadoApoyos, ['*'], 'apoyos_page');
-    }
+    // // Escucha el evento apoyo-agregado para recargar los comentarios
+    // #[On('apoyo-agregado')]
+    // public function cargarApoyos()
+    // {
+    //     return VtExistenteApoyo::select(
+    //         'idservicio_existente_apoyo',
+    //         'compania',
+    //         'movil',
+    //         'tipo',
+    //         'nombrecompleto',
+    //         'chofer',
+    //         'cantidad_tripulantes',
+    //         'fecha_cia',
+    //         'fecha_movil',
+    //         'fecha_servicio',
+    //         'fecha_base'
+    //     )
+    //         ->where('servicio_id', $this->servicio)
+    //         ->orderByDesc('created_at')
+    //         ->paginate($this->paginadoApoyos, ['*'], 'apoyos_page');
+    // }
 
     public function horaAccion($accion)
     {
@@ -70,7 +70,7 @@ class Apoyos extends Component
                 $apoyo = Apoyo::where('servicio_id', $this->servicio)->update([
                     'fecha_cia' => now(),
                 ]);
-                $mensaje = 'Llegada de Cia Accionada Correctamente!';
+                $mensaje = 'Llegada de Compañia Accionada Correctamente!';
                 break;
 
             case '2':
@@ -101,8 +101,23 @@ class Apoyos extends Component
 
     public function render()
     {
-        return view('livewire.cca.despacho.apoyos', [
-            'apoyos' => $this->cargarApoyos()
-        ]);
+        $apoyos = VtExistenteApoyo::select(
+            'idservicio_existente_apoyo',
+            'compania',
+            'movil',
+            'tipo',
+            'nombrecompleto',
+            'chofer',
+            'cantidad_tripulantes',
+            'fecha_cia',
+            'fecha_movil',
+            'fecha_servicio',
+            'fecha_base'
+        )
+            ->where('servicio_id', $this->servicio)
+            ->orderByDesc('created_at')
+            ->paginate($this->paginadoApoyos, ['*'], 'apoyos_page');
+
+        return view('livewire.cca.despacho.apoyos', compact('apoyos'));
     }
 }

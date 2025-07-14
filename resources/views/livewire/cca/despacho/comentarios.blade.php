@@ -26,7 +26,9 @@
                 <td>{{ $comentario->created_at->format('d/m/Y H:i:s') }} Hs.</td>
             </tr>
         @empty
-            <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+            <tr>
+                <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+            </tr>
         @endforelse
         <x-slot name="paginacion">
             {{ $comentarios->links() }}
