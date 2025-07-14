@@ -5,6 +5,7 @@ namespace App\Livewire\Cca\Despacho;
 use App\Models\Vistas\Cca\VtExistenteComentario;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class Comentarios extends Component
 {
@@ -17,6 +18,7 @@ class Comentarios extends Component
     //public $comentarios;
 
     // Propiedad la paginacion de los comentarios
+    public $mostrarFormAgregarComentario = false;
     public $paginadoComentarios = 5;
 
     public function mount()
@@ -34,13 +36,32 @@ class Comentarios extends Component
         }
     }
 
+    public function mostrarFormAgregarComentario()
+    {
+        $this->mostrarFormAgregarComentario = true;
+    }
+
+    // Escucha el evento cerrar-formulario-comentario para cerrar el formulario
+    #[On('cerrar-formulario-comentario')]
+    public function mostrarFormAgregarComentarioClose()
+    {
+        $this->mostrarFormAgregarComentario = false;
+    }
+
+    // Escucha el evento comentario-agregado para recargar los comentarios
+    #[On('comentario-agregado')]
+    public function cargarComentarios()
+    {
+        return VtExistenteComentario::select('idservicio_existente_comentario', 'comentario', 'nombrecompleto', 'created_at')
+            ->where('servicio_id', $this->servicio)
+            ->orderByDesc('created_at')
+            ->paginate($this->paginadoComentarios, ['*'], 'comentarios_page');
+    }
+
     public function render()
     {
         return view('livewire.cca.despacho.comentarios', [
-            'comentarios' => VtExistenteComentario::select('idservicio_existente_comentario', 'comentario', 'nombrecompleto', 'created_at')
-                ->where('servicio_id', $this->servicio)
-                ->orderBy('created_at', 'desc')
-                ->paginate($this->paginadoComentarios, ['*'], 'comentarios_page')
+            'comentarios' => $this->cargarComentarios()
         ]);
     }
 }

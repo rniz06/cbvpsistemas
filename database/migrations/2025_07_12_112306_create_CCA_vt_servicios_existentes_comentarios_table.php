@@ -19,14 +19,14 @@ return new class extends Migration
                 se.comentario,
                 se.servicio_id,
                 se.creadoPor,
-                p.nombrecompleto,
-                p.codigo,
-                p.categoria,
-                p.compania,
+                u.nombrecompleto,
+                u.codigo,
+                u.categoria,
+                u.compania,
                 se.created_at,
                 se.deleted_at
             FROM CCA_servicios_existentes_comentarios se
-            JOIN vt_personales p ON (p.idpersonal = se.creadoPor)
+            JOIN vt_usuarios u ON (u.id_usuario = se.creadoPor)
         ");
     }
 

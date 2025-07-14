@@ -1,6 +1,18 @@
 <div>
+
+    @if ($mostrarFormAgregarComentario)
+        <livewire:cca.despacho.comentario-agregar servicio="{{ $servicio }}" lazy />
+    @endif
+
     {{-- Tabla de comentarios del servicio existente --}}
     <x-table.table titulo="Comentarios" ocultarBuscador personalizarPaginacion="paginadoComentarios">
+
+        <x-slot name="headerBotones">
+            <x-adminlte-button class="btn-sm" type="button"
+                    label="{{ $mostrarFormAgregarComentario ? 'Cancelar' : 'Agregar Comentario' }}"
+                    icon="fas fa-{{ $mostrarFormAgregarComentario ? 'minus' : 'plus' }}" theme="outline-success"
+                    wire:click="$toggle('mostrarFormAgregarComentario')" />
+        </x-slot>
 
         <x-slot name="cabeceras">
             <th>Comentario:</th>
