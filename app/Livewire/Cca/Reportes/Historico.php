@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Cca\Reportes;
 
+use App\Exports\ExcelGenericoExport;
+use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Cca\Servicios\Clasificacion;
 use App\Models\Cca\Servicios\Servicio;
 use App\Models\Vistas\Cca\VtExistente;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Historico extends Component
 {
@@ -52,6 +56,30 @@ class Historico extends Component
     {
         return view('livewire.cca.reportes.historico', [
             'historicos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'nombrecompleto', 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
+                ->where('estado_id', 4) // Servicio Culminado
+                ->when($this->fecha_desde, function ($query) {
+                    return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+                })
+                ->when($this->fecha_hasta, function ($query) {
+                    return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+                })
+                ->when($this->compania_id, function ($query) {
+                    return $query->where('compania_id', $this->compania_id);
+                })
+                ->when($this->servicio_id, function ($query) {
+                    return $query->where('servicio_id', $this->servicio_id);
+                })
+                ->when($this->clasificacion_id, function ($query) {
+                    return $query->where('clasificacion_id', $this->clasificacion_id);
+                })
+                ->orderByDesc('fecha_alfa')
+                ->paginate($this->paginado, ['*'], 'historicos_page'),
+        ]);
+    }
+
+    public function excel()
+    {
+        $datos = VtExistente::select('compania', 'servicio', 'clasificacion', DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"), DB::raw("CONCAT(nombrecompleto, '-', codigo, '-', categoria) AS acargo"), 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
             ->where('estado_id', 4) // Servicio Culminado
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
@@ -67,8 +95,36 @@ class Historico extends Component
             })
             ->when($this->clasificacion_id, function ($query) {
                 return $query->where('clasificacion_id', $this->clasificacion_id);
+            })->orderByDesc('fecha_alfa')->get();
+
+        $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'CBVP CCA HISTORICO.xlsx');
+    }
+
+    public function pdf()
+    {
+        $nombre_archivo = "CBVP CCA HISTORICO";
+        $datos = VtExistente::select('compania', 'servicio', 'clasificacion', DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"), DB::raw("CONCAT(nombrecompleto, '-', codigo, '-', categoria) AS acargo"), 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
             })
-            ->paginate($this->paginado, ['*'], 'historicos_page'),
-        ]);
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->when($this->clasificacion_id, function ($query) {
+                return $query->where('clasificacion_id', $this->clasificacion_id);
+            })->orderByDesc('fecha_alfa')->get();
+
+        $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
+
+        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
 }

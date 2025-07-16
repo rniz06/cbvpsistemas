@@ -1,13 +1,4 @@
 <div>
-    {{-- {{ $fecha_desde ?? 'S/D' }}
-    <br>
-    {{ $fecha_hasta ?? 'S/D' }}
-    <br>
-    {{ $compania_id ?? 'S/D' }}
-    <br>
-    {{ $servicio_id ?? 'S/D' }}
-    <br>
-    {{ $clasificacion_id ?? 'S/D' }} --}}
 
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
@@ -60,7 +51,7 @@
 
     {{-- Historico --}}
     <div class="col-md-12">
-        <x-table.table titulo="Historico de Servicios" excel pdf>
+        <x-table.table titulo="Historico de Servicios" excel pdf ocultarBuscador>
 
             <x-slot name="cabeceras">
                 <th>Compañia:</th>

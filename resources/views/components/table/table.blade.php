@@ -8,7 +8,7 @@
             @endisset
 
             @isset($excel)
-                <button class="btn btn-sm btn-outline-success" wire:click="{{ $excel }}">
+                <button class="btn btn-sm btn-outline-success" wire:click="excel">
                     <i class="fas fa-file-excel"></i> Excel
                 </button>
             @endisset
