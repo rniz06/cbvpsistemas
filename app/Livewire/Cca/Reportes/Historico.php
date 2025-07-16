@@ -11,10 +11,13 @@ use App\Models\Vistas\Cca\VtExistente;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Historico extends Component
 {
+    use WithPagination;
+
     // Propiedades para el filtro de reportes
     public $fecha_desde;
     public $fecha_hasta;
@@ -29,6 +32,22 @@ class Historico extends Component
 
     public $buscador = '';
     public $paginado = 15;
+
+    // Limpiar el buscador y la paginación al cambiar de pagina
+    public function updating($key): void
+    {
+        if (in_array($key, [
+            'buscador',
+            'paginado',
+            'fecha_desde',
+            'fecha_hasta',
+            'compania_id',
+            'servicio_id',
+            'clasificacion_id',
+        ])) {
+            $this->resetPage('historicos_page');
+        }
+    }
 
     public function mount()
     {
