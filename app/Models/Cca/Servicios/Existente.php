@@ -2,13 +2,14 @@
 
 namespace App\Models\Cca\Servicios;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Existente extends Model implements Auditable
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     protected $table = "CCA_servicios_existentes";

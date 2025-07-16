@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Cca\Reportes;
 
+use App\Exports\ExcelGenericoExport;
+use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Cca\Servicios\Clasificacion;
 use App\Models\Cca\Servicios\Servicio;
@@ -10,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GraficosPorCompania extends Component
 {
@@ -118,5 +121,103 @@ class GraficosPorCompania extends Component
             'serviciosTabla' => $this->cargarServicios(),
             'clasificacionesTabla' => $this->cargarClasificaciones(),
         ]);
+    }
+
+    public function excelServicios()
+    {
+        $datos = VtExistente::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+            })
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->groupBy('servicio')->get();
+
+        $encabezados = ['Servicio', 'Conteo'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'CBVP CCA GRAFICO.xlsx');
+    }
+
+    public function pdfServicios()
+    {
+        $nombre_archivo = "CBVP CCA GRAFICO";
+        $datos = VtExistente::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+            })
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->groupBy('servicio')->get();
+
+        $encabezados = ['Servicio', 'Conteo'];
+
+        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
+    }
+
+    public function excelClasificaciones()
+    {
+        $datos = VtExistente::select('clasificacion', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+            })
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->when($this->clasificacion_id, function ($query) {
+                return $query->where('clasificacion_id', $this->clasificacion_id);
+            })->groupBy('clasificacion')->get();
+
+        $encabezados = ['Clasificacion', 'Conteo'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'CBVP CCA GRAFICO.xlsx');
+    }
+
+    public function pdfClasificaciones()
+    {
+        $nombre_archivo = "CBVP CCA GRAFICO";
+        $datos = VtExistente::select('clasificacion', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+            })
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->when($this->clasificacion_id, function ($query) {
+                return $query->where('clasificacion_id', $this->clasificacion_id);
+            })->groupBy('clasificacion')->get();
+
+        $encabezados = ['Clasificacion', 'Conteo'];
+
+        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
 }

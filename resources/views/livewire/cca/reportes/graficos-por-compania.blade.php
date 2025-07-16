@@ -50,14 +50,21 @@
 
     {{-- Servicios --}}
     <div class="col-md-{{ $servicio_id !== null ? 6 : 12 }}">
-        <x-table.table titulo="Servicios como primera respuesta" excel pdf ocultarBuscador
+        <x-table.table titulo="Servicios como primera respuesta" ocultarBuscador
             personalizarPaginacion="paginadoServicios">
+
+            <x-slot name="headerBotones">
+                <x-adminlte-button class="btn-sm" label="Excel" theme="outline-success" icon="fas fa-file-excel"
+                    wire:click="excelServicios" />
+                <x-adminlte-button class="btn-sm" label="Pdf" theme="outline-secondary" icon="fas fa-file-pdf"
+                    wire:click="pdfServicios" />
+            </x-slot>
 
             <x-slot name="cabeceras">
                 <th>Servicio:</th>
                 <th>Conteo:</th>
-
             </x-slot>
+
             @forelse ($serviciosTabla as $servicioTabla)
                 <tr>
                     <td>{{ $servicioTabla->servicio ?? 'N/A' }}</td>
@@ -77,8 +84,15 @@
     {{-- Clasificaciones --}}
     @if ($servicio_id !== null)
         <div class="col-md-6">
-            <x-table.table titulo="Clasificaciones" excel pdf ocultarBuscador
+            <x-table.table titulo="Clasificaciones" ocultarBuscador
                 personalizarPaginacion="paginadoClasificaciones">
+
+                <x-slot name="headerBotones">
+                    <x-adminlte-button class="btn-sm" label="Excel" theme="outline-success" icon="fas fa-file-excel"
+                        wire:click="excelClasificaciones" />
+                    <x-adminlte-button class="btn-sm" label="Pdf" theme="outline-secondary" icon="fas fa-file-pdf"
+                        wire:click="pdfClasificaciones" />
+                </x-slot>
 
                 <x-slot name="cabeceras">
                     <th>Clasificación:</th>
