@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Cca\DespachoController;
 use App\Http\Controllers\Cca\DespachoPorCompaniaController;
+use App\Http\Controllers\Cca\ReporteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
     */
 
 Route::prefix('cca')->middleware('auth')->group(function () {
+
+    // Rutas de Despachos
     Route::controller(DespachoController::class)
         ->prefix('despachos')
         ->group(function () {
@@ -25,5 +28,12 @@ Route::prefix('cca')->middleware('auth')->group(function () {
 
             Route::get('/ver-servicio/{servicio}', 'verServicio')->name('cca.despacho.ver-servicio');
             Route::get('/servicios-activos', 'serviciosActivos')->name('cca.despacho.servicios-activos');
+        });
+
+        // Rutas de Reportes
+    Route::controller(ReporteController::class)
+        ->prefix('reportes')
+        ->group(function () {
+            Route::get('/historico', 'historico')->name('cca.reportes.historico');
         });
 });

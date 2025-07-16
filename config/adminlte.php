@@ -395,6 +395,18 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'text' => 'Reportes',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Historico',
+                            'route' => 'cca.reportes.historico',
+                            // 'can' => 'Despachos Por Compania',
+                        ],
+                    ],
+                ],
             ],
         ],
         [
