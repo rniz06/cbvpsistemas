@@ -1,5 +1,5 @@
 <div>
-    {{ $fecha_desde ?? 'S/D'}}
+    {{-- {{ $fecha_desde ?? 'S/D'}}
     <br>
     {{ $fecha_hasta ?? 'S/D'}}
     <br>
@@ -7,7 +7,7 @@
     <br>
     {{ $servicio_id ?? 'S/D'}}
     <br>
-    {{ $clasificacion_id ?? 'S/D'}}
+    {{ $clasificacion_id ?? 'S/D'}} --}}
 
     {{-- Tabla de Reportes --}}
     {{-- Filtros de Búsqueda --}}
