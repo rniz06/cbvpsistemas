@@ -1,5 +1,4 @@
-<div>
-
+<div class="row">
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
@@ -49,34 +48,20 @@
         </div>
     </x-card.card-filtro>
 
-    {{-- Historico --}}
-    <div class="col-md-12">
-        <x-table.table titulo="Historico de Servicios" excel pdf ocultarBuscador>
+    {{-- Servicios --}}
+    <div class="col-md-{{ $servicio_id !== null ? 6 : 12 }}">
+        <x-table.table titulo="Servicios como primera respuesta" excel pdf ocultarBuscador
+            personalizarPaginacion="paginadoServicios">
 
             <x-slot name="cabeceras">
-                <th>Compañia:</th>
                 <th>Servicio:</th>
-                <th>Clasificación:</th>
-                <th>Móvil:</th>
-                <th>A cargo:</th>
-                <th>Chófer:</th>
-                <th>Tripulantes:</th>
-                <th>Fecha:</th>
-                <th>Ver:</th>
+                <th>Conteo:</th>
 
             </x-slot>
-            @forelse ($historicos as $historico)
+            @forelse ($serviciosTabla as $servicioTabla)
                 <tr>
-                    <td>{{ $historico->compania ?? 'N/A' }}</td>
-                    <td>{{ $historico->servicio ?? 'N/A' }}</td>
-                    <td>{{ $historico->clasificacion ?? 'N/A' }}</td>
-                    <td>{{ $historico->tipo ?? 'N/A' }}-{{ $historico->movil ?? 'N/A' }}</td>
-                    <td>{{ $historico->nombrecompleto ?? 'N/A' }}</td>
-                    <td>{{ $historico->chofer ?? 'N/A' }}</td>
-                    <td>{{ $historico->cantidad_tripulantes ?? 'N/A' }}</td>
-                    <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') . ' Hs.' ?? 'N/A' }}</td>
-                    <td><a href="{{ route('cca.despacho.ver-servicio', $historico->id_servicio_existente) }}"
-                            class="btn btn-block btn-sm btn-success">Ver Servicio</a></td>
+                    <td>{{ $servicioTabla->servicio ?? 'N/A' }}</td>
+                    <td>{{ $servicioTabla->conteo ?? 'N/A' }}</td>
                 </tr>
             @empty
                 <tr>
@@ -84,8 +69,36 @@
                 </tr>
             @endforelse
             <x-slot name="paginacion">
-                {{ $historicos->links() }}
+                {{ $serviciosTabla->links() }}
             </x-slot>
         </x-table.table>
     </div>
+
+    {{-- Clasificaciones --}}
+    @if ($servicio_id !== null)
+        <div class="col-md-6">
+            <x-table.table titulo="Clasificaciones" excel pdf ocultarBuscador
+                personalizarPaginacion="paginadoClasificaciones">
+
+                <x-slot name="cabeceras">
+                    <th>Clasificación:</th>
+                    <th>Conteo:</th>
+                </x-slot>
+                @forelse ($clasificacionesTabla as $clasificacionTabla)
+                    <tr>
+                        <td>{{ $clasificacionTabla->clasificacion ?? 'N/A' }}</td>
+                        <td>{{ $clasificacionTabla->conteo ?? 'N/A' }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+                    </tr>
+                @endforelse
+                <x-slot name="paginacion">
+                    {{ $clasificacionesTabla->links() }}
+                </x-slot>
+            </x-table.table>
+        </div>
+
+    @endif
 </div>

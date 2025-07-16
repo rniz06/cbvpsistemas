@@ -35,5 +35,6 @@ Route::prefix('cca')->middleware('auth')->group(function () {
         ->prefix('reportes')
         ->group(function () {
             Route::get('/historico', 'historico')->name('cca.reportes.historico');
+            Route::get('/graficos-por-compania', 'graficosPorCompania')->name('cca.reportes.graficos-por-compania');
         });
 });

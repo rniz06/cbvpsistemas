@@ -11,4 +11,9 @@ class ReporteController extends Controller
     {
         return view('cca.reportes.historico');
     }
+
+    public function graficosPorCompania()
+    {
+        return view('cca.reportes.graficos-por-compania');
+    }
 }

@@ -405,6 +405,11 @@ return [
                             'route' => 'cca.reportes.historico',
                             // 'can' => 'Despachos Por Compania',
                         ],
+                        [
+                            'text' => 'Reportes por compañia',
+                            'route' => 'cca.reportes.graficos-por-compania',
+                            // 'can' => 'Despachos Por Compania',
+                        ],
                     ],
                 ],
             ],
