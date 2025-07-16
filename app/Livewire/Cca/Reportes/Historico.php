@@ -23,6 +23,9 @@ class Historico extends Component
     public $servicios;
     public $clasificaciones;
 
+    public $buscador = '';
+    public $paginado = 15;
+
     public function mount()
     {
         $this->fecha_desde = Carbon::now()->toDateString();
@@ -49,6 +52,7 @@ class Historico extends Component
     {
         return view('livewire.cca.reportes.historico', [
             'historicos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'nombrecompleto', 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
+            ->where('estado_id', 4) // Servicio Culminado
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
             })
@@ -64,6 +68,7 @@ class Historico extends Component
             ->when($this->clasificacion_id, function ($query) {
                 return $query->where('clasificacion_id', $this->clasificacion_id);
             })
+            ->paginate($this->paginado, ['*'], 'historicos_page'),
         ]);
     }
 }

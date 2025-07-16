@@ -1,15 +1,14 @@
 <div>
-    {{-- {{ $fecha_desde ?? 'S/D'}}
+    {{-- {{ $fecha_desde ?? 'S/D' }}
     <br>
-    {{ $fecha_hasta ?? 'S/D'}}
+    {{ $fecha_hasta ?? 'S/D' }}
     <br>
-    {{ $compania_id ?? 'S/D'}}
+    {{ $compania_id ?? 'S/D' }}
     <br>
-    {{ $servicio_id ?? 'S/D'}}
+    {{ $servicio_id ?? 'S/D' }}
     <br>
-    {{ $clasificacion_id ?? 'S/D'}} --}}
+    {{ $clasificacion_id ?? 'S/D' }} --}}
 
-    {{-- Tabla de Reportes --}}
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
@@ -58,4 +57,44 @@
 
         </div>
     </x-card.card-filtro>
+
+    {{-- Historico --}}
+    <div class="col-md-12">
+        <x-table.table titulo="Historico de Servicios" excel pdf>
+
+            <x-slot name="cabeceras">
+                <th>Compañia:</th>
+                <th>Servicio:</th>
+                <th>Clasificación:</th>
+                <th>Móvil:</th>
+                <th>A cargo:</th>
+                <th>Chófer:</th>
+                <th>Tripulantes:</th>
+                <th>Fecha:</th>
+                <th>Ver:</th>
+
+            </x-slot>
+            @forelse ($historicos as $historico)
+                <tr>
+                    <td>{{ $historico->compania ?? 'N/A' }}</td>
+                    <td>{{ $historico->servicio ?? 'N/A' }}</td>
+                    <td>{{ $historico->clasificacion ?? 'N/A' }}</td>
+                    <td>{{ $historico->tipo ?? 'N/A' }}-{{ $historico->movil ?? 'N/A' }}</td>
+                    <td>{{ $historico->nombrecompleto ?? 'N/A' }}</td>
+                    <td>{{ $historico->chofer ?? 'N/A' }}</td>
+                    <td>{{ $historico->cantidad_tripulantes ?? 'N/A' }}</td>
+                    <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') . ' Hs.' ?? 'N/A' }}</td>
+                    <td><a href="{{ route('cca.despacho.ver-servicio', $historico->id_servicio_existente) }}"
+                            class="btn btn-block btn-sm btn-success">Ver Servicio</a></td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+                </tr>
+            @endforelse
+            <x-slot name="paginacion">
+                {{ $historicos->links() }}
+            </x-slot>
+        </x-table.table>
+    </div>
 </div>
