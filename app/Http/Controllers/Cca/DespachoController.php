@@ -38,4 +38,9 @@ class DespachoController extends Controller
     {
         return view('cca.despacho.despacho-por-servicio-final', compact('servicio'));
     }
+
+    public function serviciosActivos()
+    {
+        return view('cca.despacho.servicios-activos');
+    }
 }

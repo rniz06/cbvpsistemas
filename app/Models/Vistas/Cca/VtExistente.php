@@ -12,4 +12,12 @@ class VtExistente extends Model
     protected $table = 'CCA_vt_servicios_existentes';
 
     protected $primaryKey = 'id_servicio_existente';
+
+    protected $casts = [
+        'fecha_alfa' => 'datetime',
+        'fecha_cia' => 'datetime',
+        'fecha_movil' => 'datetime',
+        'fecha_servicio' => 'datetime',
+        'fecha_base' => 'datetime',
+    ];
 }

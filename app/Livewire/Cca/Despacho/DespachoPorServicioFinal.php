@@ -53,7 +53,7 @@ class DespachoPorServicioFinal extends Component
             'chofer' => $this->chofer,
             'cantidad_tripulantes' => $this->cantidad_tripulantes,
             'fecha_movil' => now(),
-            'estado_id' => 2, // Estado: Compañia despachada
+            'estado_id' => 3, // Estado: Compañia despachada
         ]);
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', 'Servicio guardado!');

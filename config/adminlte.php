@@ -390,7 +390,7 @@ return [
                         ],
                         [
                             'text' => 'Servicios Activos',
-                            'url' => 'cca.despacho-por-compania',
+                            'route' => 'cca.despacho.servicios-activos',
                             'can' => 'Servicios Activos',
                         ],
                     ],

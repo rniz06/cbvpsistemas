@@ -46,7 +46,7 @@ class DespachoPorServicioAddCompania extends Component
         $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
             'compania_id' => $this->compania_id,
             'fecha_cia' => now(),
-            'estado_id' => 1, // Estado: Inicializado
+            'estado_id' => 2, // Estado: Inicializado
         ]);
         return redirect()->route('cca.despacho.despacho-por-servicio-final', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', 'Servicio Despachado Con Movil Correctamente!');
