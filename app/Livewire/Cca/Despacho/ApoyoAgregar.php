@@ -45,7 +45,7 @@ class ApoyoAgregar extends Component
             'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
             'acargo' => ['required', 'numeric', 'min_digits:1', 'max_digits:5'],
             'chofer' => ['required', 'string', 'max_digits:10'],
-            'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:1'],
+            'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
         ];
     }
 

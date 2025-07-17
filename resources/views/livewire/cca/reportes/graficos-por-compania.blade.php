@@ -151,7 +151,7 @@
     @endif
 
     {{-- Clasificaciones --}}
-    @if ($servicio_id !== null)
+    @if ($servicio_id !== null and $compania_id !== null)
         <div class="col-md-6">
             <x-table.table titulo="Clasificaciones" ocultarBuscador personalizarPaginacion="paginadoClasificaciones">
 
