@@ -41,28 +41,6 @@ class Apoyos extends Component
         $this->mostrarFormAgregarApoyo = false;
     }
 
-    // // Escucha el evento apoyo-agregado para recargar los comentarios
-    // #[On('apoyo-agregado')]
-    // public function cargarApoyos()
-    // {
-    //     return VtExistenteApoyo::select(
-    //         'idservicio_existente_apoyo',
-    //         'compania',
-    //         'movil',
-    //         'tipo',
-    //         'nombrecompleto',
-    //         'chofer',
-    //         'cantidad_tripulantes',
-    //         'fecha_cia',
-    //         'fecha_movil',
-    //         'fecha_servicio',
-    //         'fecha_base'
-    //     )
-    //         ->where('servicio_id', $this->servicio)
-    //         ->orderByDesc('created_at')
-    //         ->paginate($this->paginadoApoyos, ['*'], 'apoyos_page');
-    // }
-
     public function horaAccion($accion)
     {
         switch ($accion) {
@@ -114,7 +92,7 @@ class Apoyos extends Component
             'fecha_servicio',
             'fecha_base'
         )
-            ->where('servicio_id', $this->servicio)
+            ->where('servicio_existente_id', $this->servicio)
             ->orderByDesc('created_at')
             ->paginate($this->paginadoApoyos, ['*'], 'apoyos_page');
 

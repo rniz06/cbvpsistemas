@@ -52,12 +52,13 @@ class ApoyoAgregar extends Component
     public function guardar()
     {
         $this->validate();
+        // return dd($x);
         $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
         Apoyo::create([
             'servicio_id'           => $this->servicio,
             'compania_id'           => $this->compania_id,
             'movil_id'              => $this->movil_id,
-            'acargo'                => $acargo,
+            'acargo'                => $acargo ?? null,
             'chofer'                => $this->chofer,
             'cantidad_tripulantes'  => $this->cantidad_tripulantes,
             'creadoPor'             => Auth::id(),
