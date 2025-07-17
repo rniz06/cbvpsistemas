@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
     */
 
 Route::controller(MaterialParametroController::class)
+    ->middleware('auth')
     ->prefix('materiales')
     ->group(function () {
         Route::get('/', 'index')->name('materiales.index');
@@ -37,7 +38,7 @@ Route::controller(MaterialParametroController::class)
 
 
 // Rutas con parámetro, luego de las anteriores
-Route::controller(MayorController::class)->prefix('materiales/mayor')->group(function () {
+Route::controller(MayorController::class)->middleware('auth')->prefix('materiales/mayor')->group(function () {
     Route::get('/', 'index')->name('materiales.mayor.index');
     Route::get('ver-compania/{compania}', 'verCompania')->name('materiales.mayor.ver-compania');
     Route::get('{movil}', 'show')
@@ -46,7 +47,7 @@ Route::controller(MayorController::class)->prefix('materiales/mayor')->group(fun
 });
 
 // Rutas con parámetro, luego de las anteriores
-Route::controller(EquipoHidraulicoController::class)->prefix('materiales/equipo-hidraulico')->group(function () {
+Route::controller(EquipoHidraulicoController::class)->middleware('auth')->prefix('materiales/equipo-hidraulico')->group(function () {
     Route::get('/', 'index')->name('materiales.hidraulicos.index');
     Route::get('/ver-compania/{compania}', 'verCompania')->name('materiales.hidraulicos.ver-compania');
     Route::get('{hidraulico}', 'show')
