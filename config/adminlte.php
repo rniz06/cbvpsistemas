@@ -381,12 +381,12 @@ return [
                         [
                             'text' => 'Despachos Por Compañia',
                             'route' => 'cca.despacho.despacho-por-compania',
-                            'can' => 'Despachos Por Compania',
+                            'can' => 'Despacho Por Compania',
                         ],
                         [
                             'text' => 'Despachos Por Servicio',
                             'route' => 'cca.despacho.despacho-por-servicio',
-                            'can' => 'Despachos Por Servicio',
+                            'can' => 'Despacho Por Servicio',
                         ],
                         [
                             'text' => 'Servicios Activos',
@@ -403,12 +403,12 @@ return [
                         [
                             'text' => 'Historico',
                             'route' => 'cca.reportes.historico',
-                            // 'can' => 'Despachos Por Compania',
+                            'can' => 'Reportes Historico',
                         ],
                         [
                             'text' => 'Reportes por compañia',
                             'route' => 'cca.reportes.graficos-por-compania',
-                            // 'can' => 'Despachos Por Compania',
+                            'can' => 'Reportes Por Compania',
                         ],
                     ],
                 ],

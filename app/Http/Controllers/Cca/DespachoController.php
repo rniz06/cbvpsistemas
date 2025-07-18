@@ -7,6 +7,18 @@ use Illuminate\Http\Request;
 
 class DespachoController extends Controller
 {
+    /**
+     * Establece los middleware necesarios para gestionar permisos
+     * Se utilizan permisos específicos para cada acción del controlador.
+     */
+    function __construct()
+    {
+        $this->middleware('permission:Despacho Por Compania', ['only' => ['despachoPorCompania', 'despachoPorCompaniaFinal']]);
+        $this->middleware('permission:Despacho Por Servicio', ['only' => ['despachoPorServicio', 'despachoPorServicioAddCompania', 'despachoPorServicioFinal']]);
+        $this->middleware('permission:Servicios Activos', ['only' => ['serviciosActivos']]);
+        $this->middleware('permission:Despacho Por Compania|Despacho Por Servicio|Servicios Activos', ['only' => ['verServicio']]);
+    }
+
     public function despachoPorCompania()
     {
         return view('cca.despacho.despacho-por-compania');
