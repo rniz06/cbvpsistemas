@@ -62,18 +62,24 @@ class AsignarRol extends Component
         $authUserRole = Auth::user()->roles()->pluck('name')->first();
 
         if ($authUserRole !== 'SuperAdmin') {
-            // Obtener los roles actuales del usuario
-            $rolesActuales = $user->roles->pluck('name')->toArray();
+            // Definir qué prefijo de roles puede manejar según el rol del usuario autenticado
+            $prefijo = explode('_', $authUserRole)[0] . '_';
 
-            // Unir sin duplicados
-            $todosLosRoles = collect($rolesActuales)
-                ->merge($this->roles)
-                ->unique()
+            // Obtener solo los roles del mismo módulo que el rol del admin actual
+            $rolesFiltrados = collect($this->roles)
+                ->filter(fn($rol) => Str::startsWith($rol, $prefijo))
                 ->toArray();
 
-            $user->syncRoles($todosLosRoles);
+            // Reemplazar todos los roles del módulo correspondiente (no tocar otros módulos)
+            $otrosRoles = $user->roles
+                ->pluck('name')
+                ->filter(fn($rol) => !Str::startsWith($rol, $prefijo))
+                ->toArray();
+
+            $rolesFinales = array_merge($otrosRoles, $rolesFiltrados);
+
+            $user->syncRoles($rolesFinales);
         } else {
-            // SuperAdmin puede sobreescribir todos los roles
             $user->syncRoles($this->roles);
         }
 
