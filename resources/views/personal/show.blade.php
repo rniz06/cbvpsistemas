@@ -51,9 +51,6 @@
                 @endcan
                 @can('Personal Cambiar Codigo')
                     <!-- Button Modal Cambiar de Compania -->
-                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#cambiodecompania">
-                        <i class="fas fa-exchange-alt"></i> Cambio Compañia
-                    </button>
                     <a href="{{ route('personal.cambiarCodigo', $personal->idpersonal) }}"
                         class="btn btn-sm btn-warning"><i class="fas fa-sync-alt"></i> Cambiar Código</a>
                 @endcan
