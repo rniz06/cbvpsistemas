@@ -332,6 +332,11 @@ return [
                     'can' => 'Personal Listar',
                 ],
                 [
+                    'text' => 'Comisionamientos',
+                    'route' => 'personal.comisionamientos.index',
+                    'can' => 'Comisionamientos Listar',
+                ],
+                [
                     'text' => 'Reportes',
                     'route' => 'personal.reportes',
                     'can' => 'Personal Reportes Listar',

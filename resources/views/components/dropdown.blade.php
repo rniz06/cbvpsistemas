@@ -17,6 +17,10 @@
                 <a class="dropdown-item" tabindex="-1" href="{{ $ficha }}"><i class="far fa-file-alt pr-2"
                         style="color: #6c757d"></i></i>Ficha PDF</a>
             @endif
+            @if (isset($comisionamiento))
+                <a class="dropdown-item" tabindex="-1" href="{{ $comisionamiento }}"><i class="fas fa-universal-access pr-2"
+                        style="color: #6c757d"></i></i>Comisionamiento</a>
+            @endif
             @if (isset($edit))
                 <a class="dropdown-item" tabindex="-1" href="{{ $edit }}"><i class="fas fa-edit pr-2"
                         style="color: #ffc107"></i>Actualizar</a>

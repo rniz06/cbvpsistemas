@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Conductor\ConductorBombero;
+use App\Models\Materiales\Conductor\ConductorBombero;
 use App\Models\Personal\ContactoEmergencia;
 use Illuminate\Database\Eloquent\Model;
 
