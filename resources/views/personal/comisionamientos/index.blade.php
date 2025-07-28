@@ -11,10 +11,7 @@
 @section('content_body')
 
     {{-- Llamar al componente livewire para agregar un nuevo comisionamiento --}}
-    {{-- @livewire('personal.comisionamientos.create', ['personal' => $personal]) --}}
-    <h4>vista con tabla de comisionamientos</h4>
-    <br>
-    <a href="{{ route('personal.comisionamientos.create') }}" class="btn-btn-success btn-sm">Agregar Comisionamiento</a>
+    @livewire('personal.comisionamientos.index')
 
 @stop
 

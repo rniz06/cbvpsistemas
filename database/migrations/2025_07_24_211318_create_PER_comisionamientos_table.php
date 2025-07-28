@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
             $table->string('codigo_comisionamiento', 10)->nullable();
-            $table->boolean('culminado')->default(false);
+            $table->boolean('culminado')->nullable()->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

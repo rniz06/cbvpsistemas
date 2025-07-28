@@ -26,6 +26,8 @@ class Comisionamiento extends Model implements Auditable
     ];
 
     protected $casts = [
-    'culminado' => 'boolean',
-];
+        'culminado'    => 'boolean',
+        'fecha_inicio' => 'date',
+        'fecha_fin'    => 'date',
+    ];
 }
