@@ -1,6 +1,6 @@
 <div>
     {{-- Tabla de Comisionamientos --}}
-    <x-table.table titulo="Listado De Comisionamientos" ocultarBuscador>
+    <x-table.table titulo="Listado De Comisionamientos" ocultarBuscador excel pdf>
 
         <x-slot name="headerBotones">
             <a href="{{ route('personal.comisionamientos.create') }}" class="btn btn-sm btn-success"><i

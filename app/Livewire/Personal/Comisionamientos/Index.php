@@ -2,10 +2,15 @@
 
 namespace App\Livewire\Personal\Comisionamientos;
 
+use App\Exports\ExcelGenericoExport;
+use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Vistas\Personal\VtComisionamiento;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -60,7 +65,7 @@ class Index extends Component
                 'codigo_comisionamiento',
                 'culminado'
             )
-            ->buscarNombreCompleto($this->buscarNombreCompleto)
+                ->buscarNombreCompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
                 ->buscarCompaniaId($this->buscarCompaniaId)
                 ->buscarFechaInicio($this->buscarFechaInicio)
@@ -70,5 +75,44 @@ class Index extends Component
                 ->buscarCulminado($this->buscarCulminado)
                 ->paginate($this->paginado, ['*'], 'comisionados_page')
         ]);
+    }
+
+    public function cargarComisionamientosExport()
+    {
+        return VtComisionamiento::select([
+            'nombrecompleto',
+            'codigo',
+            'compania',
+            'fecha_inicio',
+            'fecha_fin',
+            'codigo_comisionamiento',
+            'culminado',
+        ])
+            ->buscarNombreCompleto($this->buscarNombreCompleto)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->buscarFechaInicio($this->buscarFechaInicio)
+            ->buscarFechaFin($this->buscarFechaFin)
+            ->buscarCodigoComisionamiento($this->buscarCodigoComisionamiento)
+            ->buscarCulminado($this->buscarCulminado)
+            ->get();
+    }
+
+
+    public function excel()
+    {
+        $datos = $this->cargarComisionamientosExport();
+        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Comisionamientos.xlsx');
+    }
+
+    public function pdf()
+    {
+        $nombre_archivo = "Listado de Comisionamientos";
+        $datos = $this->cargarComisionamientosExport();
+        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
+
+        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
 }
