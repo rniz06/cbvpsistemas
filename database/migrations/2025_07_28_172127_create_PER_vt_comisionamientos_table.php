@@ -22,6 +22,7 @@ return new class extends Migration
                 c.compania_id,
                 com.compania,
                 c.resolucion_id,
+                r.concepto,
                 c.fecha_inicio,
                 c.fecha_fin,
                 c.codigo_comisionamiento,
@@ -32,6 +33,7 @@ return new class extends Migration
             FROM PER_comisionamientos c
             JOIN personal p ON (p.idpersonal = personal_id)
             JOIN GRAL_companias com ON (com.id_compania = c.compania_id)
+            LEFT JOIN cbvp_resoluciones_db.resoluciones r ON (r.id = c.resolucion_id)
         ");
     }
 

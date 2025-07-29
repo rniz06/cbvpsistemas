@@ -16,5 +16,6 @@ Route::middleware('auth')->prefix('personal')->group(function () {
         ->group(function () {
             Route::get('/comisionamientos', 'index')->name('personal.comisionamientos.index');
             Route::get('/comisionamientos/create', 'create')->name('personal.comisionamientos.create');
+            Route::get('/comisionamientos/{comisionamiento}/edit', 'edit')->name('personal.comisionamientos.edit');
         });
 });

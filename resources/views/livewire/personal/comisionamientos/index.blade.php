@@ -99,6 +99,15 @@
                         {{ is_null($comisionamiento->culminado) ? 'INDEFINIDO' : ($comisionamiento->culminado ? 'SI' : 'NO') }}
                     </span>
                 </td>
+                <td>
+                    <a href="{{ route('personal.comisionamientos.edit', $comisionamiento->id_comisionamiento) }}"
+                        class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Editar</a>
+                    @if ($comisionamiento->culminado != 1)
+                        <x-adminlte-button class="btn-sm" label="Culminar" theme="outline-danger"
+                            wire:click="culminar"
+                            wire:confirm="Estas Seguro de Culminar este Comisionamiento?" />
+                    @endif
+                </td>
             </tr>
         @empty
             <tr>
