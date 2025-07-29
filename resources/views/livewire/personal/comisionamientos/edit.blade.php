@@ -1,5 +1,5 @@
 <div>
-    <h4>Editar un Registro de Comisionamiento -- {{ $comisionamiento->fecha_fin ?? 'aa' }}</h4>
+    <h4>Editar un Registro de Comisionamiento</h4>
     {{-- Formulario --}}
     <x-adminlte-callout theme="warning">
         <form class="row" wire:submit="guardar"> <!-- Quitado col-md-12 aquí -->
