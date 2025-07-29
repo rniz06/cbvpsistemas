@@ -30,7 +30,8 @@
                             <b>Servicios</b> <a class="float-right text-dark badge badge-warning">...</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Resoluciones</b> <a class="float-right text-dark badge badge-warning">{{ $resoluciones->total() ?? '000' }}</a>
+                            <b>Resoluciones</b> <a
+                                class="float-right text-dark badge badge-warning">{{ $resoluciones->total() ?? '000' }}</a>
                         </li>
                         {{-- <li class="list-group-item">
                             <b>Friends</b> <a class="float-right">13,287</a>
@@ -54,8 +55,10 @@
                     <p><strong class="">Documento: </strong>{{ $personal->documento ?? 'No Registra' }}</p>
                     <p><strong class="">Categoria: </strong>{{ $personal->categoria ?? 'No Registra' }}</p>
                     <p><strong class="">Compañia: </strong>{{ $personal->compania ?? 'No Registra' }}</p>
-                    <p><strong class="">Fecha de Juramento: </strong>{{ $personal->fecha_de_juramento ?? 'No Registra' }}</p>
-                    <p><strong class="">Año de Juramento: </strong>{{ $personal->fecha_juramento ?? 'No Registra' }}</p>
+                    <p><strong class="">Fecha de Juramento:
+                        </strong>{{ $personal->fecha_de_juramento ?? 'No Registra' }}</p>
+                    <p><strong class="">Año de Juramento: </strong>{{ $personal->fecha_juramento ?? 'No Registra' }}
+                    </p>
                     <p><strong class="">Estado: </strong>{{ $personal->estado ?? 'No Registra' }}</p>
                     <p><strong class="">Sexo: </strong>{{ $personal->sexo ?? 'No Registra' }}</p>
                     <p><strong class="">Nacionalidad: </strong>{{ $personal->pais ?? 'No Registra' }}</p>
@@ -108,7 +111,10 @@
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#mis_resoluciones" data-toggle="tab">Mis
                                 resoluciones</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#mis_servicios" data-toggle="tab">Mis Servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#mis_comisionamientos" data-toggle="tab">Mis
+                                Comisionamientos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#mis_servicios" data-toggle="tab">Mis Servicios</a>
+                        </li>
                         {{-- <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li> --}}
                     </ul>
                 </div><!-- /.card-header -->
@@ -134,7 +140,7 @@
                                             <td>{{ $resolucion->concepto ?? 'N/A' }}</td>
                                             <td>{{ date('d/m/Y', strtotime($resolucion->fecha)) ?? 'N/A' }}</td>
                                             <td>{{ $resolucion->fuente_origen ?? 'N/A' }}</td>
-                                            <td><a href="http://resoluciones.cbvp.org.py/descargar-resolucion/{{ $resolucion->id_resolucion }}"
+                                            <td><a href="https://resoluciones.cbvp.org.py/descargar-resolucion/{{ $resolucion->id_resolucion }}"
                                                     target="_blank" class="btn btn-sm btn-success"><i
                                                         class="fas fa-file-pdf"></i></a></td>
                                         </tr>
@@ -148,6 +154,12 @@
                             {{ $resoluciones->links('pagination::bootstrap-4') }}
                         </div>
                         <!-- /.tab-pane -->
+
+                        {{-- <div class="table-responsive active tab-pane" id="mis_comisionamientos"> --}}
+                            @livewire('perfil.mis-comisionamientos')
+                        {{-- </div> --}}
+                        <!-- /.tab-pane -->
+
                         <div class="tab-pane" id="mis_servicios">
                             <!-- The timeline -->
                             {{-- <div class="timeline timeline-inverse">
@@ -245,7 +257,8 @@
                                     <i class="far fa-clock bg-gray"></i>
                                 </div>
                             </div> --}}
-                            <p class="font-weight-bold font-italic text-center">Proximamente tus estadisticas de servicio...</p>
+                            <p class="font-weight-bold font-italic text-center">Proximamente tus estadisticas de servicio...
+                            </p>
                         </div>
                         <!-- /.tab-pane -->
 

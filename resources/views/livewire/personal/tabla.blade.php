@@ -5,7 +5,8 @@
                     Exportar</button>
             @endcan
             @can('Personal Crear')
-                <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i>Registrar Personal</a>
+                <a href="{{ route('personal.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i>Registrar
+                    Personal</a>
             @endcan
         </h3>
     </div>
@@ -148,6 +149,11 @@
                                 @if (auth()->user()->can('Personal Eliminar'))
                                     <x-slot name="action">#</x-slot>
                                 @endif
+
+                                @can('Personal Comisionamientos Create')
+                                    <x-slot
+                                        name="comisionamiento">{{ route('personal.comisionamientos.create', $personal->idpersonal) }}</x-slot>
+                                @endcan
                             </x-dropdown>
                         </td>
                     </tr>
