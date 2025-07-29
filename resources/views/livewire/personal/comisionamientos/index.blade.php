@@ -104,7 +104,7 @@
                         class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Editar</a>
                     @if ($comisionamiento->culminado != 1)
                         <x-adminlte-button class="btn-sm" label="Culminar" theme="outline-danger"
-                            wire:click="culminar"
+                            wire:click="culminar({{ $comisionamiento->id_comisionamiento ?? ''}})"
                             wire:confirm="Estas Seguro de Culminar este Comisionamiento?" />
                     @endif
                 </td>

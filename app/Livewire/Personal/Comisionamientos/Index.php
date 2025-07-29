@@ -5,6 +5,7 @@ namespace App\Livewire\Personal\Comisionamientos;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
+use App\Models\Personal\Comisionamiento;
 use App\Models\Vistas\Personal\VtComisionamiento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +76,16 @@ class Index extends Component
                 ->buscarCulminado($this->buscarCulminado)
                 ->paginate($this->paginado, ['*'], 'comisionados_page')
         ]);
+    }
+
+    public function culminar($id)
+    {
+        $comisionamiento = Comisionamiento::findOrFail($id);
+        $comisionamiento->update([
+            'culminado' => 1 // True
+        ]);
+        session()->flash('success', 'Comisionamiento Culminado Exitosamente!');
+        return redirect()->route('personal.comisionamientos.index');
     }
 
     public function cargarComisionamientosExport()
