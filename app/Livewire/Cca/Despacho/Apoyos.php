@@ -84,7 +84,7 @@ class Apoyos extends Component
             'compania',
             'movil',
             'tipo',
-            'nombrecompleto',
+            'acargo_nombrecompleto',
             'chofer',
             'cantidad_tripulantes',
             'fecha_cia',

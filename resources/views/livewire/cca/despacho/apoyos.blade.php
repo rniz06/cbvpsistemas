@@ -28,7 +28,7 @@
             <tr>
                 <td>{{ $apoyo->compania ?? 'N/A' }}</td>
                 <td>{{ $apoyo->tipo ?? 'N/A' }}-{{ $apoyo->movil ?? 'N/A' }}</td>
-                <td>{{ $apoyo->nombrecompleto ?? 'N/A' }}</td>
+                <td>{{ $apoyo->acargo_nombrecompleto ?? 'N/A' }}</td>
                 <td>{{ $apoyo->chofer ?? 'N/A' }}</td>
                 <td>{{ $apoyo->cantidad_tripulantes ?? 'N/A' }}</td>
 
