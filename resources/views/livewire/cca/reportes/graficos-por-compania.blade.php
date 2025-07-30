@@ -115,7 +115,6 @@
 
     @endif
 
-    @if ($compania_id !== null)
         {{-- Servicios Apoyos --}}
         <div class="col-md-{{ $servicio_id !== null ? 6 : 12 }}">
             <x-table.table titulo="Cantidad de despachos para apoyo" ocultarBuscador
@@ -148,7 +147,6 @@
                 </x-slot>
             </x-table.table>
         </div>
-    @endif
 
     {{-- Clasificaciones --}}
     @if ($servicio_id !== null and $compania_id !== null)
@@ -183,4 +181,28 @@
         </div>
 
     @endif
+
+    {{-- Conteo Total Servicios y Apoyos --}}
+    <div class="col-md-12">
+        @php
+            $heads = ['Servicio', 'Cantidad:'];
+            $config = [
+                'lengthMenu' => [5, 10, 15, 20],
+                'searching' => false, // Esto oculta el buscador
+                'language' => [
+                    'url' => '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
+                ],
+                'order' => false,
+            ];
+        @endphp
+        <x-adminlte-datatable id="table1" :heads="$heads" striped bordered compressed hoverable :config="$config"
+            with-buttons>
+            @foreach ($conteoServiciosYApoyos as $conteoServiciosYApoyo)
+                <tr>
+                    <td>{{ $conteoServiciosYApoyo->servicio ?? 'N/A' }}</td>
+                    <td>{{ $conteoServiciosYApoyo->conteo_total ?? 'N/A' }}</td>
+                </tr>
+            @endforeach
+        </x-adminlte-datatable>
+    </div>
 </div>
