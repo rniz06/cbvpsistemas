@@ -30,12 +30,13 @@
 
             {{-- Acargo --}}
             <x-adminlte-input name="" label="A cargo:"
-                value="{{ $servicio->nombrecompleto ?? 'S/D' }} - {{ $servicio->codigo ?? 'S/D' }} - {{ $servicio->categoria ?? 'S/D' }} - {{ $servicio->acargo_compania ?? 'S/D' }}"
-                fgroup-class="col-md-3" disabled />
+                value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                fgroup-class="col-md-4" disabled />
 
             {{-- chofer --}}
-            <x-adminlte-input name="" label="Chofer:" value="{{ $servicio->chofer ?? 'S/D' }}"
-                fgroup-class="col-md-3" disabled />
+            <x-adminlte-input name="" label="Chofer:"
+                value="{{ is_null($servicio->chofer) ? 'Rentado' : ($servicio->chofer_categoria ? substr($servicio->chofer_categoria, 0, 1) : 'N') . '-' . ($servicio->chofer_codigo ?? 'S/D') }}"
+                fgroup-class="col-md-2" disabled />
 
             {{-- Cantidad Tripulantes --}}
             <x-adminlte-input name="" value="{{ $servicio->cantidad_tripulantes ?? 'S/D' }}"
