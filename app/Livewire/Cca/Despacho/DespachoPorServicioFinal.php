@@ -23,7 +23,7 @@ class DespachoPorServicioFinal extends Component
 
     // Propiedades para el formulario
     #[Validate]
-    public $movil_id, $acargo = '', $chofer, $cantidad_tripulantes;
+    public $movil_id, $acargo = '', $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount($servicio)
     {
@@ -36,24 +36,36 @@ class DespachoPorServicioFinal extends Component
     protected function rules()
     {
         return [
-            'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo' => ['required', 'numeric', 'min_digits:1', 'max_digits:5', Rule::exists(Personal::class, 'codigo')],
-            'chofer' => ['required', 'numeric', 'min_digits:1', 'max_digits:10'],
+            'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
+            'acargo'               => ['required', 'numeric', 'min_digits:1', 'max_digits:5', Rule::exists(Personal::class, 'codigo')],
+            'chofer'               => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
         ];
+    }
+
+    // Deshabilita el input chofer
+    public function btnrentado()
+    {
+        $this->chofer_rentado = !$this->chofer_rentado;
+        if ($this->chofer_rentado) {
+            $this->chofer = null;
+        }
     }
 
     public function grabar()
     {
         // Validar los datos
         $this->validate();
+        $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
         $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
-            'movil_id' => $this->movil_id,
-            'acargo' => $this->acargo,
-            'chofer' => $this->chofer,
+            'movil_id'             => $this->movil_id,
+            'acargo'               => $acargo,
+            'chofer'               => $chofer,
+            'chofer_rentado'       => $this->chofer_rentado,
             'cantidad_tripulantes' => $this->cantidad_tripulantes,
-            'fecha_movil' => now(),
-            'estado_id' => 3, // Estado: Compañia despachada
+            'fecha_movil'          => now(),
+            'estado_id'            => 3, // Estado: Compañia despachada
         ]);
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', 'Servicio guardado!');

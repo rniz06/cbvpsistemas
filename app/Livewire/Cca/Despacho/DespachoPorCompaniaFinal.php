@@ -25,7 +25,7 @@ class DespachoPorCompaniaFinal extends Component
 
     // Propiedades para el formulario
     #[Validate]
-    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia, $movil_id, $acargo, $chofer, $cantidad_tripulantes;
+    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia, $movil_id, $acargo, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount(GralVtCompania $compania)
     {
@@ -69,16 +69,26 @@ class DespachoPorCompaniaFinal extends Component
             'calle_referencia' => ['required', 'min:3', 'max:255'],
             'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
             'acargo' => ['required', 'numeric', 'min_digits:1', 'max_digits:5'],
-            'chofer' => ['required', 'min_digits:1', 'max_digits:10'],
+            'chofer' => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
         ];
+    }
+
+    // Deshabilita el input chofer
+    public function btnrentado()
+    {
+        $this->chofer_rentado = !$this->chofer_rentado;
+        if ($this->chofer_rentado) {
+            $this->chofer = null;
+        }
     }
 
     public function grabar()
     {
         // Validar los datos
         $this->validate();
-        $acargoId = Personal::where('codigo', $this->acargo)->first();
+        $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
         $servicio = Existente::create([
             'informacion_servicio' => $this->informacion_servicio,
             'calle_referencia' => $this->calle_referencia,
@@ -88,8 +98,9 @@ class DespachoPorCompaniaFinal extends Component
             'clasificacion_id' => $this->clasificacion_id,
             'ciudad_id' => $this->ciudad_id,
             'movil_id' => $this->movil_id,
-            'acargo' => $acargoId->idpersonal,
-            'chofer' => $this->chofer,
+            'acargo' => $acargo,
+            'chofer' => $chofer ?? null,
+            'chofer_rentado' => $this->chofer_rentado ?? null,
             'estado_id' => 3, // Estado: Movil Despachado
             'fecha_cia' => now(),
             'fecha_movil' => now(),

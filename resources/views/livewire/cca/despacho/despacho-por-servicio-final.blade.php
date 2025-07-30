@@ -46,11 +46,16 @@
                 fgroup-class="col-md-2" />
 
             {{-- chofer --}}
-            <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2" />
+            <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2" :disabled="$chofer_rentado" />
+
+            {{-- BOTON DE RENTADO --}}
+            <div class="form-group col-md-1 align-self-end">
+                <x-adminlte-button :label="$chofer_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$chofer_rentado ? 'secondary' : 'warning'" :icon="$chofer_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnrentado" />
+            </div>
 
             {{-- Cantidad Tripulantes --}}
             <x-adminlte-input name="cantidad_tripulantes" type="numeric" label="Tripulantes:"
-                wire:model.blur="cantidad_tripulantes" fgroup-class="col-md-2" />
+                wire:model.blur="cantidad_tripulantes" fgroup-class="col-md-1" />
 
             {{-- Botones --}}
             <div class="card-footer">

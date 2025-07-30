@@ -32,11 +32,16 @@ return new class extends Migration
                 m.movil_tipo_id,
                 mt.tipo,
                 se.acargo,
-                p.nombrecompleto,
-                p.codigo,
-                p.categoria,
-                p.compania AS acargo_compania,
+                p.nombrecompleto AS acargo_nombrecompleto,
+                p.codigo AS acargo_codigo,
+                p.categoria_id AS acargo_categoria_id,
+                pc.categoria AS acargo_categoria,
                 se.chofer,
+                p_chofer.nombrecompleto AS chofer_nombrecompleto,
+                p_chofer.codigo AS chofer_codigo,
+                p_chofer.categoria_id AS chofer_categoria_id,
+                p_chofer_cat.categoria AS chofer_categoria,
+                se.chofer_rentado,
                 se.estado_id,
                 sestados.estado,
                 se.fecha_alfa,
@@ -54,7 +59,10 @@ return new class extends Migration
             LEFT JOIN GRAL_ciudades ciu ON (ciu.id_ciudad = se.ciudad_id)
             LEFT JOIN MAT_moviles m ON (m.id_movil = se.movil_id)
             LEFT JOIN MAT_moviles_tipos mt ON (mt.id_movil_tipo = m.movil_tipo_id)
-            LEFT JOIN vt_personales p ON (p.idpersonal = se.acargo)
+            LEFT JOIN personal p ON (p.idpersonal = se.acargo)
+            LEFT JOIN personal_categorias pc ON (pc.idpersonal_categorias = p.categoria_id)
+            LEFT JOIN personal p_chofer ON (p_chofer.idpersonal = se.chofer)
+            LEFT JOIN personal_categorias p_chofer_cat ON (p_chofer_cat.idpersonal_categorias = p_chofer.categoria_id)
             LEFT JOIN CCA_servicios_estados sestados ON (sestados.id_servicio_estado = se.estado_id)
         ");
     }
