@@ -67,7 +67,7 @@
             </div>
 
             {{-- A cargo --}}
-            <x-adminlte-input type="number" name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
+            <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
                 fgroup-class="col-md-3" wire:model.blur="acargo" />
 
             {{-- Chofer --}}

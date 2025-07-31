@@ -41,9 +41,9 @@
                 </x-adminlte-select>
             </div>
 
-            {{-- Acargo --}}
-            <x-adminlte-input name="acargo" type="numeric" label="A cargo:" wire:model.blur="acargo"
-                fgroup-class="col-md-2" />
+            {{-- A cargo --}}
+            <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
+                fgroup-class="col-md-2" wire:model.blur="acargo" />
 
             {{-- chofer --}}
             <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2" :disabled="$chofer_rentado" />

@@ -41,10 +41,10 @@ class ApoyoAgregar extends Component
     protected function rules()
     {
         return [
-            'compania_id' => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
-            'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo' => ['required', 'numeric', 'min_digits:1', 'max_digits:5'],
-            'chofer' => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
+            'compania_id'          => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
+            'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
+            'acargo'               => ['required', 'string', 'min:2', 'max:10'],
+            'chofer'               => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
             'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
         ];
     }
@@ -63,13 +63,22 @@ class ApoyoAgregar extends Component
     public function guardar()
     {
         $this->validate();
-        $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+
+        $acargo = null;
+        $acargo_aux = null;
+        if (is_numeric($this->acargo)) {
+            $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        } else {
+            $acargo_aux = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+        }
+
         $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
         Apoyo::create([
             'servicio_id'           => $this->servicio,
             'compania_id'           => $this->compania_id,
             'movil_id'              => $this->movil_id,
             'acargo'                => $acargo ?? null,
+            'acargo_aux'            => $acargo_aux ?? null,
             'chofer'                => $chofer ?? null,
             'chofer_rentado'        => $this->chofer_rentado ?? null,
             'cantidad_tripulantes'  => $this->cantidad_tripulantes,

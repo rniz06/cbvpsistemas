@@ -29,9 +29,16 @@
                 disabled />
 
             {{-- Acargo --}}
-            <x-adminlte-input name="" label="A cargo:"
-                value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
-                fgroup-class="col-md-4" disabled />
+            @if (is_null($servicio->acargo))
+                {{-- Mostrar codigo_comisionamiento --}}
+                <x-adminlte-input name="" label="A cargo:"
+                    value="{{ $servicio->codigo_comisionamiento ?? 'S/D' }}" fgroup-class="col-md-4" disabled />
+            @else
+                {{-- Mostrar datos de acargo --}}
+                <x-adminlte-input name="" label="A cargo:"
+                    value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                    fgroup-class="col-md-4" disabled />
+            @endif
 
             {{-- chofer --}}
             <x-adminlte-input name="" label="Chofer:"

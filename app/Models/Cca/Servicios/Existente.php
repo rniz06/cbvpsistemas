@@ -26,6 +26,7 @@ class Existente extends Model implements Auditable
         'ciudad_id',
         'movil_id',
         'acargo',
+        'acargo_aux',
         'chofer',
         'chofer_rentado',
         'estado_id',

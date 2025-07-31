@@ -29,12 +29,18 @@
                 <td>{{ $apoyo->compania ?? 'N/A' }}</td>
                 <td>{{ $apoyo->tipo ?? 'N/A' }}-{{ $apoyo->movil ?? 'N/A' }}</td>
                 <td>
-                    @php
-                        $letraCategoria = $apoyo->acargo_categoria ? substr($apoyo->acargo_categoria, 0, 1) : 'N/A';
-                        $codigo = $apoyo->acargo_codigo ?? 'N/A';
-                        $nombre = $apoyo->acargo_nombrecompleto ?? 'N/A';
-                    @endphp
-                    {{ "$letraCategoria-$codigo - $nombre" }}
+                    @if (is_null($apoyo->acargo))
+                        {{-- Mostrar codigo_comisionamiento --}}
+                        {{ $apoyo->codigo_comisionamiento ?? 'S/D' }}
+                    @else
+                        @php
+                            $letraCategoria = $apoyo->acargo_categoria ? substr($apoyo->acargo_categoria, 0, 1) : 'N/A';
+                            $codigo = $apoyo->acargo_codigo ?? 'N/A';
+                            $nombre = $apoyo->acargo_nombrecompleto ?? 'N/A';
+                        @endphp
+                        {{ "$letraCategoria-$codigo - $nombre" }}
+                    @endif
+
                 </td>
 
                 <td>

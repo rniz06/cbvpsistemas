@@ -74,7 +74,7 @@ class Historico extends Component
     public function render()
     {
         return view('livewire.cca.reportes.historico', [
-            'historicos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'acargo_codigo', 'acargo_categoria', 'chofer', 'chofer_codigo', 'chofer_categoria', 'cantidad_tripulantes', 'fecha_alfa')
+            'historicos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'acargo', 'acargo_codigo', 'acargo_categoria', 'acargo_aux', 'codigo_comisionamiento', 'chofer', 'chofer_codigo', 'chofer_categoria', 'cantidad_tripulantes', 'fecha_alfa')
                 ->where('estado_id', 4) // Servicio Culminado
                 ->when($this->fecha_desde, function ($query) {
                     return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);

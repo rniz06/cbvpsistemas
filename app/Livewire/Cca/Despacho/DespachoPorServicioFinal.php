@@ -37,7 +37,7 @@ class DespachoPorServicioFinal extends Component
     {
         return [
             'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo'               => ['required', 'numeric', 'min_digits:1', 'max_digits:5', Rule::exists(Personal::class, 'codigo')],
+            'acargo'               => ['required', 'string', 'min:2', 'max:10'],
             'chofer'               => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
         ];
@@ -56,12 +56,19 @@ class DespachoPorServicioFinal extends Component
     {
         // Validar los datos
         $this->validate();
-        $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        $acargo = null;
+        $acargo_aux = null;
+        if (is_numeric($this->acargo)) {
+            $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        } else {
+            $acargo_aux = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+        }
         $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
         $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
             'movil_id'             => $this->movil_id,
-            'acargo'               => $acargo,
-            'chofer'               => $chofer,
+            'acargo'               => $acargo ?? null,
+            'acargo_aux'           => $acargo_aux ?? null,
+            'chofer'               => $chofer ?? null,
             'chofer_rentado'       => $this->chofer_rentado,
             'cantidad_tripulantes' => $this->cantidad_tripulantes,
             'fecha_movil'          => now(),

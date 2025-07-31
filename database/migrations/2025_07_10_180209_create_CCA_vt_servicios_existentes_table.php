@@ -36,6 +36,8 @@ return new class extends Migration
                 p.codigo AS acargo_codigo,
                 p.categoria_id AS acargo_categoria_id,
                 pc.categoria AS acargo_categoria,
+                se.acargo_aux,
+                p_acargo_aux.codigo_comisionamiento,
                 se.chofer,
                 p_chofer.nombrecompleto AS chofer_nombrecompleto,
                 p_chofer.codigo AS chofer_codigo,
@@ -64,6 +66,7 @@ return new class extends Migration
             LEFT JOIN personal p_chofer ON (p_chofer.idpersonal = se.chofer)
             LEFT JOIN personal_categorias p_chofer_cat ON (p_chofer_cat.idpersonal_categorias = p_chofer.categoria_id)
             LEFT JOIN CCA_servicios_estados sestados ON (sestados.id_servicio_estado = se.estado_id)
+            LEFT JOIN personal p_acargo_aux ON (p_acargo_aux.idpersonal = se.acargo_aux)
         ");
     }
 

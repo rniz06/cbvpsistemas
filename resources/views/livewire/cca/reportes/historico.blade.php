@@ -71,13 +71,20 @@
                     <td>{{ $historico->servicio ?? 'N/A' }}</td>
                     <td>{{ $historico->clasificacion ?? 'N/A' }}</td>
                     <td>{{ $historico->tipo ?? 'N/A' }}-{{ $historico->movil ?? 'N/A' }}</td>
+
                     <td>
+                    @if (is_null($historico->acargo))
+                        {{-- Mostrar codigo_comisionamiento --}}
+                        {{ $historico->codigo_comisionamiento ?? 'S/D' }}
+                    @else
                         @php
                             $letraCategoria = $historico->acargo_categoria ? substr($historico->acargo_categoria, 0, 1) : 'N/A';
                             $codigo = $historico->acargo_codigo ?? 'N/A';
                         @endphp
                         {{ "$letraCategoria-$codigo" }}
-                    </td>
+                    @endif
+
+                </td>
                     <td>
                         @if ($historico->chofer === null)
                             <span class="badge badge-secondary">Rentado</span>
