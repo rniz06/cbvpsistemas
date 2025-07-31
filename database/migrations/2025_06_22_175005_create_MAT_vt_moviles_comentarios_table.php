@@ -37,8 +37,8 @@ return new class extends Migration
             JOIN personalcbvp.MAT_moviles_tipos mt ON mt.id_movil_tipo = m.movil_tipo_id
             JOIN personalcbvp.MAT_acciones a ON a.id_accion = mc.accion_id
             JOIN personalcbvp.vt_usuarios u ON u.id_usuario = mc.creadoPor
-	    LEFT JOIN personalcbvp.MAT_acciones_categorias ac ON ac.id_accion_categoria = mc.accion_categoria_id
-	    LEFT JOIN personalcbvp.MAT_acciones_categorias_detalles acd ON acd.idaccion_categoria_detalle = mc.categoria_detalle_id;
+	        LEFT JOIN personalcbvp.MAT_acciones_categorias ac ON ac.id_accion_categoria = mc.accion_categoria_id
+	        LEFT JOIN personalcbvp.MAT_acciones_categorias_detalles acd ON acd.idaccion_categoria_detalle = mc.categoria_detalle_id;
         ");
     }
 

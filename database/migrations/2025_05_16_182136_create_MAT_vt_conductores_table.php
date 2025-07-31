@@ -40,8 +40,8 @@ return new class extends Migration
                 FROM MAT_conductores_bomberos
                 JOIN vt_personales ON (vt_personales.idpersonal = MAT_conductores_bomberos.personal_id)
                 JOIN MAT_conductores_estados ON (MAT_conductores_estados.id_conductor_estado = MAT_conductores_bomberos.estado_id)
-                JOIN emepy_bd.ciudades AS ciudades_curso ON (ciudades_curso.idciudades = MAT_conductores_bomberos.ciudad_curso_id)
-                JOIN emepy_bd.ciudades AS ciudades_licencia ON (ciudades_licencia.idciudades = MAT_conductores_bomberos.ciudad_licencia_id)
+                JOIN GRAL_ciudades AS ciudades_curso ON (ciudades_curso.id_ciudad = MAT_conductores_bomberos.ciudad_curso_id)
+                JOIN GRAL_ciudades AS ciudades_licencia ON (ciudades_licencia.id_ciudad = MAT_conductores_bomberos.ciudad_licencia_id)
                 JOIN MAT_conductores_tipo_vehiculo ON (MAT_conductores_tipo_vehiculo.idconductor_tipo_vehiculo = MAT_conductores_bomberos.tipo_vehiculo_id)
                 JOIN MAT_conductores_clase_licencias ON (MAT_conductores_clase_licencias.idconductor_clase_licencia = MAT_conductores_bomberos.clase_licencia_id)
         ");

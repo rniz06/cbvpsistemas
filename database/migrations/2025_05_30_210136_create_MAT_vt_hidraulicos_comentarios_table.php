@@ -34,7 +34,7 @@ return new class extends Migration
             JOIN personalcbvp.MAT_acciones a ON a.id_accion = hc.accion_id
             JOIN personalcbvp.vt_usuarios u ON u.id_usuario = hc.creadoPor
             JOIN personalcbvp.MAT_hidraulicos_marcas hm ON hm.id_hidraulico_marca = h.marca_id
-            JOIN emepy_bd.companias c ON c.idcompanias = h.compania_id;
+            JOIN GRAL_companias c ON c.id_compania = h.compania_id;
         ");
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('marca_id')->nullable()->references('id_hidraulico_marca')->on('MAT_hidraulicos_marcas')->onDelete('cascade');
             $table->foreignId('modelo_id')->nullable()->references('id_hidraulico_modelo')->on('MAT_hidraulicos_modelos')->onDelete('cascade');
             $table->foreignId('motor_id')->nullable()->references('id_hidraulico_motor')->on('MAT_hidraulicos_motor')->onDelete('cascade');
-            $table->unsignedBigInteger('compania_id')->nullable();
+            $table->foreignId('compania_id')->nullable()->constrained('GRAL_companias', 'id_compania')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('operatividad_id')->nullable()->references('id_operatividad')->on('MAT_operatividad')->onDelete('cascade');
             $table->foreignId('creadoPor')->nullable()->references('id_usuario')->on('users')->onDelete('cascade');
             $table->foreignId('actualizadoPor')->nullable()->references('id_usuario')->on('users')->onDelete('cascade');

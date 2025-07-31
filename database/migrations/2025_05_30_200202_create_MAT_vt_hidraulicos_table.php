@@ -39,10 +39,10 @@ return new class extends Migration
             JOIN MAT_hidraulicos_marcas hm ON (hm.id_hidraulico_marca = h.marca_id)
             JOIN MAT_hidraulicos_modelos hmodel ON (hmodel.id_hidraulico_modelo = h.modelo_id)
             JOIN MAT_hidraulicos_motor hmotor ON (hmotor.id_hidraulico_motor = h.motor_id)
-            JOIN emepy_bd.companias c ON (c.idcompanias = h.compania_id)
+            JOIN GRAL_companias c ON (c.id_compania = h.compania_id)
             JOIN MAT_operatividad o ON (o.id_operatividad = h.operatividad_id)
             JOIN vt_usuarios u ON (u.id_usuario = h.creadoPor)
-            JOIN emepy_bd.ciudades ciu ON (c.ciudad_id = ciu.idciudades)
+            JOIN GRAL_ciudades ciu ON (c.ciudad_id = ciu.id_ciudad)
         ");
     }
 

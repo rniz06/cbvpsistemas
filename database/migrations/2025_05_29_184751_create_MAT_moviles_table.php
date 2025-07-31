@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreignId('eje_id')->nullable()->references('id_movil_eje')->on('MAT_moviles_ejes')->onDelete('cascade');
             $table->foreignId('combustible_id')->nullable()->references('id_movil_combustible')->on('MAT_moviles_combustibles')->onDelete('cascade');
             $table->foreignId('operatividad_id')->nullable()->references('id_operatividad')->on('MAT_operatividad')->onDelete('cascade');
-            $table->unsignedBigInteger('compania_id')->nullable();
+            $table->foreignId('compania_id')->nullable()->constrained('GRAL_companias', 'id_compania')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('creadoPor')->nullable()->references('id_usuario')->on('users')->onDelete('cascade');
             $table->foreignId('actualizadoPor')->nullable()->references('id_usuario')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('resolucion', 50)->nullable();
             $table->string('resolucion_enlace')->nullable();
             $table->date('fecha_curso')->nullable();
-            $table->integer('ciudad_curso_id')->nullable();
-            $table->integer('ciudad_licencia_id')->nullable();
+            $table->foreignId('ciudad_curso_id')->nullable()->constrained('GRAL_ciudades', 'id_ciudad')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('ciudad_licencia_id')->nullable()->constrained('GRAL_ciudades', 'id_ciudad')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('tipo_vehiculo_id')->nullable()->references('idconductor_tipo_vehiculo')->on('MAT_conductores_tipo_vehiculo')->onDelete('set null');
             $table->integer('numero_licencia')->nullable();
             $table->foreignId('clase_licencia_id')->nullable()->references('idconductor_clase_licencia')->on('MAT_conductores_clase_licencias')->onDelete('set null');
