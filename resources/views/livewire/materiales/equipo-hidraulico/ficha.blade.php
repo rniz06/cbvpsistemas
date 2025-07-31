@@ -1,5 +1,11 @@
 <div>
-    <h4>Ficha de Equip. Hidraulico</h4>
+    <h4>Ficha de Equip. Hidraulico - @can('Equipos Hidraulicos Editar')
+            <x-adminlte-button class="btn-sm" type="button"
+                label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
+                icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
+                wire:click="$toggle('mostrarFormEditarFicha')" />
+        @endcan
+    </h4>
     <div class="row">
         <x-callout.ficha colClass="col-md-2 col-sm-6 mb-3"
             titulo="Compañía">{{ $hidraulico->compania ?? 'N/A' }}</x-callout.ficha>
@@ -79,13 +85,6 @@
                     label="{{ $mostrarFormAgregarAccion ? 'Cancelar' : 'Agregar Acción' }}"
                     icon="fas fa-{{ $mostrarFormAgregarAccion ? 'minus' : 'plus' }}" theme="outline-success"
                     wire:click="$toggle('mostrarFormAgregarAccion')" />
-            @endcan
-
-            @can('Equipos Hidraulicos Editar')
-                <x-adminlte-button class="btn-sm" type="button"
-                    label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
-                    icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
-                    wire:click="$toggle('mostrarFormEditarFicha')" />
             @endcan
         </x-slot>
 
