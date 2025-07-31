@@ -48,7 +48,7 @@
                 </x-adminlte-select>
             </div>
 
-            {{-- Informaciones --}}
+            {{-- Calles/Referencias --}}
             <x-adminlte-input name="calle_referencia" label="Calles/Referencias:" placeholder="Calles/Referencias..."
                 fgroup-class="col-md-9" oninput="this.value = this.value.toUpperCase()"
                 wire:model.blur="calle_referencia" />
@@ -68,7 +68,7 @@
 
             {{-- A cargo --}}
             <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
-                fgroup-class="col-md-3" wire:model.blur="acargo" />
+                fgroup-class="col-md-3" oninput="this.value = this.value.toUpperCase()" wire:model.blur="acargo" />
 
             {{-- Chofer --}}
             <x-adminlte-input name="chofer" label="Chofer:" placeholder="Chofer..." fgroup-class="col-md-2"

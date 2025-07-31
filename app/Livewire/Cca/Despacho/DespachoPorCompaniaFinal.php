@@ -53,11 +53,6 @@ class DespachoPorCompaniaFinal extends Component
         $this->clasificacion_id = '';
     }
 
-    public function updatedAcargo($value)
-    {
-        $this->acargoDetalles = VtPersonales::where('codigo', $value)->with('contactos')->first();
-    }
-
     // Reglas de validación
     protected function rules()
     {
@@ -117,6 +112,13 @@ class DespachoPorCompaniaFinal extends Component
         ]);
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $servicio->id_servicio_existente])
             ->with('success', 'Servicio Despachado Correctamente!');
+    }
+
+    public function updatedAcargo($value)
+    {
+        $value = strtoupper($value);
+        $this->acargo = $value; // Importante: actualizar la propiedad Livewire
+        $this->acargoDetalles = VtPersonales::where('codigo', $value)->with('contactos')->first();
     }
 
     public function render()
