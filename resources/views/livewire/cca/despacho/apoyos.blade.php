@@ -28,8 +28,29 @@
             <tr>
                 <td>{{ $apoyo->compania ?? 'N/A' }}</td>
                 <td>{{ $apoyo->tipo ?? 'N/A' }}-{{ $apoyo->movil ?? 'N/A' }}</td>
-                <td>{{ $apoyo->nombrecompleto ?? 'N/A' }}</td>
-                <td>{{ $apoyo->chofer ?? 'N/A' }}</td>
+                <td>
+                    @php
+                        $letraCategoria = $apoyo->acargo_categoria ? substr($apoyo->acargo_categoria, 0, 1) : 'N/A';
+                        $codigo = $apoyo->acargo_codigo ?? 'N/A';
+                        $nombre = $apoyo->acargo_nombrecompleto ?? 'N/A';
+                    @endphp
+                    {{ "$letraCategoria-$codigo - $nombre" }}
+                </td>
+
+                <td>
+                    @if ($apoyo->chofer === null)
+                        <span class="badge badge-secondary">Rentado</span>
+                    @else
+                        @php
+                            $letraCategoria = $apoyo->chofer_categoria ? substr($apoyo->chofer_categoria, 0, 1) : 'N/A';
+                            $codigo = $apoyo->chofer_codigo ?? 'N/A';
+                        @endphp
+                        {{ "$letraCategoria-$codigo" }}
+                    @endif
+                </td>
+
+
+
                 <td>{{ $apoyo->cantidad_tripulantes ?? 'N/A' }}</td>
 
                 <td>

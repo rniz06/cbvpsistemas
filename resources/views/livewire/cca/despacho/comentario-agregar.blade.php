@@ -1,4 +1,4 @@
-<div wire:transition.duration.500ms>
+<div>
     <!-- Formulario para Agregar Comentario -->
     <form wire:submit="guardar">
 

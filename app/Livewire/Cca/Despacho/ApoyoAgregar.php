@@ -22,7 +22,7 @@ class ApoyoAgregar extends Component
 
     // Propiedad del formulario
     #[Validate]
-    public $compania_id, $movil_id, $acargo, $chofer, $cantidad_tripulantes;
+    public $compania_id, $movil_id, $acargo, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount($servicio)
     {
@@ -44,28 +44,39 @@ class ApoyoAgregar extends Component
             'compania_id' => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
             'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
             'acargo' => ['required', 'numeric', 'min_digits:1', 'max_digits:5'],
-            'chofer' => ['required', 'string', 'max_digits:10'],
+            'chofer' => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
             'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
         ];
     }
 
+    // Deshabilita el input chofer
+    public function btnrentado()
+    {
+        $this->chofer_rentado = !$this->chofer_rentado;
+        if ($this->chofer_rentado) {
+            $this->chofer = null;
+        }
+    }
+
+
+
     public function guardar()
     {
         $this->validate();
-        // return dd($x);
         $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+        $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
         Apoyo::create([
             'servicio_id'           => $this->servicio,
             'compania_id'           => $this->compania_id,
             'movil_id'              => $this->movil_id,
             'acargo'                => $acargo ?? null,
-            'chofer'                => $this->chofer,
+            'chofer'                => $chofer ?? null,
+            'chofer_rentado'        => $this->chofer_rentado ?? null,
             'cantidad_tripulantes'  => $this->cantidad_tripulantes,
             'creadoPor'             => Auth::id(),
         ]);
         $this->dispatch('apoyo-agregado');
         $this->dispatch('cerrar-formulario-apoyo');
-        // $this->reset();
     }
 
     public function render()

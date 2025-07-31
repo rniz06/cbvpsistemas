@@ -29,8 +29,16 @@ return new class extends Migration
                 m.movil_tipo_id,
                 mt.tipo,
                 sea.acargo,
-                p.nombrecompleto,
+                p.nombrecompleto AS acargo_nombrecompleto,
+                p.codigo AS acargo_codigo,
+                p.categoria_id AS acargo_categoria_id,
+                pc.categoria AS acargo_categoria,
                 sea.chofer,
+                p_chofer.nombrecompleto AS chofer_nombrecompleto,
+                p_chofer.codigo AS chofer_codigo,
+                p_chofer.categoria_id AS chofer_categoria_id,
+                p_chofer_cat.categoria AS chofer_categoria,
+                sea.chofer_rentado,
                 sea.fecha_cia,
                 sea.fecha_movil,
                 sea.fecha_servicio,
@@ -46,6 +54,9 @@ return new class extends Migration
             JOIN MAT_moviles m ON (m.id_movil = sea.movil_id)
             JOIN MAT_moviles_tipos mt ON (mt.id_movil_tipo = m.movil_tipo_id)
             LEFT JOIN personal p ON (p.idpersonal = sea.acargo)
+            LEFT JOIN personal_categorias pc ON (pc.idpersonal_categorias = p.categoria_id)
+            LEFT JOIN personal p_chofer ON (p_chofer.idpersonal = sea.chofer)
+            LEFT JOIN personal_categorias p_chofer_cat ON (p_chofer_cat.idpersonal_categorias = p_chofer.categoria_id)
         ");
     }
 

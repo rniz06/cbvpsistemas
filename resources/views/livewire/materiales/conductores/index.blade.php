@@ -2,8 +2,10 @@
     <!-- Tabla -->
     <x-tabla titulo="Listado de Conductores" excel pdf>
         <x-slot name="headerBotones">
-            <a href="{{ route('conductores.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar
-                Conductor</a>
+            @can('Conductores Crear')
+                <a href="{{ route('conductores.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar
+                    Conductor</a>
+            @endcan
         </x-slot>
 
         <x-slot name="cabeceras">

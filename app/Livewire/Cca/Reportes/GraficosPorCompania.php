@@ -91,9 +91,6 @@ class GraficosPorCompania extends Component
             ->when($this->servicio_id, function ($query) {
                 return $query->where('servicio_id', $this->servicio_id);
             })
-            // ->when($this->clasificacion_id, function ($query) {
-            //     return $query->where('clasificacion_id', $this->clasificacion_id);
-            // })
             ->groupBy('servicio')->paginate($this->paginadoServicios, ['*'], 'servicios_page');
     }
 
@@ -156,6 +153,85 @@ class GraficosPorCompania extends Component
             })->groupBy('clasificacion')->paginate($this->paginadoClasificacionesApoyos, ['*'], 'clasificiones_apoyos_page');
     }
 
+    public function conteoServiciosYapoyosTotal()
+    {
+        $filters = [
+            'fecha_desde' => $this->fecha_desde,
+            'fecha_hasta' => $this->fecha_hasta,
+            'compania_id' => $this->compania_id,
+            'servicio_id' => $this->servicio_id,
+        ];
+
+        // Subconsulta 1 (vt_servicios_existentes)
+        $whereExistentes = "estado_id = 4";
+        // Subconsulta 2 (apoyos)
+        $whereApoyos = "1=1";
+
+        if ($filters['fecha_desde']) {
+            $whereExistentes .= " AND DATE(fecha_alfa) >= :fecha_desde_1";
+            $whereApoyos .= " AND DATE(fecha_cia) >= :fecha_desde_2";
+        }
+
+        if ($filters['fecha_hasta']) {
+            $whereExistentes .= " AND DATE(fecha_alfa) <= :fecha_hasta_1";
+            $whereApoyos .= " AND DATE(fecha_cia) <= :fecha_hasta_2";
+        }
+
+        if ($filters['compania_id']) {
+            $whereExistentes .= " AND compania_id = :compania_id_1";
+            $whereApoyos .= " AND compania_id = :compania_id_2";
+        }
+
+        if ($filters['servicio_id']) {
+            $whereExistentes .= " AND servicio_id = :servicio_id_1";
+            $whereApoyos .= " AND servicio_id = :servicio_id_2";
+        }
+
+        $query = "
+        SELECT servicio, SUM(conteo) as conteo_total
+        FROM (
+            SELECT servicio, COUNT(servicio_id) as conteo
+            FROM personalcbvp.CCA_vt_servicios_existentes
+            WHERE $whereExistentes
+            GROUP BY servicio
+
+            UNION ALL
+
+            SELECT servicio, COUNT(servicio_id) as conteo
+            FROM personalcbvp.CCA_vt_servicios_existentes_apoyos
+            WHERE $whereApoyos
+            GROUP BY servicio
+        ) AS union_servicios
+        GROUP BY servicio
+        ORDER BY conteo_total DESC
+    ";
+
+        // Asociamos los parámetros renombrados con sus valores
+        $bindings = [];
+
+        if ($filters['fecha_desde']) {
+            $bindings['fecha_desde_1'] = $filters['fecha_desde'];
+            $bindings['fecha_desde_2'] = $filters['fecha_desde'];
+        }
+        if ($filters['fecha_hasta']) {
+            $bindings['fecha_hasta_1'] = $filters['fecha_hasta'];
+            $bindings['fecha_hasta_2'] = $filters['fecha_hasta'];
+        }
+        if ($filters['compania_id']) {
+            $bindings['compania_id_1'] = $filters['compania_id'];
+            $bindings['compania_id_2'] = $filters['compania_id'];
+        }
+        if ($filters['servicio_id']) {
+            $bindings['servicio_id_1'] = $filters['servicio_id'];
+            $bindings['servicio_id_2'] = $filters['servicio_id'];
+        }
+
+        return DB::select($query, $bindings);
+    }
+
+
+
+
     public function render()
     {
         return view('livewire.cca.reportes.graficos-por-compania', [
@@ -163,6 +239,7 @@ class GraficosPorCompania extends Component
             'clasificacionesTabla' => $this->cargarClasificaciones(),
             'serviciosApoyosTabla' => $this->cargarServiciosApoyos(),
             'clasificacionesApoyosTabla' => $this->cargarClasificacionesApoyos(),
+            'conteoServiciosYApoyos' => $this->conteoServiciosYapoyosTotal()
         ]);
     }
 

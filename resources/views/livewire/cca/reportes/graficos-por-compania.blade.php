@@ -115,40 +115,38 @@
 
     @endif
 
-    @if ($compania_id !== null)
-        {{-- Servicios Apoyos --}}
-        <div class="col-md-{{ $servicio_id !== null ? 6 : 12 }}">
-            <x-table.table titulo="Cantidad de despachos para apoyo" ocultarBuscador
-                personalizarPaginacion="paginadoServiciosApoyos">
+    {{-- Servicios Apoyos --}}
+    <div class="col-md-{{ $servicio_id !== null ? 6 : 12 }}">
+        <x-table.table titulo="Cantidad de despachos para apoyo" ocultarBuscador
+            personalizarPaginacion="paginadoServiciosApoyos">
 
-                <x-slot name="headerBotones">
-                    <x-adminlte-button class="btn-sm" label="Excel" theme="outline-success" icon="fas fa-file-excel"
-                        wire:click="excelServicios" />
-                    <x-adminlte-button class="btn-sm" label="Pdf" theme="outline-secondary" icon="fas fa-file-pdf"
-                        wire:click="pdfServicios" />
-                </x-slot>
+            <x-slot name="headerBotones">
+                <x-adminlte-button class="btn-sm" label="Excel" theme="outline-success" icon="fas fa-file-excel"
+                    wire:click="excelServicios" />
+                <x-adminlte-button class="btn-sm" label="Pdf" theme="outline-secondary" icon="fas fa-file-pdf"
+                    wire:click="pdfServicios" />
+            </x-slot>
 
-                <x-slot name="cabeceras">
-                    <th>Servicio:</th>
-                    <th>Conteo:</th>
-                </x-slot>
+            <x-slot name="cabeceras">
+                <th>Servicio:</th>
+                <th>Conteo:</th>
+            </x-slot>
 
-                @forelse ($serviciosApoyosTabla as $servicioTabla)
-                    <tr>
-                        <td>{{ $servicioTabla->servicio ?? 'N/A' }}</td>
-                        <td>{{ $servicioTabla->conteo ?? 'N/A' }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
-                    </tr>
-                @endforelse
-                <x-slot name="paginacion">
-                    {{ $serviciosApoyosTabla->links() }}
-                </x-slot>
-            </x-table.table>
-        </div>
-    @endif
+            @forelse ($serviciosApoyosTabla as $servicioTabla)
+                <tr>
+                    <td>{{ $servicioTabla->servicio ?? 'N/A' }}</td>
+                    <td>{{ $servicioTabla->conteo ?? 'N/A' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>
+                </tr>
+            @endforelse
+            <x-slot name="paginacion">
+                {{ $serviciosApoyosTabla->links() }}
+            </x-slot>
+        </x-table.table>
+    </div>
 
     {{-- Clasificaciones --}}
     @if ($servicio_id !== null and $compania_id !== null)
@@ -183,4 +181,28 @@
         </div>
 
     @endif
+
+    {{-- Conteo Total Servicios y Apoyos --}}
+    <div class="col-md-12">
+        @php
+            $heads = ['Servicio', 'Cantidad:'];
+            $config = [
+                'lengthMenu' => [5, 10, 15, 20],
+                'searching' => false, // Esto oculta el buscador
+                'language' => [
+                    'url' => '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json',
+                ],
+                'order' => false,
+            ];
+        @endphp
+        <x-adminlte-datatable id="table1" :heads="$heads" striped bordered compressed hoverable :config="$config"
+            with-buttons>
+            @foreach ($conteoServiciosYApoyos as $conteoServiciosYApoyo)
+                <tr>
+                    <td>{{ $conteoServiciosYApoyo->servicio ?? 'N/A' }}</td>
+                    <td>{{ $conteoServiciosYApoyo->conteo_total ?? 'N/A' }}</td>
+                </tr>
+            @endforeach
+        </x-adminlte-datatable>
+    </div>
 </div>

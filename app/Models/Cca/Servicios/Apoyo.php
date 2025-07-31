@@ -22,11 +22,16 @@ class Apoyo extends Model implements Auditable
         'movil_id',
         'acargo',
         'chofer',
+        'chofer_rentado',
         'fecha_cia',
         'fecha_movil',
         'fecha_servicio',
         'fecha_base',
         'creadoPor',
         'actualizadoPor',
+    ];
+
+    protected $casts = [
+        'chofer_rentado'    => 'boolean',
     ];
 }

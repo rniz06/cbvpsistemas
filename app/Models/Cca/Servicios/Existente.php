@@ -27,6 +27,7 @@ class Existente extends Model implements Auditable
         'movil_id',
         'acargo',
         'chofer',
+        'chofer_rentado',
         'estado_id',
         'fecha_alfa',
         'fecha_cia',
@@ -36,5 +37,9 @@ class Existente extends Model implements Auditable
         'falsa_alarma',
         'creadoPor',
         'actualizadoPor',
+    ];
+
+    protected $casts = [
+        'chofer_rentado'    => 'boolean',
     ];
 }
