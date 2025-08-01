@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Login\LoginRequest;
 use App\Models\Personal\Categoria;
 use App\Models\User;
+use App\Models\Usuario;
 use App\Models\Vistas\VtUsuario;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,6 +57,9 @@ class LoginController extends Controller
 
                 if ($usuario && Hash::check($request->password, $usuario->password)) {
                     Auth::login($usuario);
+                    Usuario::where('id_usuario', Auth::id())->update([
+                        'ultimo_acceso' => now(),
+                    ]);
                     return redirect()->route('home');
                 }
                 break;
