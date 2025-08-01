@@ -14,7 +14,7 @@
 
                 {{-- BOTON DE DESPERFECTO --}}
                 <div class="form-group">
-                    <x-adminlte-button :label="$desperfecto ? 'Cancelar 10.77' : '10.77'" :theme="$desperfecto ? 'secondary' : 'warning'" :icon="$desperfecto ? 'fas fa-times-circle' : 'fas fa-user-check'"
+                    <x-adminlte-button :label="$desperfecto ? 'Cancelar 10.77' : '10.77'" :theme="$desperfecto ? 'secondary' : 'warning'"
                         wire:click="btndesperfecto" />
                 </div>
 
