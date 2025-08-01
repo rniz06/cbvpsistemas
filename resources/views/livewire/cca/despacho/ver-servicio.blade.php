@@ -31,12 +31,12 @@
             {{-- Acargo --}}
             @if (is_null($servicio->acargo))
                 {{-- Mostrar acargo_aux --}}
-                <x-adminlte-input name="" label="A cargo:"
-                    value="{{ $servicio->acargo_aux ?? 'S/D' }}" fgroup-class="col-md-4" disabled />
+                <x-adminlte-input name="" label="A cargo:" value="{{ $servicio->acargo_aux ?? 'S/D' }}"
+                    fgroup-class="col-md-4" disabled />
             @else
                 {{-- Mostrar datos de acargo --}}
                 <x-adminlte-input name="" label="A cargo:"
-                    value="{{ $servicio->acargo_codigo_comisionamiento ?? $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                    value="{{ $servicio->acargo_codigo_comisionamiento ?? ($servicio->acargo_codigo ?? 'S/D') }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
                     fgroup-class="col-md-4" disabled />
                 {{-- <x-adminlte-input name="" label="A cargo:"
                     value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
@@ -46,12 +46,12 @@
             {{-- Chofer --}}
             @if (is_null($servicio->chofer))
                 {{-- Mostrar acargo_aux --}}
-                <x-adminlte-input name="" label="Chofer:"
-                    value="{{ $servicio->chofer_aux ?? 'Rentado' }}" fgroup-class="col-md-2" disabled />
+                <x-adminlte-input name="" label="Chofer:" value="{{ $servicio->chofer_aux ?? 'Rentado' }}"
+                    fgroup-class="col-md-2" disabled />
             @else
                 {{-- Mostrar datos de acargo --}}
                 <x-adminlte-input name="" label="Chofer:"
-                    value="{{ $servicio->chofer_codigo_comisionamiento ?? $servicio->chofer_codigo ?? 'S/D' }} - {{ $servicio->chofer_nombrecompleto ?? 'S/D' }}"
+                    value="{{ $servicio->chofer_codigo_comisionamiento ?? ($servicio->chofer_codigo ?? 'S/D') }} - {{ $servicio->chofer_nombrecompleto ?? 'S/D' }}"
                     fgroup-class="col-md-2" disabled />
                 {{-- <x-adminlte-input name="" label="A cargo:"
                     value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
@@ -128,6 +128,21 @@
                     fgroup-class="col-md-2" disabled />
             @endif
 
+            {{-- KM FINAL --}}
+            @if (is_null($servicio->km_final) and $servicio->desperfecto === null)
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Kilometraje Final:</label>
+                        <button class="btn btn-success btn-block" wire:click="$toggle('mostrarFormAgregarDetalle')"><i
+                                class="fas fa-{{ $mostrarFormAgregarDetalle ? 'minus' : 'plus' }} mr-1"></i>{{ $mostrarFormAgregarDetalle ? 'Cancelar' : 'Agregar' }}</button>
+                    </div>
+                </div>
+            @else
+                <x-adminlte-input name="" label="Kilometraje Final:"
+                    value="{{ isset($servicio->km_final) ? number_format($servicio->km_final, 0, ',', '.') . ' Km' : ($servicio->desperfecto ? '10.77' : 'NO') }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
+
 
             {{-- Botones --}}
             {{-- <div class="card-footer">
@@ -135,4 +150,36 @@
             </div> --}}
         </div>
     </x-adminlte-card>
+
+    @if ($mostrarFormAgregarDetalle)
+        <!-- Formulario para Agregar Comentario -->
+        <form wire:submit="guardarDetalles">
+
+            <x-adminlte-card title="Agregar Detalles" icon="fas fa-plus" theme-mode="outline" header-class="bg-success">
+
+                <div class="row align-items-end">
+
+                    {{-- Km Final --}}
+                    <div class="col-md-2">
+                        <x-adminlte-input type="number" name="km_final" label="Kilometraje Final:"
+                            id="myNumberInput" wire:model.blur="km_final" placeholder="Kilometraje Final..."
+                            :disabled="$desperfecto" />
+                    </div>
+
+                    {{-- BOTON DE DESPERFECTO --}}
+                    <div class="form-group">
+                        <x-adminlte-button :label="$desperfecto ? 'Cancelar 10.77' : '10.77'" :theme="$desperfecto ? 'secondary' : 'warning'" :icon="$desperfecto ? 'fas fa-times-circle' : 'fas fa-user-check'"
+                            wire:click="btndesperfecto" />
+                    </div>
+
+                    {{-- BOTON DE GUARDADO --}}
+                    <div class="col-md-2">
+                        <x-adminlte-button label="Guardar" icon="fas fa-save" type="submit" theme="success"
+                            class="mb-3" />
+                    </div>
+                </div>
+
+            </x-adminlte-card>
+        </form>
+    @endif
 </div>

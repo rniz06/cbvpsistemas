@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('CCA_servicios_existentes', function (Blueprint $table) {
             $table->integer('km_final')->nullable()->after('estado_id');
+            $table->boolean('desperfecto')->nullable()->after('km_final');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('CCA_servicios_existentes', function (Blueprint $table) {
             $table->dropColumn('km_final');
+            $table->dropColumn('desperfecto');
         });
     }
 };

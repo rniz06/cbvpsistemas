@@ -4,15 +4,51 @@ namespace App\Livewire\Cca\Despacho;
 
 use App\Models\Cca\Servicios\Existente;
 use App\Models\Vistas\Cca\VtExistente;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class VerServicio extends Component
 {
-    public $servicio;
+    public $servicio, $mostrarFormAgregarDetalle = false;
+
+    public $km_final = null, $desperfecto = false;
+
+    public function rules()
+    {
+        return [
+            'km_final' => $this->desperfecto ? 'nullable' : 'required|numeric|min_digits:1|max_digits:11',
+        ];
+    }
 
     public function mount(VtExistente $servicio)
     {
         $this->servicio = $servicio;
+    }
+
+    public function guardarDetalles()
+    {
+        $this->validate();
+        Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+            'km_final'   => $this->km_final,
+            'desperfecto' => $this->desperfecto,
+        ]);
+        if (is_null($this->km_final)) {
+            $mensaje = "10.77 Asignado Correctamente!";
+        } else {
+            $mensaje = "Kilometraje Final Asignado Correctamente!";
+        }
+        
+        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
+            ->with('success', $mensaje);
+    }
+
+    // Deshabilita el input desperfecto
+    public function btndesperfecto()
+    {
+        $this->desperfecto = !$this->desperfecto;
+        if ($this->desperfecto) {
+            $this->km_final = null;
+        }
     }
 
     public function horaAccion($accion)

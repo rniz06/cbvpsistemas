@@ -29,11 +29,14 @@ class Apoyo extends Model implements Auditable
         'fecha_movil',
         'fecha_servicio',
         'fecha_base',
+        'km_final',
+        'desperfecto',
         'creadoPor',
         'actualizadoPor',
     ];
 
     protected $casts = [
-        'chofer_rentado'    => 'boolean',
+        'chofer_rentado' => 'boolean',
+        'desperfecto'    => 'boolean',
     ];
 }

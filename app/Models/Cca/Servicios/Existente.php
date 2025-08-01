@@ -31,6 +31,8 @@ class Existente extends Model implements Auditable
         'chofer_aux',
         'chofer_rentado',
         'estado_id',
+        'km_final',
+        'desperfecto',
         'fecha_alfa',
         'fecha_cia',
         'fecha_movil',
@@ -42,6 +44,7 @@ class Existente extends Model implements Auditable
     ];
 
     protected $casts = [
-        'chofer_rentado'    => 'boolean',
+        'chofer_rentado' => 'boolean',
+        'desperfecto'    => 'boolean',
     ];
 }
