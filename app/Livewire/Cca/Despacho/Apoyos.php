@@ -89,7 +89,7 @@ class Apoyos extends Component
             'acargo_codigo',
             'acargo_categoria',
             'acargo_aux',
-            'codigo_comisionamiento',
+            'acargo_codigo_comisionamiento',
             'chofer',
             'chofer_codigo',
             'chofer_categoria',

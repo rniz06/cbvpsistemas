@@ -31,10 +31,10 @@ return new class extends Migration
                 sea.acargo,
                 p.nombrecompleto AS acargo_nombrecompleto,
                 p.codigo AS acargo_codigo,
+                p.codigo_comisionamiento AS acargo_codigo_comisionamiento,
                 p.categoria_id AS acargo_categoria_id,
                 pc.categoria AS acargo_categoria,
                 sea.acargo_aux,
-                p_acargo_aux.codigo_comisionamiento,
                 sea.chofer,
                 p_chofer.nombrecompleto AS chofer_nombrecompleto,
                 p_chofer.codigo AS chofer_codigo,
@@ -59,7 +59,6 @@ return new class extends Migration
             LEFT JOIN personal_categorias pc ON (pc.idpersonal_categorias = p.categoria_id)
             LEFT JOIN personal p_chofer ON (p_chofer.idpersonal = sea.chofer)
             LEFT JOIN personal_categorias p_chofer_cat ON (p_chofer_cat.idpersonal_categorias = p_chofer.categoria_id)
-            LEFT JOIN personal p_acargo_aux ON (p_acargo_aux.idpersonal = sea.acargo_aux)
         ");
     }
 

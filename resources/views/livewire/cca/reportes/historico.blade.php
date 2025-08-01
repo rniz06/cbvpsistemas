@@ -73,18 +73,29 @@
                     <td>{{ $historico->tipo ?? 'N/A' }}-{{ $historico->movil ?? 'N/A' }}</td>
 
                     <td>
-                    @if (is_null($historico->acargo))
-                        {{-- Mostrar codigo_comisionamiento --}}
-                        {{ $historico->codigo_comisionamiento ?? 'S/D' }}
-                    @else
-                        @php
-                            $letraCategoria = $historico->acargo_categoria ? substr($historico->acargo_categoria, 0, 1) : 'N/A';
-                            $codigo = $historico->acargo_codigo ?? 'N/A';
-                        @endphp
-                        {{ "$letraCategoria-$codigo" }}
-                    @endif
+                        @if (is_null($historico->acargo))
+                            {{-- Mostrar acargo_aux --}}
+                            {{ $historico->acargo_aux ?? 'S/D' }}
+                        @else
+                            {{ $historico->acargo_codigo_comisionamiento ?? ($historico->acargo_codigo ?? 'S/D') }} -
+                            {{ $historico->acargo_nombrecompleto ?? 'S/D' }}
+                        @endif
 
-                </td>
+                    </td>
+                    {{-- <td>
+                        @if (is_null($historico->acargo))
+                            {{ $historico->codigo_comisionamiento ?? 'S/D' }}
+                        @else
+                            @php
+                                $letraCategoria = $historico->acargo_categoria
+                                    ? substr($historico->acargo_categoria, 0, 1)
+                                    : 'N/A';
+                                $codigo = $historico->acargo_codigo ?? 'N/A';
+                            @endphp
+                            {{ "$letraCategoria-$codigo" }}
+                        @endif
+
+                    </td> --}}
                     <td>
                         @if ($historico->chofer === null)
                             <span class="badge badge-secondary">Rentado</span>

@@ -87,7 +87,10 @@ class DespachoPorCompaniaFinal extends Component
         if (is_numeric($this->acargo)) {
             $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
         } else {
-            $acargo_aux = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+            $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+            if (is_null($acargo)) {
+                $acargo_aux = $this->acargo;
+            }
         }
 
 

@@ -30,14 +30,17 @@
 
             {{-- Acargo --}}
             @if (is_null($servicio->acargo))
-                {{-- Mostrar codigo_comisionamiento --}}
+                {{-- Mostrar acargo_aux --}}
                 <x-adminlte-input name="" label="A cargo:"
-                    value="{{ $servicio->codigo_comisionamiento ?? 'S/D' }}" fgroup-class="col-md-4" disabled />
+                    value="{{ $servicio->acargo_aux ?? 'S/D' }}" fgroup-class="col-md-4" disabled />
             @else
                 {{-- Mostrar datos de acargo --}}
                 <x-adminlte-input name="" label="A cargo:"
-                    value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                    value="{{ $servicio->acargo_codigo_comisionamiento ?? $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
                     fgroup-class="col-md-4" disabled />
+                {{-- <x-adminlte-input name="" label="A cargo:"
+                    value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                    fgroup-class="col-md-4" disabled /> --}}
             @endif
 
             {{-- chofer --}}

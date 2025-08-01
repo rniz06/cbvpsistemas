@@ -30,8 +30,16 @@
                 <td>{{ $apoyo->tipo ?? 'N/A' }}-{{ $apoyo->movil ?? 'N/A' }}</td>
                 <td>
                     @if (is_null($apoyo->acargo))
-                        {{-- Mostrar codigo_comisionamiento --}}
-                        {{ $apoyo->codigo_comisionamiento ?? 'S/D' }}
+                        {{-- Mostrar acargo_aux --}}
+                        {{ $apoyo->acargo_aux ?? 'S/D' }}
+                    @else
+                        {{ $apoyo->acargo_codigo_comisionamiento ?? $apoyo->acargo_codigo ?? 'S/D' }} - {{ $apoyo->acargo_nombrecompleto ?? 'S/D' }}
+                    @endif
+
+                </td>
+                {{-- <td>
+                    @if (is_null($apoyo->acargo))
+                        {{ $apoyo->acargo_aux ?? 'S/D' }}
                     @else
                         @php
                             $letraCategoria = $apoyo->acargo_categoria ? substr($apoyo->acargo_categoria, 0, 1) : 'N/A';
@@ -41,7 +49,7 @@
                         {{ "$letraCategoria-$codigo - $nombre" }}
                     @endif
 
-                </td>
+                </td> --}}
 
                 <td>
                     @if ($apoyo->chofer === null)
