@@ -46,7 +46,8 @@
                 fgroup-class="col-md-2" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()" />
 
             {{-- chofer --}}
-            <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2" :disabled="$chofer_rentado" />
+            <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2"
+                :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
 
             {{-- BOTON DE RENTADO --}}
             <div class="form-group col-md-1 align-self-end">

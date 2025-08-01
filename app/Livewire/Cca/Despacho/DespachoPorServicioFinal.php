@@ -37,9 +37,17 @@ class DespachoPorServicioFinal extends Component
     {
         return [
             'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo'               => ['required', 'string', 'min:2', 'max:10'],
-            'chofer'               => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
+            'acargo'               => ['required', 'string', 'regex:/^[A-Za-z]{1,2}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
+            'chofer'               => ['nullable', 'string', 'regex:/^[A-Za-z]{1,2}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
+        ];
+    }
+
+    // Personalizar errores de validacion
+    public function messages()
+    {
+        return [
+            'acargo.regex' => 'El campo A cargo debe contener de 1 a 2 letras seguidas de 1 a 5 números, o solo de 1 a 5 dígitos numéricos.',
         ];
     }
 
@@ -60,18 +68,37 @@ class DespachoPorServicioFinal extends Component
         $acargo_aux = null;
         if (is_numeric($this->acargo)) {
             $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+            if (is_null($acargo)) {
+                $acargo_aux = $this->acargo;
+            }
         } else {
             $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
             if (is_null($acargo)) {
                 $acargo_aux = $this->acargo;
             }
         }
-        $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
+
+        $chofer = null;
+        $chofer_aux = null;
+        if (!$this->chofer_rentado) {
+            if (is_numeric($this->chofer)) {
+                $chofer = Personal::where('codigo', $this->chofer)->value('idpersonal');
+                if (is_null($chofer)) {
+                    $chofer_aux = $this->chofer;
+                }
+            } else {
+                $chofer = Personal::where('codigo_comisionamiento', $this->chofer)->value('idpersonal');
+                if (is_null($chofer)) {
+                    $chofer_aux = $this->chofer;
+                }
+            }
+        }
         $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
             'movil_id'             => $this->movil_id,
             'acargo'               => $acargo ?? null,
             'acargo_aux'           => $acargo_aux ?? null,
             'chofer'               => $chofer ?? null,
+            'chofer_aux'           => $chofer_aux ?? null,
             'chofer_rentado'       => $this->chofer_rentado,
             'cantidad_tripulantes' => $this->cantidad_tripulantes,
             'fecha_movil'          => now(),

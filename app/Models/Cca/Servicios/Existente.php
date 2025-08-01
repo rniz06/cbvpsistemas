@@ -28,6 +28,7 @@ class Existente extends Model implements Auditable
         'acargo',
         'acargo_aux',
         'chofer',
+        'chofer_aux',
         'chofer_rentado',
         'estado_id',
         'fecha_alfa',

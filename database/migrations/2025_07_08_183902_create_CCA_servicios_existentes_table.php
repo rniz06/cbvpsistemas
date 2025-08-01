@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('acargo_aux', 10)->nullable();
             $table->integer('chofer')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal
             $table->foreign('chofer')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('chofer_aux', 10)->nullable();
             $table->boolean('chofer_rentado')->nullable()->default(false);
             $table->foreignId('estado_id')->nullable()->constrained('CCA_servicios_estados', 'id_servicio_estado')->cascadeOnUpdate()->cascadeOnDelete();
             $table->dateTime('fecha_alfa')->useCurrent()->nullable();

@@ -33,7 +33,8 @@
                         {{-- Mostrar acargo_aux --}}
                         {{ $apoyo->acargo_aux ?? 'S/D' }}
                     @else
-                        {{ $apoyo->acargo_codigo_comisionamiento ?? $apoyo->acargo_codigo ?? 'S/D' }} - {{ $apoyo->acargo_nombrecompleto ?? 'S/D' }}
+                        {{ $apoyo->acargo_codigo_comisionamiento ?? ($apoyo->acargo_codigo ?? 'S/D') }} -
+                        {{ $apoyo->acargo_nombrecompleto ?? 'S/D' }}
                     @endif
 
                 </td>
@@ -52,14 +53,20 @@
                 </td> --}}
 
                 <td>
-                    @if ($apoyo->chofer === null)
-                        <span class="badge badge-secondary">Rentado</span>
+                    @if (is_null($apoyo->chofer) && $apoyo->chofer_rentado == 0)
+                        {{ $apoyo->chofer_aux ?? 'S/D' }}
                     @else
-                        @php
-                            $letraCategoria = $apoyo->chofer_categoria ? substr($apoyo->chofer_categoria, 0, 1) : 'N/A';
-                            $codigo = $apoyo->chofer_codigo ?? 'N/A';
-                        @endphp
-                        {{ "$letraCategoria-$codigo" }}
+                        @if ($apoyo->chofer_rentado == 1)
+                            <span class="badge badge-secondary">Rentado</span>
+                        @else
+                            @php
+                                $letraCategoria = $apoyo->chofer_categoria
+                                    ? substr($apoyo->chofer_categoria, 0, 1)
+                                    : 'N/A';
+                                $codigo = $apoyo->chofer_codigo ?? 'N/A';
+                            @endphp
+                            {{ "$letraCategoria-$codigo" }}
+                        @endif
                     @endif
                 </td>
 

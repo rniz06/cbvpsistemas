@@ -91,6 +91,7 @@ class Apoyos extends Component
             'acargo_aux',
             'acargo_codigo_comisionamiento',
             'chofer',
+            'chofer_aux',
             'chofer_codigo',
             'chofer_categoria',
             'cantidad_tripulantes',

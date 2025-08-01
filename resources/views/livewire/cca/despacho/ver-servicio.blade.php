@@ -43,10 +43,25 @@
                     fgroup-class="col-md-4" disabled /> --}}
             @endif
 
+            {{-- Chofer --}}
+            @if (is_null($servicio->chofer))
+                {{-- Mostrar acargo_aux --}}
+                <x-adminlte-input name="" label="Chofer:"
+                    value="{{ $servicio->chofer_aux ?? 'Rentado' }}" fgroup-class="col-md-2" disabled />
+            @else
+                {{-- Mostrar datos de acargo --}}
+                <x-adminlte-input name="" label="Chofer:"
+                    value="{{ $servicio->chofer_codigo_comisionamiento ?? $servicio->chofer_codigo ?? 'S/D' }} - {{ $servicio->chofer_nombrecompleto ?? 'S/D' }}"
+                    fgroup-class="col-md-2" disabled />
+                {{-- <x-adminlte-input name="" label="A cargo:"
+                    value="{{ strtoupper(substr($servicio->acargo_categoria ?? 'S/D', 0, 1)) }}-{{ $servicio->acargo_codigo ?? 'S/D' }} - {{ $servicio->acargo_nombrecompleto ?? 'S/D' }}"
+                    fgroup-class="col-md-4" disabled /> --}}
+            @endif
+
             {{-- chofer --}}
-            <x-adminlte-input name="" label="Chofer:"
+            {{-- <x-adminlte-input name="" label="Chofer:"
                 value="{{ is_null($servicio->chofer) ? 'Rentado' : ($servicio->chofer_categoria ? substr($servicio->chofer_categoria, 0, 1) : 'N') . '-' . ($servicio->chofer_codigo ?? 'S/D') }}"
-                fgroup-class="col-md-2" disabled />
+                fgroup-class="col-md-2" disabled /> --}}
 
             {{-- Cantidad Tripulantes --}}
             <x-adminlte-input name="" value="{{ $servicio->cantidad_tripulantes ?? 'S/D' }}"

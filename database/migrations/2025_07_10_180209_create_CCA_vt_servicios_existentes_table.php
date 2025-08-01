@@ -43,6 +43,7 @@ return new class extends Migration
                 p_chofer.codigo AS chofer_codigo,
                 p_chofer.categoria_id AS chofer_categoria_id,
                 p_chofer_cat.categoria AS chofer_categoria,
+                se.chofer_aux,
                 se.chofer_rentado,
                 se.estado_id,
                 sestados.estado,

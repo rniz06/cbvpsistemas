@@ -72,7 +72,7 @@
 
             {{-- Chofer --}}
             <x-adminlte-input name="chofer" label="Chofer:" placeholder="Chofer..." fgroup-class="col-md-2"
-                wire:model.blur="chofer" :disabled="$chofer_rentado" />
+                wire:model.blur="chofer" :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
 
             {{-- BOTON DE RENTADO --}}
             <div class="form-group col-md-1 align-self-end">

@@ -34,11 +34,11 @@
 
                 {{-- Acargo --}}
                 <x-adminlte-input name="acargo" label="A cargo:" wire:model.blur="acargo"
-                    fgroup-class="col-md-2" />
+                    fgroup-class="col-md-2" oninput="this.value = this.value.toUpperCase()" />
 
                 {{-- chofer --}}
                 <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2"
-                    :disabled="$chofer_rentado" />
+                    :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
 
                 {{-- BOTON DE RENTADO --}}
                 <div class="form-group">
