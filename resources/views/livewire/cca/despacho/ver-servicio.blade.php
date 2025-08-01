@@ -152,7 +152,7 @@
     </x-adminlte-card>
 
     @if ($mostrarFormAgregarDetalle)
-        <!-- Formulario para Agregar Comentario -->
+        <!-- Formulario para Agregar Detalles -->
         <form wire:submit="guardarDetalles">
 
             <x-adminlte-card title="Agregar Detalles" icon="fas fa-plus" theme-mode="outline" header-class="bg-success">

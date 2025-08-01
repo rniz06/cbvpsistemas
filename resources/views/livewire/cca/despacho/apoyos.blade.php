@@ -1,4 +1,8 @@
 <div>
+    @if ($mostrarFormAgregarDetalle)
+        <livewire:cca.despacho.apoyo-agregar-detalle apoyo="{{ $apoyo_seleccionado_id }}" lazy />
+    @endif
+
     @if ($mostrarFormAgregarApoyo)
         <livewire:cca.despacho.apoyo-agregar servicio="{{ $servicio }}" lazy />
     @endif
@@ -23,6 +27,7 @@
             <th>Salida de Móvil:</th>
             <th>Llegada de Móvil:</th>
             <th>Móvil en base:</th>
+            <th>Km Final:</th>
         </x-slot>
         @forelse ($apoyos as $apoyo)
             <tr>
@@ -103,6 +108,19 @@
                         <button class="btn btn-primary" wire:click="horaAccion(4)">Accionar</button>
                     @else
                         {{ $apoyo->fecha_base->format('d/m/Y H:i:s') }} Hs.
+                    @endif
+                </td>
+
+                <td>
+                    @if (is_null($apoyo->km_final) and $apoyo->desperfecto === null)
+                        <button class="btn btn-success btn-block"
+                            wire:click="mostrarFormAgregarDetalleFuntion({{ $apoyo->idservicio_existente_apoyo }})">
+                            <i
+                                class="fas fa-{{ $mostrarFormAgregarDetalle && $apoyo_seleccionado_id === $apoyo->idservicio_existente_apoyo ? 'minus' : 'plus' }} mr-1"></i>
+                            {{ $mostrarFormAgregarDetalle && $apoyo_seleccionado_id === $apoyo->idservicio_existente_apoyo ? 'Cancelar' : 'Agregar' }}
+                        </button>
+                    @else
+                        {{ isset($apoyo->km_final) ? number_format($apoyo->km_final, 0, ',', '.') . ' Km' : ($apoyo->desperfecto ? '10.77' : 'NO') }}
                     @endif
                 </td>
             </tr>

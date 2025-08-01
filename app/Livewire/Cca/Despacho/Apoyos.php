@@ -15,8 +15,11 @@ class Apoyos extends Component
     // Variable recibida desde la ruta
     public $servicio;
 
+    public $apoyo_seleccionado_id = null;
+
     // Propiedad la paginacion de los comentarios
     public $mostrarFormAgregarApoyo = false;
+    public $mostrarFormAgregarDetalle = false;
     public $paginadoApoyos = 5;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
@@ -26,6 +29,18 @@ class Apoyos extends Component
             'paginadoApoyos',
         ])) {
             $this->resetPage('apoyos_page');
+        }
+    }
+
+    public function mostrarFormAgregarDetalleFuntion($id)
+    {
+        // Si ya está visible y el ID es el mismo, ocultar
+        if ($this->mostrarFormAgregarDetalle && $this->apoyo_seleccionado_id === $id) {
+            $this->mostrarFormAgregarDetalle = false;
+            $this->apoyo_seleccionado_id = null;
+        } else {
+            $this->mostrarFormAgregarDetalle = true;
+            $this->apoyo_seleccionado_id = $id;
         }
     }
 
@@ -98,7 +113,9 @@ class Apoyos extends Component
             'fecha_cia',
             'fecha_movil',
             'fecha_servicio',
-            'fecha_base'
+            'fecha_base',
+            'km_final',
+            'desperfecto'
         )
             ->where('servicio_existente_id', $this->servicio)
             ->orderByDesc('created_at')

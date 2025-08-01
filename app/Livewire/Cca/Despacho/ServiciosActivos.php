@@ -37,6 +37,7 @@ class ServiciosActivos extends Component
         return view('livewire.cca.despacho.servicios-activos', [
             'listadoActivos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'informacion_servicio', 'fecha_alfa')
                 ->where('estado_id', 3) // Movil Despachado
+                ->orderBy('compania')
                 ->paginate($this->paginadolistadoActivos, ['*'], 'listadoActivos_page'),
 
             'listadoSinCompanias' => VtExistente::select('id_servicio_existente', 'servicio', 'clasificacion', 'informacion_servicio')
@@ -45,6 +46,7 @@ class ServiciosActivos extends Component
 
             'listadoSinMoviles' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'informacion_servicio')
                 ->where('estado_id', 2) // Compañia Despachada
+                ->orderBy('compania')
                 ->paginate($this->paginadolistadoSinMoviles, ['*'], 'listadoSinMoviles_page')
         ]);
     }
