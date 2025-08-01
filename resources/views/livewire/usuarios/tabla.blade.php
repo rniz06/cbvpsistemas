@@ -23,7 +23,7 @@
                     <th>Compañia: <br> <input class="form-control form-control-sm" type="text" placeholder=""
                             wire:model.live="buscarCompania"></th>
                     <th>Roles: <br> <input class="form-control form-control-sm" type="text" placeholder=""
-                            wire:model.live="buscarRoles"></th>
+                            ></th>
                     <th></th>
                 </tr>
                 <tr>

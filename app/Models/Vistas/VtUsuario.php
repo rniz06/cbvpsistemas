@@ -22,10 +22,10 @@ class VtUsuario extends Authenticatable
     public function scopeBuscar($query, $value)
     {
         $query->where('nombrecompleto', 'like', "%{$value}%")
-        ->orWhere('codigo', 'like', "%{$value}%")
-        ->orWhere('documento', 'like', "%{$value}%")
-        ->orWhere('categoria', 'like', "%{$value}%")
-        ->orWhere('compania', 'like', "%{$value}%");
+            ->orWhere('codigo', 'like', "%{$value}%")
+            ->orWhere('documento', 'like', "%{$value}%")
+            ->orWhere('categoria', 'like', "%{$value}%")
+            ->orWhere('compania', 'like', "%{$value}%");
         // ->orWhere('roles', 'like', "%{$value}%");
     }
 
@@ -34,7 +34,9 @@ class VtUsuario extends Authenticatable
      */
     public function scopeBuscarNombrecompleto($query, $value)
     {
-        $query->where('nombrecompleto', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('nombrecompleto', 'like', "%{$value}%");
+        }
     }
 
     /**
@@ -42,7 +44,9 @@ class VtUsuario extends Authenticatable
      */
     public function scopeBuscarCodigo($query, $value)
     {
-        $query->where('codigo', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('codigo', 'like', "%{$value}%");
+        }
     }
 
     /**
@@ -50,7 +54,9 @@ class VtUsuario extends Authenticatable
      */
     public function scopeBuscarDocumento($query, $value)
     {
-        $query->where('documento', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('documento', 'like', "%{$value}%");
+        }
     }
 
     /**
@@ -58,7 +64,9 @@ class VtUsuario extends Authenticatable
      */
     public function scopeBuscarCategoria($query, $value)
     {
-        $query->where('categoria', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('categoria', 'like', "%{$value}%");
+        }
     }
 
     /**
@@ -66,7 +74,9 @@ class VtUsuario extends Authenticatable
      */
     public function scopeBuscarCompania($query, $value)
     {
-        $query->where('compania', 'like', "%{$value}%");
+        if (!empty($value)) {
+            $query->where('compania', 'like', "%{$value}%");
+        }
     }
 
     /**
