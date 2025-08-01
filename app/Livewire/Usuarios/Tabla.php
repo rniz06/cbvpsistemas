@@ -51,6 +51,7 @@ class Tabla extends Component
             ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
             ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoría
             ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
+            ->orderBy('codigo')
             //->buscarRoles($this->buscarRoles)                   // Aplica filtro por roles
             ->paginate($this->paginado);                        // Pagina los resultados
 
