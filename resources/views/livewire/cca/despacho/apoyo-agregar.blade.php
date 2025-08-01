@@ -32,10 +32,6 @@
                     </x-adminlte-select>
                 </div>
 
-                {{-- Acargo --}}
-                <x-adminlte-input name="acargo" label="A cargo:" wire:model.blur="acargo"
-                    fgroup-class="col-md-2" oninput="this.value = this.value.toUpperCase()" />
-
                 {{-- chofer --}}
                 <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2"
                     :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
@@ -44,6 +40,10 @@
                 <div class="form-group">
                     <x-adminlte-button :label="$chofer_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$chofer_rentado ? 'secondary' : 'warning'" :icon="$chofer_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnrentado" />
                 </div>
+
+                {{-- Acargo --}}
+                <x-adminlte-input name="acargo" label="A cargo:" wire:model.blur="acargo" fgroup-class="col-md-2"
+                    oninput="this.value = this.value.toUpperCase()" />
 
                 {{-- Cantidad Tripulantes --}}
                 <x-adminlte-input name="cantidad_tripulantes" type="number" label="Tripulantes:"

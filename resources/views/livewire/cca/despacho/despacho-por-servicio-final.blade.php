@@ -41,10 +41,6 @@
                 </x-adminlte-select>
             </div>
 
-            {{-- A cargo --}}
-            <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
-                fgroup-class="col-md-2" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()" />
-
             {{-- chofer --}}
             <x-adminlte-input name="chofer" label="Chofer:" wire:model.blur="chofer" fgroup-class="col-md-2"
                 :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
@@ -53,6 +49,10 @@
             <div class="form-group col-md-1 align-self-end">
                 <x-adminlte-button :label="$chofer_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$chofer_rentado ? 'secondary' : 'warning'" :icon="$chofer_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnrentado" />
             </div>
+
+            {{-- A cargo --}}
+            <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
+                fgroup-class="col-md-2" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()" />
 
             {{-- Cantidad Tripulantes --}}
             <x-adminlte-input name="cantidad_tripulantes" type="numeric" label="Tripulantes:"
