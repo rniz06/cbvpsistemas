@@ -13,10 +13,10 @@ class ServiciosActivos extends Component
     public $paginadolistadoSinCompanias = 5;
     public $paginadolistadoSinMoviles = 5;
 
-    public function verServicio($id)
-    {
-        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $id]);
-    }
+    // public function verServicio($id)
+    // {
+    //     return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $id]);
+    // }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void

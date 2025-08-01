@@ -1,7 +1,7 @@
 <div>
 
     {{-- Tabla de Móviles en servicio --}}
-    <div wire:poll.5s>
+    <div wire:poll.10s>
         <x-table.table titulo="Móviles en servicio" ocultarBuscador personalizarPaginacion="paginadolistadoActivos">
             <x-slot name="cabeceras">
                 <th>Compañía:</th>
@@ -32,8 +32,9 @@
                         <td>{{ $listadoActivo->informacion_servicio ?? 'N/A' }}</td>
                         <td>{{ $listadoActivo->fecha_alfa->format('d/m/Y H:i:s') ?? 'N/A' }}</td>
                         <td>
-                            <x-adminlte-button wire:click="verServicio({{ $listadoActivo->id_servicio_existente }})"
-                                label="Ver Servicio" theme="success" icon="fas fa-eye" />
+                            <a class="btn btn-success btn-sm"
+                                href="{{ route('cca.despacho.ver-servicio', $listadoActivo->id_servicio_existente) }}"><i
+                                    class="fas fa-eye"></i>Ver Servicio</a>
                         </td>
                     </tr>
                 @empty
@@ -78,9 +79,9 @@
                         <td>{{ $listadoSinCompania->clasificacion ?? 'N/A' }}</td>
                         <td>{{ $listadoSinCompania->informacion_servicio ?? 'N/A' }}</td>
                         <td>
-                            <x-adminlte-button
-                                wire:click="verServicio({{ $listadoSinCompania->id_servicio_existente }})"
-                                label="Ver Servicio" theme="success" icon="fas fa-eye" />
+                            <a class="btn btn-success btn-sm"
+                                href="{{ route('cca.despacho.despacho-por-servicio-add-compania', $listadoSinCompania->id_servicio_existente) }}"><i
+                                    class="fas fa-eye"></i>Ver Servicio</a>
                         </td>
                     </tr>
                 @empty
@@ -127,8 +128,9 @@
                         <td>{{ $listadoSinMovil->clasificacion ?? 'N/A' }}</td>
                         <td>{{ $listadoSinMovil->informacion_servicio ?? 'N/A' }}</td>
                         <td>
-                            <x-adminlte-button wire:click="verServicio({{ $listadoSinMovil->id_servicio_existente }})"
-                                label="Ver Servicio" theme="success" icon="fas fa-eye" />
+                            <a class="btn btn-success btn-sm"
+                                href="{{ route('cca.despacho.despacho-por-servicio-final', $listadoSinMovil->id_servicio_existente) }}"><i
+                                    class="fas fa-eye"></i>Ver Servicio</a>
                         </td>
                     </tr>
                 @empty
