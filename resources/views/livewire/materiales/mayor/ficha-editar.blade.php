@@ -111,7 +111,7 @@
 
                 {{-- CAMPO CUBIERTAS ATRAS --}}
                 <div class="col-md-2">
-                    <x-adminlte-input name="cubiertas_frente" label="Cubiertas traseras:"
+                    <x-adminlte-input name="cubiertas_atras" label="Cubiertas traseras:"
                         wire:model.live="cubiertas_atras" oninput="this.value = this.value.toUpperCase()" />
                 </div>
 
