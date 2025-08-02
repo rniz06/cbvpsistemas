@@ -63,8 +63,8 @@ class DespachoPorCompaniaFinal extends Component
             'ciudad_id' => ['required', Rule::exists(CiudadGral::class, 'id_ciudad')],
             'calle_referencia' => ['required', 'min:3', 'max:255'],
             'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo' => ['required', 'string', 'regex:/^[A-Za-z]{1,2}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
-            'chofer' => ['nullable', 'string', 'regex:/^[A-Za-z]{1,2}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
+            'acargo' => ['required', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
+            'chofer' => ['nullable', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
         ];
     }
@@ -72,7 +72,8 @@ class DespachoPorCompaniaFinal extends Component
     public function messages()
     {
         return [
-            'acargo.regex' => 'El campo A cargo debe contener de 1 a 2 letras seguidas de 1 a 5 números, o solo de 1 a 5 dígitos numéricos.',
+            'acargo.regex' => 'El campo A cargo debe contener de 1 a 3 letras seguidas de 1 a 5 números(Comando de Companias), o solo de 1 a 5 dígitos numéricos(Codigo de bombero).',
+            'chofer.regex' => 'El campo Chofer debe contener de 1 a 3 letras seguidas de 1 a 5 números(Comando de Companias), o solo de 1 a 5 dígitos numéricos(Codigo de bombero).',
         ];
     }
 
