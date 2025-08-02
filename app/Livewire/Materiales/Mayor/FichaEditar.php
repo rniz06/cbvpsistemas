@@ -53,7 +53,7 @@ class FichaEditar extends Component
             'movil_tipo_id' => ['required', 'exists:MAT_moviles_tipos,id_movil_tipo'],
             'movil' => ['required', 'min:2', 'max:5'],
             'anho' => ['required', 'numeric', 'min_digits:4', 'max_digits:4'],
-            'chasis' => ['required', Rule::unique(Movil::class, 'chasis')->ignore($this->movil_id, 'id_movil')],
+            // 'chasis' => ['required', Rule::unique(Movil::class, 'chasis')->ignore($this->movil_id, 'id_movil')],
             'transmision_id' => ['required', 'exists:MAT_moviles_transmision,id_movil_transmision'],
             'eje_id' => ['required', 'exists:MAT_moviles_ejes,id_movil_eje'],
             'cubiertas_frente' => ['required', 'max:15'],
@@ -62,13 +62,27 @@ class FichaEditar extends Component
             'chapa' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    $valoresPermitidos = ['NO POSEE', 'NO CUENTA', 'SIN DATOS', 'NO'];
+                    $valoresPermitidos = ['SIN DATOS'];
                     if (!in_array(strtoupper(trim($value)), $valoresPermitidos)) {
                         $existe = Movil::where('chapa', $value)
                             ->where('id_movil', '!=', $this->movil_id)
                             ->exists();
                         if ($existe) {
                             $fail('El valor del campo chapa ya está registrado en otro móvil.');
+                        }
+                    }
+                }
+            ],
+            'chasis' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $valoresPermitidos = ['SIN DATOS'];
+                    if (!in_array(strtoupper(trim($value)), $valoresPermitidos)) {
+                        $existe = Movil::where('chasis', $value)
+                            ->where('id_movil', '!=', $this->movil_id)
+                            ->exists();
+                        if ($existe) {
+                            $fail('Chasis ya está registrado en otro móvil.');
                         }
                     }
                 }
