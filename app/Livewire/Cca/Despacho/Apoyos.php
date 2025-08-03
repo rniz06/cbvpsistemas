@@ -56,32 +56,33 @@ class Apoyos extends Component
         $this->mostrarFormAgregarApoyo = false;
     }
 
-    public function horaAccion($accion)
+    public function horaAccion($accion, $apoyoId)
     {
+        $apoyo =  Apoyo::findOrFail($apoyoId);
         switch ($accion) {
             case '1':
-                $apoyo = Apoyo::where('servicio_id', $this->servicio)->update([
+                $apoyo->update([
                     'fecha_cia' => now(),
                 ]);
                 $mensaje = 'Llegada de Compañia Accionada Correctamente!';
                 break;
 
             case '2':
-                $apoyo = Apoyo::where('servicio_id', $this->servicio)->update([
+                $apoyo->update([
                     'fecha_movil' => now(),
                 ]);
                 $mensaje = 'Salida de Móvil Accionada Correctamente!';
                 break;
 
             case '3':
-                $apoyo = Apoyo::where('servicio_id', $this->servicio)->update([
+                $apoyo->update([
                     'fecha_servicio' => now(),
                 ]);
                 $mensaje = 'Llegada de Móvil Accionada Correctamente!';
                 break;
 
             case '4':
-                $apoyo = Apoyo::where('servicio_id', $this->servicio)->update([
+                $apoyo->update([
                     'fecha_base' => now(),
                 ]);
                 $mensaje = 'Móvil en base Accionada Correctamente!';
