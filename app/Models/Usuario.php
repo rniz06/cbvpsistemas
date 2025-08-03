@@ -17,7 +17,7 @@ class Usuario extends Model implements Auditable
 
     protected $primaryKey = 'id_usuario';
 
-    protected $fillable = ['personal_id', 'name', 'email', 'password'];
+    protected $fillable = ['personal_id', 'name', 'email', 'password', 'ultimo_acceso'];
 
     // Especifica el guard explícitamente
     protected $guard_name = 'web';
@@ -30,5 +30,11 @@ class Usuario extends Model implements Auditable
     public function personal()
     {
         return $this->belongsTo(Personal::class, 'personal_id');
+    }
+
+    // En el modelo Usuario
+    public static function registrarAcceso($id)
+    {
+        static::findOrFail($id)->update(['ultimo_acceso' => now()]);
     }
 }

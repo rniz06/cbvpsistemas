@@ -51,15 +51,18 @@ class LoginController extends Controller
 
             case 'codigo':
                 // Autenticación por código
-                $usuario = User::where('categoria_id', $request->categoria_id)
-                    ->where('codigo', $request->usuario)
-                    ->first();
+                $usuario = User::firstWhere([
+                    'categoria_id' => $request->categoria_id,
+                    'codigo' => $request->usuario,
+                ]);
+                // $usuario = User::where('categoria_id', $request->categoria_id)
+                //     ->where('codigo', $request->usuario)
+                //     ->first();
 
                 if ($usuario && Hash::check($request->password, $usuario->password)) {
                     Auth::login($usuario);
-                    Usuario::where('id_usuario', Auth::id())->update([
-                        'ultimo_acceso' => now(),
-                    ]);
+                    // Actualiza y audita 'ultimo_acceso'
+                    Usuario::registrarAcceso($usuario->id_usuario);
                     return redirect()->route('home');
                 }
                 break;
