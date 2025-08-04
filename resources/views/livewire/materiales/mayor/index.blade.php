@@ -135,7 +135,7 @@
                         <td>{{ $inoperativo->tipo ?? 'N/A' }}-{{ $inoperativo->movil ?? 'N/A' }}</td>
                         <td>{{ $inoperativo->compania ?? 'N/A' }}</td>
                         @can('Material Mayor Ver')
-                            <td><a href="{{ route('materiales.mayor.show', $operativo->id_movil) }}"
+                            <td><a href="{{ route('materiales.mayor.show', $inoperativo->id_movil) }}"
                                     class="btn btn-block btn-sm btn-danger">Ver Ficha</a></td>
                         @endcan
                     </tr>
