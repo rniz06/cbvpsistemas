@@ -51,32 +51,33 @@ class VerServicio extends Component
         }
     }
 
-    public function horaAccion($accion)
+    public function horaAccion($accion, $servicioId)
     {
+        $servicio =  Existente::findOrFail($servicioId);
         switch ($accion) {
             case '1':
-                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                $servicio->update([
                     'fecha_cia' => now(),
                 ]);
                 $mensaje = 'Llegada de Cia Accionada Correctamente!';
                 break;
 
             case '2':
-                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                $servicio->update([
                     'fecha_movil' => now(),
                 ]);
                 $mensaje = 'Salida de Móvil Accionada Correctamente!';
                 break;
 
             case '3':
-                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                $servicio->update([
                     'fecha_servicio' => now(),
                 ]);
                 $mensaje = 'Llegada de Móvil Accionada Correctamente!';
                 break;
 
             case '4':
-                $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+                $servicio->update([
                     'fecha_base' => now(),
                     'estado_id' => 4, // Servicio Culminado
                 ]);

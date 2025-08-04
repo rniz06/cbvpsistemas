@@ -1,6 +1,25 @@
 <div>
     {{-- Datos del servicio --}}
-    <h4>Ficha de despacho - Compañia {{ $servicio->compania ?? 'S/D' }}</h4>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+        <div>
+            <h4 class="mb-1">
+                Ficha de despacho - Compañía {{ $servicio->compania ?? 'S/D' }}
+            </h4>
+        </div>
+
+        {{-- Línea horizontal solo visible en móviles --}}
+        <hr class="w-100 my-2 d-md-none">
+
+        <div>
+            <h4 class="mb-1 text-md-right">
+                Despachado Por: {{ $servicio->creado_por_nombrecompleto ?? 'S/D' }} -
+                {{ $servicio->creado_por_codigo ?? 'S/D' }}
+            </h4>
+        </div>
+    </div>
+
+
+
     <x-adminlte-card theme="success" theme-mode="outline">
         <div class="col-md-12 row">
             {{-- Servicio --}}
@@ -77,7 +96,8 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Despacho a Cia:</label>
-                        <button class="btn btn-primary btn-block" wire:click="horaAccion(1)">Accionar</button>
+                        <button class="btn btn-primary btn-block"
+                            wire:click="horaAccion(1, {{ $servicio->id_servicio_existente }})">Accionar</button>
                     </div>
                 </div>
             @else
@@ -91,7 +111,8 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Salida de móvil:</label>
-                        <button class="btn btn-primary btn-block" wire:click="horaAccion(2)">Accionar</button>
+                        <button class="btn btn-primary btn-block"
+                            wire:click="horaAccion(2, {{ $servicio->id_servicio_existente }})">Accionar</button>
                     </div>
                 </div>
             @else
@@ -105,7 +126,8 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Llegada de móvil:</label>
-                        <button class="btn btn-primary btn-block" wire:click="horaAccion(3)">Accionar</button>
+                        <button class="btn btn-primary btn-block"
+                            wire:click="horaAccion(3, {{ $servicio->id_servicio_existente }})">Accionar</button>
                     </div>
                 </div>
             @else
@@ -119,7 +141,8 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label>Móvil en base:</label>
-                        <button class="btn btn-primary btn-block" wire:click="horaAccion(4)">Accionar</button>
+                        <button class="btn btn-primary btn-block"
+                            wire:click="horaAccion(4, {{ $servicio->id_servicio_existente }})">Accionar</button>
                     </div>
                 </div>
             @else
@@ -155,7 +178,8 @@
         <!-- Formulario para Agregar Detalles -->
         <form wire:submit="guardarDetalles">
 
-            <x-adminlte-card title="Agregar Detalles" icon="fas fa-plus" theme-mode="outline" header-class="bg-success">
+            <x-adminlte-card title="Agregar Detalles" icon="fas fa-plus" theme-mode="outline"
+                header-class="bg-success">
 
                 <div class="row align-items-end">
 
@@ -168,8 +192,7 @@
 
                     {{-- BOTON DE DESPERFECTO --}}
                     <div class="form-group">
-                        <x-adminlte-button :label="$desperfecto ? 'Cancelar 10.77' : '10.77'" :theme="$desperfecto ? 'secondary' : 'warning'"
-                            wire:click="btndesperfecto" />
+                        <x-adminlte-button :label="$desperfecto ? 'Cancelar 10.77' : '10.77'" :theme="$desperfecto ? 'secondary' : 'warning'" wire:click="btndesperfecto" />
                     </div>
 
                     {{-- BOTON DE GUARDADO --}}

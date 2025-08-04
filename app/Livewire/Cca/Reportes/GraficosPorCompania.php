@@ -118,6 +118,7 @@ class GraficosPorCompania extends Component
     public function cargarServiciosApoyos()
     {
         return VtExistenteApoyo::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->whereNotNull('fecha_base')
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_cia', '>=', $this->fecha_desde);
             })
@@ -136,6 +137,7 @@ class GraficosPorCompania extends Component
     public function cargarClasificacionesApoyos()
     {
         return VtExistenteApoyo::select('clasificacion', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->whereNotNull('fecha_base')
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_cia', '>=', $this->fecha_desde);
             })
@@ -165,7 +167,7 @@ class GraficosPorCompania extends Component
         // Subconsulta 1 (vt_servicios_existentes)
         $whereExistentes = "estado_id = 4";
         // Subconsulta 2 (apoyos)
-        $whereApoyos = "1=1";
+        $whereApoyos = "fecha_base IS NOT NULL";
 
         if ($filters['fecha_desde']) {
             $whereExistentes .= " AND DATE(fecha_alfa) >= :fecha_desde_1";
