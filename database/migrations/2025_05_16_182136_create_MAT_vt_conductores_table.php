@@ -31,6 +31,7 @@ return new class extends Migration
                     vt_personales.nombrecompleto,
                     vt_personales.codigo,
                     vt_personales.categoria,
+                    vt_personales.compania_id,
                     vt_personales.compania,
                     MAT_conductores_estados.estado,
                     ciudades_curso.ciudad AS ciudad_curso,
