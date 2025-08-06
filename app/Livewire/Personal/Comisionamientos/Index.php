@@ -82,12 +82,14 @@ class Index extends Component
     {
         $comisionamiento = Comisionamiento::findOrFail($id);
         $comisionamiento->update([
+            'fecha_fin' => now(),
             'culminado' => 1 // True
         ]);
         session()->flash('success', 'Comisionamiento Culminado Exitosamente!');
         return redirect()->route('personal.comisionamientos.index');
     }
 
+    // Obtener lo datos para los reportes pdf y excel
     public function cargarComisionamientosExport()
     {
         return VtComisionamiento::select([

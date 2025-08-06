@@ -22,6 +22,7 @@ return new class extends Migration
                 c.compania_id,
                 com.compania,
                 c.resolucion_id,
+                r.n_resolucion,
                 r.concepto,
                 c.fecha_inicio,
                 c.fecha_fin,

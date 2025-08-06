@@ -15,13 +15,13 @@
         <tbody>
             @forelse ($comisionamientos as $comisionamiento)
                 <tr>
-                    <td>{{ $comisionamiento->compania ?? 'N/A' }}</td>
-                    <td>{{ $comisionamiento->n_resolucion ?? 'N/A' }}</td>
+                    <td>{{ $comisionamiento->compania ?? 'S/D' }}</td>
+                    <td>{{ $comisionamiento->n_resolucion ?? 'S/D' }}</td>
                     <td>{{ $comisionamiento->fecha_inicio ? $comisionamiento->fecha_inicio->format('d / m / Y') : 'S/D' }}
                     </td>
                     <td>{{ $comisionamiento->fecha_fin ? $comisionamiento->fecha_fin->format('d / m / Y') : 'S/D' }}
                     </td>
-                    <td>{{ $comisionamiento->codigo_comisionamiento ?? 'N/A' }}</td>
+                    <td>{{ $comisionamiento->codigo_comisionamiento ?? 'S/D' }}</td>
                     <td>
                         <span
                             class="badge 
