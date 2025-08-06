@@ -16,6 +16,7 @@ class DespachoController extends Controller
         $this->middleware('permission:Despacho Por Compania', ['only' => ['despachoPorCompania', 'despachoPorCompaniaFinal']]);
         $this->middleware('permission:Despacho Por Servicio', ['only' => ['despachoPorServicio', 'despachoPorServicioAddCompania', 'despachoPorServicioFinal']]);
         $this->middleware('permission:Servicios Activos', ['only' => ['serviciosActivos']]);
+        $this->middleware('permission:Apoyos Activos', ['only' => ['apoyosActivos']]);
         $this->middleware('permission:Despacho Por Compania|Despacho Por Servicio|Servicios Activos', ['only' => ['verServicio']]);
     }
 
@@ -54,5 +55,10 @@ class DespachoController extends Controller
     public function serviciosActivos()
     {
         return view('cca.despacho.servicios-activos');
+    }
+
+    public function apoyosActivos()
+    {
+        return view('cca.despacho.apoyos-activos');
     }
 }

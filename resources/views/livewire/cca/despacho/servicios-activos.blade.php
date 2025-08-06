@@ -52,7 +52,7 @@
 
 
     {{-- Tabla de Sin despacho de compañias --}}
-    <div wire:poll.5s class="position-relative">
+    <div wire:poll.10s class="position-relative">
         <x-table.table titulo="Sin despacho de compañias" ocultarBuscador
             personalizarPaginacion="paginadolistadoSinCompanias">
 
@@ -99,7 +99,7 @@
 
 
     {{-- Tabla de Sin despacho de móviles --}}
-    <div wire:poll.5s class="position-relative">
+    <div wire:poll.10s class="position-relative">
         <x-table.table titulo="Sin despacho de móviles" ocultarBuscador
             personalizarPaginacion="paginadolistadoSinMoviles">
 

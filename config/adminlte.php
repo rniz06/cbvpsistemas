@@ -398,6 +398,11 @@ return [
                             'route' => 'cca.despacho.servicios-activos',
                             'can' => 'Servicios Activos',
                         ],
+                        [
+                            'text' => 'Apoyos Activos',
+                            'route' => 'cca.despacho.apoyos-activos',
+                            'can' => 'Apoyos Activos',
+                        ],
                     ],
                 ],
                 [
