@@ -52,7 +52,7 @@
 
     {{-- Tabla de Móviles en servicio --}}
     <div wire:poll.10s>
-        <x-table.table titulo="Listado de Apoyos Activos" ocultarBuscador>
+        <x-table.table titulo="Listado de Apoyos Activos" ocultarBuscador personalizarPaginacion="paginadoApoyosActivos">
             <x-slot name="cabeceras">
                 <th>Compañía:</th>
                 <th>Servicio:</th>
