@@ -3,6 +3,7 @@
 namespace App\Livewire\Cca\Despacho;
 
 use App\Models\Vistas\Cca\VtExistente;
+use App\Models\Vistas\Cca\VtExistenteApoyo;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,6 +13,7 @@ class ServiciosActivos extends Component
     public $paginadolistadoActivos = 5;
     public $paginadolistadoSinCompanias = 5;
     public $paginadolistadoSinMoviles = 5;
+    public $paginadoApoyosActivos = 5;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
@@ -19,11 +21,13 @@ class ServiciosActivos extends Component
         if (in_array($key, [
             'paginadolistadoActivos',
             'paginadolistadoSinCompanias',
-            'paginadolistadoSinMoviles'
+            'paginadolistadoSinMoviles',
+            'paginadoApoyosActivos'
         ])) {
             $this->resetPage('listadoActivos_page');
             $this->resetPage('listadoSinCompanias_page');
             $this->resetPage('listadoSinMoviles_page');
+            $this->resetPage('apoyos_activos_page');
         }
     }
 
@@ -42,7 +46,11 @@ class ServiciosActivos extends Component
             'listadoSinMoviles' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'informacion_servicio')
                 ->where('estado_id', 2) // Compañia Despachada
                 ->orderBy('compania')
-                ->paginate($this->paginadolistadoSinMoviles, ['*'], 'listadoSinMoviles_page')
+                ->paginate($this->paginadolistadoSinMoviles, ['*'], 'listadoSinMoviles_page'),
+            'apoyosActivos' => VtExistenteApoyo::select('idservicio_existente_apoyo', 'servicio_existente_id', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'fecha_cia')
+                ->whereNull('fecha_base')
+                ->orderBy('compania')
+                ->paginate($this->paginadoApoyosActivos, ['*'], 'apoyos_activos_page'),
         ]);
     }
 }

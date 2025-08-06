@@ -28,7 +28,6 @@ Route::prefix('cca')->middleware('auth')->group(function () {
 
             Route::get('/ver-servicio/{servicio}', 'verServicio')->name('cca.despacho.ver-servicio');
             Route::get('/servicios-activos', 'serviciosActivos')->name('cca.despacho.servicios-activos');
-            Route::get('/apoyos-activos', 'apoyosActivos')->name('cca.despacho.apoyos-activos');
         });
 
         // Rutas de Reportes
