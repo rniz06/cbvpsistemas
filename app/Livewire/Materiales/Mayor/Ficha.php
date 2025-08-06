@@ -3,6 +3,7 @@
 namespace App\Livewire\Materiales\Mayor;
 
 use App\Exports\ExcelGenericoExport;
+use App\Exports\Pdf\Materiales\Mayor\ReporteMovilInspeccionExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Vistas\Materiales\VtMayor;
 use App\Models\Vistas\Materiales\VtMayorComentario;
@@ -38,6 +39,11 @@ class Ficha extends Component
                 ->orderBy('created_at', 'desc')
                 ->paginate($this->paginado)
         ]);
+    }
+
+    public function reporteFichaInpeccion($movilId)
+    {
+        return (new ReporteMovilInspeccionExport($movilId))->download();
     }
 
     public function mostrarFormAgregarAccion()

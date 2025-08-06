@@ -28,14 +28,17 @@ class VerServicio extends Component
     public function guardarDetalles()
     {
         $this->validate();
-        Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
-            'km_final'   => $this->km_final,
+        $existente = Existente::findOrFail($this->servicio->id_servicio_existente);
+        $existente->update([
+            'km_final'    => $this->km_final,
             'desperfecto' => $this->desperfecto,
+            'fecha_base'  => now(),
+            'estado_id'   => 4, // Servicio Culminado
         ]);
         if (is_null($this->km_final)) {
-            $mensaje = "10.77 Asignado Correctamente!";
+            $mensaje = "10.77 y Móvil en Base Asignado Correctamente!";
         } else {
-            $mensaje = "Kilometraje Final Asignado Correctamente!";
+            $mensaje = "Kilometraje Final y Móvil en Base Asignado Correctamente!";
         }
         
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])

@@ -28,9 +28,11 @@ class ApoyoAgregarDetalle extends Component
     public function guardarDetalles()
     {
         $this->validate();
-        Apoyo::where('idservicio_existente_apoyo', $this->apoyo->idservicio_existente_apoyo)->update([
+        $apoyo = Apoyo::findOrFail($this->apoyo->idservicio_existente_apoyo);
+        $apoyo->update([
             'km_final'   => $this->km_final,
             'desperfecto' => $this->desperfecto,
+            'fecha_base'  => now(),
         ]);
         if (is_null($this->km_final)) {
             $mensaje = "10.77 Asignado Correctamente!";

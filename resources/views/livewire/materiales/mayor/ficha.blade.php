@@ -6,6 +6,12 @@
                 icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
                 wire:click="$toggle('mostrarFormEditarFicha')" />
         @endcan
+        @can('Mayor Reporte Ficha Inspeccion')
+            - <x-adminlte-button class="btn-sm" type="button"
+                label="Ficha de Inspección"
+                icon="fas fa-plus" theme="outline-secondary"
+                wire:click="reporteFichaInpeccion({{ $movil->id_movil }})" />
+        @endcan
     </h4>
     @if ($mostrarFormEditarFicha)
         @livewire('materiales.mayor.ficha-editar', ['movil_id' => $movil->id_movil])
