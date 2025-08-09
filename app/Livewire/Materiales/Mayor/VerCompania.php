@@ -42,13 +42,25 @@ class VerCompania extends Component
             'movil_tipo_id' => ['required', 'exists:MAT_moviles_tipos,id_movil_tipo'],
             'movil' => ['required', 'min:2', 'max:5'],
             'anho' => ['required', 'numeric', 'min_digits:4', 'max_digits:4'],
-            'chasis' => ['required', Rule::unique(Movil::class, 'chasis')],
             'transmision_id' => ['required', 'exists:MAT_moviles_transmision,id_movil_transmision'],
             'eje_id' => ['required', 'exists:MAT_moviles_ejes,id_movil_eje'],
             'cubiertas_frente' => ['required', 'max:15'],
             'cubiertas_atras' => ['required', 'max:15'],
             'combustible_id' => ['required', 'exists:MAT_moviles_combustibles,id_movil_combustible'],
-            'chapa' => ['required', Rule::unique(Movil::class, 'chapa')],
+            'chasis' => [
+                'required',
+                Rule::unique(Movil::class, 'chasis')
+                    ->where(function ($query) {
+                        $query->where('chasis', '!=', 'SIN DATOS');
+                    }),
+            ],
+            'chapa' => [
+                'required',
+                Rule::unique(Movil::class, 'chasis')
+                    ->where(function ($query) {
+                        $query->where('chasis', '!=', 'SIN DATOS');
+                    }),
+            ],
         ];
     }
 
