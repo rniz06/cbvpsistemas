@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CompaniaController extends Controller
+class DireccionController extends Controller
 {
-    /**
+     /**
      * Establece los middleware necesarios para gestionar permisos
      * Se utilizan permisos específicos para cada acción del controlador.
      */
     function __construct()
     {
-        $this->middleware('permission:Companias Listar', ['only' => ['index']]);
+        $this->middleware('permission:Direcciones Listar', ['only' => ['index']]);
     }
 
     /**
@@ -21,6 +21,6 @@ class CompaniaController extends Controller
      */
     public function index()
     {
-        return view('admin.companias.index');
+        return view('admin.direcciones.index');
     }
 }

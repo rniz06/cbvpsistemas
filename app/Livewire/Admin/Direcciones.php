@@ -4,63 +4,38 @@ namespace App\Livewire\Admin;
 
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Admin\CiudadGral;
 use App\Models\Admin\CompaniaGral;
-use App\Models\Admin\DepartamentoGral;
-use App\Models\Admin\RegionGral;
-use App\Models\Vistas\GralVtCompania;
-use App\Models\Vistas\VtCompania;
+use App\Models\Gral\Direccion;
+use App\Models\Vistas\Gral\VtDireccion;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
-class Companias extends Component
+class Direcciones extends Component
 {
     // Usar el trait WithPagination para la paginación
     use WithPagination;
 
     // Propiedad para los filtros
-    public $ciudades, $regiones, $departamentos;
+    public $companias;
 
     // Variables para el formulario
-    public $compania_id;
+    public $direccion_id;
     #[Validate]
-    public $compania, $ciudad_id, $region_id, $orden;
+    public $direccion, $compania_id;
 
     // Variables para la paginación, busqueda y estado(modo) del formulario
     public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
     public $buscador = '';
-    public $buscarCompania = '';
-    public $buscarDepartamentoId = '';
-    public $buscarCiudadId = '';
-    public $buscarRegionId = '';
+    public $buscarDireccion = '';
+    public $buscarCompaniaId = '';
     public $paginado = 5;
 
     public function mount()
     {
-        $this->regiones = RegionGral::select('id_region', 'region')->get();
-        $this->departamentos = DepartamentoGral::select('id_departamento', 'departamento')->get();
-        $this->ciudades = CiudadGral::select('id_ciudad', 'ciudad', 'departamento_id')
-            ->when($this->buscarDepartamentoId, function ($query) {
-                return $query->where('departamento_id', $this->buscarDepartamentoId);
-            })
-            ->orderBy('ciudad')
-            ->get();
-    }
-
-    public function updatedBuscarDepartamentoId($value)
-    {
-        $this->ciudades = CiudadGral::select('id_ciudad', 'ciudad', 'departamento_id')
-            ->when($value, function ($query) use ($value) {
-                return $query->where('departamento_id', $value);
-            })
-            ->orderBy('ciudad')
-            ->get();
-
-        // Resetear la selección de ciudad cuando cambia el departamento
-        $this->buscarCiudadId = '';
+        $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
     }
 
     // Habilita el formulario para agregar un registro
@@ -73,12 +48,10 @@ class Companias extends Component
     // Habilita los botones de editar, eliminar y cancelar
     public function seleccionado($id)
     {
-        $compania = CompaniaGral::findOrFail($id);
-        $this->compania_id = $compania->id_compania;
-        $this->compania = $compania->compania;
-        $this->ciudad_id = $compania->ciudad_id;
-        $this->region_id = $compania->region_id;
-        $this->orden = $compania->orden;
+        $direccion = Direccion::findOrFail($id);
+        $this->direccion_id = $direccion->id_direccion;
+        $this->direccion = $direccion->direccion;
+        $this->compania_id = $direccion->compania_id;
         $this->modo = 'seleccionado';
     }
 
@@ -97,8 +70,8 @@ class Companias extends Component
     // Elimina el registro que obtuvimos con el metodo "seleccionado()"
     public function eliminar()
     {
-        if ($this->compania_id) {
-            CompaniaGral::destroy($this->compania_id);
+        if ($this->direccion_id) {
+            Direccion::destroy($this->direccion_id);
             $this->resetearForm();
         }
     }
@@ -107,10 +80,8 @@ class Companias extends Component
     protected function rules()
     {
         return [
-            'compania' => ['required', Rule::unique(CompaniaGral::class, 'compania')->ignore($this->compania_id, 'id_compania')],
-            'ciudad_id' => ['required', Rule::exists(CiudadGral::class, 'id_ciudad')],
-            'region_id' => ['required', Rule::exists(RegionGral::class, 'id_region')],
-            'orden' => ['required', Rule::unique(CompaniaGral::class, 'orden')->ignore($this->compania_id, 'id_compania')],
+            'direccion' => ['required', Rule::unique(Direccion::class)->ignore($this->direccion_id, 'id_direccion')],
+            'compania_id' => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
         ];
     }
 
@@ -126,11 +97,11 @@ class Companias extends Component
 
         if ($this->modo === 'agregar') {
             //return dd($validados);
-            CompaniaGral::create($validados);
+            Direccion::create($validados);
             session()->flash('success', 'Registro Agregado Correctamente!');
             //$this->redirectRoute('admin.companias.index');
-        } elseif ($this->modo === 'modificar' && $this->compania_id) {
-            CompaniaGral::findOrFail($this->compania_id)->update($validados);
+        } elseif ($this->modo === 'modificar' && $this->direccion_id) {
+            Direccion::findOrFail($this->direccion_id)->update($validados);
             session()->flash('success', 'Registro Actualizado Correctamente!');
         }
 
@@ -140,11 +111,9 @@ class Companias extends Component
     // Restablecer formulario a deshabilitado y limpiar datos ingresados o seleccionados
     private function resetearForm()
     {
+        $this->direccion_id = null;
+        $this->direccion = null;
         $this->compania_id = null;
-        $this->compania = '';
-        $this->ciudad_id = '';
-        $this->region_id = '';
-        $this->orden = '';
         $this->modo = 'inicio';
     }
 
@@ -154,31 +123,30 @@ class Companias extends Component
         if (in_array($key, [
             'buscador',
             'paginado',
-            'buscarDepartamentoId',
-            'buscarCiudadId',
-            'buscarRegionId',
+            'buscarDireccion',
+            'buscarCompaniaId',
         ])) {
-            $this->resetPage('companias_page');
+            $this->resetPage('direcciones_page');
         }
     }
 
     public function render()
     {
-        return view('livewire.admin.companias', [
-            'companias' => GralVtCompania::select('id_compania', 'compania', 'departamento', 'ciudad', 'region')
-            ->buscador($this->buscador)
-                ->buscarCompania($this->buscarCompania)
-                ->buscarDepartamentoId($this->buscarDepartamentoId)
-                ->buscarCiudadId($this->buscarCiudadId)
-                ->buscarRegionId($this->buscarRegionId)
-                ->orderBy('orden')
-                ->paginate($this->paginado, ['*'], 'companias_page')
+        return view('livewire.admin.direcciones', [
+            'direcciones' => VtDireccion::select('id_direccion', 'direccion', 'compania_id', 'compania')
+                ->buscador($this->buscador)
+                ->buscarDireccion($this->buscarDireccion)
+                ->buscarCompaniaId($this->buscarCompaniaId)
+                ->orderBy('direccion')
+                ->paginate($this->paginado, ['*'], 'direcciones_page')
         ]);
     }
 
+
+    // FALTA COMPLETAR
     public function excel()
     {
-        $datos = GralVtCompania::select('compania', 'departamento', 'ciudad', 'region')
+        $datos = Direccion::select('direccion', 'departamento', 'ciudad', 'region')
             ->buscarCompania($this->buscarCompania)
             ->buscarDepartamentoId($this->buscarDepartamentoId)
             ->buscarCiudadId($this->buscarCiudadId)
@@ -191,7 +159,7 @@ class Companias extends Component
     public function pdf()
     {
         $nombre_archivo = "Listado de Compañias";
-        $datos = GralVtCompania::select('compania', 'departamento', 'ciudad', 'region')
+        $datos = Direccion::select('compania', 'departamento', 'ciudad', 'region')
             ->buscarCompania($this->buscarCompania)
             ->buscarDepartamentoId($this->buscarDepartamentoId)
             ->buscarCiudadId($this->buscarCiudadId)

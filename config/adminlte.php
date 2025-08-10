@@ -444,6 +444,11 @@ return [
                     'route' => 'admin.companias.index',
                     'can' => 'Companias Listar',
                 ],
+                [
+                    'text' => 'Direcciones',
+                    'route' => 'admin.direcciones.index',
+                    'can' => 'Direcciones Listar',
+                ],
             ],
         ],
         // [
