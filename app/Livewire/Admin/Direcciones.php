@@ -7,6 +7,7 @@ use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Gral\Direccion;
 use App\Models\Vistas\Gral\VtDireccion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -80,8 +81,26 @@ class Direcciones extends Component
     protected function rules()
     {
         return [
-            'direccion' => ['required', Rule::unique(Direccion::class)->ignore($this->direccion_id, 'id_direccion')],
-            'compania_id' => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
+            'direccion' => [
+                'required',
+                Rule::unique(Direccion::class, 'direccion')
+                    ->ignore($this->direccion_id, 'id_direccion') // Ignora el actual si estás actualizando
+                    ->where(function ($query) {
+                        return $query->where('compania_id', $this->compania_id);
+                    }),
+            ],
+            'compania_id' => [
+                'required',
+                Rule::exists(CompaniaGral::class, 'id_compania'),
+            ],
+        ];
+    }
+
+    // Personalizar mensajes de validacion
+    protected function messages()
+    {
+        return [
+            'direccion.unique' => 'Esta Direccion ya ha sido registrada en ese estamento.'
         ];
     }
 
@@ -96,11 +115,12 @@ class Direcciones extends Component
         $validados = $this->validate();
 
         if ($this->modo === 'agregar') {
-            //return dd($validados);
+            $validados['creadoPor'] =  Auth::id();
             Direccion::create($validados);
             session()->flash('success', 'Registro Agregado Correctamente!');
             //$this->redirectRoute('admin.companias.index');
         } elseif ($this->modo === 'modificar' && $this->direccion_id) {
+            $validados['actualizadoPor'] =  Auth::id();
             Direccion::findOrFail($this->direccion_id)->update($validados);
             session()->flash('success', 'Registro Actualizado Correctamente!');
         }
@@ -142,29 +162,35 @@ class Direcciones extends Component
         ]);
     }
 
+    // Obtener lo datos para los reportes pdf y excel
+    public function datosParaExportar()
+    {
+        return VtDireccion::select([
+            'direccion',
+            'compania',
+        ])
+            ->buscador($this->buscador)
+            ->buscarDireccion($this->buscarDireccion)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->orderBy('direccion')
+            ->get();
+    }
+
 
     // FALTA COMPLETAR
     public function excel()
     {
-        $datos = Direccion::select('direccion', 'departamento', 'ciudad', 'region')
-            ->buscarCompania($this->buscarCompania)
-            ->buscarDepartamentoId($this->buscarDepartamentoId)
-            ->buscarCiudadId($this->buscarCiudadId)
-            ->buscarRegionId($this->buscarRegionId)->orderBy('orden')->get();
-        $encabezados = ['Compañia', 'Departamento', 'Ciudad', 'Region'];
+        $datos = $this->datosParaExportar();
+        $encabezados = ['Direcciones', 'Pertenece a:'];
 
-        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Compañias.xlsx');
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Direcciones - CBVP.xlsx');
     }
 
     public function pdf()
     {
-        $nombre_archivo = "Listado de Compañias";
-        $datos = Direccion::select('compania', 'departamento', 'ciudad', 'region')
-            ->buscarCompania($this->buscarCompania)
-            ->buscarDepartamentoId($this->buscarDepartamentoId)
-            ->buscarCiudadId($this->buscarCiudadId)
-            ->buscarRegionId($this->buscarRegionId)->orderBy('orden')->get();
-        $encabezados = ['Compañia', 'Departamento', 'Ciudad', 'Region'];
+        $nombre_archivo = "Listado de Direcciones - CBVP";
+        $datos = $this->datosParaExportar();
+        $encabezados = ['Direcciones', 'Pertenece a:'];
 
         return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
