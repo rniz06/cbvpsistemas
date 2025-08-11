@@ -316,15 +316,9 @@ return [
             'text' => 'search',
         ],
         ['header' => 'Módulos'],
-        // [
-        //     'text' => 'Mesas',
-        //     'route' => 'mesas.index',
-        //     //'can' => 'Personal Listar',
-        //     'icon' => 'fas fa-clipboard',
-        // ],
         [
             'text' => 'Personal',
-            'icon' => 'fas fa-user-friends',
+            'icon' => 'mr-1 fas fa-user-friends',
             'submenu' => [
                 [
                     'text' => 'Listar',
@@ -342,9 +336,21 @@ return [
                     'can' => 'Personal Reportes Listar',
                 ],
                 [
-                    'text' => 'Rangos',
-                    'route' => 'personal.rangos.index',
-                    'can' => 'Rangos Listar',
+                    'text' => 'Parametros',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Rangos',
+                            'route' => 'personal.rangos.index',
+                            'can' => 'Rangos Listar',
+                        ],
+                        [
+                            'text' => 'Cargos',
+                            'route' => 'personal.cargos.index',
+                            'can' => 'Cargos Listar',
+                        ],
+                    ],
                 ],
             ],
         ],

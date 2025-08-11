@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Personal\CargoController;
 use App\Http\Controllers\Personal\ComisionamientoController;
 use App\Http\Controllers\Personal\RangoController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,16 @@ Route::middleware('auth')->prefix('personal')->group(function () {
     Route::controller(RangoController::class)
         ->group(function () {
             Route::get('/rangos', 'index')->name('personal.rangos.index');
+        });
+
+        /*
+    |--------------------------------------------------------------------------
+    | Rutas del modulo Personal/Cargos
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(CargoController::class)
+        ->group(function () {
+            Route::get('/cargos', 'index')->name('personal.cargos.index');
         });
 
     /*
