@@ -24,12 +24,16 @@ class VtComisionamiento extends Model
      */
     public function scopeBuscador($query, $value)
     {
-        $query->where('nombrecompleto', 'like', "%{$value}%")
+        $query->where('fecha_inicio', 'like', "%{$value}%")
+            //->orWhere('fecha_fin', 'like', "%{$value}%")
+            ->orWhere('nombrecompleto', 'like', "%{$value}%")
             ->orWhere('codigo', 'like', "%{$value}%")
+            ->orWhere('cargo', 'like', "%{$value}%")
+            ->orWhere('sufijo', 'like', "%{$value}%")
+            ->orWhere('rango', 'like', "%{$value}%")
+            ->orWhere('cargo_compania', 'like', "%{$value}%")
             ->orWhere('compania', 'like', "%{$value}%")
-            ->orWhere('fecha_inicio', 'like', "%{$value}%")
-            ->orWhere('fecha_fin', 'like', "%{$value}%")
-            ->orWhere('codigo_comisionamiento', 'like', "%{$value}%")
+            ->orWhere('direccion', 'like', "%{$value}%")
             ->orWhere('culminado', 'like', "%{$value}%");
     }
 
@@ -54,16 +58,6 @@ class VtComisionamiento extends Model
     }
 
     /**
-     * Buscador del campo compania_id.
-     */
-    public function scopeBuscarCompaniaId($query, $value)
-    {
-        if (!empty($value)) {
-            $query->where('compania_id', '=', $value);
-        }
-    }
-
-    /**
      * Buscador del campo fecha_inicio.
      */
     public function scopeBuscarFechaInicio($query, $value)
@@ -84,6 +78,56 @@ class VtComisionamiento extends Model
     }
 
     /**
+     * Buscador del campo cargo_id.
+     */
+    public function scopeBuscarCargoId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('cargo_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo sufijo.
+     */
+    public function scopeBuscarSufijo($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('sufijo', 'like', "%{$value}%");
+        }
+    }
+
+    /**
+     * Buscador del campo rango_id.
+     */
+    public function scopeBuscarRangoId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('rango_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo compania_id.
+     */
+    public function scopeBuscarCompaniaId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('compania_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo direccion_id.
+     */
+    public function scopeBuscarDireccionId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('direccion_id', '=', $value);
+        }
+    }
+
+    /**
      * Buscador Por Rangos de Fecha.
      */
     public function scopeBuscarPorRangoFechas($query, $desde, $hasta)
@@ -94,16 +138,6 @@ class VtComisionamiento extends Model
             $query->where('fecha_inicio', '>=', $desde);
         } elseif (!empty($hasta)) {
             $query->where('fecha_inicio', '<=', $hasta);
-        }
-    }
-
-    /**
-     * Buscador del campo codigo_comisionamiento.
-     */
-    public function scopeBuscarCodigoComisionamiento($query, $value)
-    {
-        if (!empty($value)) {
-            $query->where('codigo_comisionamiento', 'like', "%{$value}%");
         }
     }
 

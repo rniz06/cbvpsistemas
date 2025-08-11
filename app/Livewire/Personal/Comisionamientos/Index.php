@@ -5,7 +5,10 @@ namespace App\Livewire\Personal\Comisionamientos;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
+use App\Models\Gral\Direccion;
+use App\Models\Personal\Cargo;
 use App\Models\Personal\Comisionamiento;
+use App\Models\Personal\Rango;
 use App\Models\Vistas\Personal\VtComisionamiento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,21 +21,26 @@ class Index extends Component
     use WithPagination;
 
     // Propiedad para los filtros
-    public $companias = [];
+    public $cargos = [], $rangos = [], $companias = [], $direcciones = [];
 
     // Variables para la paginación y busqueda
     public $buscarNombreCompleto = '';
     public $buscarCodigo = '';
+    public $buscarCargoId = '';
+    public $buscarSufijo = '';
+    public $buscarRangoId = '';
     public $buscarCompaniaId = '';
+    public $buscarDireccionId = '';
     public $buscarFechaInicio = '';
-    public $buscarFechaFin = '';
-    public $buscarCodigoComisionamiento = '';
     public $buscarCulminado = '';
     public $paginado = 5;
 
     public function mount()
     {
-        $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->cargos      = Cargo::select('id_cargo', 'cargo')->orderBy('cargo')->get();
+        $this->rangos      = Rango::select('id_rango', 'rango')->orderBy('rango')->get();
+        $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->direcciones = Direccion::select('id_direccion', 'direccion')->orderBy('direccion')->get();
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
@@ -41,10 +49,12 @@ class Index extends Component
         if (in_array($key, [
             'buscarNombreCompleto',
             'buscarCodigo',
+            'buscarCargoId',
+            'buscarSufijo',
+            'buscarRangoId',
             'buscarCompaniaId',
+            'buscarDireccionId',
             'buscarFechaInicio',
-            'buscarFechaFin',
-            'buscarCodigoComisionamiento',
             'buscarCulminado',
             'paginado',
         ])) {
@@ -59,20 +69,23 @@ class Index extends Component
                 'id_comisionamiento',
                 'nombrecompleto',
                 'codigo',
-                'compania',
-                'resolucion_id',
                 'fecha_inicio',
-                'fecha_fin',
-                'codigo_comisionamiento',
+                'resolucion_id',
+                'cargo',
+                'sufijo',
+                'rango',
+                'compania',
+                'direccion',
                 'culminado'
             )
                 ->buscarNombreCompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
-                ->buscarCompaniaId($this->buscarCompaniaId)
                 ->buscarFechaInicio($this->buscarFechaInicio)
-                ->buscarFechaFin($this->buscarFechaFin)
-                ->buscarFechaFin($this->buscarFechaFin)
-                ->buscarCodigoComisionamiento($this->buscarCodigoComisionamiento)
+                ->buscarCargoId($this->buscarCargoId)
+                ->buscarSufijo($this->buscarSufijo)
+                ->buscarRangoId($this->buscarRangoId)
+                ->buscarCompaniaId($this->buscarCompaniaId)
+                ->buscarDireccionId($this->buscarDireccionId)
                 ->buscarCulminado($this->buscarCulminado)
                 ->paginate($this->paginado, ['*'], 'comisionados_page')
         ]);
@@ -92,21 +105,24 @@ class Index extends Component
     // Obtener lo datos para los reportes pdf y excel
     public function cargarComisionamientosExport()
     {
-        return VtComisionamiento::select([
+        return VtComisionamiento::select(
             'nombrecompleto',
             'codigo',
-            'compania',
             'fecha_inicio',
-            'fecha_fin',
-            'codigo_comisionamiento',
-            'culminado',
-        ])
+            'cargo',
+            'sufijo',
+            'rango',
+            'compania',
+            'direccion',
+        )
             ->buscarNombreCompleto($this->buscarNombreCompleto)
             ->buscarCodigo($this->buscarCodigo)
-            ->buscarCompaniaId($this->buscarCompaniaId)
             ->buscarFechaInicio($this->buscarFechaInicio)
-            ->buscarFechaFin($this->buscarFechaFin)
-            ->buscarCodigoComisionamiento($this->buscarCodigoComisionamiento)
+            ->buscarCargoId($this->buscarCargoId)
+            ->buscarSufijo($this->buscarSufijo)
+            ->buscarRangoId($this->buscarRangoId)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->buscarDireccionId($this->buscarDireccionId)
             ->buscarCulminado($this->buscarCulminado)
             ->get();
     }
@@ -115,7 +131,7 @@ class Index extends Component
     public function excel()
     {
         $datos = $this->cargarComisionamientosExport();
-        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
+        $encabezados = ['Nombre Completo', 'Código', 'Fecha De Inicio', 'Cargo', 'Sufijo', 'Rango', 'Comisionado a', 'En'];
 
         return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Comisionamientos.xlsx');
     }
@@ -124,7 +140,7 @@ class Index extends Component
     {
         $nombre_archivo = "Listado de Comisionamientos";
         $datos = $this->cargarComisionamientosExport();
-        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
+        $encabezados = ['Nombre C.', 'Código', 'F. Inicio', 'Cargo', 'Sufijo', 'Rango', 'Comisionado a', 'En'];
 
         return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
