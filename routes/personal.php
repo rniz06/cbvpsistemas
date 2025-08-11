@@ -1,11 +1,22 @@
 <?php
 
 use App\Http\Controllers\Personal\ComisionamientoController;
+use App\Http\Controllers\Personal\RangoController;
 use Illuminate\Support\Facades\Route;
 
 
 
 Route::middleware('auth')->prefix('personal')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rutas del modulo Personal/Rangos
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(RangoController::class)
+        ->group(function () {
+            Route::get('/rangos', 'index')->name('personal.rangos.index');
+        });
 
     /*
     |--------------------------------------------------------------------------

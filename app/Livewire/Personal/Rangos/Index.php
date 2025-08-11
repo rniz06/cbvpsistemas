@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Personal\Rangos;
 
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
-use App\Models\Admin\CompaniaGral;
-use App\Models\Gral\Direccion;
-use App\Models\Vistas\Gral\VtDireccion;
+use App\Models\Personal\Rango;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -14,29 +12,27 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
-class Direcciones extends Component
+class Index extends Component
 {
     // Usar el trait WithPagination para la paginación
     use WithPagination;
 
     // Propiedad para los filtros
-    public $companias;
+    // public $companias;
 
     // Variables para el formulario
-    public $direccion_id;
+    public $rango_id;
     #[Validate]
-    public $direccion, $compania_id;
+    public $rango;
 
     // Variables para la paginación, busqueda y estado(modo) del formulario
     public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
     public $buscador = '';
-    public $buscarDireccion = '';
-    public $buscarCompaniaId = '';
     public $paginado = 5;
 
     public function mount()
     {
-        $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        //
     }
 
     // Habilita el formulario para agregar un registro
@@ -49,10 +45,9 @@ class Direcciones extends Component
     // Habilita los botones de editar, eliminar y cancelar
     public function seleccionado($id)
     {
-        $direccion = Direccion::findOrFail($id);
-        $this->direccion_id = $direccion->id_direccion;
-        $this->direccion = $direccion->direccion;
-        $this->compania_id = $direccion->compania_id;
+        $rango = Rango::findOrFail($id);
+        $this->rango_id = $rango->id_rango;
+        $this->rango = $rango->rango;
         $this->modo = 'seleccionado';
     }
 
@@ -71,8 +66,8 @@ class Direcciones extends Component
     // Elimina el registro que obtuvimos con el metodo "seleccionado()"
     public function eliminar()
     {
-        if ($this->direccion_id) {
-            Direccion::destroy($this->direccion_id);
+        if ($this->rango_id) {
+            Rango::destroy($this->rango_id);
             $this->resetearForm();
         }
     }
@@ -81,26 +76,7 @@ class Direcciones extends Component
     protected function rules()
     {
         return [
-            'direccion' => [
-                'required',
-                Rule::unique(Direccion::class, 'direccion')
-                    ->ignore($this->direccion_id, 'id_direccion') // Ignora el actual si estás actualizando
-                    ->where(function ($query) {
-                        return $query->where('compania_id', $this->compania_id);
-                    }),
-            ],
-            'compania_id' => [
-                'required',
-                Rule::exists(CompaniaGral::class, 'id_compania'),
-            ],
-        ];
-    }
-
-    // Personalizar mensajes de validacion
-    protected function messages()
-    {
-        return [
-            'direccion.unique' => 'Esta Direccion ya ha sido registrada en ese estamento.'
+            'rango' => ['required', Rule::unique(Rango::class)->ignore($this->rango_id, 'id_rango')],
         ];
     }
 
@@ -116,12 +92,12 @@ class Direcciones extends Component
 
         if ($this->modo === 'agregar') {
             $validados['creadoPor'] =  Auth::id();
-            Direccion::create($validados);
+            Rango::create($validados);
             session()->flash('success', 'Registro Agregado Correctamente!');
             //$this->redirectRoute('admin.companias.index');
-        } elseif ($this->modo === 'modificar' && $this->direccion_id) {
+        } elseif ($this->modo === 'modificar' && $this->rango_id) {
             $validados['actualizadoPor'] =  Auth::id();
-            Direccion::findOrFail($this->direccion_id)->update($validados);
+            Rango::findOrFail($this->rango_id)->update($validados);
             session()->flash('success', 'Registro Actualizado Correctamente!');
         }
 
@@ -131,9 +107,8 @@ class Direcciones extends Component
     // Restablecer formulario a deshabilitado y limpiar datos ingresados o seleccionados
     private function resetearForm()
     {
-        $this->direccion_id = null;
-        $this->direccion = null;
-        $this->compania_id = null;
+        $this->rango_id = null;
+        $this->rango = null;
         $this->modo = 'inicio';
     }
 
@@ -143,52 +118,45 @@ class Direcciones extends Component
         if (in_array($key, [
             'buscador',
             'paginado',
-            'buscarDireccion',
-            'buscarCompaniaId',
         ])) {
-            $this->resetPage('direcciones_page');
+            $this->resetPage('rangos_page');
         }
     }
 
     public function render()
     {
-        return view('livewire.admin.direcciones', [
-            'direcciones' => VtDireccion::select('id_direccion', 'direccion', 'compania_id', 'compania')
+        return view('livewire.personal.rangos.index', [
+            'rangos' => Rango::select('id_rango', 'rango')
                 ->buscador($this->buscador)
-                ->buscarDireccion($this->buscarDireccion)
-                ->buscarCompaniaId($this->buscarCompaniaId)
-                ->orderBy('direccion')
-                ->paginate($this->paginado, ['*'], 'direcciones_page')
+                ->orderBy('rango')
+                ->paginate($this->paginado, ['*'], 'rangos_page')
         ]);
     }
 
     // Obtener lo datos para los reportes pdf y excel
     public function datosParaExportar()
     {
-        return VtDireccion::select([
-            'direccion',
-            'compania',
+        return Rango::select([
+            'rango',
         ])
             ->buscador($this->buscador)
-            ->buscarDireccion($this->buscarDireccion)
-            ->buscarCompaniaId($this->buscarCompaniaId)
-            ->orderBy('direccion')
+            ->orderBy('rango')
             ->get();
     }
 
     public function excel()
     {
         $datos = $this->datosParaExportar();
-        $encabezados = ['Direcciones', 'Pertenece a:'];
+        $encabezados = ['Rangos'];
 
-        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Direcciones - CBVP.xlsx');
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Rangos - CBVP.xlsx');
     }
 
     public function pdf()
     {
-        $nombre_archivo = "Listado de Direcciones - CBVP";
+        $nombre_archivo = "Listado de Rangos - CBVP";
         $datos = $this->datosParaExportar();
-        $encabezados = ['Direcciones', 'Pertenece a:'];
+        $encabezados = ['Rangos'];
 
         return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }

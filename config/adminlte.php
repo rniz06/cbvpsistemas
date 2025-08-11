@@ -341,6 +341,11 @@ return [
                     'route' => 'personal.reportes',
                     'can' => 'Personal Reportes Listar',
                 ],
+                [
+                    'text' => 'Rangos',
+                    'route' => 'personal.rangos.index',
+                    'can' => 'Rangos Listar',
+                ],
             ],
         ],
         [

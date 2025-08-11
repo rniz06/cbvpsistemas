@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Personal;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DireccionController extends Controller
+class RangoController extends Controller
 {
     /**
      * Establece los middleware necesarios para gestionar permisos
@@ -13,7 +13,7 @@ class DireccionController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:Direcciones Listar', ['only' => ['index']]);
+        $this->middleware('permission:Rangos Listar', ['only' => ['index']]);
     }
 
     /**
@@ -21,6 +21,6 @@ class DireccionController extends Controller
      */
     public function index()
     {
-        return view('admin.direcciones.index');
+        return view('personal.rangos.index');
     }
 }
