@@ -1,4 +1,5 @@
 <div>
+    HOLA DESDE EL COMISIONADO NORMAL
     <h4>Agregar un nuevo Comisionamiento</h4>
     {{-- Formulario --}}
     <x-adminlte-callout theme="success">

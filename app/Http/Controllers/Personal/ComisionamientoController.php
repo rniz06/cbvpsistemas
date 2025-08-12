@@ -14,10 +14,8 @@ class ComisionamientoController extends Controller
     function __construct()
     {
         $this->middleware('permission:Comisionamientos Listar', ['only' => ['index']]);
-        $this->middleware('permission:Comisionamientos Crear', ['only' => ['create']]);
+        $this->middleware('permission:Comisionamientos Crear', ['only' => ['createAutoridad', 'createComisionado']]);
         $this->middleware('permission:Comisionamientos Editar', ['only' => ['edit']]);
-        // $this->middleware('permission:Conductores Ver', ['only' => ['show']]);
-        
     }
 
     public function index()
@@ -25,9 +23,14 @@ class ComisionamientoController extends Controller
         return view('personal.comisionamientos.index');
     }
 
-    public function create()
+    public function createAutoridad()
     {
-        return view('personal.comisionamientos.create');
+        return view('personal.comisionamientos.create-autoridad');
+    }
+
+    public function createComisionamiento()
+    {
+        return view('personal.comisionamientos.create-comisionado');
     }
 
     public function edit($comisionamiento)

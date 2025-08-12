@@ -16,13 +16,19 @@ class Comisionamiento extends Model implements Auditable
     protected $primaryKey = 'id_comisionamiento';
 
     protected $fillable = [
+        'tipo_id',
         'personal_id',
         'compania_id',
-        'resolucion_id',
+        'direccion_id',
+        'cargo_id',
+        'inicio_resolucion_id',
+        'fin_resolucion_id',
         'fecha_inicio',
         'fecha_fin',
         'codigo_comisionamiento',
         'culminado',
+        'creadoPor',
+        'actualizadoPor',
     ];
 
     protected $casts = [

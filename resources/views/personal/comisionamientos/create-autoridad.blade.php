@@ -11,7 +11,7 @@
 @section('content_body')
 
     {{-- Llamar al componente livewire para agregar un nuevo comisionamiento --}}
-    @livewire('personal.comisionamientos.create')
+    @livewire('personal.comisionamientos.create-autoridad')
 
 @stop
 

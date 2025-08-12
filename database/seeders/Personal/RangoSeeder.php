@@ -16,8 +16,9 @@ class RangoSeeder extends Seeder
         $rangos = [
             "CAPITÁN GENERAL",
             "CAPITÁN PRINCIPAL",
-            "CAPITÁN INSPECTOR",
             "CAPITÁN DIRECTOR",
+            "CAPITÁN MAYOR",
+            "CAPITÁN INSPECTOR",
             "CAPITÁN",
             "TENIENTE PRIMERO",
             "TENIENTE",

@@ -3,8 +3,14 @@
     <x-table.table titulo="Listado De Comisionamientos" ocultarBuscador excel pdf>
 
         <x-slot name="headerBotones">
-            <a href="{{ route('personal.comisionamientos.create') }}" class="btn btn-sm btn-success"><i
-                    class="fas fa-plus mr-1"></i> Agregar</a>
+
+            @can('Comisionamientos Crear')
+                <a href="{{ route('personal.comisionamientos.create-autoridad') }}" class="btn btn-sm btn-success"><i
+                        class="fas fa-plus mr-1"></i> Agregar A. Electa</a>
+
+                <a href="{{ route('personal.comisionamientos.create-comisionamiento') }}" class="btn btn-sm btn-success"><i
+                        class="fas fa-plus mr-1"></i> Agregar Comisionamiento</a>
+            @endcan
         </x-slot>
 
         <x-slot name="cabeceras">
