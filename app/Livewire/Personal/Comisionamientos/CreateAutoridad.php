@@ -28,11 +28,13 @@ class CreateAutoridad extends Component
     public function mount()
     {
         $this->categorias      = Categoria::select('idpersonal_categorias', 'categoria')->get();
-        $this->companias       = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
+        $this->companias       = CompaniaGral::select('id_compania', 'compania')
+            ->whereIn('compania', ['DIRECTORIO', 'COMANDANCIA', 'ANB'])
+            ->orderBy('orden', 'asc')->get();
         $this->anhosResolucion = Resolucion::distinct()->orderBy('ano', 'desc')->pluck('ano', 'ano')->toArray();
         $this->origenes        = DB::select('SELECT id, origen FROM cbvp_resoluciones_db.fuente_origen WHERE deleted_at IS NULL');
         $this->nrosResolucion  = Resolucion::select('id', 'n_resolucion')->where([['fuente_origen_id', $this->origen_id], ['ano', $this->anho_id]])->get();
-        $this->cargos          = Cargo::select('id_cargo', 'cargo', 'codigo_cargo')->get();
+        $this->cargos          = Cargo::select('id_cargo', 'cargo', 'codigo_cargo')->whereNotNull('codigo_cargo')->get();
         $this->direcciones     = Direccion::select('id_direccion', 'direccion')->where('compania_id', $this->compania_id)->get();
     }
 
@@ -111,7 +113,7 @@ class CreateAutoridad extends Component
     {
         $this->validate();
         Comisionamiento::create([
-            'tipo_id'                => 1, // AUTORIDAD ELECTA
+            'tipo_id'                => Comisionamiento::TIPO_AUTORIDAD_ELECTA, // Constante definida en el modelo
             'personal_id'            => $this->personal_id,
             'cargo_id'               => $this->cargo_id,
             'compania_id'            => $this->compania_id,

@@ -1,5 +1,4 @@
 <div>
-    HOLA DESDE EL COMISIONADO NORMAL
     <h4>Agregar un nuevo Comisionamiento</h4>
     {{-- Formulario --}}
     <x-adminlte-callout theme="success">
@@ -22,10 +21,14 @@
                     fgroup-class="col-md-3" wire:model.blur="codigo" />
 
                 {{-- Info Personal --}}
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-3">
                     <label>Información Del Personal:</label>
                     <input type="text" class="form-control" value="{{ $info_personal_label }}" readonly />
                 </div>
+
+                {{-- Codigo De Comisionamiento --}}
+                <x-adminlte-input name="codigo_comisionamiento" label="Codigo De Comisionamiento:" placeholder="Codigo...."
+                    fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento" oninput="this.value = this.value.toUpperCase()" />
             </div>
 
             <!-- Segunda fila -->
@@ -45,8 +48,19 @@
                     @endforeach
                 </x-adminlte-select>
 
-                {{-- Cargo En --}}
-                <x-adminlte-select name="direccion_id" label="Comisionada en:" fgroup-class="col-md-3"
+                {{-- Pertenece a --}}
+                <x-adminlte-select name="compania_id" label="Pertenece a:" fgroup-class="col-md-3"
+                    wire:model.blur="compania_id">
+                    <option>-- Seleccionar --</option>
+                    @foreach ($companias as $compania)
+                        <option value="{{ $compania->id_compania }}">
+                            {{ $compania->compania ?? 'N/A' }}
+                        </option>
+                    @endforeach
+                </x-adminlte-select>
+
+                {{-- En --}}
+                <x-adminlte-select name="direccion_id" label="En:" fgroup-class="col-md-3"
                     wire:model.blur="direccion_id">
                     <option>-- Seleccionar --</option>
                     @foreach ($direcciones as $direccion)

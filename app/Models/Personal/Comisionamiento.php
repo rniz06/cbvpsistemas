@@ -36,4 +36,7 @@ class Comisionamiento extends Model implements Auditable
         'fecha_inicio' => 'date',
         'fecha_fin'    => 'date',
     ];
+
+    public const TIPO_AUTORIDAD_ELECTA = 1;
+    public const TIPO_COMISIONADO = 2;
 }
