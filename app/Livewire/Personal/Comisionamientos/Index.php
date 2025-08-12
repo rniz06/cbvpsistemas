@@ -27,7 +27,7 @@ class Index extends Component
     public $buscarNombreCompleto = '';
     public $buscarCodigo = '';
     public $buscarCargoId = '';
-    public $buscarSufijo = '';
+    public $buscarCodigoCargo = '';
     public $buscarRangoId = '';
     public $buscarCompaniaId = '';
     public $buscarDireccionId = '';
@@ -39,7 +39,9 @@ class Index extends Component
     {
         $this->cargos      = Cargo::select('id_cargo', 'cargo')->orderBy('cargo')->get();
         $this->rangos      = Rango::select('id_rango', 'rango')->orderBy('rango')->get();
-        $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->companias   = CompaniaGral::select('id_compania', 'compania')
+            ->whereIn('compania', ['DIRECTORIO', 'COMANDANCIA', 'ANB'])
+            ->orderBy('orden', 'asc')->get();
         $this->direcciones = Direccion::select('id_direccion', 'direccion')->orderBy('direccion')->get();
     }
 
@@ -50,7 +52,7 @@ class Index extends Component
             'buscarNombreCompleto',
             'buscarCodigo',
             'buscarCargoId',
-            'buscarSufijo',
+            'buscarCodigoCargo',
             'buscarRangoId',
             'buscarCompaniaId',
             'buscarDireccionId',
@@ -69,10 +71,11 @@ class Index extends Component
                 'id_comisionamiento',
                 'nombrecompleto',
                 'codigo',
+                'codigo_comisionamiento',
                 'fecha_inicio',
-                'resolucion_id',
+                'inicio_resolucion_id',
                 'cargo',
-                'sufijo',
+                'codigo_cargo',
                 'rango',
                 'compania',
                 'direccion',
@@ -82,7 +85,7 @@ class Index extends Component
                 ->buscarCodigo($this->buscarCodigo)
                 ->buscarFechaInicio($this->buscarFechaInicio)
                 ->buscarCargoId($this->buscarCargoId)
-                ->buscarSufijo($this->buscarSufijo)
+                ->buscarCodigoCargo($this->buscarCodigoCargo)
                 ->buscarRangoId($this->buscarRangoId)
                 ->buscarCompaniaId($this->buscarCompaniaId)
                 ->buscarDireccionId($this->buscarDireccionId)

@@ -59,8 +59,9 @@
             {{-- Sufijo --}}
             <th>
                 <div>
-                    <x-adminlte-input name="buscarSufijo" label="Sufijo:" fgroup-class="col-md-12"
-                        wire:model.live.debounce.250ms="buscarSufijo" oninput="this.value = this.value.toUpperCase()" />
+                    <x-adminlte-input name="buscarCodigoCargo" label="Cod. Comisionamiento:" fgroup-class="col-md-12"
+                        wire:model.live.debounce.250ms="buscarCodigoCargo"
+                        oninput="this.value = this.value.toUpperCase()" />
                 </div>
             </th>
 
@@ -135,7 +136,15 @@
                 <td>{{ $comisionamiento->fecha_inicio ? $comisionamiento->fecha_inicio->format('d/ m/ Y') : 'S/D' }}
                 </td>
                 <td>{{ $comisionamiento->cargo ?? 'N/A' }}</td>
-                <td>{{ $comisionamiento->sufijo ?? 'N/A' }}</td>
+                @if ($comisionamiento->codigo_comisionamiento)
+                    <td>
+                        <p class="font-weight-bold">{{ $comisionamiento->codigo_comisionamiento ?? 'S/D' }}</p>
+                    </td>
+                @else
+                    <td>
+                        <p class="font-weight-bold">{{ $comisionamiento->codigo_cargo ?? 'S/D' }}</p>
+                    </td>
+                @endif
                 <td>{{ $comisionamiento->rango ?? 'N/A' }}</td>
                 <td>{{ $comisionamiento->compania ?? 'N/A' }}</td>
                 <td>{{ $comisionamiento->direccion ?? 'N/A' }}</td>

@@ -29,9 +29,8 @@ class VtComisionamiento extends Model
             ->orWhere('nombrecompleto', 'like', "%{$value}%")
             ->orWhere('codigo', 'like', "%{$value}%")
             ->orWhere('cargo', 'like', "%{$value}%")
-            ->orWhere('sufijo', 'like', "%{$value}%")
+            ->orWhere('codigo_cargo', 'like', "%{$value}%")
             ->orWhere('rango', 'like', "%{$value}%")
-            ->orWhere('cargo_compania', 'like', "%{$value}%")
             ->orWhere('compania', 'like', "%{$value}%")
             ->orWhere('direccion', 'like', "%{$value}%")
             ->orWhere('culminado', 'like', "%{$value}%");
@@ -90,10 +89,11 @@ class VtComisionamiento extends Model
     /**
      * Buscador del campo sufijo.
      */
-    public function scopeBuscarSufijo($query, $value)
+    public function scopeBuscarCodigoCargo($query, $value)
     {
         if (!empty($value)) {
-            $query->where('sufijo', 'like', "%{$value}%");
+            $query->where('codigo_cargo', 'like', "%{$value}%")
+                ->orWhere('codigo_comisionamiento', 'like', "%{$value}%");
         }
     }
 
