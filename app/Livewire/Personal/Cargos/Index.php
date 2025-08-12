@@ -26,16 +26,16 @@ class Index extends Component
     // Variables para el formulario
     public $cargo_id;
     #[Validate]
-    public $cargo, $sufijo, $rango_id, $compania_id;
+    public $cargo, $codigo_cargo, $rango_id, $compania_id;
 
     // Variables para la paginación, busqueda y estado(modo) del formulario
-    public $modo             = 'inicio'; // inicio, agregar, modificar, seleccionado
-    public $buscador         = '';
-    public $buscarCargo      = '';
-    public $buscarSufijo     = '';
-    public $buscarRangoId    = '';
-    public $buscarCompaniaId = '';
-    public $paginado         = 5;
+    public $modo              = 'inicio'; // inicio, agregar, modificar, seleccionado
+    public $buscador          = '';
+    public $buscarCargo       = '';
+    public $buscarCodigoCargo = '';
+    public $buscarRangoId     = '';
+    public $buscarCompaniaId  = '';
+    public $paginado          = 5;
 
     public function mount()
     {
@@ -53,13 +53,13 @@ class Index extends Component
     // Habilita los botones de editar, eliminar y cancelar
     public function seleccionado($id)
     {
-        $cargo             = Cargo::findOrFail($id);
-        $this->cargo_id    = $cargo->id_cargo;
-        $this->cargo       = $cargo->cargo;
-        $this->sufijo      = $cargo->sufijo;
-        $this->rango_id    = $cargo->rango_id;
-        $this->compania_id = $cargo->compania_id;
-        $this->modo        = 'seleccionado';
+        $cargo              = Cargo::findOrFail($id);
+        $this->cargo_id     = $cargo->id_cargo;
+        $this->cargo        = $cargo->cargo;
+        $this->codigo_cargo = $cargo->codigo_cargo;
+        $this->rango_id     = $cargo->rango_id;
+        $this->compania_id  = $cargo->compania_id;
+        $this->modo         = 'seleccionado';
     }
 
     // Habilita el formulario para editar un registro (La información ya esta cargada por el metodo "seleccionado()")
@@ -92,12 +92,17 @@ class Index extends Component
                 Rule::unique(Cargo::class)
                     ->ignore($this->cargo_id, 'id_cargo') // Ignora el actual si estás actualizando
                     ->where(function ($query) {
-                        return $query->where('compania_id', $this->compania_id);
+                        return $query->where('codigo_cargo', $this->codigo_cargo);
                     }),
             ],
-            'sufijo'      => ['required', Rule::unique(Cargo::class)->ignore($this->cargo_id, 'id_cargo')],
-            'rango_id'    => ['required', Rule::exists(Rango::class, 'id_rango')],
-            'compania_id' => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
+            'codigo_cargo'  => [
+                'required',
+                Rule::unique(Cargo::class)->ignore($this->cargo_id, 'id_cargo'),
+                'min:1',
+                'max:6',
+                'regex:/^[A-Z0-9]+$/'
+            ],
+            'rango_id'      => ['required', Rule::exists(Rango::class, 'id_rango')],
         ];
     }
 
@@ -127,12 +132,11 @@ class Index extends Component
     // Restablecer formulario a deshabilitado y limpiar datos ingresados o seleccionados
     private function resetearForm()
     {
-        $this->cargo_id    = null;
-        $this->cargo       = '';
-        $this->sufijo      = '';
-        $this->rango_id    = '';
-        $this->compania_id = '';
-        $this->modo        = 'inicio';
+        $this->cargo_id     = null;
+        $this->cargo        = '';
+        $this->codigo_cargo = '';
+        $this->rango_id     = '';
+        $this->modo         = 'inicio';
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
@@ -141,9 +145,8 @@ class Index extends Component
         if (in_array($key, [
             'buscador',
             'buscarCargo',
-            'buscarSufijo',
+            'buscarCodigoCargo',
             'buscarRangoId',
-            'buscarCompaniaId',
             'paginado',
         ])) {
             $this->resetPage('cargos_page');
@@ -153,13 +156,12 @@ class Index extends Component
     public function render()
     {
         return view('livewire.personal.cargos.index', [
-            'cargos' => VtCargo::select('id_cargo', 'cargo', 'sufijo', 'rango', 'compania')
+            'cargos' => VtCargo::select('id_cargo', 'cargo', 'codigo_cargo', 'rango')
                 ->buscador($this->buscador)
                 ->buscarCargo($this->buscarCargo)
-                ->buscarSufijo($this->buscarSufijo)
+                ->buscarCodigoCargo($this->buscarCodigoCargo)
                 ->buscarRangoId($this->buscarRangoId)
-                ->buscarCompaniaId($this->buscarCompaniaId)
-                ->orderBy('sufijo')
+                ->orderBy('cargo')
                 ->paginate($this->paginado, ['*'], 'cargos_page')
         ]);
     }
@@ -167,20 +169,19 @@ class Index extends Component
     // Obtener lo datos para los reportes pdf y excel
     public function datosParaExportar()
     {
-        return VtCargo::select('cargo', 'sufijo', 'rango', 'compania')
+        return VtCargo::select('cargo', 'codigo_cargo', 'rango')
             ->buscador($this->buscador)
             ->buscarCargo($this->buscarCargo)
-            ->buscarSufijo($this->buscarSufijo)
+            ->buscarCodigoCargo($this->buscarSufijo)
             ->buscarRangoId($this->buscarRangoId)
-            ->buscarCompaniaId($this->buscarCompaniaId)
-            ->orderBy('sufijo')
+            ->orderBy('cargo')
             ->get();
     }
 
     public function excel()
     {
         $datos = $this->datosParaExportar();
-        $encabezados = ['Cargo', 'Sufijo', 'Rango', 'Estamento'];
+        $encabezados = ['Cargo', 'Cod. Cargo', 'Rango'];
 
         return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Cargos - CBVP.xlsx');
     }
@@ -189,7 +190,7 @@ class Index extends Component
     {
         $nombre_archivo = "Listado de Cargos - CBVP";
         $datos = $this->datosParaExportar();
-        $encabezados = ['Cargo', 'Sufijo', 'Rango', 'Estamento'];
+        $encabezados = ['Cargo', 'Cod. Cargo', 'Rango'];
 
         return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }

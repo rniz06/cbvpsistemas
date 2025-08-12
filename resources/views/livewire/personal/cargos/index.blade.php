@@ -13,9 +13,9 @@
                 <x-adminlte-input name="cargo" label="Cargo:" placeholder="Cargo..." fgroup-class="col-md-3"
                     oninput="this.value = this.value.toUpperCase()" wire:model.blur="cargo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
 
-                {{-- Sufijo --}}
-                <x-adminlte-input name="sufijo" label="Sufijo Ej (A1):" placeholder="Sufijo..." fgroup-class="col-md-3"
-                    oninput="this.value = this.value.toUpperCase()" wire:model.blur="sufijo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
+                {{-- Codigo Cargo --}}
+                <x-adminlte-input name="codigo_cargo" label="Código Ej (A1):" placeholder="Código Ej (A1)..." fgroup-class="col-md-3"
+                    oninput="this.value = this.value.toUpperCase()" wire:model.blur="codigo_cargo" :disabled="in_array($modo, ['inicio', 'seleccionado'])" />
 
                 {{-- Rango --}}
                 <div class="col-md-3">
@@ -23,20 +23,6 @@
                         <option>-- Seleccionar --</option>
                         @forelse ($rangos as $rango)
                             <option value="{{ $rango->id_rango ?? 'S/D' }}">{{ $rango->rango ?? 'S/D' }}</option>
-                        @empty
-                            <option>Sin datos...</option>
-                        @endforelse
-                    </x-adminlte-select>
-                </div>
-
-                {{-- Compania (Pertenece a) --}}
-                <div class="col-md-3">
-                    <x-adminlte-select name="compania_id" label="Pertenece a:" wire:model.blur="compania_id"
-                        :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-                        <option>-- Seleccionar --</option>
-                        @forelse ($companias as $compania)
-                            <option value="{{ $compania->id_compania ?? 'S/D' }}">{{ $compania->compania ?? 'S/D' }}
-                            </option>
                         @empty
                             <option>Sin datos...</option>
                         @endforelse
@@ -81,8 +67,8 @@
             </th>
             <th>
                 <div>
-                    <x-adminlte-input name="buscarSufijo" label="Sufijo:" placeholder="Sufijo..."
-                        fgroup-class="col-md-12" wire:model.live.debounce.250ms="buscarSufijo"
+                    <x-adminlte-input name="buscarCodigoCargo" label="Código:" placeholder="Código..."
+                        fgroup-class="col-md-12" wire:model.live.debounce.250ms="buscarCodigoCargo"
                         oninput="this.value = this.value.toUpperCase()" />
                 </div>
             </th>
@@ -100,28 +86,13 @@
                     </x-adminlte-select>
                 </div>
             </th>
-            <th>
-                <div>
-                    <x-adminlte-select name="buscarCompaniaId" label="Pertenece a :"
-                        wire:model.live.debounce.250ms="buscarCompaniaId" fgroup-class="col-md-12">
-                        <option value="">-- Todos --</option>
-                        @forelse ($companias as $compania)
-                            <option value="{{ $compania->id_compania ?? 'S/D' }}">
-                                {{ $compania->compania ?? 'S/D' }}</option>
-                        @empty
-                            <option>Sin datos...</option>
-                        @endforelse
-                    </x-adminlte-select>
-                </div>
-            </th>
         </x-slot>
 
         @forelse ($cargos as $cargo)
             <tr wire:click="seleccionado({{ $cargo->id_cargo }})" wire:key="{{ $cargo->id_cargo }}">
                 <td>{{ $cargo->cargo ?? 'S/D' }}</td>
-                <td>{{ $cargo->sufijo ?? 'S/D' }}</td>
+                <td>{{ $cargo->codigo_cargo ?? 'S/D' }}</td>
                 <td>{{ $cargo->rango ?? 'S/D' }}</td>
-                <td>{{ $cargo->compania ?? 'S/D' }}</td>
             </tr>
         @empty
             <td colspan="100%" class="text-center text-muted">Sin resultados coincidentes...</td>

@@ -17,9 +17,8 @@ class Cargo extends Model implements Auditable
 
     protected $fillable = [
         'cargo',
-        'sufijo',
+        'codigo_cargo',
         'rango_id',
-        'compania_id',
         'creadoPor',
         'actualizadoPor',
     ];

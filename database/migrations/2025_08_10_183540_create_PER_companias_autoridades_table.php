@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('personal_id')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('compania_id')->constrained('GRAL_companias', 'id_compania')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('cargo_id')->constrained('PER_cargos', 'id_cargo')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('codigo_cargo', 15)->unique()->nullable();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

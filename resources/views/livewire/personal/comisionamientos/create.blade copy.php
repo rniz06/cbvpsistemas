@@ -29,35 +29,33 @@
 
             <!-- Segunda fila -->
             <div class="row col-md-12">
+                {{-- Compania --}}
+                <x-adminlte-select name="compania_id" label="Comisionar a:" fgroup-class="col-md-3"
+                    wire:model.blur="compania_id">
+                    <option>-- Seleccionar --</option>
+                    @foreach ($companias as $compania)
+                        <option value="{{ $compania->id_compania }}">
+                            {{ $compania->compania ?? 'N/A' }}
+                        </option>
+                    @endforeach
+                </x-adminlte-select>
 
                 {{-- Fecha Inicio --}}
-                <x-adminlte-input type="date" name="fecha_inicio" label="Fecha de Inicio:" fgroup-class="col-md-3"
+                <x-adminlte-input type="date" name="fecha_inicio" label="Fecha De Inicio:" fgroup-class="col-md-3"
                     wire:model.blur="fecha_inicio" />
 
-                {{-- Cargo --}}
-                <x-adminlte-select name="cargo_id" label="Cargo:" fgroup-class="col-md-3" wire:model.blur="cargo_id">
-                    <option>-- Seleccionar --</option>
-                    @foreach ($cargos as $cargo)
-                        <option value="{{ $cargo->id_cargo }}">
-                            {{ $cargo->cargo ?? 'N/A' }}
-                        </option>
-                    @endforeach
-                </x-adminlte-select>
+                {{-- Fecha Fin --}}
+                <x-adminlte-input type="date" name="fecha_fin" label="Fecha De Finalización:" fgroup-class="col-md-3"
+                    wire:model.blur="fecha_fin" />
 
-                {{-- Cargo En --}}
-                <x-adminlte-select name="direccion_id" label="Comisionada en:" fgroup-class="col-md-3"
-                    wire:model.blur="direccion_id">
-                    <option>-- Seleccionar --</option>
-                    @foreach ($direcciones as $direccion)
-                        <option value="{{ $direccion->id_direccion }}">
-                            {{ $direccion->direccion ?? 'N/A' }}
-                        </option>
-                    @endforeach
-                </x-adminlte-select>
+                {{-- Codigo de Comisionamiento --}}
+                <x-adminlte-input name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
+                    placeholder="Codigo...." fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento" oninput="this.value = this.value.toUpperCase()" />
             </div>
 
             <!-- Tercera fila - Datos de la Resolución -->
             <div class="col-md-12">
+                <!-- USERS LIST -->
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Datos de la Resolución</h3>
@@ -71,8 +69,7 @@
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                         <div class="row col-md-12"> <!-- Nueva fila dentro del card -->
-
-                            {{-- Origen Resolucion --}}
+                            {{-- Anho Resolucion --}}
                             <x-adminlte-select name="origen_id" label="Origen De la Resolución:" fgroup-class="col-md-3"
                                 wire:model.blur="origen_id">
                                 <option>-- Seleccionar --</option>
@@ -82,28 +79,13 @@
                                 @endforeach
                             </x-adminlte-select>
 
-                            {{-- Anho Resolucion --}}
-                            <x-adminlte-select name="anho_id" label="Año de la Resolución:" fgroup-class="col-md-3"
-                                wire:model.blur="anho_id">
-                                <option>-- Seleccionar --</option>
-                                @foreach ($anhosResolucion as $anho)
-                                    <option value="{{ $anho }}">{{ $anho }}</option>
-                                @endforeach
-                            </x-adminlte-select>
-
-                            {{-- Nro Resolucion Select --}}
-                            <x-adminlte-select name="resolucion_id" label="Seleccionar Resolución:"
-                                fgroup-class="col-md-3" wire:model.blur="resolucion_id">
-                                <option>-- Seleccionar --</option>
-                                @foreach ($nrosResolucion as $nroResolucion)
-                                    <option value="{{ $nroResolucion->id }}">{{ $nroResolucion->n_resolucion }}
-                                    </option>
-                                @endforeach
-                            </x-adminlte-select>
+                            {{-- Nro Resolucion --}}
+                            <x-adminlte-input name="nro_resolucion" label="Nro. Resolución:" placeholder="Ej: 295/24 DN"
+                                fgroup-class="col-md-3" wire:model.blur="nro_resolucion" />
 
                             {{-- Info Resolucion --}}
                             <div class="form-group col-md-12">
-                                <label>Información De la Resolución:</label>
+                                <label>Información Del Personal:</label>
                                 <input type="text" class="form-control" value="{{ $info_resolucion_label }}"
                                     readonly />
                             </div>

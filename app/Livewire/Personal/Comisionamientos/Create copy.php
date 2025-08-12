@@ -3,11 +3,8 @@
 namespace App\Livewire\Personal\Comisionamientos;
 
 use App\Models\Admin\CompaniaGral;
-use App\Models\Gral\Direccion;
-use App\Models\Personal\Cargo;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Comisionamiento;
-use App\Models\Personal\Rango;
 use App\Models\Resolucion\Resolucion;
 use App\Models\Vistas\VtPersonales;
 use Illuminate\Support\Facades\DB;
@@ -18,25 +15,19 @@ use Livewire\Component;
 class Create extends Component
 {
     // Variables del Formulario
-    //#[Validate]
-    public $personal_id, $categoria_id, $codigo, $info_personal; // Datos del personal
-    public $resolucion_id, $anho_id, $origen_id, $info_resolucion; // Datos de la resolucion
-    public $cargo_id, $compania_id, $direccion_id, $fecha_inicio; // Datos generales
+    #[Validate]
+    public $personal_id, $categoria_id, $codigo, $info_personal, $compania_id, $fecha_inicio, $fecha_fin, $codigo_comisionamiento, $origen_id, $resolucion_id, $nro_resolucion, $info_resolucion, $culminado;
     public $info_personal_label = 'No encontrado o no seleccionado aún';
     public $info_resolucion_label = 'No encontrado o no seleccionado aún';
 
     // Variables Para los select
-    public $categorias = [], $anhosResolucion = [], $nrosResolucion = [], $origenes = [], $companias = [], $cargos = [], $direcciones = [];
+    public $categorias = [], $companias = [], $origenes = [];
 
     public function mount()
     {
-        $this->categorias      = Categoria::select('idpersonal_categorias', 'categoria')->get();
-        $this->companias       = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
-        $this->anhosResolucion = Resolucion::distinct()->orderBy('ano', 'desc')->pluck('ano', 'ano')->toArray();
-        $this->origenes        = DB::select('SELECT id, origen FROM cbvp_resoluciones_db.fuente_origen WHERE deleted_at IS NULL');
-        $this->nrosResolucion  = Resolucion::select('id', 'n_resolucion')->where([['fuente_origen_id', $this->origen_id], ['ano', $this->anho_id]])->get();
-        $this->cargos          = Cargo::select('id_cargo', 'cargo')->get();
-        $this->direcciones     = Direccion::select('id_direccion', 'direccion')->where('compania_id', $this->compania_id)->get();
+        $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+        $this->companias  = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
+        $this->origenes   = DB::select('SELECT id, origen FROM cbvp_resoluciones_db.fuente_origen WHERE deleted_at IS NULL');
     }
 
     protected function rules()
@@ -44,12 +35,12 @@ class Create extends Component
         return [
             'categoria_id'           => ['required', Rule::exists(Categoria::class, 'idpersonal_categorias')],
             'codigo'                 => ['required', 'numeric', 'min_digits:1', 'max_digits:5'],
-            'cargo_id'               => ['required', Rule::exists(Cargo::class, 'id_cargo')],
-            'direccion_id'           => ['required', Rule::exists(Direccion::class, 'id_direccion')],
+            'compania_id'            => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
+            'fecha_inicio'           => ['nullable', 'date'],
+            'fecha_fin'              => ['nullable', 'date'],
+            'codigo_comisionamiento' => ['nullable', 'string', 'min:1', 'max:5', Rule::unique(Comisionamiento::class)],
             'origen_id'              => ['nullable'],
-            'anho_id'                => ['nullable'],
-            'resolucion_id'          => ['nullable', Rule::exists(Resolucion::class, 'id')],
-            'fecha_inicio'           => ['required', 'date'],
+            'nro_resolucion'         => ['nullable', 'string', 'min:9', 'max:9'],
         ];
     }
 
@@ -70,39 +61,27 @@ class Create extends Component
         $this->updatedCodigo($this->codigo);
     }
 
-    // Actualizar el listado de direcciones al seleccionar el cargo
-    public function updatedCargoId($value)
-    {
-        $cargo             = Cargo::findOrFail($value);
-        $this->direcciones = Direccion::select('id_direccion', 'direccion')->where('compania_id', $cargo->compania_id)->get();
-    }
-
     // Actualizar propiedad info_resolucion
-    public function updatedOrigenId($value)
+    public function updatedNroResolucion($value)
     {
-        $this->nrosResolucion  = Resolucion::select('id', 'n_resolucion')->where([['fuente_origen_id', $value], ['ano', $this->anho_id]])->get();
-    }
-
-    // Actualizar propiedad info_resolucion
-    public function updatedAnhoId($value)
-    {
-        $this->nrosResolucion  = Resolucion::select('id', 'n_resolucion')->where([['fuente_origen_id', $this->origen_id], ['ano', $value]])->get();
-    }
-
-    // Actualizar propiedad info_resolucion
-    public function updatedResolucionId($value)
-    {
-        $resolucion = Resolucion::findOrFail($value);
+        $resolucion = Resolucion::select('id', 'concepto')
+            ->where('fuente_origen_id', $this->origen_id)
+            ->where('n_resolucion', $this->nro_resolucion)
+            ->first();
 
         $this->info_resolucion = $resolucion;
         $this->resolucion_id = $resolucion->id ?? null;
         $this->info_resolucion_label = $resolucion->concepto ?? 'No encontrado o no seleccionado aún';
     }
 
+    public function updatedOrigenId($value)
+    {
+        $this->updatedNroResolucion($this->nro_resolucion);
+    }
+
     public function guardar()
     {
-        $a=$this->validate();
-        return dd($a);
+        $this->validate();
         $comisionamiento = Comisionamiento::create([
             'personal_id'            => $this->personal_id,
             'compania_id'            => $this->compania_id,

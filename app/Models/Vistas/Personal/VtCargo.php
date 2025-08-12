@@ -20,7 +20,7 @@ class VtCargo extends Model
     {
         if (!empty($value)) {
             $query->where('cargo', 'like', "%{$value}%")
-                ->orWhere('sufijo', 'like', "%{$value}%")
+                ->orWhere('codigo_cargo', 'like', "%{$value}%")
                 ->orWhere('rango', 'like', "%{$value}%")
                 ->orWhere('compania', 'like', "%{$value}%");
         }
@@ -37,12 +37,12 @@ class VtCargo extends Model
     }
 
     /**
-     * Buscador del campo sufijo.
+     * Buscador del campo codigo_cargo.
      */
-    public function scopeBuscarSufijo($query, $value)
+    public function scopeBuscarCodigoCargo($query, $value)
     {
         if (!empty($value)) {
-            $query->where('sufijo', 'like', "%{$value}%");
+            $query->where('codigo_cargo', 'like', "%{$value}%");
         }
     }
 

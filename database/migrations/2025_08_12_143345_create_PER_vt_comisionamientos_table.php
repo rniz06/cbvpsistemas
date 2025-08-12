@@ -18,21 +18,25 @@ return new class extends Migration
                 c.id_comisionamiento,
                 c.fecha_inicio,
                 c.fecha_fin,
+                c.tipo_id,
+                t.tipo,
+                c.codigo_comisionamiento,
                 c.personal_id,
                 p.nombrecompleto,
                 p.codigo,
-                c.resolucion_id,
-                r.n_resolucion,
-                r.concepto,
+                c.inicio_resolucion_id,
+                r.n_resolucion AS inicio_n_resolucion,
+                r.concepto AS inicio_concepto,
+                c.fin_resolucion_id,
+                finr.n_resolucion AS fin_n_resolucion,
+                finr.concepto AS fin_concepto,
                 c.cargo_id,
                 car.cargo,
-                car.sufijo,
+                car.codigo_cargo,
                 car.rango_id,
                 ran.rango,
-                car.compania_id AS cargo_compania_id,
-                com.compania AS cargo_compania,
                 c.compania_id,
-                cc.compania,
+                com.compania,
                 c.direccion_id,
                 d.direccion,
                 c.culminado,
@@ -46,12 +50,13 @@ return new class extends Migration
                 c.updated_at,
                 c.deleted_at
             FROM PER_comisionamientos c
+            JOIN PER_comisionamientos_tipos t ON (t.id_comisionamiento_tipo =  c.tipo_id)
             JOIN personal p ON (p.idpersonal = c.personal_id)
-            LEFT JOIN cbvp_resoluciones_db.resoluciones r ON (r.id = c.resolucion_id)
+            LEFT JOIN cbvp_resoluciones_db.resoluciones r ON (r.id = c.inicio_resolucion_id)
+            LEFT JOIN cbvp_resoluciones_db.resoluciones finr ON (finr.id = c.fin_resolucion_id)
             LEFT JOIN PER_cargos car ON (car.id_cargo = c.cargo_id)
             LEFT JOIN PER_rangos ran ON (ran.id_rango = car.rango_id)
-            LEFT JOIN GRAL_companias com ON (com.id_compania = car.compania_id)
-            LEFT JOIN GRAL_companias cc ON (cc.id_compania = c.compania_id)
+            LEFT JOIN GRAL_companias com ON (com.id_compania = c.compania_id)
             LEFT JOIN GRAL_direcciones d ON (d.id_direccion = c.direccion_id)
             LEFT JOIN vt_usuarios uc ON (uc.id_usuario = c.creadoPor)
             LEFT JOIN vt_usuarios ua ON (ua.id_usuario = c.actualizadoPor)

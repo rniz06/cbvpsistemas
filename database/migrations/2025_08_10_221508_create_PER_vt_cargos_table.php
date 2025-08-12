@@ -17,11 +17,9 @@ return new class extends Migration
         SELECT
             c.id_cargo,
             c.cargo,
-            c.sufijo,
+            c.codigo_cargo,
             c.rango_id,
             r.rango,
-            c.compania_id,
-            com.compania,
             c.creadoPor,
             uc.nombrecompleto AS creadorPor_nombrecompleto,
             uc.codigo AS creadorPor_codigo,
@@ -33,7 +31,6 @@ return new class extends Migration
             c.deleted_at
         FROM PER_cargos c
         JOIN PER_rangos r ON (r.id_rango = c.rango_id)
-        JOIN GRAL_companias com ON (com.id_compania = c.compania_id)
         LEFT JOIN vt_usuarios uc ON (uc.id_usuario = c.creadoPor)
         LEFT JOIN vt_usuarios ua ON (ua.id_usuario = c.actualizadoPor)
         ");
