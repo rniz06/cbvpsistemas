@@ -2,12 +2,29 @@
 
 namespace App\Livewire\Usuarios;
 
+use App\Exports\ExcelGenericoExport;
+use App\Exports\PdfGenericoExport;
+use App\Models\Admin\CompaniaGral;
+use App\Models\Personal\Categoria;
+use App\Models\Role;
 use Livewire\WithPagination;
 use App\Models\Vistas\VtUsuario;
+use App\Models\Vistas\VtUsuarioConRole;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Tabla extends Component
 {
+    // Propiedades para los select
+    public $categorias = [], $companias = [], $roles = [];
+
+    public function mount()
+    {
+        $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+        $this->companias  = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
+    }
+
     // Importa el trait WithPagination para manejar la paginación de datos
     use WithPagination;
 
@@ -18,11 +35,12 @@ class Tabla extends Component
     // Propiedades para búsqueda y filtrado en tiempo real
     // ===========================
 
+    public $buscador = '';
     public $buscarNombrecompleto = ''; // Almacena el criterio de búsqueda por nombre completo
     public $buscarCodigo = '';         // Almacena el criterio de búsqueda por código
     public $buscarDocumento = '';      // Almacena el criterio de búsqueda por documento
-    public $buscarCategoria = '';      // Almacena el criterio de búsqueda por categoría
-    public $buscarCompania = '';       // Almacena el criterio de búsqueda por compañía
+    public $buscarCategoriaId = '';      // Almacena el criterio de búsqueda por categoría
+    public $buscarCompaniaId = '';       // Almacena el criterio de búsqueda por compañía
     public $buscarRoles = '';          // Almacena el criterio de búsqueda por roles
     public $paginado = 5;              // Define la cantidad de registros a mostrar por página
 
@@ -33,29 +51,81 @@ class Tabla extends Component
      */
     public function updating($key)
     {
-        if (in_array($key, ['buscarNombrecompleto', 'buscarCodigo', 'buscarDocumento', 'buscarCategoria', 'buscarCompania', 'buscarRoles', 'paginado'])) {
-            $this->resetPage();
+        if (in_array($key, ['buscarNombrecompleto', 'buscarCodigo', 'buscarDocumento', 'buscarCategoriaId', 'buscarCompaniaId', 'buscarRoles', 'paginado'])) {
+            $this->resetPage('usuarios_page');
         }
     }
 
-    /**
-     * Método encargado de obtener y renderizar los datos.
-     * Se realiza la consulta a la tabla VtUsers aplicando los filtros de búsqueda
-     * y paginando los resultados según la cantidad definida en $paginado.
-     */
     public function render()
     {
-        $usuarios = VtUsuario::select('id_usuario', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania')
-            ->buscarNombrecompleto($this->buscarNombrecompleto) // Aplica filtro por nombre completo
-            ->buscarCodigo($this->buscarCodigo)                 // Aplica filtro por código
-            ->buscarDocumento($this->buscarDocumento)           // Aplica filtro por documento
-            ->buscarCategoria($this->buscarCategoria)           // Aplica filtro por categoría
-            ->buscarCompania($this->buscarCompania)             // Aplica filtro por compañía
-            ->orderBy('codigo')
-            //->buscarRoles($this->buscarRoles)                   // Aplica filtro por roles
-            ->paginate($this->paginado);                        // Pagina los resultados
+        $usuario = Auth::user();
+        $usuarioRoles = $usuario->roles()->pluck('name')->first();
+        switch ($usuarioRoles) {
+            case 'SuperAdmin':
+                $this->roles = Role::select('name')->get();
+                break;
+            case 'personal_admin':
+                $this->roles = Role::select('name')->where('name', 'like', 'personal_%')->where('name', '!=', 'SuperAdmin')->get();
+                break;
+            case 'materiales_admin':
+                $this->roles = Role::select('name')->where('name', 'like', 'materiales_%')->where('name', '!=', 'SuperAdmin')->get();
+                break;
+            default:
+                $this->roles = [];
+                break;
+        }
+        
+        return view('livewire.usuarios.tabla', [
+            'usuarios' => VtUsuarioConRole::select('id_usuario', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania', 'roles', 'ultimo_acceso')
+                ->buscador($this->buscador)
+                ->buscarNombrecompleto($this->buscarNombrecompleto)
+                ->buscarCodigo($this->buscarCodigo)
+                ->buscarDocumento($this->buscarDocumento)
+                ->buscarCategoriaId($this->buscarCategoriaId)
+                ->buscarCompaniaId($this->buscarCompaniaId)
+                ->orderBy('codigo')
+                ->buscarRoles($this->buscarRoles)
+                ->paginate($this->paginado, ['*'], 'usuarios_page')
+        ]);
+    }
 
-        // Retorna la vista 'livewire.personal.tabla' con los datos de los usuarios
-        return view('livewire.usuarios.tabla', compact('usuarios'));
+    // Obtener lo datos para los reportes pdf y excel
+    public function cargarDatosParaExportar()
+    {
+        return VtUsuarioConRole::select([
+            'nombrecompleto',
+            'codigo',
+            'documento',
+            'categoria',
+            'compania',
+            'roles',
+            //'ultimo_acceso',
+        ])
+            ->buscador($this->buscador)
+            ->buscarNombrecompleto($this->buscarNombrecompleto)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarDocumento($this->buscarDocumento)
+            ->buscarCategoriaId($this->buscarCategoriaId)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->orderBy('codigo')
+            ->buscarRoles($this->buscarRoles)
+            ->get();
+    }
+
+    public function excel()
+    {
+        $datos = $this->cargarDatosParaExportar();
+        $encabezados = ['Nombre Completo.', 'Código', 'Documento', 'Categoria', 'Compañia', 'Roles'];
+
+        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Usuarios Sinabom - CBVP.xlsx');
+    }
+
+    public function pdf()
+    {
+        $nombre_archivo = "Listado de Usuarios Sinabom - CBVP";
+        $datos = $this->cargarDatosParaExportar();
+        $encabezados = ['Nombre C.', 'Código', 'Doc.', 'Categoria', 'Compañia', 'Roles'];
+
+        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
     }
 }
