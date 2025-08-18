@@ -11,6 +11,7 @@ use App\Models\Personal;
 use App\Models\Vistas\GralVtCompania;
 use App\Models\Vistas\Materiales\VtMayor;
 use App\Models\Vistas\VtPersonales;
+use App\Services\Cca\Despacho\RegistrarEstadoDeMovilAlDespachar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -139,6 +140,10 @@ class DespachoPorCompaniaFinal extends Component
             'fecha_movil' => now(),
             'creadoPor' => Auth::id()
         ]);
+
+        // Registrar el estado del movil cuando se despacha un servicio
+        app(RegistrarEstadoDeMovilAlDespachar::class)->ejecutar($servicio->id_servicio_existente, $servicio->movil_id);
+
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $servicio->id_servicio_existente])
             ->with('success', 'Servicio Despachado Correctamente!');
     }

@@ -8,6 +8,7 @@ use App\Models\Personal;
 use App\Models\Vistas\Cca\VtExistente;
 use App\Models\Vistas\Materiales\VtMayor;
 use App\Models\Vistas\VtPersonales;
+use App\Services\Cca\Despacho\RegistrarEstadoDeMovilAlDespachar;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,7 +28,7 @@ class DespachoPorServicioFinal extends Component
 
     public function mount($servicio)
     {
-        $this->servicio = VtExistente::select('id_servicio_existente', 'servicio', 'clasificacion', 'ciudad', 'informacion_servicio', 'calle_referencia', 'compania_id', 'compania')->findOrFail($servicio);
+        $this->servicio = VtExistente::findOrFail($servicio);
         $this->moviles = VtMayor::select('id_movil', 'movil', 'tipo')->where([['compania_id', $this->servicio->compania_id], ['operativo', 1]])->get();
         $this->acargoDetalles = VtPersonales::where('codigo', $this->acargo)->with('contactos')->first();
     }
@@ -94,7 +95,7 @@ class DespachoPorServicioFinal extends Component
                 }
             }
         }
-        $servicio = Existente::where('id_servicio_existente', $this->servicio->id_servicio_existente)->update([
+        $servicio = Existente::findOrFail($this->servicio->id_servicio_existente)->update([
             'movil_id'             => $this->movil_id,
             'acargo'               => $acargo ?? null,
             'acargo_aux'           => $acargo_aux ?? null,
@@ -105,6 +106,10 @@ class DespachoPorServicioFinal extends Component
             'fecha_movil'          => now(),
             'estado_id'            => 3, // Estado: Compañia despachada
         ]);
+
+        // Registrar el estado del movil cuando se despacha un servicio
+        app(RegistrarEstadoDeMovilAlDespachar::class)->ejecutar($this->servicio->id_servicio_existente, $this->movil_id);
+
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', 'Servicio guardado!');
     }
