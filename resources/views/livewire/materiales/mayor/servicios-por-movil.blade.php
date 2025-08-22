@@ -1,8 +1,8 @@
 <div>
     <h4>Servicios Del Móvil : <span class="badge badge-secondary">{{ $movil->tipo ?? 'S/D' }}-{{ $movil->movil ?? 'S/D' }}</span></h4>
-    <p>Obs: Este listado Incluye servicios activos y culminados</p>
+    <p class="font-weight-bold font-italic">Obs: Este listado Incluye servicios activos y culminados</p>
 
-    <x-table.table titulo="Servicios">
+    <x-table.table titulo="Servicios" ocultarBuscador>
         <x-slot name="headerBotones">
 
             <x-adminlte-button wire:click="excel" label="Excel" theme="outline-success" class="btn-sm"
@@ -14,7 +14,6 @@
         </x-slot>
 
         <x-slot name="cabeceras">
-            <th>ID:</th>
             <th>Tipo De Servicio:</th>
             <th>Fecha y Hora:</th>
             <th>Conductor:</th>
@@ -23,7 +22,6 @@
 
         @foreach ($servicios as $servicio)
             <tr>
-                <td>{{ $servicio->id_servicio_existente ?? 'S/D' }}</td>
                 <td>{{ $servicio->servicio ?? 'S/D' }}</td>
                 <td>{{ date('d/m/Y H:i:s', strtotime($servicio->fecha_alfa)) }} Hs.</td>
                 {{-- Chofer --}}
