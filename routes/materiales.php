@@ -44,6 +44,9 @@ Route::controller(MayorController::class)->middleware('auth')->prefix('materiale
     Route::get('{movil}', 'show')
         ->where('movil', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
         ->name('materiales.mayor.show');
+    Route::get('servicios-por-movil/{movil}', 'serviciosPorMovil')
+        ->where('movil', '[0-9]+') // <-- restringe para que no tome textos como "transmision"
+        ->name('materiales.mayor.servicios-por-movil');
 });
 
 // Rutas con parámetro, luego de las anteriores

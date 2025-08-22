@@ -1,18 +1,27 @@
 <div>
-    <h4>Ficha de Material Mayor
-        - @can('Material Mayor Editar')
-            <x-adminlte-button class="btn-sm" type="button"
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+        <h4 class="mb-0 me-2">Ficha de Material Mayor</h4>
+
+        @can('Material Mayor Editar')
+            <x-adminlte-button class="btn-sm ml-2" type="button"
                 label="{{ $mostrarFormEditarFicha ? 'Cancelar' : 'Editar Ficha' }}"
                 icon="fas fa-{{ $mostrarFormEditarFicha ? 'minus' : 'plus' }}" theme="outline-warning"
                 wire:click="$toggle('mostrarFormEditarFicha')" />
         @endcan
-        @can('Mayor Reporte Ficha Inspeccion')
-            - <x-adminlte-button class="btn-sm" type="button"
-                label="Ficha de Inspección"
-                icon="fas fa-plus" theme="outline-secondary"
-                wire:click="reporteFichaInpeccion({{ $movil->id_movil }})" />
+
+        @can('Material Mayor Servicios Por Movil')
+            <a href="{{ route('materiales.mayor.servicios-por-movil', $movil->id_movil) }}"
+                class="btn btn-outline-secondary btn-sm ml-2">
+                <i class="fas fa-eye"></i> Ver Servicios
+            </a>
         @endcan
-    </h4>
+
+        @can('Mayor Reporte Ficha Inspeccion')
+            <x-adminlte-button class="btn-sm ml-2" type="button" label="Ficha de Inspección" icon="far fa-file-pdf"
+                theme="outline-secondary" wire:click="reporteFichaInpeccion({{ $movil->id_movil }})" />
+        @endcan
+    </div>
+
     @if ($mostrarFormEditarFicha)
         @livewire('materiales.mayor.ficha-editar', ['movil_id' => $movil->id_movil])
     @endif
