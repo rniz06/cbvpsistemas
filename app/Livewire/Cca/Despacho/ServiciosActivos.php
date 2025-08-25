@@ -10,10 +10,10 @@ use Livewire\WithPagination;
 class ServiciosActivos extends Component
 {
     use WithPagination;
-    public $paginadolistadoActivos = 5;
-    public $paginadolistadoSinCompanias = 5;
-    public $paginadolistadoSinMoviles = 5;
-    public $paginadoApoyosActivos = 5;
+    public $paginadolistadoActivos = 15;
+    public $paginadolistadoSinCompanias = 10;
+    public $paginadolistadoSinMoviles = 10;
+    public $paginadoApoyosActivos = 10;
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
