@@ -50,12 +50,12 @@
 
                 {{-- Codigo de Comisionamiento --}}
                 <x-adminlte-input name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
-                    placeholder="Codigo...." fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento" oninput="this.value = this.value.toUpperCase()" />
+                    placeholder="Codigo...." fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento"
+                    oninput="this.value = this.value.toUpperCase()" />
             </div>
 
             <!-- Tercera fila - Datos de la Resolución -->
             <div class="col-md-12">
-                <!-- USERS LIST -->
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Datos de la Resolución</h3>
@@ -69,13 +69,22 @@
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                         <div class="row col-md-12"> <!-- Nueva fila dentro del card -->
-                            {{-- Anho Resolucion --}}
+                            {{-- Origen --}}
                             <x-adminlte-select name="origen_id" label="Origen De la Resolución:" fgroup-class="col-md-3"
                                 wire:model.blur="origen_id">
                                 <option>-- Seleccionar --</option>
                                 @foreach ($origenes as $origen)
                                     <option value="{{ $origen->id }}">{{ $origen->origen ?? 'N/A' }}
                                     </option>
+                                @endforeach
+                            </x-adminlte-select>
+
+                            {{-- Anho --}}
+                            <x-adminlte-select name="anho_id" label="Año De la Resolución:" fgroup-class="col-md-3"
+                                wire:model.blur="anho_id">
+                                <option>-- Seleccionar --</option>
+                                @foreach ($anhos as $anho)
+                                    <option value="{{ $anho }}">{{ $anho }}</option>
                                 @endforeach
                             </x-adminlte-select>
 

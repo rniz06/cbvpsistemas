@@ -15,19 +15,27 @@ use Livewire\Component;
 class Create extends Component
 {
     // Variables del Formulario
+    // Propiedades para el personal
     #[Validate]
-    public $personal_id, $categoria_id, $codigo, $info_personal, $compania_id, $fecha_inicio, $fecha_fin, $codigo_comisionamiento, $origen_id, $resolucion_id, $nro_resolucion, $info_resolucion, $culminado;
+    public $personal_id, $categoria_id, $codigo, $info_personal;
+    // propiedades del Comisionamiento
+    #[Validate]
+    public $compania_id, $fecha_inicio, $fecha_fin, $codigo_comisionamiento, $culminado;
+    // propiedades de la resolucion
+    #[Validate]
+    public $origen_id,$anho_id, $resolucion_id, $info_resolucion;
     public $info_personal_label = 'No encontrado o no seleccionado aún';
     public $info_resolucion_label = 'No encontrado o no seleccionado aún';
 
     // Variables Para los select
-    public $categorias = [], $companias = [], $origenes = [];
+    public $categorias = [], $companias = [], $origenes = [], $anhos = [];
 
     public function mount()
     {
         $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
         $this->companias  = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
         $this->origenes   = DB::select('SELECT id, origen FROM cbvp_resoluciones_db.fuente_origen WHERE deleted_at IS NULL');
+        $this->anhos      = Resolucion::distinct()->orderBy('ano', 'desc')->pluck('ano', 'ano')->toArray();
     }
 
     protected function rules()
@@ -40,7 +48,7 @@ class Create extends Component
             'fecha_fin'              => ['nullable', 'date'],
             'codigo_comisionamiento' => ['nullable', 'string', 'min:1', 'max:5', Rule::unique(Comisionamiento::class)],
             'origen_id'              => ['nullable'],
-            'nro_resolucion'         => ['nullable', 'string', 'min:9', 'max:9'],
+            // 'nro_resolucion'         => ['nullable', 'string', 'min:9', 'max:9'],
         ];
     }
 
