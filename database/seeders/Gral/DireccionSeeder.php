@@ -10,6 +10,7 @@ class DireccionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * php artisan db:seed --class=Database\\Seeders\\Gral\\DireccionSeeder
      */
     public function run(): void
     {

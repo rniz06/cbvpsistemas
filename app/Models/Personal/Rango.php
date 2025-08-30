@@ -21,6 +21,11 @@ class Rango extends Model implements Auditable
         'actualizadoPor',
     ];
 
+    public function cargos()
+    {
+        return $this->hasMany(Cargo::class, 'rango_id');
+    }
+
     /**
      * Se implementa funcion para buscador general.
      */
