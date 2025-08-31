@@ -28,7 +28,7 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->comment('Estamento al cual va comisionado: Directorio, Comandancia, ANB, etc.');
 
-            $table->foreignId('direccion_id')
+            $table->foreignId('direccion_id')->nullable()
                 ->constrained('GRAL_direcciones', 'id_direccion')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete()

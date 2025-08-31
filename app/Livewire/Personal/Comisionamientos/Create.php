@@ -41,7 +41,7 @@ class Create extends Component
     public function mount()
     {
         $this->categorias  = Categoria::select('idpersonal_categorias', 'categoria')->get();
-        $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
+        //$this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
         $this->origenes    = DB::select('SELECT id, origen FROM cbvp_resoluciones_db.fuente_origen WHERE deleted_at IS NULL');
         $this->anhos       = Resolucion::distinct()->orderBy('ano', 'desc')->pluck('ano', 'ano')->toArray();
         $this->cargos      = Cargo::with('rango')->get();
@@ -105,6 +105,7 @@ class Create extends Component
     public function updatedCargoId($value)
     {
         $cargo = Cargo::findOrFail($value);
+        $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
 
         // AUTOCOMPLETA EL CODIGO DE COMISIONAMIENTO FIJO
         if ($cargo->tipo_codigo == TipoCodigo::FIJO) {
