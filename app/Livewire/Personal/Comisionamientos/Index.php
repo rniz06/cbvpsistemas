@@ -5,7 +5,10 @@ namespace App\Livewire\Personal\Comisionamientos;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
+use App\Models\Gral\Direccion;
+use App\Models\Personal\Cargo;
 use App\Models\Personal\Comisionamiento;
+use App\Models\Personal\Rango;
 use App\Models\Vistas\Personal\VtComisionamiento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,21 +21,27 @@ class Index extends Component
     use WithPagination;
 
     // Propiedad para los filtros
-    public $companias = [];
+    public $companias = [], $cargos = [], $rangos = [], $direcciones = [];
 
     // Variables para la paginación y busqueda
     public $buscarNombreCompleto = '';
     public $buscarCodigo = '';
+    public $buscarCargoId = '';
+    public $buscarRangoId = '';
     public $buscarCompaniaId = '';
-    public $buscarFechaInicio = '';
-    public $buscarFechaFin = '';
+    public $buscarDireccionId = '';
     public $buscarCodigoComisionamiento = '';
     public $buscarCulminado = '';
+    public $buscarFechaInicio = '';
+    public $buscarFechaFin = '';
     public $paginado = 5;
 
     public function mount()
     {
-        $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->cargos      = Cargo::select('id_cargo', 'cargo')->orderBy('cargo')->get();
+        $this->rangos      = Rango::select('id_rango', 'rango')->orderBy('rango')->get();
+        $this->direcciones = Direccion::select('id_direccion', 'direccion')->orderBy('direccion')->get();
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
@@ -41,11 +50,14 @@ class Index extends Component
         if (in_array($key, [
             'buscarNombreCompleto',
             'buscarCodigo',
+            'buscarCargoId',
+            'buscarRangoId',
             'buscarCompaniaId',
-            'buscarFechaInicio',
-            'buscarFechaFin',
+            'buscarDireccionId',
             'buscarCodigoComisionamiento',
             'buscarCulminado',
+            'buscarFechaInicio',
+            'buscarFechaFin',
             'paginado',
         ])) {
             $this->resetPage('comisionados_page');
@@ -59,21 +71,25 @@ class Index extends Component
                 'id_comisionamiento',
                 'nombrecompleto',
                 'codigo',
+                'cargo',
+                'rango',
                 'compania',
-                'resolucion_id',
-                'fecha_inicio',
-                'fecha_fin',
+                'direccion',
                 'codigo_comisionamiento',
-                'culminado'
+                'culminado',
+                'fecha_inicio',
+                'fecha_fin'
             )
                 ->buscarNombreCompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
+                ->buscarCargoId($this->buscarCargoId)
+                ->buscarRangoId($this->buscarRangoId)
                 ->buscarCompaniaId($this->buscarCompaniaId)
-                ->buscarFechaInicio($this->buscarFechaInicio)
-                ->buscarFechaFin($this->buscarFechaFin)
-                ->buscarFechaFin($this->buscarFechaFin)
+                ->buscarDireccionId($this->buscarDireccionId)
                 ->buscarCodigoComisionamiento($this->buscarCodigoComisionamiento)
                 ->buscarCulminado($this->buscarCulminado)
+                ->buscarFechaInicio($this->buscarFechaInicio)
+                ->buscarFechaFin($this->buscarFechaFin)
                 ->paginate($this->paginado, ['*'], 'comisionados_page')
         ]);
     }
