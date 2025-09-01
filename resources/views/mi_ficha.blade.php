@@ -156,7 +156,7 @@
                         <!-- /.tab-pane -->
 
                         {{-- <div class="table-responsive active tab-pane" id="mis_comisionamientos"> --}}
-                            @livewire('perfil.mis-comisionamientos')
+                            {{-- @livewire('perfil.mis-comisionamientos') --}}
                         {{-- </div> --}}
                         <!-- /.tab-pane -->
 
