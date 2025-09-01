@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('PER_cargos', function (Blueprint $table) {
             $table->id('id_cargo');
-            $table->string('cargo', 45)->nullable();
+            $table->string('cargo', 45)->unique()->nullable();
             $table->string('codigo_base', 15)->nullable();
             $table->enum('tipo_codigo', ['FIJO', 'VARIABLE', 'COMPANIA'])->nullable();
             $table->foreignId('rango_id')->nullable()->constrained('PER_rangos', 'id_rango')->cascadeOnUpdate()->cascadeOnDelete();
