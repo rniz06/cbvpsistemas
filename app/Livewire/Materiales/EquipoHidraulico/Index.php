@@ -57,23 +57,8 @@ class Index extends Component
 
     public function mount()
     {
-        $usuario = Auth::user()->roles()->pluck('name')->first();
+        $usuario = Auth::user()->roles()->where('name', 'like', 'materiales_%')->pluck('name')->first();
         switch ($usuario) {
-            case 'SuperAdmin':
-                $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
-                $this->ciudades = Ciudad::select('idciudades', 'ciudad')
-                    ->when($this->departamento_id, function ($query) {
-                        return $query->where('departamento_id', $this->departamento_id);
-                    })
-                    ->orderBy('ciudad')
-                    ->get();
-                $this->companias = Compania::select('idcompanias', 'compania')
-                    ->when($this->ciudad_id, function ($query) {
-                        return $query->where('ciudad_id', $this->ciudad_id);
-                    })
-                    ->orderBy('orden')
-                    ->get();
-                break;
             case 'materiales_admin':
                 $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
                 $this->ciudades = Ciudad::select('idciudades', 'ciudad')
@@ -120,7 +105,19 @@ class Index extends Component
                 $this->compania_id = $asignacion->compania_id;
                 break;
             default:
-                //$this->rolesSelect = [];
+                $this->departamentos = Departamento::select('iddepartamentos', 'departamento')->orderBy('departamento')->get();
+                $this->ciudades = Ciudad::select('idciudades', 'ciudad')
+                    ->when($this->departamento_id, function ($query) {
+                        return $query->where('departamento_id', $this->departamento_id);
+                    })
+                    ->orderBy('ciudad')
+                    ->get();
+                $this->companias = Compania::select('idcompanias', 'compania')
+                    ->when($this->ciudad_id, function ($query) {
+                        return $query->where('ciudad_id', $this->ciudad_id);
+                    })
+                    ->orderBy('orden')
+                    ->get();
                 break;
         }
     }

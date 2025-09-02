@@ -79,7 +79,7 @@ class Tabla extends Component
     public function render()
     {
         $usuario = Auth::user();
-        $usuarioRoles = $usuario->roles()->pluck('name')->first();
+        $usuarioRoles = $usuario->roles()->where('name', 'like', 'personal_%')->pluck('name')->first();
         //$personales = VtPersonales::query();
         switch ($usuarioRoles) {
             case 'personal_moderador_compania':
