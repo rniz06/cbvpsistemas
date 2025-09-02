@@ -17,6 +17,8 @@ return new class extends Migration
             SELECT
                 c.id_cargo,
                 c.cargo,
+                c.codigo_base,
+                c.tipo_codigo,
                 c.rango_id,
                 r.rango,
                 c.creadoPor,

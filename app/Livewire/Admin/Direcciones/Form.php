@@ -6,11 +6,13 @@ use App\Models\Admin\CompaniaGral;
 use App\Models\Gral\Direccion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Form extends Component
 {
     public $direccion_id;
+    #[Validate()]
     public $direccion, $compania_id;
     public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
 

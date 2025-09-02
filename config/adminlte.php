@@ -341,6 +341,18 @@ return [
                     'route' => 'personal.reportes',
                     'can' => 'Personal Reportes Listar',
                 ],
+                [
+                    'text' => 'Parametros',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Cargos',
+                            'route' => 'personal.cargos.index',
+                            'can' => 'Cargos Listar',
+                        ],
+                    ],
+                ],
             ],
         ],
         [
