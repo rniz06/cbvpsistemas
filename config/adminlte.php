@@ -442,7 +442,12 @@ return [
                 [
                     'text' => 'Compañias',
                     'route' => 'admin.companias.index',
-                    'can' => 'Companias Listar',
+                    'can' => 'SuperAdmin',
+                ],
+                [
+                    'text' => 'Direcciones',
+                    'route' => 'admin.direcciones.index',
+                    'can' => 'SuperAdmin',
                 ],
             ],
         ],

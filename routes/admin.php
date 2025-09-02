@@ -1,17 +1,16 @@
 <?php
 
 use App\Http\Controllers\Admin\CompaniaController;
+use App\Http\Controllers\Admin\DireccionController;
 use Illuminate\Support\Facades\Route;
 
 /*
     |--------------------------------------------------------------------------
-    | Rutas del modulo Admin/Companias
+    | Rutas del modulo Admin
     |--------------------------------------------------------------------------
     */
 
-Route::controller(CompaniaController::class)
-    ->middleware('auth')
-    ->prefix('admin')
-    ->group(function () {
-        Route::get('/companias', 'index')->name('admin.companias.index');
-    });
+Route::prefix('admin')->middleware('auth', 'role:SuperAdmin')->group(function () {
+    Route::get('companias', [CompaniaController::class, 'index'])->name('admin.companias.index');
+    Route::get('direcciones', [DireccionController::class, 'index'])->name('admin.direcciones.index');
+});
