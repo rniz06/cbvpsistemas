@@ -12,7 +12,7 @@
                 <div class="col-md-3">
                     <x-adminlte-select name="tipo_codigo" label="Tipo De Codigo:" wire:model.blur="tipo_codigo"
                         :disabled="in_array($modo, ['inicio', 'seleccionado'])">
-                        <option>-- Seleccionar --</option>
+                        <option value="">-- Seleccionar --</option>
                         @forelse (App\Enums\Personal\Cargo\TipoCodigo::cases() as $tipo_codigo)
                             <option value="{{ $tipo_codigo->name ?? 'S/D' }}">
                                 {{ $tipo_codigo->name ?? 'S/D' }}</option>
