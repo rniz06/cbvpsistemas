@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Personal\Comisionamientos;
 
+use Illuminate\Support\Str;
 use App\Enums\Personal\Cargo\TipoCodigo;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Gral\Direccion;
@@ -102,6 +103,32 @@ class Edit extends Component
         $cargo = Cargo::findOrFail($value);
         //$this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
 
+        // BARRER DATOS NO NECESARIOS SEGUN EL CARGO
+        if ($cargo->tipo_codigo == TipoCodigo::FIJO || $cargo->tipo_codigo == TipoCodigo::VARIABLE) {
+            $this->companias   = CompaniaGral::select('id_compania', 'compania')
+                ->whereIn('compania', [
+                    'DIRECTORIO',
+                    'COMANDANCIA',
+                    'ANB',
+                ])
+                //->orWhere('compania', 'LIKE', 'UN%')
+                ->orderBy('orden', 'asc')->get();
+        }
+
+        // BARRER DATOS NO NECESARIOS SEGUN EL CARGO
+        if ($cargo->tipo_codigo == TipoCodigo::COMPANIA) {
+            $this->companias   = CompaniaGral::select('id_compania', 'compania')
+                ->whereNotIn('compania', [
+                    'DIRECTORIO',
+                    'COMANDANCIA',
+                    'ANB',
+                    'BRAVO GOLF',
+                    'BRAVO FENIX',
+                ])
+                //->where('compania', 'NOT LIKE', 'UN%')
+                ->orderBy('orden', 'asc')->get();
+        }
+
         // AUTOCOMPLETA EL CODIGO DE COMISIONAMIENTO FIJO
         if ($cargo->tipo_codigo == TipoCodigo::FIJO) {
             $this->codigo_comisionamiento = $cargo->codigo_base;
@@ -116,25 +143,54 @@ class Edit extends Component
 
     public function updatedCompaniaId($value)
     {
-        $this->direcciones = Direccion::select('id_direccion', 'direccion')->where('compania_id', $value)->get();
+        $this->direcciones = Direccion::select('id_direccion', 'direccion')
+            ->where('compania_id', $value)
+            ->get();
+
         $cargo    = Cargo::find($this->cargo_id);
         $compania = CompaniaGral::findOrFail($value);
-        $nroCompania = preg_replace('/\D/', '', $compania->compania);
+
         if ($cargo && $cargo->tipo_codigo == TipoCodigo::COMPANIA) {
-            if ($cargo->cargo == 'COMANDANTE DE COMPANIA') {
-                $this->codigo_comisionamiento = 'C' . $nroCompania . '1';
+
+            // FILTRAR SI LA COMPAÑÍA EMPIEZA CON "UN"
+            if (Str::startsWith($compania->compania, 'UN')) {
+
+                if ($cargo->cargo == 'COMANDANTE DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $compania->compania . '1';
+                }
+
+                if ($cargo->cargo == '1ER OFICIAL DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $compania->compania . '2';
+                }
+
+                if ($cargo->cargo == '2DO OFICIAL DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $compania->compania . '3';
+                }
+
+                if ($cargo->cargo == 'CAP. ADMINISTRATIVO') {
+                    $this->codigo_comisionamiento = 'D' . $compania->compania;
+                }
             }
 
-            if ($cargo->cargo == '1ER OFICIAL DE COMPANIA') {
-                $this->codigo_comisionamiento = 'C' . $compania->compania . '2';
-            }
+            // SI LA COMPAÑÍA EMPIEZA CON "K"
+            elseif (Str::startsWith($compania->compania, 'K')) {
+                $nroCompania = preg_replace('/\D/', '', $compania->compania);
 
-            if ($cargo->cargo == '2DO OFICIAL DE COMPANIA') {
-                $this->codigo_comisionamiento = 'C' . $compania->compania . '3';
-            }
+                if ($cargo->cargo == 'COMANDANTE DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $nroCompania . '1';
+                }
 
-            if ($cargo->cargo == 'ADMINISTRADOR DE COMPANIA') {
-                $this->codigo_comisionamiento = 'D' . $compania->compania;
+                if ($cargo->cargo == '1ER OFICIAL DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $nroCompania . '2';
+                }
+
+                if ($cargo->cargo == '2DO OFICIAL DE COMPANIA') {
+                    $this->codigo_comisionamiento = 'C' . $nroCompania . '3';
+                }
+
+                if ($cargo->cargo == 'CAP. ADMINISTRATIVO') {
+                    $this->codigo_comisionamiento = 'D' . $compania->compania;
+                }
             }
         }
     }
