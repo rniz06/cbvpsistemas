@@ -1,4 +1,7 @@
 <div>
+    @if ($mostrarFormCulminarComi && $comisionamiento_id_seleccionado)
+        @livewire('personal.comisionamientos.culminar', ['comisionamiento' => $comisionamiento_id_seleccionado])
+    @endif
     {{-- Tabla de Comisionamientos --}}
     <x-table.table titulo="Listado De Comisionamientos" ocultarBuscador excel pdf>
 
@@ -150,10 +153,12 @@
                 <td>
                     <a href="{{ route('personal.comisionamientos.edit', $comisionamiento->id_comisionamiento) }}"
                         class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Editar</a>
-                    @if ($comisionamiento->culminado != 1)
-                        <x-adminlte-button class="btn-sm" label="Culminar" theme="outline-danger"
-                            wire:click="culminar({{ $comisionamiento->id_comisionamiento ?? '' }})"
-                            wire:confirm="Estas Seguro de Culminar este Comisionamiento?" />
+                    @if ($comisionamiento->culminado != true)
+                        {{-- Boton Para Mostrar el Form de Culminar Comisionamiento --}}
+                        <x-adminlte-button class="btn-sm" type="button"
+                            label="Culminar"
+                            icon="fas fa-hourglass-end" theme="outline-danger"
+                            wire:click="seleccionarComisionamientoParaCulminar({{ $comisionamiento->id_comisionamiento }})" />
                     @endif
                 </td>
             </tr>
@@ -166,4 +171,5 @@
             {{ $comisionamientos->links() }}
         </x-slot>
     </x-table.table>
+
 </div>
