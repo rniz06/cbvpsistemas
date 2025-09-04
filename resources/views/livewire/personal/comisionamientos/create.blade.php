@@ -53,16 +53,6 @@
                     @endforeach
                 </x-adminlte-select>
 
-                {{-- Codigo de Comisionamiento --}}
-                @if ($mostrarInputCodCom == true)
-                    <x-adminlte-input name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
-                        placeholder="Codigo...." fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento"
-                        oninput="this.value = this.value.toUpperCase()" />
-                @else
-                    <x-adminlte-input readonly name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
-                        fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento" />
-                @endif
-
                 {{-- Direccion --}}
                 <x-adminlte-select name="direccion_id" label="En:" fgroup-class="col-md-3"
                     wire:model.blur="direccion_id">
@@ -73,6 +63,16 @@
                         </option>
                     @endforeach
                 </x-adminlte-select>
+
+                {{-- Codigo de Comisionamiento --}}
+                @if ($mostrarInputCodCom == true)
+                    <x-adminlte-input name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
+                        placeholder="Codigo...." fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento"
+                        oninput="this.value = this.value.toUpperCase()" />
+                @else
+                    <x-adminlte-input readonly name="codigo_comisionamiento" label="Codigo de Comisionamiento:"
+                        fgroup-class="col-md-3" wire:model.blur="codigo_comisionamiento" />
+                @endif
 
             </div>
 

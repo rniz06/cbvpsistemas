@@ -23,6 +23,7 @@ class RangoSeeder extends Seeder
             "CAPITÁN",
             "TENIENTE PRIMERO",
             "TENIENTE",
+            "SUB TENIENTE",
         ];
 
         foreach ($rangos as $rango) {

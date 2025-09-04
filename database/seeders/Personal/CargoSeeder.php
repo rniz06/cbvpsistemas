@@ -118,7 +118,7 @@ class CargoSeeder extends Seeder
                 'rango_id' => 8, // TENIENTE
             ],
             [
-                'cargo' => 'ADMINISTRADOR DE COMPANIA',
+                'cargo' => 'CAP. ADMINISTRATIVO',
                 //'codigo_base' => '',
                 'tipo_codigo' => TipoCodigo::COMPANIA,
                 'rango_id' => 8, // TENIENTE

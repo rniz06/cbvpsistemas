@@ -107,6 +107,28 @@ class Create extends Component
         $cargo = Cargo::findOrFail($value);
         $this->companias   = CompaniaGral::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
 
+        // BARRER DATOS NO NECESARIOS SEGUN EL CARGO
+        if ($cargo->tipo_codigo == TipoCodigo::FIJO || $cargo->tipo_codigo == TipoCodigo::VARIABLE) {
+            $this->companias   = CompaniaGral::select('id_compania', 'compania')
+                ->whereIn('compania', [
+                    'DIRECTORIO',
+                    'COMANDANCIA',
+                    'ANB',
+                ])->orWhere('compania', 'LIKE', 'UN%')
+                ->orderBy('orden', 'asc')->get();
+        }
+
+        // BARRER DATOS NO NECESARIOS SEGUN EL CARGO
+        if ($cargo->tipo_codigo == TipoCodigo::COMPANIA) {
+            $this->companias   = CompaniaGral::select('id_compania', 'compania')
+                ->whereNotIn('compania', [
+                    'DIRECTORIO',
+                    'COMANDANCIA',
+                    'ANB',
+                ])->where('compania', 'NOT LIKE', 'UN%')
+                ->orderBy('orden', 'asc')->get();
+        }
+
         // AUTOCOMPLETA EL CODIGO DE COMISIONAMIENTO FIJO
         if ($cargo->tipo_codigo == TipoCodigo::FIJO) {
             $this->codigo_comisionamiento = $cargo->codigo_base;
@@ -138,7 +160,7 @@ class Create extends Component
                 $this->codigo_comisionamiento = 'C' . $compania->compania . '3';
             }
 
-            if ($cargo->cargo == 'ADMINISTRADOR DE COMPANIA') {
+            if ($cargo->cargo == 'CAP. ADMINISTRATIVO') {
                 $this->codigo_comisionamiento = 'D' . $compania->compania;
             }
         }
