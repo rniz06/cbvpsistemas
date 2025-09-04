@@ -153,11 +153,11 @@ class Create extends Component
             }
 
             if ($cargo->cargo == '1ER OFICIAL DE COMPANIA') {
-                $this->codigo_comisionamiento = 'C' . $compania->compania . '2';
+                $this->codigo_comisionamiento = 'C' . $nroCompania . '2';
             }
 
             if ($cargo->cargo == '2DO OFICIAL DE COMPANIA') {
-                $this->codigo_comisionamiento = 'C' . $compania->compania . '3';
+                $this->codigo_comisionamiento = 'C' . $nroCompania . '3';
             }
 
             if ($cargo->cargo == 'CAP. ADMINISTRATIVO') {
