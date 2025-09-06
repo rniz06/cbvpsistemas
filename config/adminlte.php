@@ -176,7 +176,7 @@ return [
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-warning',
+    'classes_auth_btn' => 'btn-outline-warning btn-sm',
 
     /*
     |--------------------------------------------------------------------------
@@ -215,7 +215,7 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
@@ -263,7 +263,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => 'perfil/mi_ficha',
     'disable_darkmode_routes' => false,
 
     /*
@@ -340,6 +340,18 @@ return [
                     'text' => 'Reportes',
                     'route' => 'personal.reportes',
                     'can' => 'Personal Reportes Listar',
+                ],
+                [
+                    'text' => 'Parametros',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Cargos',
+                            'route' => 'personal.cargos.index',
+                            'can' => 'Cargos Listar',
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -442,7 +454,12 @@ return [
                 [
                     'text' => 'Compañias',
                     'route' => 'admin.companias.index',
-                    'can' => 'Companias Listar',
+                    'can' => 'SuperAdmin',
+                ],
+                [
+                    'text' => 'Direcciones',
+                    'route' => 'admin.direcciones.index',
+                    'can' => 'SuperAdmin',
                 ],
             ],
         ],

@@ -124,7 +124,6 @@
                             <table class="table table-striped table-bordered table-sm p-0">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
                                         <th>N° Resolucion:</th>
                                         <th>Concepto:</th>
                                         <th>Fecha:</th>
@@ -135,7 +134,6 @@
                                 <tbody>
                                     @forelse ($resoluciones as $resolucion)
                                         <tr>
-                                            <td>#</td>
                                             <td>{{ $resolucion->n_resolucion ?? 'N/A' }}</td>
                                             <td>{{ $resolucion->concepto ?? 'N/A' }}</td>
                                             <td>{{ date('d/m/Y', strtotime($resolucion->fecha)) ?? 'N/A' }}</td>
@@ -155,9 +153,9 @@
                         </div>
                         <!-- /.tab-pane -->
 
-                        {{-- <div class="table-responsive active tab-pane" id="mis_comisionamientos"> --}}
+                       <div class="tab-pane" id="mis_comisionamientos">
                             @livewire('perfil.mis-comisionamientos')
-                        {{-- </div> --}}
+                        </div>
                         <!-- /.tab-pane -->
 
                         <div class="tab-pane" id="mis_servicios">

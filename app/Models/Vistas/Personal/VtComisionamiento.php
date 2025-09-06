@@ -54,12 +54,66 @@ class VtComisionamiento extends Model
     }
 
     /**
+     * Buscador del campo cargo_id.
+     */
+    public function scopeBuscarCargoId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('cargo_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo rango_id.
+     */
+    public function scopeBuscarRangoId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('rango_id', '=', $value);
+        }
+    }
+
+    /**
      * Buscador del campo compania_id.
      */
     public function scopeBuscarCompaniaId($query, $value)
     {
         if (!empty($value)) {
             $query->where('compania_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo direccion_id.
+     */
+    public function scopeBuscarDireccionId($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('direccion_id', '=', $value);
+        }
+    }
+
+    /**
+     * Buscador del campo codigo_comisionamiento.
+     */
+    public function scopeBuscarCodigoComisionamiento($query, $value)
+    {
+        if (!empty($value)) {
+            $query->where('codigo_comisionamiento', 'like', "%{$value}%");
+        }
+    }
+
+    /**
+     * Buscador del campo culminado
+     */
+    public function scopeBuscarCulminado($query, $value)
+    {
+        if ($value === '1') {
+            $query->where('culminado', true);
+        } elseif ($value === '0') {
+            $query->where('culminado', false);
+        } elseif ($value === 'null') {
+            $query->whereNull('culminado');
         }
     }
 
@@ -97,27 +151,4 @@ class VtComisionamiento extends Model
         }
     }
 
-    /**
-     * Buscador del campo codigo_comisionamiento.
-     */
-    public function scopeBuscarCodigoComisionamiento($query, $value)
-    {
-        if (!empty($value)) {
-            $query->where('codigo_comisionamiento', 'like', "%{$value}%");
-        }
-    }
-
-    /**
-     * Buscador del campo culminado
-     */
-    public function scopeBuscarCulminado($query, $value)
-    {
-        if ($value === '1') {
-            $query->where('culminado', true);
-        } elseif ($value === '0') {
-            $query->where('culminado', false);
-        } elseif ($value === 'null') {
-            $query->whereNull('culminado');
-        }
-    }
 }
