@@ -16,12 +16,13 @@ class MisComisionamientos extends Component
         $usuario = Auth::user();
         return view('livewire.perfil.mis-comisionamientos', [
             'comisionamientos' => VtComisionamiento::select(
+                'cargo',
+                'rango',
+                'codigo_comisionamiento',
                 'compania',
+                'direccion',
                 'n_resolucion',
                 'fecha_inicio',
-                'fecha_fin',
-                'codigo_comisionamiento',
-                'culminado',
                 'resolucion_id',
             )->where('personal_id', $usuario->personal_id)
                 ->paginate(5, ['*'], 'mis_comisionamientos_page')
