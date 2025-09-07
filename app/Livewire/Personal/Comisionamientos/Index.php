@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Personal\Comisionamientos;
 
+use App\Exports\Excel\Personal\Comisionamientos\ExcelComisionamientosExport;
 use App\Exports\ExcelGenericoExport;
+use App\Exports\Pdf\Personal\Comisionamientos\ComisionamientosExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Gral\Direccion;
 use App\Models\Personal\Cargo;
 use App\Models\Personal\Rango;
 use App\Models\Vistas\Personal\VtComisionamiento;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -103,40 +106,46 @@ class Index extends Component
     // Obtener lo datos para los reportes pdf y excel
     public function cargarComisionamientosExport()
     {
-        return VtComisionamiento::select([
-            'nombrecompleto',
-            'codigo',
+        $query  = VtComisionamiento::select([
+            DB::raw("CONCAT(nombrecompleto, ' - ', codigo) as nombre_codigo"),
+            'cargo',
+            'rango',
             'compania',
-            'fecha_inicio',
-            'fecha_fin',
+            'direccion',
             'codigo_comisionamiento',
             'culminado',
+            'fecha_inicio',
+            'fecha_fin',
         ])
             ->buscarNombreCompleto($this->buscarNombreCompleto)
             ->buscarCodigo($this->buscarCodigo)
+            ->buscarCargoId($this->buscarCargoId)
+            ->buscarRangoId($this->buscarRangoId)
             ->buscarCompaniaId($this->buscarCompaniaId)
-            ->buscarFechaInicio($this->buscarFechaInicio)
-            ->buscarFechaFin($this->buscarFechaFin)
+            ->buscarDireccionId($this->buscarDireccionId)
             ->buscarCodigoComisionamiento($this->buscarCodigoComisionamiento)
             ->buscarCulminado($this->buscarCulminado)
+            ->buscarFechaInicio($this->buscarFechaInicio)
+            ->buscarFechaFin($this->buscarFechaFin)
             ->get();
+            
+        return $query;
     }
 
 
     public function excel()
     {
-        $datos = $this->cargarComisionamientosExport();
-        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
+        $query = $this->cargarComisionamientosExport();
+        //$encabezados = ['Nombre - Código', 'Cargo', 'Rango', 'Comisionado', 'En', 'Códido Rad.', 'Culminado', 'Fecha Inicio', 'Fecha Fin'];
 
-        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Listado de Comisionamientos.xlsx');
+        return Excel::download(new ExcelComisionamientosExport($query), 'Listado de Comisionamientos.xlsx');
     }
 
     public function pdf()
     {
+        $query = $this->cargarComisionamientosExport();
         $nombre_archivo = "Listado de Comisionamientos";
-        $datos = $this->cargarComisionamientosExport();
-        $encabezados = ['Nombre C.', 'Código', 'Comisionado a', 'F. Inicio', 'F. Fin', 'Códido Com.', 'Culminado'];
 
-        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
+        return (new ComisionamientosExport($query, $nombre_archivo))->download();
     }
 }
