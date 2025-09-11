@@ -29,9 +29,9 @@ class UpdateConductorRequest extends FormRequest
             'fecha_curso' => ['required', 'date'],
             'ciudad_curso_id' => ['required'],
             'ciudad_licencia_id' => ['required'],
-            'tipo_vehiculo_id' => ['required', 'exists:conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
-            'numero_licencia' => ['required', 'numeric', 'min_digits:6', 'max_digits:7', Rule::unique('conductores_bomberos')->ignore($this->route('conductor'))],
-            'clase_licencia_id' => ['required', 'exists:conductores_clase_licencias,idconductor_clase_licencia'],
+            'tipo_vehiculo_id' => ['required', 'exists:MAT_conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
+            'numero_licencia' => ['required', 'numeric', 'min_digits:6', 'max_digits:7', Rule::unique('MAT_conductores_bomberos')->ignore($this->route('conductor'))],
+            'clase_licencia_id' => ['required', 'exists:MAT_conductores_clase_licencias,idconductor_clase_licencia'],
         ];
     }
 }
