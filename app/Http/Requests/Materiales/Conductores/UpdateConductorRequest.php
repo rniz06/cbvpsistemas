@@ -23,7 +23,7 @@ class UpdateConductorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'estado_id' => ['required', 'exists:conductores_estados,id_conductor_estado'],
+            'estado_id' => ['required', 'exists:MAT_conductores_estados,id_conductor_estado'],
             'resolucion' => ['required', 'max:50'],
             'resolucion_enlace' => ['nullable', 'max:255'],
             'fecha_curso' => ['required', 'date'],
