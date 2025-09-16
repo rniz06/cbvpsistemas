@@ -3,6 +3,7 @@
 namespace App\Livewire\Personal;
 
 use App\Exports\ExcelGenericoExport;
+use App\Models\Admin\CompaniaGral;
 use App\Models\Compania;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Estado;
@@ -61,7 +62,9 @@ class Tabla extends Component
 
         $this->gruposSanguineos = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
 
-        $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
+        $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
+
+        //$this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
     }
 
     /**
