@@ -86,7 +86,7 @@
                         <th>Compañia: <br> <select class="form-control form-control-sm" wire:model.live="buscarCompaniaId">
                                 <option value="">Todos</option>
                                 @forelse ($companias as $compania)
-                                    <option value="{{ $compania->idcompanias ?? '0' }}">
+                                    <option value="{{ $compania->id_compania ?? '0' }}">
                                         {{ $compania->compania ?? 'S/D' }}</option>
                                 @empty
                                     <option value="">Sin datos...</option>
