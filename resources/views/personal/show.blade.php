@@ -345,7 +345,7 @@
                             <x-adminlte-select name="compania_id" label="Nueva Compañia:" id="modalcambiocompania_id"
                                 style="width: 100%">
                                 @foreach ($companias as $compania)
-                                    <option value="{{ $compania->idcompanias }}">
+                                    <option value="{{ $compania->id_compania }}">
                                         {{ $compania->compania . ' - ' . $compania->departamento . ' - ' . $compania->ciudad ?? 'N/A' }}
                                     </option>
                                 @endforeach

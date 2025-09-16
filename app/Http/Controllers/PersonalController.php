@@ -20,6 +20,7 @@ use App\Models\Personal\Sexo;
 use App\Models\Personal\TipoContacto;
 use App\Models\User;
 use App\Models\Usuario;
+use App\Models\Vistas\GralVtCompania;
 use App\Models\Vistas\VtCompania;
 use App\Models\Vistas\VtPersonalContacto;
 use App\Models\Vistas\VtPersonalContactoEmergencia;
@@ -178,7 +179,7 @@ class PersonalController extends Controller
         $tipo_contactos = TipoContacto::select('id_tipo_contacto', 'tipo_contacto')->get();
         $parentescos = Parentesco::select('id_parentesco', 'parentesco')->get();
         $ciudades = Ciudad::select('idciudades', 'ciudad')->get();
-        $companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
+        $companias = GralVtCompania::select('id_compania', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
         $resoluciones = DB::select(
             'SELECT id_resolucion, n_resolucion, concepto, fecha, fuente_origen, id_personal
              FROM cbvp_resoluciones_db.vt_resoluciones_personales
