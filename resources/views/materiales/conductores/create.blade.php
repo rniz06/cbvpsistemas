@@ -10,7 +10,8 @@
 
 @section('content_body')
 
-    <x-form-horizontal title="Agregar Conductor" action="{{ route('conductores.store') }}">
+    @livewire('materiales.conductores.create')
+    {{-- <x-form-horizontal title="Agregar Conductor" action="{{ route('conductores.store') }}">
         <x-select-horizontal label="Seleccionar Conductor" id="personal_id" name="personal_id">
             <option>Seleccionar...</option>
         </x-select-horizontal>
@@ -59,79 +60,14 @@
         <x-slot name="buttons">
             <x-button type="submit">Guardar</x-button>
         </x-slot>
-    </x-form-horizontal>
+    </x-form-horizontal> --}}
 
 @stop
 
 @push('css')
-    <style>
-        /* Corrige estilos del select2 */
-        .selection span {
-            height: 38px !important;
-        }
-    </style>
+
 @endpush
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('#personal_id').select2({
-                placeholder: 'Seleccionar...',
-                language: "es",
-                ajax: {
-                    url: '{{ route('personal.search') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: data.items,
-                            pagination: {
-                                more: (params.page * 10) < data.total_count
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                minimumInputLength: 2,
-                templateResult: formatPersonal,
-                templateSelection: formatPersonalSelection
-            });
-
-            // Formato para mostrar los resultados en el dropdown
-            function formatPersonal(personal) {
-                if (personal.loading) return personal.text;
-
-                return $('<div class="select2-result-personal">' +
-                    personal.nombrecompleto + ' - ' + personal.codigo + ' - ' + personal.categoria + ' - ' + personal.compania + 
-                    '</div>');
-            }
-
-            // Formato para mostrar el elemento seleccionado
-            function formatPersonalSelection(personal) {
-                return personal.nombrecompleto ? personal.nombrecompleto + ' - ' + personal.codigo + ' - ' +
-                    personal
-                    .categoria : personal.text;
-            }
-
-            $('#ciudad_curso_id').select2({
-                placeholder: 'Seleccionar...',
-                language: "es",
-
-            });
-
-            $('#ciudad_licencia_id').select2({
-                placeholder: 'Seleccionar...',
-                language: "es",
-
-            });
-        });
-    </script>
+    
 @endpush

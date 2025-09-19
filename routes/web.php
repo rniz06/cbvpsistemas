@@ -116,8 +116,8 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::controller(ConductorController::class)->group(function () {
-        Route::get('conductores', 'index')->name('conductores.index');
-        Route::get('conductores/create', 'create')->name('conductores.create');
+        //Route::get('conductores', 'index')->name('conductores.index');
+        //Route::get('conductores/create', 'create')->name('conductores.create');
         Route::post('conductores/store', 'store')->name('conductores.store');
         Route::get('conductores/{conductor}', 'show')->name('conductores.show');
         Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');

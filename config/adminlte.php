@@ -376,7 +376,7 @@ return [
                 ],
                 [
                     'text' => 'Conductores',
-                    'route' => 'conductores.index',
+                    'route' => 'materiales.conductores.index',
                     'can' => 'Conductores Listar',
                 ],
                 [

@@ -3,7 +3,7 @@
     <x-tabla titulo="Listado de Conductores" excel pdf>
         <x-slot name="headerBotones">
             @can('Conductores Crear')
-                <a href="{{ route('conductores.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar
+                <a href="{{ route('materiales.conductores.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar
                     Conductor</a>
             @endcan
         </x-slot>
