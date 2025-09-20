@@ -20,6 +20,7 @@ include_once __DIR__.'/admin.php'; // Incluir las rutas de admin
 include_once __DIR__.'/personal.php'; // Incluir las rutas de personal
 include_once __DIR__.'/materiales.php'; // Incluir las rutas de materiales
 include_once __DIR__.'/cca.php'; // Incluir las rutas de cca
+include_once __DIR__.'/anb.php'; // Incluir las rutas de Anb
 
 Route::get('/', function () {
     return redirect()->route('home');
