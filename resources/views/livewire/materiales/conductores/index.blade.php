@@ -24,11 +24,11 @@
                 <td>{{ $conductor->estado }}</td>
                 <td>
                     @can('Conductores Ver')
-                        <a href="{{ route('conductores.show', $conductor->id_conductor_bombero) }}"
+                        <a href="{{ route('materiales.conductores.show', $conductor->id_conductor_bombero) }}"
                             class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Ver Ficha</a>
                     @endcan
                     @can('Conductores Editar')
-                        <a href="{{ route('conductores.edit', $conductor->id_conductor_bombero) }}"
+                        <a href="{{ route('materiales.conductores.edit', $conductor->id_conductor_bombero) }}"
                             class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Actualizar</a>
                     @endcan
                 </td>

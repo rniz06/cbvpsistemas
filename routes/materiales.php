@@ -82,6 +82,8 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
     Route::controller(ConductorController::class)->prefix('conductores')->group(function () {
         Route::get('/', 'index')->name('conductores.index');
         Route::get('/create', 'create')->name('conductores.create');
+        Route::get('/{conductor}', 'show')->name('conductores.show');
+        Route::get('/{conductor}/edit', 'edit')->name('conductores.edit');
     });
 
     // FIN 
