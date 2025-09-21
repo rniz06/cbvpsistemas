@@ -23,4 +23,12 @@ class VtConductor extends Model
         ->orWhere('compania', 'like', "%{$value}%")
         ->orWhere('estado', 'like', "%{$value}%");
     }
+
+    protected function casts(): array
+    {
+        return [
+            'licencia_vencimiento' => 'date',//fecha_curso
+            'fecha_curso'          => 'date'
+        ];
+    }
 }

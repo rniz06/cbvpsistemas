@@ -27,6 +27,8 @@ class Create extends Component
     public $fecha_curso, $ciudad_curso_id, $ciudad_licencia_id;
     #[Validate]
     public $tipo_vehiculo_id, $numero_licencia, $clase_licencia_id;
+    #[Validate]
+    public $licencia_vencimiento;
 
     // PROPIEDADES PARA LOS SELECT
     public $categorias = [], $origenes = [], $anhos = [], $resoluciones = [], $ciudades = [], $tiposVehiculos = [], $licencias = [];
@@ -59,25 +61,26 @@ class Create extends Component
             'ciudad_licencia_id'   => ['required', Rule::exists(Ciudad::class, 'id_ciudad')],
             'tipo_vehiculo_id'     => ['required', Rule::exists(TipoVehiculo::class, 'idconductor_tipo_vehiculo')],
             'numero_licencia'      => ['required', 'numeric', 'min_digits:6', 'max_digits:11'],
+            'licencia_vencimiento' => ['required', 'date', Rule::date()->after(today()),],
             'clase_licencia_id'    => ['required', Rule::exists(ClaseLicencia::class, 'idconductor_clase_licencia')],
         ];
     }
 
     public function guardar()
     {
-        $x = $this->validate();
-        return dd($x);
+        $this->validate();
         ConductorBombero::create([
-            'personal_id'        => $this->personal_id,
-            'estado_id'          => 1, // ACTIVO AL MOMENTO DE ALTA
-            'resolucion_id'      => $this->resolucion_id,
-            'fecha_curso'        => $this->fecha_curso,
-            'ciudad_curso_id'    => $this->ciudad_curso_id,
-            'ciudad_licencia_id' => $this->ciudad_licencia_id,
-            'tipo_vehiculo_id'   => $this->tipo_vehiculo_id,
-            'numero_licencia'    => $this->numero_licencia,
-            'clase_licencia_id'  => $this->clase_licencia_id,
-            'creadoPor'          => Auth::id(),
+            'personal_id'          => $this->personal_id,
+            'estado_id'            => 1, // ACTIVO AL MOMENTO DE ALTA
+            'resolucion_id'        => $this->resolucion_id,
+            'fecha_curso'          => $this->fecha_curso,
+            'ciudad_curso_id'      => $this->ciudad_curso_id,
+            'ciudad_licencia_id'   => $this->ciudad_licencia_id,
+            'tipo_vehiculo_id'     => $this->tipo_vehiculo_id,
+            'numero_licencia'      => $this->numero_licencia,
+            'licencia_vencimiento' => $this->licencia_vencimiento,
+            'clase_licencia_id'    => $this->clase_licencia_id,
+            'creadoPor'            => Auth::id(),
         ]);
 
         session()->flash('success', 'Conductor Registrado Correctamente!');

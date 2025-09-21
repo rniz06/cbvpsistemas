@@ -49,7 +49,7 @@
             <div class="col-md-3 mb-3">
                 <label class="form-label">Fecha de realización del Curso:</label>
                 
-                <div class="form-control">{{ date('d/m/Y', strtotime($conductor->fecha_curso)) }}</div>
+                <div class="form-control">{{ optional($conductor->fecha_curso)->format('d/m/Y') ?? 'S/D' }}</div>
             </div>
 
             <div class="col-md-3 mb-3">
@@ -68,19 +68,24 @@
     <h4>Datos de la Licencia:</h4>
     <x-adminlte-callout theme="success">
         <div class="form-group row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-3 mb-3">
                 <label class="form-label">Número de Licencia:</label>
                 <div class="form-control">{{ $conductor->numero_licencia ?? 'N/A' }}</div>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-3 mb-3">
                 <label class="form-label">Municipio:</label>
                 <div class="form-control">{{ $conductor->ciudad_licencia ?? 'N/A' }}</div>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-3 mb-3">
                 <label class="form-label">Clase:</label>
                 <div class="form-control">{{ $conductor->clase_licencia ?? 'N/A' }}</div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Fecha de Vencimiento de la Licencia:</label>
+                <div class="form-control">{{ optional($conductor->licencia_vencimiento)->format('d/m/Y') ?? 'S/D' }}</div>
             </div>
         </div>
     </x-adminlte-callout>

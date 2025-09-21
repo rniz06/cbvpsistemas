@@ -32,11 +32,11 @@
 
             {{-- Fecha Curso --}}
             <x-adminlte-input type="date" name="fecha_curso" label="Fecha de realización del Curso:"
-                fgroup-class="col-md-4" wire:model.blur="fecha_curso" />
+                fgroup-class="col-md-3" wire:model.blur="fecha_curso" />
 
             {{-- Ciudad Curso --}}
             <x-adminlte-select label="Ciudad de realización" name="ciudad_curso_id" wire:model.blur="ciudad_curso_id"
-                fgroup-class="col-md-4">
+                fgroup-class="col-md-3">
                 <option value="">-- SELECCIONAR --</option>
                 @foreach ($ciudades as $ciudad)
                     <option value="{{ $ciudad->id_ciudad }}">{{ $ciudad->ciudad ?? 'S/D' }}</option>
@@ -45,7 +45,7 @@
 
             {{-- Tipo Vehiculo --}}
             <x-adminlte-select label="Tipo de vehiculo" name="tipo_vehiculo_id" wire:model.blur="tipo_vehiculo_id"
-                fgroup-class="col-md-4">
+                fgroup-class="col-md-3">
                 <option value="">-- SELECCIONAR --</option>
                 @foreach ($tiposVehiculos as $tipoVehiculo)
                     <option value="{{ $tipoVehiculo->idconductor_tipo_vehiculo }}">{{ $tipoVehiculo->tipo ?? 'S/D' }}
@@ -55,11 +55,11 @@
 
             {{-- Numero Licencia --}}
             <x-adminlte-input type="number" name="numero_licencia" label="Número de Licencia:" placeholder="4791256"
-                fgroup-class="col-md-4" wire:model.blur="numero_licencia" />
+                fgroup-class="col-md-3" wire:model.blur="numero_licencia" />
 
             {{-- Ciudad Licencia --}}
             <x-adminlte-select label="Municipio" name="ciudad_licencia_id" wire:model.blur="ciudad_licencia_id"
-                fgroup-class="col-md-4">
+                fgroup-class="col-md-3">
                 <option value="">-- SELECCIONAR --</option>
                 @foreach ($ciudades as $ciudad)
                     <option value="{{ $ciudad->id_ciudad }}">{{ $ciudad->ciudad ?? 'S/D' }}</option>
@@ -68,13 +68,17 @@
 
             {{-- Clase Licencia --}}
             <x-adminlte-select label="Clase Licencia" name="clase_licencia_id" wire:model.blur="clase_licencia_id"
-                fgroup-class="col-md-4">
+                fgroup-class="col-md-3">
                 <option value="">-- SELECCIONAR --</option>
                 @foreach ($licencias as $licencia)
                     <option value="{{ $licencia->idconductor_clase_licencia }}">{{ $licencia->clase ?? 'S/D' }}
                     </option>
                 @endforeach
             </x-adminlte-select>
+
+            {{-- Licencia Vencimiento --}}
+            <x-adminlte-input type="date" name="licencia_vencimiento" label="Fecha de Vencimiento de la Licencia:"
+                fgroup-class="col-md-3" wire:model.blur="licencia_vencimiento" />
 
             {{-- Linea --}}
             <div class="col-md-12">

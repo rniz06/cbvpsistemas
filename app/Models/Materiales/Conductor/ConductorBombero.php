@@ -30,9 +30,18 @@ class ConductorBombero extends Model implements Auditable
         'ciudad_licencia_id',
         'tipo_vehiculo_id',
         'numero_licencia',
+        'licencia_vencimiento',
         'clase_licencia_id',
         'creadoPor'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'fecha_curso'          => 'date',
+            'licencia_vencimiento' => 'date'
+        ];
+    }
 
     /**
      * Relación uno a uno
