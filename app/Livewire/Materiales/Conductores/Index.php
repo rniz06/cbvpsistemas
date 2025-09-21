@@ -5,8 +5,10 @@ namespace App\Livewire\Materiales\Conductores;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Ciudad;
+use App\Models\Gral\Compania;
 use App\Models\Materiales\Conductor\ClaseLicencia;
 use App\Models\Materiales\Conductor\ConductorBombero;
+use App\Models\Materiales\Conductor\Estado;
 use App\Models\Materiales\Conductor\TipoVehiculo;
 use App\Models\UserRoleCompania;
 use App\Models\Vistas\Materiales\VtConductor;
@@ -23,122 +25,35 @@ class Index extends Component
     // Usar el trait WithPagination para la paginación
     use WithPagination;
 
-    // Variables para el formulario
-    public $conductor_id;
-    #[Validate]
-    public $personal_id, $estado_id, $resolucion, $resolucion_enlace, $fecha_curso, $ciudad_curso_id, $ciudad_licencia_id, $tipo_vehiculo_id, $numero_licencia, $clase_licencia_id;
-
-    // Variables para la paginación, busqueda y estado(modo) del formulario
-    public $modo = 'inicio'; // inicio, agregar, modificar, seleccionado
     public $buscador = '';
     public $paginado = 5;
+    public $buscarCodigo = null;
+    public $buscarNombrecompleto = null;
+    public $buscarCompaniaId = null;
+    public $buscarEstadoId = null;
+    public $buscarClaseLicenciaId = null;
 
-    // public $ciudades = [], $tipoVehiculo = [], $licencias = [];
+    public $companias = [], $estados = [], $licencias = [];
 
-    // public function mount()
-    // {
-    //     $this->ciudades = Auth::user()->name;
-    //     $this->tipoVehiculo = Auth::user()->name;
-    //     $this->licencias = Auth::user()->name;
-    // }
-
-    // Habilita el formulario para agregar un registro
-    public function agregar()
+    public function mount()
     {
-        $this->resetearForm();
-        $this->modo = 'agregar';
+        $this->companias = Compania::select('id_compania', 'compania')->orderBy('orden')->get();
+        $this->estados   = Estado::select('id_conductor_estado', 'estado')->get();
+        $this->licencias = ClaseLicencia::select('idconductor_clase_licencia', 'clase')->get();
     }
 
-    // Habilita los botones de editar, eliminar y cancelar
-    public function seleccionado($id)
-    {
-        $conductor = ConductorBombero::findOrFail($id);
-        $this->conductor_id = $conductor->id_conductor_bombero;
-        $this->personal_id = $conductor->personal_id;
-        $this->estado_id = $conductor->estado_id;
-        $this->resolucion = $conductor->resolucion;
-        $this->resolucion_enlace = $conductor->resolucion_enlace;
-        $this->fecha_curso = $conductor->fecha_curso;
-        $this->ciudad_curso_id = $conductor->ciudad_curso_id;
-        $this->ciudad_licencia_id = $conductor->ciudad_licencia_id;
-        $this->tipo_vehiculo_id = $conductor->tipo_vehiculo_id;
-        $this->numero_licencia = $conductor->numero_licencia;
-        $this->clase_licencia_id = $conductor->clase_licencia_id;
-        $this->modo = 'seleccionado';
-    }
-
-    // Habilita el formulario para editar un registro (La información ya esta cargada por el metodo "seleccionado()")
-    public function editar()
-    {
-        $this->modo = 'modificar';
-    }
-
-    // Deshabilita el formulario y borra los datos ingresados o seleccionados
-    public function cancelar()
-    {
-        $this->resetearForm();
-    }
-
-    // Elimina el registro que obtuvimos con el metodo "seleccionado()"
-    public function eliminar()
-    {
-        if ($this->proveedor_id) {
-            ConductorBombero::destroy($this->proveedor_id);
-            $this->resetearForm();
-        }
-    }
-
-    // Reglas de validación
-    protected function rules()
-    {
-        return [
-            'personal_id' => ['required', Rule::unique('conductores_bomberos')->ignore($this->conductor_id)],
-            'resolucion' => ['required', 'max_digits:50'],
-            'resolucion_enlace' => ['nullable', 'max_digits:255'],
-            'fecha_curso' => ['required', 'date'],
-            'ciudad_curso_id' => ['required'],
-            'ciudad_licencia_id' => ['required'],
-            'tipo_vehiculo_id' => ['required', 'exists:conductores_tipo_vehiculo,idconductor_tipo_vehiculo'],
-            'numero_licencia' => ['required', Rule::unique('conductores_bomberos')->ignore($this->conductor_id), 'numeric', 'min_digits:6', 'max_digits:7'],
-            'clase_licencia_id' => ['required', 'exists:conductores_clase_licencias,id_conductor_bombero'],
-        ];
-    }
-
-    public function grabar()
-    {
-        // Validar los datos
-        $validados = $this->validate();
-
-        if ($this->modo === 'agregar') {
-            ConductorBombero::create($validados);
-        } elseif ($this->modo === 'modificar' && $this->proveedor_id) {
-            ConductorBombero::findOrFail($this->proveedor_id)->update($validados);
-        }
-
-        $this->resetearForm();
-    }
-
-    // Restablecer formulario a deshabilitado y limpiar datos ingresados o seleccionados
-    private function resetearForm()
-    {
-        $this->conductor_id = null;
-        $this->personal_id = '';
-        $this->estado_id = '';
-        $this->resolucion = '';
-        $this->resolucion_enlace = '';
-        $this->fecha_curso = '';
-        $this->ciudad_curso_id = '';
-        $this->ciudad_licencia_id = '';
-        $this->tipo_vehiculo_id = '';
-        $this->numero_licencia = '';
-        $this->clase_licencia_id = '';
-        $this->modo = 'inicio';
-    }
-
-    // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
     {
-        if ($key === 'buscador' || $key === 'paginado') {
+        if (in_array($key, [
+            'buscador',
+            'paginado',
+            'buscarCodigo',
+            'buscarNombrecompleto',
+            'compania_id',
+            'buscarCompaniaId',
+            'buscarEstadoId',
+            'buscarClaseLicenciaId'
+        ])) {
             $this->resetPage();
         }
     }
@@ -154,21 +69,41 @@ class Index extends Component
 
         switch ($usuarioRoles) {
             case 'materiales_moderador_compania':
-                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
+                $this->companias = Compania::select('id_compania', 'compania')->where('id_compania', $usuario->compania_id)->get();
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado', 'clase_licencia')
                     ->where('compania_id', $usuario->compania_id)
-                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                    ->buscador($this->buscador)
+                    ->buscarCodigo($this->buscarCodigo)
+                    ->buscarNombrecompleto($this->buscarNombrecompleto)
+                    ->buscarCompaniaId($this->buscarCompaniaId)
+                    ->buscarEstadoId($this->buscarEstadoId)
+                    ->buscarClaseLicenciaId($this->buscarClaseLicenciaId)
+                    ->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
                 break;
 
             case 'materiales_moderador_por_compania':
                 $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
-                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
+                $this->companias = Compania::select('id_compania', 'compania')->where('id_compania', $asignacion?->compania_id)->get();
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado', 'clase_licencia')
                     ->where('compania_id', $asignacion?->compania_id)
-                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')
+                    ->buscarCodigo($this->buscarCodigo)
+                    ->buscarNombrecompleto($this->buscarNombrecompleto)
+                    ->buscarCompaniaId($this->buscarCompaniaId)
+                    ->buscarEstadoId($this->buscarEstadoId)
+                    ->buscarClaseLicenciaId($this->buscarClaseLicenciaId)
+                    ->paginate($this->paginado);
                 break;
 
             default:
-                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado')
-                    ->buscador($this->buscador)->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
+                $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado', 'clase_licencia')
+                    ->buscador($this->buscador)
+                    ->buscarCodigo($this->buscarCodigo)
+                    ->buscarNombrecompleto($this->buscarNombrecompleto)
+                    ->buscarCompaniaId($this->buscarCompaniaId)
+                    ->buscarEstadoId($this->buscarEstadoId)
+                    ->buscarClaseLicenciaId($this->buscarClaseLicenciaId)
+                    ->orderBy('nombrecompleto', 'asc')->paginate($this->paginado);
                 break;
         }
 
