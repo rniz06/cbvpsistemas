@@ -89,7 +89,7 @@ class Tabla extends Component
                 $personales = VtPersonales::query()->where('compania_id', $usuario->personal->compania_id);
                 break;
             case 'personal_moderador_por_compania':
-                $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
+                $asignacion = UserRoleCompania::whereNotNull('compania_id')->where('usuario_id', $usuario->id_usuario)->first();
                 $personales = VtPersonales::query()->where('compania_id', $asignacion->compania_id);
                 break;
 
