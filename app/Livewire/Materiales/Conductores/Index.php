@@ -82,7 +82,7 @@ class Index extends Component
                 break;
 
             case 'materiales_moderador_por_compania':
-                $asignacion = UserRoleCompania::where('usuario_id', $usuario->id_usuario)->first();
+                $asignacion = UserRoleCompania::whereNotNull('compania_id')->where('usuario_id', $usuario->id_usuario)->first();
                 $this->companias = Compania::select('id_compania', 'compania')->where('id_compania', $asignacion?->compania_id)->get();
                 $conductores = VtConductor::select('id_conductor_bombero', 'codigo', 'nombrecompleto', 'compania', 'estado', 'clase_licencia')
                     ->where('compania_id', $asignacion?->compania_id)
