@@ -112,10 +112,22 @@ class Index extends Component
         ]);
     }
 
+    public function cargarDatosExport()
+    {
+        return VtConductor::select('nombrecompleto', 'codigo', 'compania', 'resolucion', 'estado', 'ciudad_curso', 'ciudad_licencia', 'tipo_vehiculo', 'clase_licencia')
+            ->buscador($this->buscador)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarNombrecompleto($this->buscarNombrecompleto)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->buscarEstadoId($this->buscarEstadoId)
+            ->buscarClaseLicenciaId($this->buscarClaseLicenciaId)
+            ->get();
+    }
+
 
     public function excel()
     {
-        $datos = VtConductor::select('nombrecompleto', 'codigo', 'compania', 'resolucion', 'estado', 'ciudad_curso', 'ciudad_licencia', 'tipo_vehiculo', 'clase_licencia')->get();
+        $datos = $this->cargarDatosExport();
         $encabezados = ['Nombre Completo', 'Codigo', 'Compañia', 'Resolución', 'Estado', 'Ciudad Curso', 'Ciudad Licencia', 'Tipo de Vehiculo', 'Clase de Licencia'];
 
         return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Cbvp Conductores.xlsx');
@@ -124,7 +136,7 @@ class Index extends Component
     public function pdf()
     {
         $nombre_archivo = "Cbvp Conductores";
-        $datos = VtConductor::select('nombrecompleto', 'codigo', 'compania', 'resolucion', 'estado', 'ciudad_curso', 'ciudad_licencia', 'tipo_vehiculo', 'clase_licencia')->get();
+        $datos = $this->cargarDatosExport();
         $encabezados = ['Nombre Completo', 'Codigo', 'Compañia', 'Resolución', 'Estado', 'Ciudad Curso', 'Ciudad Licencia', 'Tipo de Vehiculo', 'Clase de Licencia'];
 
         return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
