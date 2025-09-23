@@ -23,7 +23,7 @@
                             class="btn btn-warning">Equip. Hidraulicos</a>
                     </div>
                     <div class="col-md-3 form-group">
-                        <a href="{{ route('conductores.index') }}" style="width:100%;color:black;font-weight:900;"
+                        <a href="{{ route('materiales.conductores.index') }}" style="width:100%;color:black;font-weight:900;"
                             class="btn btn-warning">Conductores</a>
                     </div>
                     <div class="col-md-3 form-group">
