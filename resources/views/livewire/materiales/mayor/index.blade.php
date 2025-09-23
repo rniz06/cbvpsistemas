@@ -3,8 +3,18 @@
     <x-card.card-filtro>
         <div class="row">
 
+            <div class="col-md-2">
+                <x-adminlte-select name="tipo_id" label="Acrónimos:" wire:model.live.debounce.250ms="tipo_id">
+                    <option value="">Todos</option>
+                    @foreach ($tipos as $tipo)
+                        <option value="{{ $tipo->id_movil_tipo }}">
+                            {{ $tipo->tipo ?? 'S/D' }}</option>
+                    @endforeach
+                </x-adminlte-select>
+            </div>
+
             @if (!auth()->user()->hasAnyRole(['materiales_moderador_compania', 'materiales_moderador_por_compania']))
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <x-adminlte-select name="departamento_id" label="Departamentos:"
                         wire:model.live.debounce.250ms="departamento_id">
                         <option value="">Todos</option>
@@ -15,7 +25,7 @@
                     </x-adminlte-select>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <x-adminlte-select name="ciudad_id" label="Ciudades:" wire:model.live.debounce.250ms="ciudad_id">
                         <option value="">Todos</option>
                         @foreach ($ciudades as $ciudad)
@@ -26,7 +36,7 @@
                 </div>
             @endif
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <x-adminlte-select name="compania_id" label="Compañias:" wire:model.live.debounce.250ms="compania_id">
                     @if (count($companias) > 1)
                         <option value="">Todos</option>
