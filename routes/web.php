@@ -112,18 +112,18 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Modulo Conductores
+    | Modulo Conductores | SE MIGRA RUTAS DE CONDUCTORES A routes/materiales.php
     |--------------------------------------------------------------------------
     */
-    Route::controller(ConductorController::class)->group(function () {
-        Route::get('conductores', 'index')->name('conductores.index');
-        Route::get('conductores/create', 'create')->name('conductores.create');
-        Route::post('conductores/store', 'store')->name('conductores.store');
-        Route::get('conductores/{conductor}', 'show')->name('conductores.show');
-        Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
-        Route::put('conductores/{conductor}', 'update')->name('conductores.update');
-        //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
-    });
+    // Route::controller(ConductorController::class)->group(function () {
+    //     //Route::get('conductores', 'index')->name('conductores.index');
+    //     //Route::get('conductores/create', 'create')->name('conductores.create');
+    //     //Route::post('conductores/store', 'store')->name('conductores.store');
+    //     //Route::get('conductores/{conductor}', 'show')->name('conductores.show');
+    //     //Route::get('conductores/{conductor}/edit', 'edit')->name('conductores.edit');
+    //     //Route::put('conductores/{conductor}', 'update')->name('conductores.update');
+    //     //Route::delete('conductores/{conductor}', 'destroy')->name('conductores.destroy');
+    // });
     
 
     /*

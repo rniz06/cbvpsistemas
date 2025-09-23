@@ -7,6 +7,7 @@ use App\Exports\PdfGenericoExport;
 use App\Models\Ciudad;
 use App\Models\Compania;
 use App\Models\Departamento;
+use App\Models\Materiales\Movil\Acronimo;
 use App\Models\UserRoleCompania;
 use App\Models\Vistas\Materiales\VtMayor;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,7 @@ class Index extends Component
     public $buscadorInoperativo = '';
     public $departamento_id = '';
     public $ciudad_id = '';
+    public $tipo_id = null;
     public $paginadoOperativo = 5;
     public $paginadoInoperativo = 5;
     public $paginadoResumen = 5;
@@ -31,7 +33,7 @@ class Index extends Component
     public $compania_id = '';
 
     // Propiedades del filtro
-    public $departamentos, $ciudades, $companias;
+    public $departamentos, $ciudades, $companias, $tipos = [];
 
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
@@ -41,6 +43,7 @@ class Index extends Component
             'buscadorInoperativo',
             'departamento_id',
             'ciudad_id',
+            'tipo_id',
             'compania_id',
             'paginadoOperativo',
             'paginadoInoperativo',
@@ -54,6 +57,7 @@ class Index extends Component
 
     public function mount()
     {
+        $this->tipos = Acronimo::select('id_movil_tipo', 'tipo')->where('activo', true)->orderBy('tipo')->get();
         $usuario = Auth::user()->roles()->where('name', 'like', 'materiales_%')->pluck('name')->first();
         switch ($usuario) {
             case 'materiales_admin':
@@ -97,7 +101,7 @@ class Index extends Component
                 $this->departamentos = [];
                 $this->ciudades = [];
                 $usuario_id = Auth::id();
-                $asignacion = UserRoleCompania::where('usuario_id', $usuario_id)->first();
+                $asignacion = UserRoleCompania::whereNotNull('compania_id')->where('usuario_id', $usuario_id)->first();
                 $this->companias = Compania::select('idcompanias', 'compania')->where('idcompanias', $asignacion->compania_id)->get();
                 $this->compania_id = $asignacion->compania_id;
                 break;
@@ -126,6 +130,7 @@ class Index extends Component
             'operativos' => VtMayor::select('id_movil', 'movil', 'tipo', 'compania', 'compania_id', 'ciudad_id', 'departamento_id')
                 ->where('operativo', 1) // Filtrar por operativos
                 ->where('operatividad_id', 1) // operativos
+                ->buscarTipoId($this->tipo_id)
                 ->buscarDepartamentoId($this->departamento_id)
                 ->buscarCiudadId($this->ciudad_id)
                 ->buscarCompaniaId($this->compania_id)
@@ -136,6 +141,7 @@ class Index extends Component
             'inoperativos' => VtMayor::select('id_movil', 'movil', 'tipo', 'compania', 'compania_id', 'ciudad_id', 'departamento_id')
                 ->where('operativo', 1) // Filtrar por operativos
                 ->where('operatividad_id', 0) // pero fuera de servicio momentaneamente
+                ->buscarTipoId($this->tipo_id)
                 ->buscarDepartamentoId($this->departamento_id)
                 ->buscarCiudadId($this->ciudad_id)
                 ->buscarCompaniaId($this->compania_id)
@@ -147,6 +153,7 @@ class Index extends Component
               SUM(CASE WHEN operatividad_id = 1 THEN 1 ELSE 0 END) as operativos,
               SUM(CASE WHEN operatividad_id = 0 THEN 1 ELSE 0 END) as inoperativos')
                 ->where('operativo', 1) // Filtrar por operativos (igual que en tus otras consultas)
+                ->buscarTipoId($this->tipo_id)
                 ->buscarDepartamentoId($this->departamento_id)
                 ->buscarCiudadId($this->ciudad_id)
                 ->buscarCompaniaId($this->compania_id)
@@ -187,6 +194,8 @@ class Index extends Component
     public function excelOperativo()
     {
         $datos = VtMayor::select('tipo', 'movil', 'compania')->where('operativo', 1)->where('operatividad_id', 1)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)
@@ -206,6 +215,8 @@ class Index extends Component
     {
         $nombre_archivo = "Material Mayor Operativo";
         $datos = VtMayor::select('tipo', 'movil', 'compania')->where('operativo', 1)->where('operatividad_id', 1)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)
@@ -226,6 +237,8 @@ class Index extends Component
     public function excelInoperativo()
     {
         $datos = VtMayor::select('tipo', 'movil', 'compania')->where('operativo', 1)->where('operatividad_id', 0)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)
@@ -245,6 +258,8 @@ class Index extends Component
     {
         $nombre_archivo = "Material Mayor Inoperativo";
         $datos = VtMayor::select('tipo', 'movil', 'compania')->where('operativo', 1)->where('operatividad_id', 0)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)
@@ -268,6 +283,8 @@ class Index extends Component
               SUM(CASE WHEN operatividad_id = 1 THEN 1 ELSE 0 END) as operativos,
               SUM(CASE WHEN operatividad_id = 0 THEN 1 ELSE 0 END) as inoperativos')
             ->where('operativo', 1) // Filtrar por operativos (igual que en tus otras consultas)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)
@@ -286,6 +303,8 @@ class Index extends Component
               SUM(CASE WHEN operatividad_id = 1 THEN 1 ELSE 0 END) as operativos,
               SUM(CASE WHEN operatividad_id = 0 THEN 1 ELSE 0 END) as inoperativos')
             ->where('operativo', 1) // Filtrar por operativos (igual que en tus otras consultas)
+            ->buscarTipoId($this->tipo_id)
+            ->buscarTipoId($this->tipo_id)
             ->buscarDepartamentoId($this->departamento_id)
             ->buscarCiudadId($this->ciudad_id)
             ->buscarCompaniaId($this->compania_id)

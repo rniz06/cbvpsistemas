@@ -23,6 +23,16 @@ class VtMayor extends Model
     }
 
     /**
+     * Se implementa funcion para filtrar por campo ciudad_id.
+     */
+    public function scopeBuscarTipoId($query, $value)
+    {
+        if ($value) {
+            $query->where('movil_tipo_id', $value);
+        }
+    }
+
+    /**
      * Se implementa funcion para filtrar por campo departamento_id.
      */
     public function scopeBuscarDepartamentoId($query, $value)

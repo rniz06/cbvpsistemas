@@ -26,4 +26,11 @@ class Acronimo extends Model implements Auditable
         ->orWhere('descripcion', 'like', "%{$value}%")
         ->orWhere('activo', 'like', "%{$value}%");
     }
+
+    protected function casts(): array
+    {
+        return [
+            'activo' => 'boolean',
+        ];
+    }
 }
