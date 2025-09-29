@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Cca\Reportes;
 
+use App\Exports\Excel\Cca\Reportes\ExcelHistoricosExport;
 use App\Exports\ExcelGenericoExport;
 use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Cca\Servicios\Clasificacion;
 use App\Models\Cca\Servicios\Servicio;
 use App\Models\Vistas\Cca\VtExistente;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -102,7 +105,7 @@ class Historico extends Component
             'compania',
             'servicio',
             'clasificacion',
-            DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
+            DB::raw("CONCAT(tipo, '-', movil) AS movil"),
 
             // Acargo: si es null usar acargo_aux
             DB::raw("
@@ -147,21 +150,21 @@ class Historico extends Component
 
     public function excel()
     {
-        $datos = $this->cargarDatosExport();
+        $query = $this->cargarDatosExport();
 
-        $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
-
-        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'CBVP CCA HISTORICO.xlsx');
+        return Excel::download(new ExcelHistoricosExport($query), 'CBVP-CCA-HISTORICO.xlsx');
     }
 
     public function pdf()
     {
-        $nombre_archivo = "CBVP CCA HISTORICO";
-
-        $datos = $this->cargarDatosExport();
-
-        $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
-
-        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
+        $pdf = Pdf::loadView('cca.reportes.pdf.historico', [
+            'fecha_desde' => $this->fecha_desde,
+            'fecha_hasta' => $this->fecha_hasta,
+            'historicos'  => $this->cargarDatosExport(),
+            'usuario'     => Auth::user()
+        ]);
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'CBVP-CCA-HISTORICO.pdf');
     }
 }
