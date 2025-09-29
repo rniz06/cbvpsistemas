@@ -96,9 +96,35 @@ class Historico extends Component
         ]);
     }
 
-    public function excel()
+    public function cargarDatosExport()
     {
-        $datos = VtExistente::select('compania', 'servicio', 'clasificacion', DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"), DB::raw("CONCAT(nombrecompleto, '-', codigo, '-', categoria) AS acargo"), 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
+        return VtExistente::select(
+            'compania',
+            'servicio',
+            'clasificacion',
+            DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
+
+            // Acargo: si es null usar acargo_aux
+            DB::raw("
+        CASE 
+            WHEN acargo_nombrecompleto IS NULL THEN acargo_aux
+            ELSE CONCAT(acargo_nombrecompleto, '-', acargo_codigo, '-', acargo_categoria)
+        END AS acargo
+    "),
+
+            // Chofer: condiciones según chofer_rentado
+            DB::raw("
+        CASE 
+            WHEN chofer_rentado = 1 THEN 'RENTADO'
+            WHEN chofer_rentado = 0 AND chofer_nombrecompleto IS NOT NULL AND chofer_codigo IS NOT NULL 
+                THEN CONCAT(chofer_nombrecompleto, '-', chofer_codigo)
+            ELSE chofer_aux
+        END AS chofer
+    "),
+
+            'cantidad_tripulantes',
+            'fecha_alfa'
+        )
             ->where('estado_id', 4) // Servicio Culminado
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
@@ -114,7 +140,14 @@ class Historico extends Component
             })
             ->when($this->clasificacion_id, function ($query) {
                 return $query->where('clasificacion_id', $this->clasificacion_id);
-            })->orderByDesc('fecha_alfa')->get();
+            })
+            ->orderByDesc('fecha_alfa')
+            ->get();
+    }
+
+    public function excel()
+    {
+        $datos = $this->cargarDatosExport();
 
         $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
 
@@ -124,23 +157,8 @@ class Historico extends Component
     public function pdf()
     {
         $nombre_archivo = "CBVP CCA HISTORICO";
-        $datos = VtExistente::select('compania', 'servicio', 'clasificacion', DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"), DB::raw("CONCAT(nombrecompleto, '-', codigo, '-', categoria) AS acargo"), 'chofer', 'cantidad_tripulantes', 'fecha_alfa')
-            ->where('estado_id', 4) // Servicio Culminado
-            ->when($this->fecha_desde, function ($query) {
-                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
-            })
-            ->when($this->fecha_hasta, function ($query) {
-                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
-            })
-            ->when($this->compania_id, function ($query) {
-                return $query->where('compania_id', $this->compania_id);
-            })
-            ->when($this->servicio_id, function ($query) {
-                return $query->where('servicio_id', $this->servicio_id);
-            })
-            ->when($this->clasificacion_id, function ($query) {
-                return $query->where('clasificacion_id', $this->clasificacion_id);
-            })->orderByDesc('fecha_alfa')->get();
+
+        $datos = $this->cargarDatosExport();
 
         $encabezados = ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
 
