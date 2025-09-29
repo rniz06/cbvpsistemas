@@ -7,12 +7,12 @@ return [
     | LOGO OFICIAL DEL CBVP
     |-------------------------------------
     */
-    'cbvp' => asset('img/cbvp-logo.webp'),
+    'cbvp' => public_path('img/cbvp-logo.webp'),
 
     /*
     |-------------------------------------
     | LOGO EMERGENCIAS 132 DEL CBVP
     |-------------------------------------
     */
-    '132' => asset('img/132-logo.webp'),
+    '132' => public_path('img/132-logo.webp'),
 ];
