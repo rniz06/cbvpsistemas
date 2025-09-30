@@ -30,8 +30,7 @@ class CambiarCodigo extends Component
     public function guardar()
     {
         $this->validate();
-        $personal = Personal::where('idpersonal', $this->personal->idpersonal)->first();
-        $personal->update([
+        Personal::findOrFail($this->personal->idpersonal)->update([
             'codigo' => $this->codigo_a_asignar
         ]);
         session()->flash('success', 'Codigo Actualizado Correctamente!');
@@ -41,8 +40,8 @@ class CambiarCodigo extends Component
     public function render()
     {
         return view('livewire.personal.cambiar-codigo', [
-            'codigoDetalles' => VtPersonales::where([['categoria_id', $this->personal->categoria_id],['codigo', $this->codigo_a_asignar]])
-            ->selectRaw("CONCAT(nombrecompleto, ' - ', codigo, ' - ', categoria, ' - ', compania) AS codigoDetalles")->first()
+            'codigoDetalles' => VtPersonales::where([['categoria_id', $this->personal->categoria_id], ['codigo', $this->codigo_a_asignar]])
+                ->selectRaw("CONCAT(nombrecompleto, ' - ', codigo, ' - ', categoria, ' - ', compania) AS codigoDetalles")->first()
         ]);
     }
 }

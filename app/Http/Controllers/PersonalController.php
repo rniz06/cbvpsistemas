@@ -226,43 +226,47 @@ class PersonalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Personal $personal)
+    // public function edit(Personal $personal)
+    // {
+    //     $categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
+    //     $estados = Estado::select('idpersonal_estados', 'estado')->get();
+    //     $sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
+    //     $paises = Pais::select('idpaises', 'pais')->get();
+    //     $grupo_sanguineo = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
+    //     //$companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
+    //     $estado_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
+    //     return view('personal.edit', compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'estado_actualizar'));
+    // }
+    public function edit($personal)
     {
-        $categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
-        $estados = Estado::select('idpersonal_estados', 'estado')->get();
-        $sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
-        $paises = Pais::select('idpaises', 'pais')->get();
-        $grupo_sanguineo = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
-        //$companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
-        $estado_actualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
-        return view('personal.edit', compact('personal', 'categorias', 'estados', 'sexos', 'paises', 'grupo_sanguineo', 'estado_actualizar'));
+        return view('personal.edit', compact('personal'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePersonalRequest $request, Personal $personal)
-    {
-        $personal->update([
-            'nombrecompleto' => $request->nombrecompleto,
-            'categoria_id' => $request->categoria_id,
-            //'compania_id' => $request->compania_id,
-            'fecha_juramento' => $request->filled('fecha_de_juramento')
-                ? Carbon::parse($request->fecha_de_juramento)->year
-                : null,
-            'fecha_de_juramento' => $request->fecha_de_juramento,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
-            'estado_id' => $request->estado_id,
-            'documento' => $request->documento,
-            'sexo_id' => $request->sexo_id,
-            'nacionalidad_id' => $request->nacionalidad_id,
-            'ultima_actualizacion' => now(),
-            'estado_actualizar_id' => $request->estado_actualizar_id,
-            'grupo_sanguineo_id' => $request->grupo_sanguineo_id
-        ]);
-        return redirect()->route('personal.show', $personal->idpersonal)
-            ->with('success', 'Ficha Actualizada Correctamente');
-    }
+    // public function update(UpdatePersonalRequest $request, Personal $personal)
+    // {
+    //     $personal->update([
+    //         'nombrecompleto' => $request->nombrecompleto,
+    //         'categoria_id' => $request->categoria_id,
+    //         //'compania_id' => $request->compania_id,
+    //         'fecha_juramento' => $request->filled('fecha_de_juramento')
+    //             ? Carbon::parse($request->fecha_de_juramento)->year
+    //             : null,
+    //         'fecha_de_juramento' => $request->fecha_de_juramento,
+    //         'fecha_nacimiento' => $request->fecha_nacimiento,
+    //         'estado_id' => $request->estado_id,
+    //         'documento' => $request->documento,
+    //         'sexo_id' => $request->sexo_id,
+    //         'nacionalidad_id' => $request->nacionalidad_id,
+    //         'ultima_actualizacion' => now(),
+    //         'estado_actualizar_id' => $request->estado_actualizar_id,
+    //         'grupo_sanguineo_id' => $request->grupo_sanguineo_id
+    //     ]);
+    //     return redirect()->route('personal.show', $personal->idpersonal)
+    //         ->with('success', 'Ficha Actualizada Correctamente');
+    // }
 
     /**
      * Remove the specified resource from storage.
