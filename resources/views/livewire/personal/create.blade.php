@@ -1,7 +1,7 @@
 <div>
-    {{-- Formulario --}}
-    <x-adminlte-callout theme="success">
-        <form class="col-md-12 row" wire:submit="guardar">
+
+    <form wire:submit="guardar">
+        <x-adminlte-callout theme="success" class="col-md-12 row">
             {{-- Nombre Completo --}}
             <x-adminlte-input name="nombrecompleto" label="Nombre Completo:" placeholder="Nombre Completo...."
                 fgroup-class="col-md-3" wire:model.blur="nombrecompleto" />
@@ -92,11 +92,36 @@
                 @endforeach
             </x-adminlte-select>
 
+            {{-- Botón de Volver --}}
+            <div class="form-group col-md-3 d-flex align-items-end">
+                <a href="{{ route('personal.index') }}" class="w-100 btn btn-secondary text-white"><i
+                        class="fas fa-arrow-left mr-1"></i> Volver</a>
+            </div>
+
             {{-- Botón de Guardar --}}
             <div class="form-group col-md-3 d-flex align-items-end">
                 <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save"
                     class="w-100" />
             </div>
-        </form>
-    </x-adminlte-callout>
+
+            {{-- Rellenar espacio faltante --}}
+            <div class="col-md-6"></div>
+
+
+        </x-adminlte-callout>
+
+        <x-adminlte-callout theme="success" class="col-md-12 row" title="Campos Adicionales" title-class="w-100">
+
+            {{-- Tipo Documento --}}
+            <x-adminlte-select name="tipo_documento_id" label="Tipo De Documento:" fgroup-class="col-md-3"
+                wire:model.blur="tipo_documento_id">
+                @foreach ($tiposDocumentos as $tipoDocumento)
+                    <option value="{{ $tipoDocumento->id_tipo_documento }}">
+                        {{ $tipoDocumento->tipo_documento ?? 'N/A' }}
+                    </option>
+                @endforeach
+            </x-adminlte-select>
+        </x-adminlte-callout>
+
+    </form>
 </div>

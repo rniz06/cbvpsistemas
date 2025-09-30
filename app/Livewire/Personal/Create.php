@@ -9,6 +9,7 @@ use App\Models\Personal\EstadoActualizar;
 use App\Models\Personal\GrupoSanguineo;
 use App\Models\Personal\Pais;
 use App\Models\Personal\Sexo;
+use App\Models\Personal\TipoDocumento;
 use App\Models\Usuario;
 use App\Models\Vistas\VtCompania;
 use Carbon\Carbon;
@@ -20,10 +21,14 @@ use Livewire\Component;
 
 class Create extends Component
 {
+    // PROPIEDADES DEL FORMULARIO
     #[Validate]
     public $nombrecompleto, $codigo, $categoria_id, $compania_id, $fecha_juramento, $fecha_de_juramento, $fecha_nacimiento, $estado_id, $documento, $sexo_id, $nacionalidad_id, $ultima_actualizacion, $estado_actualizar_id, $grupo_sanguineo_id;
+    #[Validate]
+    public $tipo_documento_id;
 
-    public $categorias, $companias, $estados, $sexos, $paises, $estadosActualizar, $gruposSanguineos;
+    // PROPIEDADES PARA LOS SELECT
+    public $categorias, $companias, $estados, $sexos, $paises, $estadosActualizar, $gruposSanguineos, $tiposDocumentos = [];
 
     public function mount()
     {
@@ -34,6 +39,10 @@ class Create extends Component
         $this->paises = Pais::select('idpaises', 'pais')->get();
         $this->estadosActualizar = EstadoActualizar::select('idpersonal_estado_actualizar', 'estado')->get();
         $this->gruposSanguineos = GrupoSanguineo::select('idpersonal_grupo_sanguineo', 'grupo_sanguineo')->get();
+        $this->tiposDocumentos = TipoDocumento::select('id_tipo_documento', 'tipo_documento')->get();
+
+        // RETORNAR POR DEFECTO CEDULA PARAGUAYA
+        $this->tipo_documento_id = TipoDocumento::findOrFail(1)->value('id_tipo_documento');
     }
 
     protected function rules()
@@ -55,10 +64,17 @@ class Create extends Component
             'fecha_juramento' => ['nullable', 'numeric', 'min_digits:4', 'max_digits:4'],
             'fecha_nacimiento' => ['nullable', 'date'],
             'estado_id' => ['nullable', Rule::exists(Estado::class, 'idpersonal_estados')],
-            'documento' => ['nullable', 'numeric', 'min_digits:6', 'max_digits:7', Rule::unique(Personal::class, 'documento')],
+            'documento' => [
+                'nullable',
+                'numeric',
+                Rule::unique(Personal::class, 'documento'),
+                Rule::when($this->tipo_documento_id != 1, 
+                ['min_digits:6', 'max_digits:15'], ['min_digits:6', 'max_digits:7'])
+            ],
             'sexo_id' => ['nullable', Rule::exists(Sexo::class, 'idpersonal_sexo')],
             'nacionalidad_id' => ['nullable', Rule::exists(Pais::class, 'idpaises')],
             'grupo_sanguineo_id' => ['nullable', Rule::exists(GrupoSanguineo::class, 'idpersonal_grupo_sanguineo')],
+            'tipo_documento_id'  => ['required', Rule::exists(TipoDocumento::class, 'id_tipo_documento')],
         ];
     }
 
