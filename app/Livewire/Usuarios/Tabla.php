@@ -74,18 +74,23 @@ class Tabla extends Component
                 $this->roles = [];
                 break;
         }
-        
+        $usuarios = VtUsuarioConRole::select('id_usuario', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania', 'roles', 'ultimo_acceso')
+            ->buscador($this->buscador)
+            ->buscarNombrecompleto($this->buscarNombrecompleto)
+            ->buscarCodigo($this->buscarCodigo)
+            ->buscarDocumento($this->buscarDocumento)
+            ->buscarCategoriaId($this->buscarCategoriaId)
+            ->buscarCompaniaId($this->buscarCompaniaId)
+            ->orderBy('codigo')
+            ->buscarRoles($this->buscarRoles)
+            // condición para excluir SuperAdmin si el usuario no es SuperAdmin
+            ->when($usuarioRoles !== 'SuperAdmin', function ($query) {
+                $query->whereNotIn('codigo', [8699, 7802]); // Marcos, Fredy
+            })
+            ->paginate($this->paginado, ['*'], 'usuarios_page');
+
         return view('livewire.usuarios.tabla', [
-            'usuarios' => VtUsuarioConRole::select('id_usuario', 'nombrecompleto', 'codigo', 'documento', 'categoria', 'compania', 'roles', 'ultimo_acceso')
-                ->buscador($this->buscador)
-                ->buscarNombrecompleto($this->buscarNombrecompleto)
-                ->buscarCodigo($this->buscarCodigo)
-                ->buscarDocumento($this->buscarDocumento)
-                ->buscarCategoriaId($this->buscarCategoriaId)
-                ->buscarCompaniaId($this->buscarCompaniaId)
-                ->orderBy('codigo')
-                ->buscarRoles($this->buscarRoles)
-                ->paginate($this->paginado, ['*'], 'usuarios_page')
+            'usuarios' => $usuarios
         ]);
     }
 
