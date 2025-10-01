@@ -47,6 +47,7 @@ class Personal extends Model implements Auditable
         'ultima_actualizacion',
         'estado_actualizar_id',
         'grupo_sanguineo_id',
+        'tipo_documento_id',
     ];
 
     public function mesas()

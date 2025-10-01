@@ -1,7 +1,7 @@
 <div>
 
     <form wire:submit="guardar">
-        <x-adminlte-callout theme="success" class="col-md-12 row">
+        <x-adminlte-callout theme="warning" class="col-md-12 row" title="Formulario de Actualización De Ficha del Personal" title-class="w-100">
             {{-- Nombre Completo --}}
             <x-adminlte-input name="nombrecompleto" label="Nombre Completo:" placeholder="Nombre Completo...."
                 fgroup-class="col-md-3" wire:model.blur="nombrecompleto" />
@@ -17,15 +17,14 @@
             </x-adminlte-select>
 
             {{-- Codigo --}}
-            <x-adminlte-input type="number" name="codigo" label="Codigo:" placeholder="Codigo...."
-                fgroup-class="col-md-3" wire:model.blur="codigo" />
+            <x-adminlte-input type="number" name="codigo" label="Código:" placeholder="Código...."
+                fgroup-class="col-md-3" wire:model.blur="codigo" readonly/>
 
             {{-- Compania --}}
-            <x-adminlte-select name="compania_id" label="Compañia:" fgroup-class="col-md-3"
+            <x-adminlte-select name="compania_id" label="Compañia:" fgroup-class="col-md-3" readonly
                 wire:model.blur="compania_id">
-                <option>-- Seleccionar --</option>
                 @foreach ($companias as $compania)
-                    <option value="{{ $compania->idcompanias }}">
+                    <option value="{{ $compania->id_compania }}">
                         {{ $compania->compania . ' - ' . $compania->departamento . ' - ' . $compania->ciudad ?? 'N/A' }}
                     </option>
                 @endforeach
@@ -110,7 +109,7 @@
 
             {{-- Botón de Guardar --}}
             <div class="form-group col-md-3 d-flex align-items-end">
-                <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save"
+                <x-adminlte-button type="submit" label="Guardar" theme="warning" icon="fas fa-lg fa-save"
                     class="w-100" />
             </div>
 

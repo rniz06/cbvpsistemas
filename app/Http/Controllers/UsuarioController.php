@@ -27,6 +27,7 @@ class UsuarioController extends Controller
         $this->middleware('permission:Usuarios Eliminar', ['only' => ['destroy']]);
         $this->middleware('permission:Usuarios Asignar Roles', ['only' => ['asignarrolevista', 'asignarrole']]);
         $this->middleware('permission:Usuarios Asignar Permisos', ['only' => ['asignarpermisovista', 'asignarpermiso']]);
+        $this->middleware('permission:Usuarios Resetear Contrasena', ['only' => ['passwordreset']]);
     }
 
     /**
