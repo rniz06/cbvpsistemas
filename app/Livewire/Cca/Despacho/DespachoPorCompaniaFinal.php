@@ -60,7 +60,7 @@ class DespachoPorCompaniaFinal extends Component
         return [
             'servicio_id' => ['required', Rule::exists(Servicio::class, 'id_servicio')],
             'clasificacion_id' => ['required', Rule::exists(Clasificacion::class, 'id_servicio_clasificacion')],
-            'informacion_servicio' => ['required', 'min:3', 'max:255'],
+            'informacion_servicio' => ['required', 'min:2', 'max:255'],
             'ciudad_id' => ['required', Rule::exists(CiudadGral::class, 'id_ciudad')],
             'calle_referencia' => ['required', 'min:3', 'max:255'],
             'movil_id' => ['required', Rule::exists(Movil::class, 'id_movil')],
