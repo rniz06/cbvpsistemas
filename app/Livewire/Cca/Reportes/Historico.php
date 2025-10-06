@@ -74,7 +74,35 @@ class Historico extends Component
     public function render()
     {
         return view('livewire.cca.reportes.historico', [
-            'historicos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'acargo', 'acargo_codigo', 'acargo_nombrecompleto', 'acargo_aux', 'acargo_codigo_comisionamiento', 'chofer', 'chofer_codigo', 'chofer_categoria', 'cantidad_tripulantes', 'fecha_alfa')
+            'historicos' => VtExistente::select(
+                'id_servicio_existente',
+                'compania',
+                'servicio',
+                'clasificacion',
+                DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
+
+                // Acargo: si es null usar acargo_aux
+                DB::raw("
+                CASE 
+                    WHEN acargo_rentado = 1 THEN 'RENTADO'
+                    WHEN acargo_rentado = 0 AND acargo_nombrecompleto IS NOT NULL AND acargo_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(acargo_categoria, 1), '-', acargo_codigo)
+                    ELSE acargo_aux
+                END AS acargo
+                "),
+
+                // Chofer: condiciones según chofer_rentado
+                DB::raw("
+                CASE 
+                    WHEN chofer_rentado = 1 THEN 'RENTADO'
+                    WHEN chofer_rentado = 0 AND chofer_nombrecompleto IS NOT NULL AND chofer_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(chofer_categoria, 1), '-', chofer_codigo)
+                    ELSE chofer_aux
+                END AS chofer
+                "),
+                'cantidad_tripulantes',
+                'fecha_alfa'
+            )
                 ->where('estado_id', 4) // Servicio Culminado
                 ->when($this->fecha_desde, function ($query) {
                     return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
@@ -103,24 +131,25 @@ class Historico extends Component
             'servicio',
             'clasificacion',
             DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
-
             // Acargo: si es null usar acargo_aux
             DB::raw("
-        CASE 
-            WHEN acargo_nombrecompleto IS NULL THEN acargo_aux
-            ELSE CONCAT(acargo_nombrecompleto, '-', acargo_codigo, '-', acargo_categoria)
-        END AS acargo
-    "),
+                CASE 
+                    WHEN acargo_rentado = 1 THEN 'RENTADO'
+                    WHEN acargo_rentado = 0 AND acargo_nombrecompleto IS NOT NULL AND acargo_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(acargo_categoria, 1), '-', acargo_codigo)
+                    ELSE acargo_aux
+                END AS acargo
+                "),
 
             // Chofer: condiciones según chofer_rentado
             DB::raw("
-        CASE 
-            WHEN chofer_rentado = 1 THEN 'RENTADO'
-            WHEN chofer_rentado = 0 AND chofer_nombrecompleto IS NOT NULL AND chofer_codigo IS NOT NULL 
-                THEN CONCAT(chofer_nombrecompleto, '-', chofer_codigo)
-            ELSE chofer_aux
-        END AS chofer
-    "),
+                CASE 
+                    WHEN chofer_rentado = 1 THEN 'RENTADO'
+                    WHEN chofer_rentado = 0 AND chofer_nombrecompleto IS NOT NULL AND chofer_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(chofer_categoria, 1), '-', chofer_codigo)
+                    ELSE chofer_aux
+                END AS chofer
+                "),
 
             'cantidad_tripulantes',
             'fecha_alfa'

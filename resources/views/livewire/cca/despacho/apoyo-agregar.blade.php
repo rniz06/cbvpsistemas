@@ -43,7 +43,12 @@
 
                 {{-- Acargo --}}
                 <x-adminlte-input name="acargo" label="A cargo:" wire:model.blur="acargo" fgroup-class="col-md-2"
-                    oninput="this.value = this.value.toUpperCase()" />
+                    :disabled="$acargo_rentado" oninput="this.value = this.value.toUpperCase()" />
+
+                    {{-- BOTON DE ACARGO RENTADO --}}
+                <div class="form-group">
+                    <x-adminlte-button :label="$acargo_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$acargo_rentado ? 'secondary' : 'warning'" :icon="$acargo_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnAcargoRentado" />
+                </div>
 
                 {{-- Cantidad Tripulantes --}}
                 <x-adminlte-input name="cantidad_tripulantes" type="number" label="Tripulantes:"

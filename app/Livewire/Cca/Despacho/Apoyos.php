@@ -4,6 +4,7 @@ namespace App\Livewire\Cca\Despacho;
 
 use App\Models\Cca\Servicios\Apoyo;
 use App\Models\Vistas\Cca\VtExistenteApoyo;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -100,16 +101,24 @@ class Apoyos extends Component
             'compania',
             'movil',
             'tipo',
-            'acargo',
-            'acargo_nombrecompleto',
-            'acargo_codigo',
-            'acargo_categoria',
-            'acargo_aux',
-            'acargo_codigo_comisionamiento',
-            'chofer',
-            'chofer_aux',
-            'chofer_codigo',
-            'chofer_categoria',
+            // Acargo: si es null usar acargo_aux
+            DB::raw("
+                CASE 
+                    WHEN acargo_rentado = 1 THEN 'RENTADO'
+                    WHEN acargo_rentado = 0 AND acargo_nombrecompleto IS NOT NULL AND acargo_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(acargo_categoria, 1), '-', acargo_codigo)
+                    ELSE acargo_aux
+                END AS acargo
+                "),
+            // Chofer: condiciones según chofer_rentado
+            DB::raw("
+                CASE 
+                    WHEN chofer_rentado = 1 THEN 'RENTADO'
+                    WHEN chofer_rentado = 0 AND chofer_nombrecompleto IS NOT NULL AND chofer_codigo IS NOT NULL 
+                        THEN CONCAT(LEFT(chofer_categoria, 1), '-', chofer_codigo)
+                    ELSE chofer_aux
+                END AS chofer
+                "),
             'cantidad_tripulantes',
             'fecha_cia',
             'fecha_movil',

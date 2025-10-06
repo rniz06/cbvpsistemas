@@ -25,10 +25,10 @@
 
             {{-- Compania --}}
             <x-adminlte-input name="" label="Compañia:" value="{{ $servicio->compania ?? 'S/D' }}"
-                fgroup-class="col-md-3" disabled />
+                fgroup-class="col-md-2" disabled />
 
             {{-- Movil --}}
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <x-adminlte-select name="movil_id" label="Movil:" wire:model.blur="movil_id">
                     <option>Seleccionar...</option>
                     @forelse ($moviles as $movil)
@@ -52,7 +52,12 @@
 
             {{-- A cargo --}}
             <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
-                fgroup-class="col-md-2" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()" />
+                fgroup-class="col-md-2" :disabled="$acargo_rentado" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()" />
+
+                {{-- BOTON DE ACARGO RENTADO --}}
+            <div class="form-group col-md-1 align-self-end">
+                <x-adminlte-button :label="$acargo_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$acargo_rentado ? 'secondary' : 'warning'" :icon="$acargo_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnAcargoRentado" />
+            </div>
 
             {{-- Cantidad Tripulantes --}}
             <x-adminlte-input name="cantidad_tripulantes" type="numeric" label="Tripulantes:"

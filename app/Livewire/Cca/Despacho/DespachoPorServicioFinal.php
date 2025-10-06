@@ -24,7 +24,7 @@ class DespachoPorServicioFinal extends Component
 
     // Propiedades para el formulario
     #[Validate]
-    public $movil_id, $acargo = '', $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $movil_id, $acargo = '', $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount($servicio)
     {
@@ -38,7 +38,7 @@ class DespachoPorServicioFinal extends Component
     {
         return [
             'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo'               => ['required', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
+            'acargo'               => ['nullable', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'chofer'               => ['nullable', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'min_digits:1', 'max_digits:11'],
         ];
@@ -62,21 +62,32 @@ class DespachoPorServicioFinal extends Component
         }
     }
 
+    // Deshabilita el input acargo
+    public function btnAcargoRentado()
+    {
+        $this->acargo_rentado = !$this->acargo_rentado;
+        if ($this->acargo_rentado) {
+            $this->acargo = null;
+        }
+    }
+
     public function grabar()
     {
         // Validar los datos
         $this->validate();
         $acargo = null;
         $acargo_aux = null;
-        if (is_numeric($this->acargo)) {
-            $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
-            if (is_null($acargo)) {
-                $acargo_aux = $this->acargo;
-            }
-        } else {
-            $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
-            if (is_null($acargo)) {
-                $acargo_aux = $this->acargo;
+        if (!$this->acargo_rentado) {
+            if (is_numeric($this->acargo)) {
+                $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+                if (is_null($acargo)) {
+                    $acargo_aux = $this->acargo;
+                }
+            } else {
+                $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+                if (is_null($acargo)) {
+                    $acargo_aux = $this->acargo;
+                }
             }
         }
 
@@ -99,6 +110,7 @@ class DespachoPorServicioFinal extends Component
             'movil_id'             => $this->movil_id,
             'acargo'               => $acargo ?? null,
             'acargo_aux'           => $acargo_aux ?? null,
+            'acargo_rentado'       => $this->chofer_rentado,
             'chofer'               => $chofer ?? null,
             'chofer_aux'           => $chofer_aux ?? null,
             'chofer_rentado'       => $this->chofer_rentado,
