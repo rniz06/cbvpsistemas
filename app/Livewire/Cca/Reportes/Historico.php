@@ -130,6 +130,7 @@ class Historico extends Component
             'compania',
             'servicio',
             'clasificacion',
+            DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
             // Acargo: si es null usar acargo_aux
             DB::raw("
                 CASE 
