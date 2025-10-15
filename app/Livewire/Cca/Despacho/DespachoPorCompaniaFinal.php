@@ -143,7 +143,7 @@ class DespachoPorCompaniaFinal extends Component
             'movil_id' => $this->movil_id,
             'acargo' => $acargo ?? null,
             'acargo_aux' => $acargo_aux ?? null,
-            'acargo_rentado' => $this->chofer_rentado ?? null,
+            'acargo_rentado' => $this->acargo_rentado ?? null,
             'chofer' => $chofer ?? null,
             'chofer_aux' => $chofer_aux ?? null,
             'chofer_rentado' => $this->chofer_rentado ?? null,
