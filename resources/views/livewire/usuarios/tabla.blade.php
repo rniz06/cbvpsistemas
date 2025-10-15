@@ -103,7 +103,7 @@
                                 Permisos</a>
                         @endif
 
-                        @if (auth()->user()->can('Usuarios Editar'))
+                        @if (auth()->user()->can('Usuarios Resetear Contrasena'))
                             <a class="dropdown-item" tabindex="-1"
                                 href="{{ route('usuarios.passwordreset', $usuario->id_usuario) }}"><i
                                     class="fas fa-unlock-alt pr-2" style="color: #6c757d"></i>Resetear

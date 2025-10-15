@@ -70,45 +70,9 @@
                     <td>{{ $historico->compania ?? 'N/A' }}</td>
                     <td>{{ $historico->servicio ?? 'N/A' }}</td>
                     <td>{{ $historico->clasificacion ?? 'N/A' }}</td>
-                    <td>{{ $historico->tipo ?? 'N/A' }}-{{ $historico->movil ?? 'N/A' }}</td>
-
-                    <td>
-                        @if (is_null($historico->acargo))
-                            {{-- Mostrar acargo_aux --}}
-                            {{ $historico->acargo_aux ?? 'S/D' }}
-                        @else
-                            {{ $historico->acargo_codigo_comisionamiento ?? ($historico->acargo_codigo ?? 'S/D') }} -
-                            {{ $historico->acargo_nombrecompleto ?? 'S/D' }}
-                        @endif
-
-                    </td>
-                    {{-- <td>
-                        @if (is_null($historico->acargo))
-                            {{ $historico->codigo_comisionamiento ?? 'S/D' }}
-                        @else
-                            @php
-                                $letraCategoria = $historico->acargo_categoria
-                                    ? substr($historico->acargo_categoria, 0, 1)
-                                    : 'N/A';
-                                $codigo = $historico->acargo_codigo ?? 'N/A';
-                            @endphp
-                            {{ "$letraCategoria-$codigo" }}
-                        @endif
-
-                    </td> --}}
-                    <td>
-                        @if ($historico->chofer === null)
-                            <span class="badge badge-secondary">Rentado</span>
-                        @else
-                            @php
-                                $letraCategoria = $historico->chofer_categoria
-                                    ? substr($historico->chofer_categoria, 0, 1)
-                                    : 'N/A';
-                                $codigo = $historico->chofer_codigo ?? 'N/A';
-                            @endphp
-                            {{ "$letraCategoria-$codigo" }}
-                        @endif
-                    </td>
+                    <td>{{ $historico->tipo_movil ?? 'N/A' }}</td>
+                    <td>{{ $historico->acargo ?? 'N/A' }}</td>
+                    <td>{{ $historico->chofer ?? 'N/A' }}</td>
                     <td>{{ $historico->cantidad_tripulantes ?? 'N/A' }}</td>
                     <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') . ' Hs.' ?? 'N/A' }}</td>
                     <td><a href="{{ route('cca.despacho.ver-servicio', $historico->id_servicio_existente) }}"

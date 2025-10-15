@@ -22,7 +22,7 @@ class ApoyoAgregar extends Component
 
     // Propiedad del formulario
     #[Validate]
-    public $compania_id, $movil_id, $acargo, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $compania_id, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount($servicio)
     {
@@ -43,8 +43,20 @@ class ApoyoAgregar extends Component
         return [
             'compania_id'          => ['required', Rule::exists(CompaniaGral::class, 'id_compania')],
             'movil_id'             => ['required', Rule::exists(Movil::class, 'id_movil')],
-            'acargo'               => ['required', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
-            'chofer'               => ['nullable', 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
+            'acargo'               => [
+                Rule::when(
+                    $this->acargo_rentado == true,
+                    ['nullable'],
+                    ['required']
+                ),
+                'string',
+                'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'
+            ],
+            'chofer'               => [Rule::when(
+                $this->chofer_rentado == true,
+                ['nullable'],
+                ['required']
+            ), 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
         ];
     }
@@ -67,7 +79,14 @@ class ApoyoAgregar extends Component
         }
     }
 
-
+    // Deshabilita el input acargo
+    public function btnAcargoRentado()
+    {
+        $this->acargo_rentado = !$this->acargo_rentado;
+        if ($this->acargo_rentado) {
+            $this->acargo = null;
+        }
+    }
 
     public function guardar()
     {
@@ -75,15 +94,17 @@ class ApoyoAgregar extends Component
 
         $acargo = null;
         $acargo_aux = null;
-        if (is_numeric($this->acargo)) {
-            $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
-            if (is_null($acargo)) {
-                $acargo_aux = $this->acargo;
-            }
-        } else {
-            $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
-            if (is_null($acargo)) {
-                $acargo_aux = $this->acargo;
+        if (!$this->acargo_rentado) {
+            if (is_numeric($this->acargo)) {
+                $acargo = Personal::where('codigo', $this->acargo)->value('idpersonal');
+                if (is_null($acargo)) {
+                    $acargo_aux = $this->acargo;
+                }
+            } else {
+                $acargo = Personal::where('codigo_comisionamiento', $this->acargo)->value('idpersonal');
+                if (is_null($acargo)) {
+                    $acargo_aux = $this->acargo;
+                }
             }
         }
 
@@ -108,6 +129,7 @@ class ApoyoAgregar extends Component
             'movil_id'              => $this->movil_id,
             'acargo'                => $acargo ?? null,
             'acargo_aux'            => $acargo_aux ?? null,
+            'acargo_rentado'        => $this->acargo_rentado ?? null,
             'chofer'                => $chofer ?? null,
             'chofer_aux'            => $chofer_aux ?? null,
             'chofer_rentado'        => $this->chofer_rentado ?? null,

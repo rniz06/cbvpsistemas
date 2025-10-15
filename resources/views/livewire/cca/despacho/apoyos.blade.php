@@ -33,50 +33,8 @@
             <tr>
                 <td>{{ $apoyo->compania ?? 'N/A' }}</td>
                 <td>{{ $apoyo->tipo ?? 'N/A' }}-{{ $apoyo->movil ?? 'N/A' }}</td>
-                <td>
-                    @if (is_null($apoyo->acargo))
-                        {{-- Mostrar acargo_aux --}}
-                        {{ $apoyo->acargo_aux ?? 'S/D' }}
-                    @else
-                        {{ $apoyo->acargo_codigo_comisionamiento ?? ($apoyo->acargo_codigo ?? 'S/D') }} -
-                        {{ $apoyo->acargo_nombrecompleto ?? 'S/D' }}
-                    @endif
-
-                </td>
-                {{-- <td>
-                    @if (is_null($apoyo->acargo))
-                        {{ $apoyo->acargo_aux ?? 'S/D' }}
-                    @else
-                        @php
-                            $letraCategoria = $apoyo->acargo_categoria ? substr($apoyo->acargo_categoria, 0, 1) : 'N/A';
-                            $codigo = $apoyo->acargo_codigo ?? 'N/A';
-                            $nombre = $apoyo->acargo_nombrecompleto ?? 'N/A';
-                        @endphp
-                        {{ "$letraCategoria-$codigo - $nombre" }}
-                    @endif
-
-                </td> --}}
-
-                <td>
-                    @if (is_null($apoyo->chofer) && $apoyo->chofer_rentado == 0)
-                        {{ $apoyo->chofer_aux ?? 'S/D' }}
-                    @else
-                        @if ($apoyo->chofer_rentado == 1)
-                            <span class="badge badge-secondary">Rentado</span>
-                        @else
-                            @php
-                                $letraCategoria = $apoyo->chofer_categoria
-                                    ? substr($apoyo->chofer_categoria, 0, 1)
-                                    : 'N/A';
-                                $codigo = $apoyo->chofer_codigo ?? 'N/A';
-                            @endphp
-                            {{ "$letraCategoria-$codigo" }}
-                        @endif
-                    @endif
-                </td>
-
-
-
+                <td>{{ $apoyo->acargo ?? 'S/D' }}</td>
+                <td>{{ $apoyo->chofer ?? 'S/D' }}</td>
                 <td>{{ $apoyo->cantidad_tripulantes ?? 'N/A' }}</td>
 
                 <td>
