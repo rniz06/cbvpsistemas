@@ -26,7 +26,7 @@ class DespachoPorCompaniaFinal extends Component
 
     // Propiedades para el formulario
     #[Validate]
-    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia, $movil_id, $acargo, $acargo_rentado, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
 
     public function mount(GralVtCompania $compania)
     {
