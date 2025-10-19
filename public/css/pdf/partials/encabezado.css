@@ -1,0 +1,13 @@
+.tabla-encabezado {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.tabla-encabezado td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.encabezado-logo {
+    width: 80px;
+}

@@ -1,0 +1,71 @@
+@page {
+    /* margin: 3rem 3rem; */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+}
+
+.contenedor {
+    padding: 1rem;
+    min-height: 100vh;
+    /* Hace que el recuadro abarque toda la página */
+}
+
+.subtitulo {
+    font-weight: bold;
+    text-align: center;
+    font-size: 13px;
+    background-color: #f2f2f2;
+    padding: 5px;
+    border-style: groove;
+}
+
+
+/* Estilos generales para la tabla con clase .tabla */
+.tabla {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-collapse: collapse; /* Une los bordes */
+    table-layout: auto; /* Que las celdas se ajusten */
+    word-wrap: break-word; /* Permite que el texto largo baje de línea */
+}
+
+/* Encabezado */
+.tabla-thead td {
+    font-weight: bold;
+    background-color: #f2f2f2;
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px; /* Tamanho del texto del encabezado */
+}
+
+/* Filas del cuerpo */
+.tabla-tbody td {
+    border: 1px solid #000;
+    padding: 6px;
+    vertical-align: middle; /* Texto centrado verticalmente */
+    word-break: break-word; /* Evita que sobresalga el texto */
+}
+
+
+.lineas {
+    margin-top: 20px;
+    border-top: 1px dashed #000;
+    height: 25px;
+}
+
+.firma {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.firma small {
+    font-size: 11px;
+    color: #555;
+}
