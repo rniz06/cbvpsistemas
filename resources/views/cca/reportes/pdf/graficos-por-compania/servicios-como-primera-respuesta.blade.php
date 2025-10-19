@@ -10,36 +10,28 @@
 
 
 @section('contenido')
-    <h2 style="text-align: center">Historico de Servicios</h2>
 
-    <div class="subtitulo">Reporte desde fecha {{ date('d/m/Y', strtotime($fecha_desde)) }} hasta
+    <h2 style="text-align: center">Servicios Como Primera Respuesta</h2>
+
+    <div class="subtitulo">Compañia: {{ $compania ?? 'S/D' }} Servicio:
+        {{ $servicio ?? 'S/D' }} Clasificación: {{ $clasificacion ?? 'S/D' }} desde fecha
+        {{ date('d/m/Y', strtotime($fecha_desde)) }} hasta
         {{ date('d/m/Y', strtotime($fecha_hasta)) }}</div>
 
     <table class="tabla">
         <thead class="tabla-thead">
             <tr>
-                <td>Compañia</td>
                 <td>Servicio</td>
-                <td>Clasificación</td>
-                <td>Móvil</td>
-                <td>A Cargo</td>
-                <td>Chofer</td>
-                <td>Trip.</td>
-                <td>Fecha y Hora</td>
+                <td>Conteo</td>
             </tr>
         </thead>
 
         <tbody class="tabla-tbody">
-            @forelse ($historicos as $historico)
+            @forelse ($servicios as $servicio)
                 <tr>
-                    <td>{{ $historico->compania ?? 'S/D' }}</td>
-                    <td>{{ $historico->servicio ?? 'S/D' }}</td>
-                    <td>{{ $historico->clasificacion ?? 'S/D' }}</td>
-                    <td>{{ $historico->movil ?? 'S/D' }}</td>
-                    <td>{{ $historico->acargo ?? 'S/D' }}</td>
-                    <td>{{ $historico->chofer ?? 'S/D' }}</td>
-                    <td>{{ $historico->cantidad_tripulantes ?? 'S/D' }}</td>
-                    <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') ?? 'S/D' }}</td>
+
+                    <td>{{ $servicio->servicio ?? 'S/D' }}</td>
+                    <td>{{ $servicio->conteo ?? 'S/D' }}</td>
                 </tr>
             @empty
                 <tr>

@@ -11,7 +11,7 @@ body {
 }
 
 .contenedor {
-    padding: 1rem;
+    padding: 0rem 1rem;
     min-height: 100vh;
     /* Hace que el recuadro abarque toda la página */
 }
