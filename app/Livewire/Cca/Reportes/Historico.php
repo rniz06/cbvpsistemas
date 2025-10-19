@@ -181,7 +181,7 @@ class Historico extends Component
     {
         $query = $this->cargarDatosExport();
 
-        return Excel::download(new ExcelHistoricosExport($query), 'CBVP-CCA-HISTORICO.xlsx');
+        return Excel::download(new ExcelHistoricosExport($query), 'Historico.xlsx');
     }
 
     public function pdf()
@@ -194,6 +194,6 @@ class Historico extends Component
         ]);
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'CBVP-CCA-HISTORICO.pdf');
+        }, 'Historico.pdf');
     }
 }

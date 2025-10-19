@@ -25,7 +25,7 @@ class ExcelHistoricosExport implements FromCollection, WithHeadings, WithMapping
 
     public function headings(): array
     {
-        return ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha'];
+        return ['Compañia', 'Servicio', 'Clasificación', 'Móvil', 'A Cargo', 'Chofer', 'Tripulantes', 'Fecha y Hora'];
     }
 
     public function map($historico): array
@@ -38,7 +38,7 @@ class ExcelHistoricosExport implements FromCollection, WithHeadings, WithMapping
             $historico->acargo ?? '',
             $historico->chofer ?? 'S/D',
             $historico->cantidad_tripulantes ?? 'S/D',
-            !empty($historico->fecha_alfa) ? date('d/m/Y', strtotime($historico->fecha_alfa)) : 'S/D',
+            !empty($historico->fecha_alfa) ? date('d/m/Y H:i:s', strtotime($historico->fecha_alfa)) : 'S/D',
         ];
     }
 }

@@ -22,8 +22,8 @@
                 <td>Móvil</td>
                 <td>A Cargo</td>
                 <td>Chofer</td>
-                <td>Tripulantes</td>
-                <td>Fecha</td>
+                <td>Trip.</td>
+                <td>Fecha y Hora</td>
             </tr>
         </thead>
 
@@ -37,7 +37,7 @@
                     <td>{{ $historico->acargo ?? 'S/D' }}</td>
                     <td>{{ $historico->chofer ?? 'S/D' }}</td>
                     <td>{{ $historico->cantidad_tripulantes ?? 'S/D' }}</td>
-                    <td>{{ $historico->fecha_alfa->format('d/m/Y') ?? 'S/D' }}</td>
+                    <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') ?? 'S/D' }}</td>
                 </tr>
             @empty
                 <tr>
