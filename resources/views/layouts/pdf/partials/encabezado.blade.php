@@ -19,3 +19,4 @@
         </td>
     </tr>
 </table>
+<hr class="encabezado-hr">

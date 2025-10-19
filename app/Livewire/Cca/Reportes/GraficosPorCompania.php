@@ -7,9 +7,12 @@ use App\Exports\PdfGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Cca\Servicios\Clasificacion;
 use App\Models\Cca\Servicios\Servicio;
+use App\Models\Gral\Compania;
 use App\Models\Vistas\Cca\VtExistente;
 use App\Models\Vistas\Cca\VtExistenteApoyo;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -270,8 +273,7 @@ class GraficosPorCompania extends Component
 
     public function pdfServicios()
     {
-        $nombre_archivo = "CBVP CCA GRAFICO";
-        $datos = VtExistente::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
+        $servicios = VtExistente::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
             ->where('estado_id', 4) // Servicio Culminado
             ->when($this->fecha_desde, function ($query) {
                 return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
@@ -287,9 +289,37 @@ class GraficosPorCompania extends Component
             })
             ->groupBy('servicio')->get();
 
-        $encabezados = ['Servicio', 'Conteo'];
+        $pdf = Pdf::loadView('cca.reportes.pdf.graficos-por-compania.servicios-como-primera-respuesta', [
+            'compania'      => Compania::find($this->compania_id)?->compania ?? 'TODOS',
+            'servicio'      => Servicio::find($this->servicio_id)?->servicio ?? 'TODOS',
+            'clasificacion' => Clasificacion::find($this->clasificacion_id)?->clasificacion ?? 'TODOS',
+            'fecha_desde'   => $this->fecha_desde,
+            'fecha_hasta'   => $this->fecha_hasta,
+            'servicios'     => $servicios,
+            'usuario'       => Auth::user()
+        ]);
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'Graficos Por Compañia.pdf');
+    }
 
-        return (new PdfGenericoExport($datos, $encabezados, $nombre_archivo))->download();
+    public function pdfServicios1()
+    {
+        $datos = VtExistente::select('servicio', DB::raw("COUNT(servicio_id) AS conteo"))
+            ->where('estado_id', 4) // Servicio Culminado
+            ->when($this->fecha_desde, function ($query) {
+                return $query->whereDate('fecha_alfa', '>=', $this->fecha_desde);
+            })
+            ->when($this->fecha_hasta, function ($query) {
+                return $query->whereDate('fecha_alfa', '<=', $this->fecha_hasta);
+            })
+            ->when($this->compania_id, function ($query) {
+                return $query->where('compania_id', $this->compania_id);
+            })
+            ->when($this->servicio_id, function ($query) {
+                return $query->where('servicio_id', $this->servicio_id);
+            })
+            ->groupBy('servicio')->get();
     }
 
     public function excelClasificaciones()
