@@ -1,26 +1,21 @@
 <?php
 
-namespace App\Models\Gral;
+namespace App\Models\Personal\Asistencia;
 
-use App\Models\Personal\Asistencia;
+use App\Models\Gral\Anho;
+use App\Models\Gral\Mes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Compania extends Model implements Auditable
+class Periodo extends Model implements Auditable
 {
-    use \OwenIt\Auditing\Auditable, SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
 
-    protected $table = "GRAL_companias";
+    protected $table = "PER_asistencias_periodos";
 
-    protected $primaryKey = 'id_compania';
+    protected $primaryKey = 'id_asistencia_periodo';
 
-    protected $fillable = [
-        'compania',
-        'ciudad_id',
-        'region_id',
-        'orden',
-    ];
+    protected $fillable = ['anho_id', 'mes_id'];
 
     /*
     |--------------------------------------------------------------------------
@@ -28,16 +23,17 @@ class Compania extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public function ciudad()
+    public function anho()
     {
-        return $this->belongsTo(Ciudad::class, 'ciudad_id');
+        return $this->belongsTo(Anho::class, 'anho_id');
     }
 
-    public function region()
+    public function mes()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Mes::class, 'mes_id');
     }
 
+    // Relacion Inversa
     public function asistencias()
     {
         return $this->hasMany(Asistencia::class);    

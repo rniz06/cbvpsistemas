@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('PER_asistencias_citaciones', function (Blueprint $table) {
             $table->id('id_asistencia_citacion');
+            $table->foreignId('asistencia_id')
+                ->constrained('PER_asistencias', 'id_asistencia')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->string('referencia');
             $table->date('fecha');
             $table->timestamps();

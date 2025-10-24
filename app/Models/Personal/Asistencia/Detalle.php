@@ -1,26 +1,21 @@
 <?php
 
-namespace App\Models\Gral;
+namespace App\Models\Personal\Asistencia;
 
-use App\Models\Personal\Asistencia;
+use App\Models\Personal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Compania extends Model implements Auditable
+class Detalle extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable, SoftDeletes;
 
-    protected $table = "GRAL_companias";
+    protected $table = "PER_asistencias_detalles";
 
-    protected $primaryKey = 'id_compania';
+    protected $primaryKey = 'id_asistencia_detalle';
 
-    protected $fillable = [
-        'compania',
-        'ciudad_id',
-        'region_id',
-        'orden',
-    ];
+    protected $fillable = ['asistencia_id', 'personal_id', 'practica', 'guardia', 'citacion'];
 
     /*
     |--------------------------------------------------------------------------
@@ -28,19 +23,14 @@ class Compania extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public function ciudad()
+    public function asistencia()
     {
-        return $this->belongsTo(Ciudad::class, 'ciudad_id');
+        return $this->belongsTo(Asistencia::class, 'asistencia_id');
     }
 
-    public function region()
+    public function personal()
     {
-        return $this->belongsTo(Region::class, 'region_id');
-    }
-
-    public function asistencias()
-    {
-        return $this->hasMany(Asistencia::class);    
+        return $this->belongsTo(Personal::class, 'personal_id');
     }
 
     /*
