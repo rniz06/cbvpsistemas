@@ -17,6 +17,8 @@ class Detalle extends Model implements Auditable
 
     protected $fillable = ['asistencia_id', 'personal_id', 'practica', 'guardia', 'citacion'];
 
+    public $timestamps = false;
+
     /*
     |--------------------------------------------------------------------------
     | RELACIONES

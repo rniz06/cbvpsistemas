@@ -17,6 +17,8 @@ class Periodo extends Model implements Auditable
 
     protected $fillable = ['anho_id', 'mes_id'];
 
+    public $timestamps = false;
+    
     /*
     |--------------------------------------------------------------------------
     | RELACIONES

@@ -17,6 +17,8 @@ class Asistencia extends Model implements Auditable
 
     protected $fillable = ['compania_id', 'periodo_id', 'estado_id'];
 
+    public $timestamps = false;
+
     /*
     |--------------------------------------------------------------------------
     | RELACIONES

@@ -2,6 +2,7 @@
 
 namespace App\Models\Gral;
 
+use App\Models\Personal\Asistencia\Periodo;
 use App\Models\Personal\AsistenciaPeriodo;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -16,9 +17,11 @@ class Mes extends Model implements Auditable
 
     protected $fillable = ['mes', 'numero'];
 
+    public $timestamps = false;
+
     // Relacion inversa
     public function asistenciasPeriodos()
     {
-        return $this->hasMany(AsistenciaPeriodo::class);
+        return $this->hasMany(Periodo::class);
     }
 }

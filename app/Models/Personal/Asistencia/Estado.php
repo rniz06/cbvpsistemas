@@ -16,6 +16,8 @@ class Estado extends Model implements Auditable
 
     protected $fillable = ['estado'];
 
+    public $timestamps = false;
+
     /*
     |--------------------------------------------------------------------------
     | RELACIONES

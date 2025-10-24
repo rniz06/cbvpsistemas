@@ -2,6 +2,7 @@
 
 namespace App\Models\Gral;
 
+use App\Models\Personal\Asistencia\Periodo;
 use App\Models\Personal\AsistenciaPeriodo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,9 +18,11 @@ class Anho extends Model implements Auditable
 
     protected $fillable = ['anho'];
 
+    public $timestamps = false;
+
     // Relacion inversa
     public function asistenciasPeriodos()
     {
-        return $this->hasMany(AsistenciaPeriodo::class);
+        return $this->hasMany(Periodo::class);
     }
 }
