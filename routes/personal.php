@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\Personal\AsistenciaController;
 use App\Http\Controllers\Personal\ComisionamientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,15 @@ Route::middleware('auth')->prefix('personal')->group(function () {
     Route::controller(CargoController::class)
         ->group(function () {
             Route::get('/cargos', 'index')->name('personal.cargos.index');
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rutas del modulo Asistencias
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(AsistenciaController::class)
+        ->group(function () {
+            Route::get('/asistencias', 'index')->name('personal.asistencias.index');
         });
 });
