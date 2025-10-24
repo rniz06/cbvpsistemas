@@ -38,7 +38,7 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.personal.asistencia.index',  [
+        return view('livewire.personal.asistencias.index',  [
             'asistencias' => Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
                 ->with([
                     'compania:id_compania,compania',

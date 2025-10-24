@@ -58,7 +58,8 @@
 
             <th>
                 <div>
-                    <x-adminlte-input name="" label="Acciones:" fgroup-class="col-md-12" igroup-size="sm" readonly />
+                    <x-adminlte-input name="" label="Acciones:" fgroup-class="col-md-12" igroup-size="sm"
+                        readonly />
                 </div>
             </th>
 
@@ -70,7 +71,8 @@
                 <td>{{ $asistencia->periodo->mes->mes ?? 'N/A' }}</td>
                 <td>{{ $asistencia->estado->estado ?? 'N/A' }}</td>
                 <td>
-                    <a href="" class="btn btn-sm btn-outline-warning"><i class="fas fa-eye"></i> Ver</a>
+                    <a href="{{ route('personal.asistencias.show', $asistencia->id_asistencia) }}"
+                        class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i> Ver</a>
                 </td>
             </tr>
         @empty
