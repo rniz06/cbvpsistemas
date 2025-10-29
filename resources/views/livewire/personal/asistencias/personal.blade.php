@@ -59,20 +59,35 @@
                 <td>{{ $personal->personal->nombrecompleto ?? 'S/D' }}</td>
                 <td>{{ $personal->personal->codigo ?? 'S/D' }}</td>
                 <td>
-                    <x-adminlte-input type="number" name="practica_{{ $personal->id_asistencia_detalle }}"
-                        wire:model.blur="practica.{{ $personal->id_asistencia_detalle }}" igroup-size="sm" />
+                    <span
+                        class="badge 
+                        {{ $personal->practica ?? null ? 'badge-success' : 'badge-danger' }}">
+                        {{ $personal->practica ?? 'S/D' }}
+                    </span>
                 </td>
+
                 <td>
-                    <x-adminlte-input type="number" name="guardia_{{ $personal->id_asistencia_detalle }}"
-                        wire:model.blur="guardia.{{ $personal->id_asistencia_detalle }}" igroup-size="sm" />
+                    <span
+                        class="badge 
+                        {{ $personal->guardia ?? null ? 'badge-success' : 'badge-danger' }}">
+                        {{ $personal->guardia ?? 'S/D' }}
+                    </span>
                 </td>
+
                 <td>
-                    <x-adminlte-input type="number" name="citacion_{{ $personal->id_asistencia_detalle }}"
-                        wire:model.blur="citacion.{{ $personal->id_asistencia_detalle }}" igroup-size="sm" />
+                    <span
+                        class="badge 
+                        {{ $personal->citacion ?? null ? 'badge-success' : 'badge-danger' }}">
+                        {{ $personal->citacion ?? 'S/D' }}
+                    </span>
                 </td>
+
                 <td>
-                    <x-adminlte-button wire:click="grabar({{ $personal->id_asistencia_detalle }})" class="btn-sm"
-                        label="Guardar" icon="fas fa-sm fa-save" theme="outline-success" />
+                    {{-- Boton --}}
+                    <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
+                        theme="outline-success" class="btn-sm"
+                        data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
+                    @livewire('personal.asistencias.modal-form', ['asistencia_detalle_id' => $personal->id_asistencia_detalle], key($personal->id_asistencia_detalle))
                 </td>
             </tr>
         @empty
