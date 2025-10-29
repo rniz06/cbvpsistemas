@@ -1,5 +1,5 @@
 <div>
-    {{-- Tabla de Personales --}}
+    {{-- Tabla de Voluntarios --}}
     <x-table.table titulo="Listado De Voluntarios" ocultarBuscador>
 
         <x-slot name="cabeceras">
@@ -54,40 +54,33 @@
             </th>
 
         </x-slot>
-        @forelse ($personales as $personal)
+        @forelse ($voluntarios as $personal)
             <tr wire:key="fila-{{ $personal->id_asistencia_detalle }}">
                 <td>{{ $personal->personal->nombrecompleto ?? 'S/D' }}</td>
                 <td>{{ $personal->personal->codigo ?? 'S/D' }}</td>
+
                 <td>
-                    <span
-                        class="badge 
-                        {{ $personal->practica ?? null ? 'badge-success' : 'badge-danger' }}">
+                    <span class="badge {{ $personal->practica !== null ? 'badge-success' : 'badge-danger' }}">
                         {{ $personal->practica ?? 'S/D' }}
                     </span>
                 </td>
 
                 <td>
-                    <span
-                        class="badge 
-                        {{ $personal->guardia ?? null ? 'badge-success' : 'badge-danger' }}">
+                    <span class="badge {{ $personal->guardia !== null ? 'badge-success' : 'badge-danger' }}">
                         {{ $personal->guardia ?? 'S/D' }}
                     </span>
                 </td>
 
-                <td>
-                    <span
-                        class="badge 
-                        {{ $personal->citacion ?? null ? 'badge-success' : 'badge-danger' }}">
+                <td><span class="badge {{ $personal->citacion !== null ? 'badge-success' : 'badge-danger' }}">
                         {{ $personal->citacion ?? 'S/D' }}
-                    </span>
-                </td>
+                    </span></td>
 
                 <td>
                     {{-- Boton --}}
                     <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm"
                         data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
-                    @livewire('personal.asistencias.modal-form', ['asistencia_detalle_id' => $personal->id_asistencia_detalle], key($personal->id_asistencia_detalle))
+                    @livewire('personal.asistencias.carga', ['asistencia_detalle_id' => $personal->id_asistencia_detalle], key($personal->id_asistencia_detalle))
                 </td>
             </tr>
         @empty
@@ -96,7 +89,7 @@
             </tr>
         @endforelse
         <x-slot name="paginacion">
-            {{ $personales->links() }}
+            {{ $voluntarios->links() }}
         </x-slot>
     </x-table.table>
 </div>

@@ -6,7 +6,7 @@ use App\Models\Personal\Asistencia\Detalle;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class ModalForm extends Component
+class Carga extends Component
 {
     public $detalle, $asistencia_detalle_id;
 
@@ -47,6 +47,6 @@ class ModalForm extends Component
 
     public function render()
     {
-        return view('livewire.personal.asistencias.modal-form');
+        return view('livewire.personal.asistencias.carga');
     }
 }

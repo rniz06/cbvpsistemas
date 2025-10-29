@@ -4,11 +4,10 @@ namespace App\Livewire\Personal\Asistencias;
 
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Personal extends Component
+class Voluntarios extends Component
 {
     use WithPagination;
 
@@ -36,8 +35,8 @@ class Personal extends Component
 
     public function render()
     {
-        return view('livewire.personal.asistencias.personal', [
-            'personales' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion')
+        return view('livewire.personal.asistencias.voluntarios', [
+            'voluntarios' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion')
                 ->with('personal:idpersonal,nombrecompleto,codigo')
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
                 ->buscarNombrecompleto($this->buscarNombreCompleto)

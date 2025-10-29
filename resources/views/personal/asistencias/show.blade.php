@@ -18,7 +18,7 @@
     @endif
     {{-- Llamar al componente livewire --}}
     @livewire('personal.asistencias.show', ['asistencia' => $asistencia])
-    @livewire('personal.asistencias.personal', ['asistencia' => $asistencia])
+    @livewire('personal.asistencias.voluntarios', ['asistencia' => $asistencia])
 
 @stop
 
