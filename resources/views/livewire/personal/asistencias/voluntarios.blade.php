@@ -76,11 +76,18 @@
                     </span></td>
 
                 <td>
-                    {{-- Boton --}}
-                    <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
-                        theme="outline-success" class="btn-sm"
-                        data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
-                    @livewire('personal.asistencias.carga', ['asistencia_detalle_id' => $personal->id_asistencia_detalle], key($personal->id_asistencia_detalle))
+                    <div class="d-inline-flex align-items-center gap-2">
+                        {{-- Boton --}}
+                        <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
+                            theme="outline-success" class="btn-sm"
+                            data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
+                        @livewire('personal.asistencias.carga', ['asistencia_detalle_id' => $personal->id_asistencia_detalle], key($personal->id_asistencia_detalle))
+
+                        @if ($personal->personal->estado_actualizar_id == 1)
+                            <a href="{{ route('personal.edit', $personal->personal_id) }}"
+                                class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Act. Ficha Vol.</a>
+                        @endif
+                    </div>
                 </td>
             </tr>
         @empty
