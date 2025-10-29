@@ -3,6 +3,7 @@
 namespace App\Models\Personal\Asistencia;
 
 use App\Models\Personal;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -38,6 +39,42 @@ class Detalle extends Model implements Auditable
     /*
     |--------------------------------------------------------------------------
     | FIN RELACIONES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTROS DE BUSQUEDA
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Busqueda por relacion personal campo nombrecompleto.
+     */
+    public function scopeBuscarNombrecompleto(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereHas('personal', function (Builder $q) use ($search) {
+                $q->whereLike('nombrecompleto', "%$search%");
+            });
+        });
+    }
+
+    /**
+     * Busqueda por relacion personal campo codigo.
+     */
+    public function scopeBuscarCodigo(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereHas('personal', function (Builder $q) use ($search) {
+                $q->whereLike('codigo', "%$search%");
+            });
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FIN FILTROS DE BUSQUEDA
     |--------------------------------------------------------------------------
     */
 }

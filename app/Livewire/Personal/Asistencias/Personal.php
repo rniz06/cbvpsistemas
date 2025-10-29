@@ -37,9 +37,11 @@ class Personal extends Component
     public function render()
     {
         return view('livewire.personal.asistencias.personal', [
-            'personales' => Detalle::select('id_asistencia_detalle', 'personal_id','asistencia_id', 'practica', 'guardia', 'citacion')
+            'personales' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion')
                 ->with('personal:idpersonal,nombrecompleto,codigo')
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
+                ->buscarNombrecompleto($this->buscarNombreCompleto)
+                ->buscarCodigo($this->buscarCodigo)
                 ->paginate($this->paginado, ['*'], 'personales_page')
         ]);
     }
