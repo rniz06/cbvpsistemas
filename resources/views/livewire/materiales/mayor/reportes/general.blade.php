@@ -1,6 +1,5 @@
 <div>
-    <x-adminlte-card theme="light" title="Parametros de Filtrado" icon="fas fa-filter"
-        header-class="text-muted text-sm">
+    <x-adminlte-card theme="light" title="Parametros de Filtrado" icon="fas fa-filter" header-class="text-muted text-sm">
         <form class="row col-md-12">
 
             {{-- Compañías --}}
@@ -16,8 +15,8 @@
             </x-adminlte-select>
 
             {{-- Acrónimo --}}
-            <x-adminlte-select name="acronimo_id" wire:model.live.debounce.200ms="acronimo_id" label-class="text-lightblue"
-                fgroup-class="col-md-2" igroup-size="sm">
+            <x-adminlte-select name="acronimo_id" wire:model.live.debounce.200ms="acronimo_id"
+                label-class="text-lightblue" fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Acrónimos</div>
                 </x-slot>
@@ -52,8 +51,8 @@
             </x-adminlte-select>
 
             {{-- Operatividad --}}
-            <x-adminlte-select name="operatividad_id" wire:model.live.debounce.200ms="operatividad_id" label-class="text-lightblue"
-                fgroup-class="col-md-2" igroup-size="sm">
+            <x-adminlte-select name="operatividad_id" wire:model.live.debounce.200ms="operatividad_id"
+                label-class="text-lightblue" fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Operatividad</div>
                 </x-slot>
@@ -77,8 +76,8 @@
             </x-adminlte-select>
 
             {{-- Transmisiones --}}
-            <x-adminlte-select name="transmision_id" wire:model.live.debounce.200ms="transmision_id" label-class="text-lightblue"
-                fgroup-class="col-md-3" igroup-size="sm">
+            <x-adminlte-select name="transmision_id" wire:model.live.debounce.200ms="transmision_id"
+                label-class="text-lightblue" fgroup-class="col-md-3" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Transmisiones</div>
                 </x-slot>
@@ -131,6 +130,7 @@
             <th>Chapa</th>
             <th>C. delanteras</th>
             <th>C. traseras</th>
+            <th></th>
         </x-slot>
 
         @forelse ($resultados as $resultado)
@@ -147,6 +147,8 @@
                 <td>{{ $resultado->chapa ?? 'S/D' }}</td>
                 <td>{{ $resultado->cubiertas_frente ?? 'S/D' }}</td>
                 <td>{{ $resultado->cubiertas_atras ?? 'S/D' }}</td>
+                <td><a href="{{ route('materiales.mayor.show', $resultado->id_movil) }}" class="btn btn-sm btn-secondary"><i
+                            class="fas fa-eye"></i></a></td>
             </tr>
         @empty
             <td colspan="100%" class="text-center text-muted">Sin resultados...</td>
