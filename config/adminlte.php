@@ -384,6 +384,17 @@ return [
                     'route' => 'materiales.parametros',
                     'can' => 'Materiales Parametros',
                 ],
+                [
+                    'text' => 'Reportes',
+                    // 'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Mayor',
+                            'route' => 'materiales.mayor.reportes.index',
+                            'can' => 'Mayor Reportes Listar',
+                        ],
+                    ],
+                ],
             ],
         ],
         [

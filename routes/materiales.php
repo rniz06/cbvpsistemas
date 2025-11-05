@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Materiales\ConductorController;
 use App\Http\Controllers\Materiales\EquipoHidraulicoController;
+use App\Http\Controllers\Materiales\Mayor\ReporteController;
 use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\MaterialParametroController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,15 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
         Route::get('/create', 'create')->name('conductores.create');
         Route::get('/{conductor}', 'show')->name('conductores.show');
         Route::get('/{conductor}/edit', 'edit')->name('conductores.edit');
+    });
+
+    // FIN 
+
+    // RUTAS DEL MAYOR REPORTES
+
+    Route::controller(ReporteController::class)->prefix('/mayor/reportes')->name('mayor.reportes.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/general', 'general')->name('general');
     });
 
     // FIN 
