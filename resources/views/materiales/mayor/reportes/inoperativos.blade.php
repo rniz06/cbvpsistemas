@@ -2,9 +2,9 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Mayor - Reportes')
-@section('content_header_title', 'Mayor - Reportes')
-@section('content_header_subtitle', 'Reportes')
+@section('subtitle', 'Mayor - Inoperativos')
+@section('content_header_title', 'Mayor - Inoperativos')
+@section('content_header_subtitle', 'Inoperativos')
 
 {{-- Content body: main page content --}}
 
@@ -17,17 +17,7 @@
         </div>
     @endif
 
-    @can('Mayor Reportes General')
-        <a class="btn btn-app" href="{{ route('materiales.mayor.reportes.general') }}">
-            <i class="fas fa-th"></i> General
-        </a>
-    @endcan
-
-    @can('Mayor Reportes Inoperativos')
-        <a class="btn btn-app" href="{{ route('materiales.mayor.reportes.inoperativos') }}">
-            <i class="fas fa-th"></i> Inoperativos
-        </a>
-    @endcan
+    @livewire('materiales.mayor.reportes.inoperativos')
 
 @stop
 

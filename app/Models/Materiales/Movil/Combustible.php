@@ -8,14 +8,30 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Combustible extends Model implements Auditable
 {
-    use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable, SoftDeletes;
 
     protected $table = "MAT_moviles_combustibles";
 
     protected $primaryKey = 'id_movil_combustible';
 
     protected $fillable = ['tipo', 'activo'];
+
+    /*
+    |---------------------------------------
+    | RELACIONES DEL MODELO
+    |---------------------------------------
+    */
+
+    public function moviles()
+    {
+        return $this->hasMany(Movil::class, 'combustible_id');
+    }
+
+    /*
+    |---------------------------------------
+    | FIN RELACIONES DEL MODELO
+    |---------------------------------------
+    */
 
     /**
      * Se implementa funcion para buscador general del componente livewire.

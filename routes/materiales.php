@@ -94,6 +94,7 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
     Route::controller(ReporteController::class)->prefix('/mayor/reportes')->name('mayor.reportes.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/general', 'general')->name('general');
+        Route::get('/inoperativos', 'inoperativos')->name('inoperativos');
     });
 
     // FIN 

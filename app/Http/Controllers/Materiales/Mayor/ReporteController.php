@@ -15,6 +15,7 @@ class ReporteController extends Controller
     {
         $this->middleware('permission:Mayor Reportes Listar', ['only' => ['index']]);
         $this->middleware('permission:Mayor Reportes General', ['only' => ['general']]);
+        $this->middleware('permission:Mayor Reportes Inoperativos', ['only' => ['inoperativos']]);
     }
 
     public function index()
@@ -25,5 +26,10 @@ class ReporteController extends Controller
     public function general()
     {
         return view('materiales.mayor.reportes.general');
+    }
+
+    public function inoperativos()
+    {
+        return view('materiales.mayor.reportes.inoperativos');
     }
 }
