@@ -3,7 +3,7 @@
         <form class="row col-md-12">
 
             {{-- Compañías --}}
-            <x-adminlte-select name="compania_id" wire:model.live.debounce.200ms="compania_id" label-class="text-lightblue"
+            <x-adminlte-select name="" wire:model.live.debounce.200ms="buscarCompaniaId" label-class="text-lightblue"
                 fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Compañías</div>
@@ -15,7 +15,7 @@
             </x-adminlte-select>
 
             {{-- Acrónimo --}}
-            <x-adminlte-select name="acronimo_id" wire:model.live.debounce.200ms="acronimo_id"
+            <x-adminlte-select name="" wire:model.live.debounce.200ms="buscarAcronimoId"
                 label-class="text-lightblue" fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Acrónimos</div>
@@ -27,7 +27,7 @@
             </x-adminlte-select>
 
             {{-- Años --}}
-            <x-adminlte-select name="anho_id" wire:model.live.debounce.200ms="anho_id" label-class="text-lightblue"
+            <x-adminlte-select name="" wire:model.live.debounce.200ms="buscarAnhoId" label-class="text-lightblue"
                 fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Años</div>

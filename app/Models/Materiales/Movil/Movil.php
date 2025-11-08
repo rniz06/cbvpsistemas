@@ -283,6 +283,11 @@ class Movil extends Model implements Auditable
             ->with(['motivo:id_accion_categoria,categoria', 'detalle:idaccion_categoria_detalle,detalle']); // nombres de las columnas reales
     }
 
+    public function scopeFiltrarInoperativos(Builder $query)
+    {
+        return $query->where('operatividad_id', 0); // 0 = INOPERATIVO
+    }
+
     /*
     |---------------------------------------
     | FIN LOCAL SCOPE / FILTROS DE CONSULTAS

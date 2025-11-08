@@ -23,7 +23,7 @@ class Inoperativos extends Component
     public $companias = [], $acronimos = [], $anhos = [], $motivos = [], $detalles = [];
 
     // PROPIEDADES FILTROS
-    public $compania_id, $acronimo_id, $anho_id, $accion_categoria_id, $categoria_detalle_id;
+    public $buscarCompaniaId, $buscarAcronimoId, $buscarAnhoId, $accion_categoria_id, $categoria_detalle_id;
 
     public $paginado = 5;
 
@@ -31,9 +31,8 @@ class Inoperativos extends Component
     {
         $this->companias     = Compania::select('id_compania', 'compania')->orderBy('orden')->get();
         $this->acronimos     = Acronimo::select('id_movil_tipo', 'tipo')->orderBy('tipo')->get();
-        $this->anhos         = Movil::where('operatividad_id', 0)->distinct()->orderBy('anho', 'desc')->pluck('anho', 'anho')->toArray();
+        $this->anhos         = Movil::filtrarInoperativos()->distinct()->orderBy('anho', 'desc')->pluck('anho', 'anho')->toArray();
         $this->motivos       = AccionCategoria::select('id_accion_categoria', 'categoria')->orderBy('categoria')->get();
-        //$this->detalles      = AccionCategoriaDetalle::select('idaccion_categoria_detalle', 'detalle')->orderBy('detalle')->get();
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
@@ -59,13 +58,11 @@ class Inoperativos extends Component
             'movil_tipo_id',
             'compania_id',
             'anho',
-        )->where('operatividad_id', 0)->when($this->compania_id, function (Builder $query, $compania_id) {
-            $query->where('compania_id', $compania_id);
-        })->when($this->acronimo_id, function (Builder $query, $acronimo_id) {
-            $query->where('movil_tipo_id', $acronimo_id);
-        })->when($this->anho_id, function (Builder $query, $anho_id) {
-            $query->where('anho', $anho_id);
-        })->when($this->accion_categoria_id, function (Builder $query) {
+        )->filtrarInoperativos()
+        ->buscarCompaniaId($this->buscarCompaniaId)
+        ->buscarAcronimoId($this->buscarAcronimoId)
+        ->buscarAnho($this->buscarAnhoId)
+        ->when($this->accion_categoria_id, function (Builder $query) {
             $query->whereHas('comentarios', function (Builder $query) {
                 $query->where('accion_categoria_id', $this->accion_categoria_id);
             });
