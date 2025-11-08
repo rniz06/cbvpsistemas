@@ -17,6 +17,8 @@
         </div>
     @endif
 
+    <h4>Reportes de Material Mayor</h4>
+
     @can('Materiales Reportes Mayor General')
         <a class="btn btn-app" href="{{ route('materiales.reportes.mayor.general') }}">
             <i class="fas fa-th"></i> General
@@ -28,6 +30,9 @@
             <i class="fas fa-th"></i> Inoperativos
         </a>
     @endcan
+    
+
+    <hr>
 
 @stop
 

@@ -116,7 +116,7 @@
     </x-adminlte-card>
 
     <!-- Tabla -->
-    <x-table.table titulo="Reporte" ocultarBuscador excel pdf>
+    <x-table.table titulo="Reporte" ocultarBuscador excel>
         <x-slot name="cabeceras">
             <th>Móvil</th>
             <th>Compañía</th>
