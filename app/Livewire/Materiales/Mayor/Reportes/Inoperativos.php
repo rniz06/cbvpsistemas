@@ -23,7 +23,7 @@ class Inoperativos extends Component
     public $companias = [], $acronimos = [], $anhos = [], $motivos = [], $detalles = [];
 
     // PROPIEDADES FILTROS
-    public $buscarCompaniaId, $buscarAcronimoId, $buscarAnhoId, $accion_categoria_id, $categoria_detalle_id;
+    public $buscarCompaniaId, $buscarAcronimoId, $buscarAnhoId, $buscarAccionCategoriaId, $buscarCategoriaDetalleId;
 
     public $paginado = 5;
 
@@ -62,15 +62,9 @@ class Inoperativos extends Component
         ->buscarCompaniaId($this->buscarCompaniaId)
         ->buscarAcronimoId($this->buscarAcronimoId)
         ->buscarAnho($this->buscarAnhoId)
-        ->when($this->accion_categoria_id, function (Builder $query) {
-            $query->whereHas('comentarios', function (Builder $query) {
-                $query->where('accion_categoria_id', $this->accion_categoria_id);
-            });
-        })->when($this->categoria_detalle_id, function (Builder $query) {
-            $query->whereHas('comentarios', function (Builder $query) {
-                $query->where('categoria_detalle_id', $this->categoria_detalle_id);
-            });
-        })->with([
+        ->buscarAccionCategoriaId($this->buscarAccionCategoriaId)
+        ->buscarAccionCategoriaId($this->buscarCategoriaDetalleId)
+        ->with([
             'acronimo:id_movil_tipo,tipo',
             'compania:id_compania,compania',
             'ultimoComentarioFueraServicio:id_movil_comentario,movil_id,accion_categoria_id,categoria_detalle_id,accion_id,created_at',
@@ -86,7 +80,7 @@ class Inoperativos extends Component
         ]);
     }
 
-    public function updatedAccionCategoriaId($value)
+    public function updatedBuscarAccionCategoriaId($value)
     {
         $this->detalles  = AccionCategoriaDetalle::select('idaccion_categoria_detalle', 'detalle')
             ->where('accion_categoria_id', $value)

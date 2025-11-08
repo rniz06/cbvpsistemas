@@ -39,7 +39,7 @@
             </x-adminlte-select>
 
             {{-- Motivos --}}
-            <x-adminlte-select name="accion_categoria_id" wire:model.live.debounce.200ms="accion_categoria_id"
+            <x-adminlte-select name="" wire:model.live.debounce.200ms="buscarAccionCategoriaId"
                 label-class="text-lightblue" fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Motivos</div>
@@ -51,7 +51,7 @@
             </x-adminlte-select>
 
             {{-- Motivos Detalles --}}
-            <x-adminlte-select name="categoria_detalle_id" wire:model.live.debounce.200ms="categoria_detalle_id"
+            <x-adminlte-select name="" wire:model.live.debounce.200ms="buscarCategoriaDetalleId"
                 label-class="text-lightblue" fgroup-class="col-md-2" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Motivos Detalles</div>

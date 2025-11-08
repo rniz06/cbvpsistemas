@@ -275,6 +275,26 @@ class Movil extends Model implements Auditable
         });
     }
 
+    /**
+     * Se implementa funcion para filtrar por campo accion_categoria_id de la relacion comentarios.
+     */
+    public function scopeBuscarAccionCategoriaId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereRelation('comentarios', 'accion_categoria_id', $search);
+        });
+    }
+
+    /**
+     * Se implementa funcion para filtrar por campo categoria_detalle_id de la relacion comentarios.
+     */
+    public function scopeBuscarCategoriaDetalleId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereRelation('comentarios', 'categoria_detalle_id', $search);
+        });
+    }
+
     public function ultimoComentarioFueraServicio()
     {
         return $this->hasOne(MovilComentario::class, 'movil_id', 'id_movil')
