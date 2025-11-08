@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Materiales\ConductorController;
 use App\Http\Controllers\Materiales\EquipoHidraulicoController;
-use App\Http\Controllers\Materiales\Mayor\ReporteController;
 use App\Http\Controllers\Materiales\MayorController;
+use App\Http\Controllers\Materiales\Reportes\ReporteController;
+use App\Http\Controllers\Materiales\Reportes\ReporteMayorController;
 use App\Http\Controllers\MaterialParametroController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,24 +79,41 @@ Route::controller(EquipoHidraulicoController::class)->middleware('auth')->prefix
 
 Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(function () {
 
-    // RUTAS DEL MODULO CONDUCTORES
-
+    /*
+    |--------------------------------------------------------------------------
+    | RUTAS DEL MODULO CONDUCTORES 
+    |--------------------------------------------------------------------------
+    */
     Route::controller(ConductorController::class)->prefix('conductores')->group(function () {
         Route::get('/', 'index')->name('conductores.index');
         Route::get('/create', 'create')->name('conductores.create');
         Route::get('/{conductor}', 'show')->name('conductores.show');
         Route::get('/{conductor}/edit', 'edit')->name('conductores.edit');
     });
+    /*
+    |--------------------------------------------------------------------------
+    | FIN RUTAS DEL MODULO CONDUCTORES 
+    |--------------------------------------------------------------------------
+    */
 
-    // FIN 
+    /*
+    |--------------------------------------------------------------------------
+    | REPORTES  
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('/reportes')->name('reportes.')->group(function () {
+        // INDEX
+        Route::get('/', [ReporteController::class, 'index'])->name('index');
 
-    // RUTAS DEL MAYOR REPORTES
-
-    Route::controller(ReporteController::class)->prefix('/mayor/reportes')->name('mayor.reportes.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/general', 'general')->name('general');
-        Route::get('/inoperativos', 'inoperativos')->name('inoperativos');
+        // MATERIAL MAYOR
+        Route::controller(ReporteMayorController::class)->prefix('/mayor')->name('mayor.')->group(function () {
+            Route::get('/general', 'mayorgeneral')->name('general');
+            Route::get('/inoperativos', 'mayorinoperativos')->name('inoperativos');
+        });
     });
-
-    // FIN 
+    /*
+    |--------------------------------------------------------------------------
+    | FIN REPORTES 
+    |--------------------------------------------------------------------------
+    */
 });

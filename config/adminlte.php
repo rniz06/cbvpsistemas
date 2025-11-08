@@ -386,14 +386,8 @@ return [
                 ],
                 [
                     'text' => 'Reportes',
-                    // 'icon' => 'mr-1 fas fa-ellipsis-h',
-                    'submenu' => [
-                        [
-                            'text' => 'Mayor',
-                            'route' => 'materiales.mayor.reportes.index',
-                            'can' => 'Mayor Reportes Listar',
-                        ],
-                    ],
+                    'route' => 'materiales.reportes.index',
+                    'can' => 'Materiales Reportes Index',
                 ],
             ],
         ],

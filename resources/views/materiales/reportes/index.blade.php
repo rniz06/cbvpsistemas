@@ -2,9 +2,9 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Mayor - Reportes')
-@section('content_header_title', 'Mayor - Reportes')
-@section('content_header_subtitle', 'Reportes')
+@section('subtitle', 'Reportes')
+@section('content_header_title', 'Reportes')
+@section('content_header_subtitle', 'Listar')
 
 {{-- Content body: main page content --}}
 
@@ -17,14 +17,14 @@
         </div>
     @endif
 
-    @can('Mayor Reportes General')
-        <a class="btn btn-app" href="{{ route('materiales.mayor.reportes.general') }}">
+    @can('Materiales Reportes Mayor General')
+        <a class="btn btn-app" href="{{ route('materiales.reportes.mayor.general') }}">
             <i class="fas fa-th"></i> General
         </a>
     @endcan
 
-    @can('Mayor Reportes Inoperativos')
-        <a class="btn btn-app" href="{{ route('materiales.mayor.reportes.inoperativos') }}">
+    @can('Materiales Reportes Mayor Inoperativos')
+        <a class="btn btn-app" href="{{ route('materiales.reportes.mayor.inoperativos') }}">
             <i class="fas fa-th"></i> Inoperativos
         </a>
     @endcan
