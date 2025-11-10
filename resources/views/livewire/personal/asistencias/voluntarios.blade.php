@@ -88,10 +88,17 @@
                     </span></td>
                 <td>
                     <div class="d-inline-flex align-items-center gap-2">
-                        {{-- Boton --}}
-                        <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
-                            theme="outline-success" class="btn-sm"
-                            data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
+                        {{-- Boton Carga --}}
+
+                        @if ($bloqueoBtnCargar == true)
+                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
+                                class="btn-sm" disabled />
+                        @else
+                            <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
+                                theme="outline-success" class="btn-sm" :disabled="$bloqueoBtnCargar"
+                                data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
+                        @endif
+
                         @livewire(
                             'personal.asistencias.carga',
                             [

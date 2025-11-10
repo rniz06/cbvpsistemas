@@ -16,9 +16,15 @@ class Voluntarios extends Component
     // PROPIEDADES DE FILTRADO
     public $buscarNombreCompleto, $buscarCodigo, $paginado = 5;
 
+    public $bloqueoBtnCargar = true;
+
     public function mount($asistencia)
     {
         $this->asistencia = Asistencia::findOrfail($asistencia);
+
+        if ($this->asistencia->estado_id == 2) { // SIN CARGAR
+            $this->bloqueoBtnCargar = false;
+        }
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
