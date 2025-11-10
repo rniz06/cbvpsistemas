@@ -2,26 +2,33 @@
 
 namespace App\Livewire\Personal\Asistencias;
 
+use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Carga extends Component
 {
-    public $detalle, $asistencia_detalle_id;
+    public $asistencia, $detalle, $asistencia_detalle_id;
 
     #[Validate]
     public $practica, $guardia, $citacion;
 
-    public function mount($asistencia_detalle_id)
+    public $bloqueoCitacion = true;
+
+    public function mount($asistencia_detalle_id, $asistencia)
     {
         $this->asistencia_detalle_id = $asistencia_detalle_id;
+        $this->asistencia = $asistencia;
         $this->detalle = Detalle::with('personal:idpersonal,nombrecompleto,codigo')->findOrFail($asistencia_detalle_id);
 
         // Inicializar valores (si ya existen)
         $this->practica = $this->detalle->practica ?? null;
         $this->guardia  = $this->detalle->guardia ?? null;
         $this->citacion = $this->detalle->citacion ?? null;
+
+        // Si hubo_citacion es false, entonces bloquea la citación
+        $this->bloqueoCitacion = !$this->asistencia->hubo_citacion;
     }
 
     protected function rules()
@@ -29,7 +36,7 @@ class Carga extends Component
         return [
             'practica' => ['required', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
             'guardia'  => ['required', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
-            'citacion' => ['required', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
+            'citacion' => ['nullable', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
         ];
     }
 

@@ -2,7 +2,7 @@
     {{-- Modal --}}
     <x-adminlte-modal id="cargar-asistencia-{{ $asistencia_detalle_id }}" title="Cargar Asistencia" size="lg"
         static-backdrop icon="fas fa-tasks" theme="default" wire:ignore.self>
-
+        
         <div class="col-md-12 row">
             {{-- Voluntario --}}
             <x-adminlte-input igroup-size="sm" name value="{{ $detalle->personal->nombrecompleto ?? '' }}" readonly
@@ -43,14 +43,14 @@
 
             {{-- Citación --}}
             <x-adminlte-input type="number" name="citacion" wire:model.blur="citacion" igroup-size="sm"
-                fgroup-class="col-md-4" placeholder="Porcentaje de 0 a 100">
+                fgroup-class="col-md-4" placeholder="Porcentaje de 0 a 100" :disabled="$asistencia->hubo_citacion == false">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Citación:</div>
                 </x-slot>
             </x-adminlte-input>
         </form>
 
-        {{-- ⚠️ Este slot debe ir FUERA del form --}}
+        {{-- Este slot debe ir FUERA del form --}}
         <x-slot name="footerSlot">
             <x-adminlte-button theme="outline-secondary" class="btn-sm" icon="fas fa-arrow-left" label="Cerrar"
                 data-dismiss="modal" />
