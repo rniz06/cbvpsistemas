@@ -20,9 +20,10 @@ return new class extends Migration
             // FK a personal (tipo int porque así está en tabla 'personal')
             $table->integer('personal_id')->nullable(); // Tipo Integer debido a que asi es el tipo de campo en la tabla personal
             $table->foreign('personal_id')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('practica')->nullable();
-            $table->integer('guardia')->nullable();
-            $table->integer('citacion')->nullable();
+            $table->smallInteger('practica')->nullable();
+            $table->smallInteger('guardia')->nullable();
+            $table->smallInteger('citacion')->nullable();
+            $table->smallInteger('total')->nullable();
             $table->softDeletes();
         });
     }

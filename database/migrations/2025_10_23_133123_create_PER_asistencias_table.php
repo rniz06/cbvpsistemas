@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained('PER_asistencias_estados', 'id_asistencia_estado')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+                $table->boolean('hubo_citacion')->default(false);
             $table->softDeletes();
         });
     }

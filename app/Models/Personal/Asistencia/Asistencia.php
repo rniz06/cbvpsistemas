@@ -16,9 +16,13 @@ class Asistencia extends Model implements Auditable
 
     protected $primaryKey = 'id_asistencia';
 
-    protected $fillable = ['compania_id', 'periodo_id', 'estado_id'];
+    protected $fillable = ['compania_id', 'periodo_id', 'estado_id', 'hubo_citacion'];
 
     public $timestamps = false;
+
+    protected $casts = [
+        'hubo_citacion' => 'boolean',
+    ];
 
     /*
     |--------------------------------------------------------------------------
