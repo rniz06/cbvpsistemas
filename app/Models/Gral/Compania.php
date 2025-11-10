@@ -2,14 +2,14 @@
 
 namespace App\Models\Gral;
 
+use App\Models\Materiales\Movil\Movil;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Compania extends Model implements Auditable
 {
-        use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable, SoftDeletes;
 
     protected $table = "GRAL_companias";
 
@@ -22,6 +22,12 @@ class Compania extends Model implements Auditable
         'orden',
     ];
 
+    /*
+    |---------------------------------------
+    | RELACIONES DEL MODELO
+    |---------------------------------------
+    */
+
     public function ciudad()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_id');
@@ -31,4 +37,15 @@ class Compania extends Model implements Auditable
     {
         return $this->belongsTo(Region::class, 'region_id');
     }
+
+    public function moviles()
+    {
+        return $this->hasMany(Movil::class, 'modelo_id');
+    }
+
+    /*
+    |---------------------------------------
+    | FIN RELACIONES DEL MODELO
+    |---------------------------------------
+    */
 }

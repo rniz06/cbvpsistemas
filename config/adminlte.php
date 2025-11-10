@@ -384,6 +384,11 @@ return [
                     'route' => 'materiales.parametros',
                     'can' => 'Materiales Parametros',
                 ],
+                [
+                    'text' => 'Reportes',
+                    'route' => 'materiales.reportes.index',
+                    'can' => 'Materiales Reportes Index',
+                ],
             ],
         ],
         [
