@@ -16,7 +16,7 @@ class Detalle extends Model implements Auditable
 
     protected $primaryKey = 'id_asistencia_detalle';
 
-    protected $fillable = ['asistencia_id', 'personal_id', 'practica', 'guardia', 'citacion'];
+    protected $fillable = ['asistencia_id', 'personal_id', 'practica', 'guardia', 'citacion', 'total'];
 
     public $timestamps = false;
 

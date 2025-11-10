@@ -42,15 +42,27 @@ class Carga extends Component
 
     public function grabar()
     {
-        // FALTA HACER EL CALCULO DEL PORCENTAJE FINAL
         $this->validate();
+
         Detalle::findOrFail($this->detalle->id_asistencia_detalle)->update([
             'practica' => $this->practica,
             'guardia'  => $this->guardia,
             'citacion' => $this->citacion,
+            'total'    => $this->calcularPromedio()
         ]);
         session()->flash('success', 'Registrado Correctamente!');
         $this->redirectRoute('personal.asistencias.show', $this->detalle->asistencia_id);
+    }
+
+    private function calcularPromedio()
+    {
+        // SI NO HAY CITACION PROMEDIAR POR PRACTICA Y GUARDIA
+        if ($this->bloqueoCitacion === true) {
+            return ($this->practica + $this->guardia) / 2;
+        }
+
+        // SI HAY CITACION PROMEDIAR POR PRACTICA, GUARDIA Y CITACION
+        return ($this->practica + $this->guardia + $this->citacion) / 3;
     }
 
     public function render()

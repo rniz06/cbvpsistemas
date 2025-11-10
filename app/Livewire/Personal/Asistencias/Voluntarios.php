@@ -36,7 +36,7 @@ class Voluntarios extends Component
     public function render()
     {
         return view('livewire.personal.asistencias.voluntarios', [
-            'voluntarios' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion')
+            'voluntarios' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion', 'total')
                 ->with('personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id')
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
                 ->buscarNombrecompleto($this->buscarNombreCompleto)
