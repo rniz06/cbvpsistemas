@@ -15,17 +15,19 @@
             <h5><i class="fas fa-check-circle mr-2" style="color: #28a745"></i>{{ $message }}</h5>
         </div>
     @endif
+
+    @if ($message = Session::get('danger'))
+        <x-adminlte-alert theme="danger" title="{{ $message }}" />
+    @endif
     @livewire('personal.tabla')
 @stop
 
 {{-- Push extra CSS --}}
 
 @push('css')
-
 @endpush
 
 {{-- Push extra scripts --}}
 
 @push('js')
-
 @endpush

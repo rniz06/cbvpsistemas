@@ -2,7 +2,7 @@
     {{-- Modal --}}
     <x-adminlte-modal id="cargar-asistencia-{{ $asistencia_detalle_id }}" title="Cargar Asistencia" size="lg"
         static-backdrop icon="fas fa-tasks" theme="default" wire:ignore.self>
-        
+
         <div class="col-md-12 row">
             {{-- Voluntario --}}
             <x-adminlte-input igroup-size="sm" name value="{{ $detalle->personal->nombrecompleto ?? '' }}" readonly

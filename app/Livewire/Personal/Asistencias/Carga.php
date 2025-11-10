@@ -42,6 +42,7 @@ class Carga extends Component
 
     public function grabar()
     {
+        // FALTA HACER EL CALCULO DEL PORCENTAJE FINAL
         $this->validate();
         Detalle::findOrFail($this->detalle->id_asistencia_detalle)->update([
             'practica' => $this->practica,

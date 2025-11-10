@@ -16,6 +16,10 @@
             <h5><i class="fas fa-check-circle mr-2" style="color: #28a745"></i>{{ $message }}</h5>
         </div>
     @endif
+    @if ($message = Session::get('danger'))
+        <x-adminlte-alert theme="danger" title="{{ $message }}" />
+    @endif
+
     {{-- Llamar al componente livewire --}}
     @livewire('personal.asistencias.show', ['asistencia' => $asistencia])
     @livewire('personal.asistencias.voluntarios', ['asistencia' => $asistencia])
