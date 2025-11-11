@@ -88,7 +88,9 @@
                         class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a></td>
             </tr>
         @empty
-            <td colspan="100%" class="text-center text-muted">Sin resultados...</td>
+            <tr>
+                <td colspan="100%" class="text-center text-muted">Sin resultados...</td>
+            </tr>
         @endforelse
 
         <x-slot name="paginacion">
