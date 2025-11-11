@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales;
 
+use App\Models\Materiales\Movil\MovilComentario;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -19,4 +20,9 @@ class AccionCategoria extends Model implements Auditable
         'categoria',
         'accion_id',
     ];
+
+    public function movilcomentarios()
+    {
+        return $this->hasMany(MovilComentario::class, 'accion_categoria_id');
+    }
 }

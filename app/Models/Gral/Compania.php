@@ -2,7 +2,8 @@
 
 namespace App\Models\Gral;
 
-use App\Models\Personal\Asistencia;
+use App\Models\Materiales\Movil\Movil;
+use App\Models\Personal\Asistencia\Asistencia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -36,6 +37,11 @@ class Compania extends Model implements Auditable
     public function region()
     {
         return $this->belongsTo(Region::class, 'region_id');
+    }
+
+    public function moviles()
+    {
+        return $this->hasMany(Movil::class, 'modelo_id');
     }
 
     public function asistencias()
