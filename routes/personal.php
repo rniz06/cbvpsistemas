@@ -3,7 +3,6 @@
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Personal\AsistenciaController;
 use App\Http\Controllers\Personal\ComisionamientoController;
-use App\Http\Middleware\Personal\Asistencia\VerificarSiFaltaActualizarFicha;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +39,6 @@ Route::middleware('auth')->prefix('personal')->group(function () {
     Route::controller(AsistenciaController::class)
         ->group(function () {
             Route::get('/asistencias', 'index')->name('personal.asistencias.index');
-            Route::get('/asistencias/{asistencia}', 'show')->name('personal.asistencias.show')->middleware(VerificarSiFaltaActualizarFicha::class);
+            Route::get('/asistencias/{asistencia}', 'show')->name('personal.asistencias.show');
         });
 });

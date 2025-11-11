@@ -1,4 +1,12 @@
 <div>
+
+    {{-- SI EXISTEN FICHAS PENDIENTES DE ACTUALIZACION MOSTRAR MENSAJE DE ALERTA --}}
+    @if ($mostrarMensajeAleta)
+        <x-adminlte-alert theme="danger"
+            title="EXISTEN FICHAS NO ACTUALIZADAS. NO PODRA REALIZAR LA CARGA DE ASISTENCIA" />
+    @endif
+
+
     {{-- Tabla de Voluntarios --}}
     <x-table.table titulo="Listado De Voluntarios" ocultarBuscador>
 
@@ -88,16 +96,17 @@
                     </span></td>
                 <td>
                     <div class="d-inline-flex align-items-center gap-2">
-                        {{-- Boton Carga --}}
 
-                        @if ($bloqueoBtnCargar == true)
-                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
-                                class="btn-sm" disabled />
-                        @else
+                        {{-- Boton Carga --}}
+                        @if (!$bloqueoBtnCargar && !$bloquearBtnCargarPorFichaActualizar)
                             <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
                                 theme="outline-success" class="btn-sm" :disabled="$bloqueoBtnCargar"
                                 data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
                         @endif
+
+                        {{-- <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
+                                theme="outline-success" class="btn-sm" :disabled="$bloqueoBtnCargar"
+                                data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" /> --}}
 
                         @livewire(
                             'personal.asistencias.carga',
