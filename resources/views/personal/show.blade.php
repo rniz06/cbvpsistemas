@@ -51,40 +51,14 @@
                 @endcan
                 @can('Personal Cambiar Codigo')
                     <!-- Button Modal Cambiar de Compania -->
-                    <a href="{{ route('personal.cambiarCodigo', $personal->idpersonal) }}"
-                        class="btn btn-sm btn-warning"><i class="fas fa-sync-alt"></i> Cambiar Código</a>
+                    <a href="{{ route('personal.cambiarCodigo', $personal->idpersonal) }}" class="btn btn-sm btn-warning"><i
+                            class="fas fa-sync-alt"></i> Cambiar Código</a>
                 @endcan
             </div>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-                    {{-- <div class="row">
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Estimated budget</span>
-                                    <span class="info-box-number text-center text-muted mb-0">2300</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Total amount spent</span>
-                                    <span class="info-box-number text-center text-muted mb-0">2000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Estimated project duration</span>
-                                    <span class="info-box-number text-center text-muted mb-0">20</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="row">
                         <div class="col-md-4">
                             <label for="">Nombre Completo:</label>
@@ -114,7 +88,8 @@
 
                         <div class="col-md-4">
                             <label for="">Fecha de Nacimiento:</label>
-                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_nacimiento ?? 'S/D')) }}</p>
+                            <p class="form-control">{{ date('d/m/Y', strtotime($personal->fecha_nacimiento ?? 'S/D')) }}
+                            </p>
                         </div>
 
                         <div class="col-md-4">
@@ -186,6 +161,8 @@
                             @endforelse
                         </li>
                     </ul>
+                    <h4 class="text-secondary"><i class="fas fa-unlock-alt"></i> Historial de Reseteo de contraseñas:</h4>
+                    @livewire('personal.historial-reseteo-contrasenha', ['personal_id' => $personal->idpersonal])
                 </div>
             </div>
         </div>
