@@ -63,7 +63,7 @@ class Inoperativos extends Component
         ->buscarAcronimoId($this->buscarAcronimoId)
         ->buscarAnho($this->buscarAnhoId)
         ->buscarAccionCategoriaId($this->buscarAccionCategoriaId)
-        ->buscarAccionCategoriaId($this->buscarCategoriaDetalleId)
+        ->buscarCategoriaDetalleId($this->buscarCategoriaDetalleId)
         ->with([
             'acronimo:id_movil_tipo,tipo',
             'compania:id_compania,compania',
