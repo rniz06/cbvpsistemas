@@ -10,6 +10,13 @@
     {{-- Tabla de Voluntarios --}}
     <x-table.table titulo="Listado De Voluntarios" ocultarBuscador>
 
+        @can('Personal Asistencias Exportar Excel')
+            <x-slot name="headerBotones">
+                <x-adminlte-button wire:click="excel" label="Excel" icon="fas fa-file-excel" theme="outline-success"
+                    class="btn-sm" />
+            </x-slot>
+        @endcan
+
         <x-slot name="cabeceras">
 
             {{-- Nombre Completo --}}

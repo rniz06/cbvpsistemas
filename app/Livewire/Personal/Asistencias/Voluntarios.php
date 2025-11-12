@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Personal\Asistencias;
 
+use App\Exports\Excel\Personal\Asistencias\ExcelAsistenciasExport;
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Voluntarios extends Component
 {
@@ -26,7 +28,13 @@ class Voluntarios extends Component
     public function mount($asistencia)
     {
         // OBTENER REGISTRO ACTUAL
-        $this->asistencia = Asistencia::findOrfail($asistencia);
+        $this->asistencia = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
+            ->with([
+                'compania:id_compania,compania',
+                'estado:id_asistencia_estado,estado',
+                'periodo.anho:id_anho,anho',
+                'periodo.mes:id_mes,mes',
+            ])->findOrFail($asistencia);
 
         # SI EL ESTADO ES "SIN CARGAR" HABILITA BTN PARA LA CARGA, SI ES DISTINTO PERMANECE BLOQUEADO
         if ($this->asistencia->estado_id == 2) { // SIN CARGAR
@@ -68,5 +76,20 @@ class Voluntarios extends Component
                 ->buscarCodigo($this->buscarCodigo)
                 ->paginate($this->paginado, ['*'], 'personales_page')
         ]);
+    }
+
+    // Obtener lo datos para los reportes pdf y excel
+    public function cargarDatosExport()
+    {
+        return Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion', 'total')
+            ->with('personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id')
+            ->where('asistencia_id', $this->asistencia->id_asistencia)->get();
+    }
+
+    public function excel()
+    {
+        $detalles = $this->cargarDatosExport();
+
+        return Excel::download(new ExcelAsistenciasExport($this->asistencia ,$detalles), 'Asistencia.xlsx');
     }
 }
