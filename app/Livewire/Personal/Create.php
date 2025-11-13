@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Personal;
 
+use App\Models\Gral\Compania;
 use App\Models\Personal;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Estado;
@@ -11,9 +12,7 @@ use App\Models\Personal\Pais;
 use App\Models\Personal\Sexo;
 use App\Models\Personal\TipoDocumento;
 use App\Models\Usuario;
-use App\Models\Vistas\VtCompania;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -33,7 +32,7 @@ class Create extends Component
     public function mount()
     {
         $this->categorias = Categoria::select('idpersonal_categorias', 'categoria')->get();
-        $this->companias = VtCompania::select('idcompanias', 'compania', 'departamento', 'ciudad')->orderBy('orden', 'asc')->get();
+        $this->companias = Compania::select('id_compania', 'compania')->orderBy('orden', 'asc')->get();
         $this->estados = Estado::select('idpersonal_estados', 'estado')->get();
         $this->sexos = Sexo::select('idpersonal_sexo', 'sexo')->get();
         $this->paises = Pais::select('idpaises', 'pais')->get();

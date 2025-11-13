@@ -25,8 +25,8 @@
                 wire:model.blur="compania_id">
                 <option>-- Seleccionar --</option>
                 @foreach ($companias as $compania)
-                    <option value="{{ $compania->idcompanias }}">
-                        {{ $compania->compania . ' - ' . $compania->departamento . ' - ' . $compania->ciudad ?? 'N/A' }}
+                    <option value="{{ $compania->id_compania }}">
+                        {{ $compania->compania ?? 'N/A' }}
                     </option>
                 @endforeach
             </x-adminlte-select>
