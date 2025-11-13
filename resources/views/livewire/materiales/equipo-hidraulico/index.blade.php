@@ -9,7 +9,7 @@
                         wire:model.live.debounce.250ms="departamento_id">
                         <option value="">Todos</option>
                         @foreach ($departamentos as $departamento)
-                            <option value="{{ $departamento->iddepartamentos }}">
+                            <option value="{{ $departamento->id_departamento }}">
                                 {{ $departamento->departamento ?? 'N/A' }}</option>
                         @endforeach
                     </x-adminlte-select>
@@ -19,7 +19,7 @@
                     <x-adminlte-select name="ciudad_id" label="Ciudades:" wire:model.live.debounce.250ms="ciudad_id">
                         <option value="">Todos</option>
                         @foreach ($ciudades as $ciudad)
-                            <option value="{{ $ciudad->idciudades }}">
+                            <option value="{{ $ciudad->id_ciudad }}">
                                 {{ $ciudad->ciudad ?? 'N/A' }}</option>
                         @endforeach
                     </x-adminlte-select>
@@ -32,7 +32,7 @@
                         <option value="">Todos</option>
                     @endif
                     @foreach ($companias as $compania)
-                        <option value="{{ $compania->idcompanias }}">
+                        <option value="{{ $compania->id_compania }}">
                             {{ $compania->compania ?? 'N/A' }}</option>
                     @endforeach
                 </x-adminlte-select>

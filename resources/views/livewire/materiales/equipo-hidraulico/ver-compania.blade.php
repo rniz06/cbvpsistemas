@@ -1,9 +1,10 @@
 <div>
     <h4>Ficha de Compañia</h4>
+
     <div class="row">
         <x-callout.ficha titulo="Compañía">{{ $compania->compania ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Ciudad">{{ $compania->ciudad ?? 'N/A' }}</x-callout.ficha>
-        <x-callout.ficha titulo="Departamento">{{ $compania->departamento ?? 'N/A' }}</x-callout.ficha>
+        <x-callout.ficha titulo="Ciudad">{{ $compania->ciudad->ciudad ?? 'N/A' }}</x-callout.ficha>
+        <x-callout.ficha titulo="Departamento">{{ $compania->ciudad->departamento->departamento ?? 'N/A' }}</x-callout.ficha>
     </div>
 
     @if ($formVisible)

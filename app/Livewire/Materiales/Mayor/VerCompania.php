@@ -38,7 +38,7 @@ class VerCompania extends Component
     public function mount($compania_id)
     {
         $this->compania = Compania::select('id_compania', 'compania', 'ciudad_id')
-            ->with(['ciudad:id_ciudad,ciudad', 'ciudad.departamento:id_departamento,departamento'])
+            ->with(['ciudad:id_ciudad,ciudad,departamento_id', 'ciudad.departamento:id_departamento,departamento'])
             ->findOrFail($compania_id);
 
             // Datos para el formulario de agregar movil
