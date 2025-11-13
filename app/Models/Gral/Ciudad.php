@@ -19,8 +19,25 @@ class Ciudad extends Model implements Auditable
 
     protected $fillable = [
         'ciudad',
-        'departamento',
+        'departamento_id',
     ];
+
+    /*
+    |---------------------------------------
+    | RELACIONES DEL MODELO
+    |---------------------------------------
+    */
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    /*
+    |---------------------------------------
+    | FIN RELACIONES DEL MODELO
+    |---------------------------------------
+    */
 
     /*
     |--------------------------------------------------------------------------

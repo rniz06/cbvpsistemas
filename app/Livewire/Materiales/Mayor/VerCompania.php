@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
+use App\Models\Gral\Compania;
 use App\Models\Materiales\Movil\Acronimo;
 use App\Models\Materiales\Movil\Combustible;
 use App\Models\Materiales\Movil\Eje;
@@ -11,7 +12,6 @@ use App\Models\Materiales\Movil\Movil;
 use App\Models\Materiales\Movil\MovilComentario;
 use App\Models\Materiales\Movil\Transmision;
 use App\Models\Vistas\Materiales\VtMayor;
-use App\Models\Vistas\VtCompania;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -23,7 +23,7 @@ class VerCompania extends Component
     use WithPagination;
 
     // Recibe le ID de la compania desde la ruta
-    public $compania_id;
+    public $compania;
 
     // Variables para la paginación
     public $paginadoMoviles = 10;
@@ -32,6 +32,22 @@ class VerCompania extends Component
     public $formVisible = false;
     #[Validate]
     public $marca_id, $modelo_id, $movil_tipo_id, $movil, $anho, $chasis, $transmision_id, $eje_id, $cubiertas_frente, $cubiertas_atras, $combustible_id, $chapa;
+
+    public $marcas = [], $modelos = [], $tipos = [], $transmisiones = [], $ejes = [], $combustibles = [];
+
+    public function mount($compania_id)
+    {
+        $this->compania = Compania::select('id_compania', 'compania', 'ciudad_id')
+            ->with(['ciudad:id_ciudad,ciudad', 'ciudad.departamento:id_departamento,departamento'])
+            ->findOrFail($compania_id);
+
+            // Datos para el formulario de agregar movil
+            $this->marcas        = Marca::select('id_movil_marca', 'marca')->get();
+            $this->tipos         = Acronimo::select('id_movil_tipo', 'tipo', 'activo')->where('activo', 1)->get();
+            $this->transmisiones = Transmision::select('id_movil_transmision', 'transmision', 'activo')->where('activo', 1)->get();
+            $this->ejes          = Eje::select('id_movil_eje', 'eje', 'activo')->where('activo', 1)->get();
+            $this->combustibles  = Combustible::select('id_movil_combustible', 'tipo', 'activo')->where('activo', 1)->get();
+    }
 
     // Reglas de validación
     protected function rules()
@@ -69,7 +85,7 @@ class VerCompania extends Component
         $validados = $this->validate();
         // Agregar el ID del usuario autenticado al array validado
         $validados['creadoPor'] = Auth::id();
-        $validados['compania_id'] = $this->compania_id;
+        $validados['compania_id'] = $this->compania->id_compania;
         $validados['operativo'] = 1;
         $validados['operatividad_id'] = 1;
         // Guardar el registro
@@ -97,21 +113,18 @@ class VerCompania extends Component
     public function render()
     {
         return view('livewire.materiales.mayor.ver-compania', [
-            'compania' => VtCompania::select('compania', 'ciudad', 'departamento')->findOrFail($this->compania_id),
             'moviles' => VtMayor::select('id_movil', 'movil', 'tipo', 'operatividad', 'marca', 'compania_id', 'operativo')
                 ->where('operativo', 1)
-                ->where('compania_id', $this->compania_id)
+                ->where('compania_id', $this->compania->id_compania)
                 ->orderBy('operatividad', 'desc')
                 ->orderBy('tipo')
                 ->orderBy('movil')
-                ->paginate($this->paginadoMoviles, ['*'], 'moviles_page'),
-            // Datos para el formulario de agregar movil
-            'marcas' => Marca::select('id_movil_marca', 'marca')->get(),
-            'modelos' => Modelo::select('id_movil_modelo', 'modelo')->where('marca_id', $this->marca_id)->get(),
-            'tipos' => Acronimo::select('id_movil_tipo', 'tipo', 'activo')->where('activo', 1)->get(),
-            'transmisiones' => Transmision::select('id_movil_transmision', 'transmision', 'activo')->where('activo', 1)->get(),
-            'ejes' => Eje::select('id_movil_eje', 'eje', 'activo')->where('activo', 1)->get(),
-            'combustibles' => Combustible::select('id_movil_combustible', 'tipo', 'activo')->where('activo', 1)->get()
+                ->paginate($this->paginadoMoviles, ['*'], 'moviles_page')
         ]);
+    }
+
+    public function updatedMarcaId($value)
+    {
+        $this->modelos = Modelo::select('id_movil_modelo', 'modelo')->where('marca_id', $this->marca_id)->get();
     }
 }
