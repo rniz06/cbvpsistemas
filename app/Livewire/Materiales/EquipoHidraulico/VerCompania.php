@@ -2,14 +2,13 @@
 
 namespace App\Livewire\Materiales\EquipoHidraulico;
 
-use App\Livewire\Materiales\EquipoHidraulico\Motor as EquipoHidraulicoMotor;
+use App\Models\Gral\Compania;
 use App\Models\Materiales\EquipoHidraulico\Comentario;
 use App\Models\Materiales\EquipoHidraulico\Hidraulico;
 use App\Models\Materiales\EquipoHidraulico\Marca;
 use App\Models\Materiales\EquipoHidraulico\Modelo;
 use App\Models\Materiales\EquipoHidraulico\Motor;
 use App\Models\Vistas\Materiales\VtHidraulico;
-use App\Models\Vistas\VtCompania;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -21,7 +20,7 @@ class VerCompania extends Component
     use WithPagination;
 
     // Recibe le ID de la compania desde la ruta
-    public $compania_id;
+    public $compania_id, $compania;
 
     // Variables para la paginación
     public $paginadoHidraulicos = 10;
@@ -30,6 +29,20 @@ class VerCompania extends Component
     public $formVisible = false;
     #[Validate]
     public $marca_id, $modelo_id, $motor_id, $anho;
+
+    public $marcas = [], $modelos = [], $motores = []; 
+
+    public function mount($compania_id)
+    {
+        $this->compania_id = $compania_id;
+        $this->compania = Compania::select('id_compania', 'compania', 'ciudad_id')
+            ->with(['ciudad:id_ciudad,ciudad,departamento_id', 'ciudad.departamento:id_departamento,departamento'])
+            ->findOrFail($compania_id);
+
+            // Datos para el formulario de agregar movil
+            $this->marcas = Marca::select('id_hidraulico_marca', 'marca')->get();
+            $this->motores = Motor::select('id_hidraulico_motor', 'motor')->get();
+    }
 
     // Reglas de validación
     protected function rules()
@@ -74,17 +87,17 @@ class VerCompania extends Component
     public function render()
     {
         return view('livewire.materiales.equipo-hidraulico.ver-compania', [
-            'compania' => VtCompania::select('compania', 'ciudad', 'departamento')->findOrFail($this->compania_id),
             'hidraulicos' => VtHidraulico::select('id_hidraulico', 'marca', 'operatividad', 'compania_id', 'operativo')
                 ->where('operativo', 1)
                 ->where('compania_id', $this->compania_id)
                 ->orderBy('operatividad', 'desc')
                 ->orderBy('marca')
                 ->paginate($this->paginadoHidraulicos, ['*'], 'hidraulicos_page'),
-            // Datos para el formulario de agregar movil
-            'marcas' => Marca::select('id_hidraulico_marca', 'marca')->get(),
-            'modelos' => Modelo::select('id_hidraulico_modelo', 'modelo')->where('marca_id', $this->marca_id)->get(),
-            'motores' => Motor::select('id_hidraulico_motor', 'motor')->get(),
         ]);
+    }
+
+    public function updatedMarcaId($value)
+    {
+        $this->modelos = Modelo::select('id_hidraulico_modelo', 'modelo')->where('marca_id', $value)->get();    
     }
 }

@@ -1,4 +1,6 @@
 <div>
+
+    {{$compania_id ?? 'S/D'}}
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
@@ -42,7 +44,7 @@
                         <option value="">Todos</option>
                     @endif
                     @foreach ($companias as $compania)
-                        <option value="{{ $compania->idcompanias }}">
+                        <option value="{{ $compania->id_compania }}">
                             {{ $compania->compania ?? 'N/A' }}</option>
                     @endforeach
                 </x-adminlte-select>
