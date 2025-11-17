@@ -20,7 +20,7 @@ class Voluntarios extends Component
     public $buscarNombreCompleto, $buscarCodigo, $paginado = 5;
 
     // PROPIEDADES PARA EL BLOQUEO
-    public $bloqueoBtnCargar = true, $bloquearBtnCargarPorFichaActualizar = false;
+    public $bloqueoBtnCargar = true, $bloquearBtnCargarPorFichaActualizar = false, $bloqueoBtnEnviar = false;
 
     // PROPIEDADES PARA MENSAJES DE ALERTA PERMANENTE
     public $mostrarMensajeAleta = false;
@@ -50,7 +50,22 @@ class Voluntarios extends Component
         if ($pendiente) {
             //session()->flash('danger', 'EXISTEN FICHAS NO ACTUALIZADAS.');
             $this->mostrarMensajeAleta = true;
-            $this->bloquearBtnCargarPorFichaActualizar = true;
+            $this->bloquearBtnCargarPorFichaActualizar = true; //OMITIR MOMENTANEAMENTE BLOQUEO POR FASE DE DESARROLLO
+        }
+
+        // CONSULTA PARA VERIFICAR QUE NO EXISTEN FICHAS POR CARGAR ASISTENCIA
+        $enviar = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)
+            ->whereNotNull('total')
+            ->exists();
+
+        // COMPROBAR RESULTADO DE LA CONSULTA ANTERIOR
+        if ($enviar) {
+            $this->bloqueoBtnEnviar = true;
+        }
+
+        # SI EL ESTADO ES DISTINTO A "SIN CARGAR", BLOQUEA EL BOTON ENVIAR
+        if ($this->asistencia->estado_id != 2) { // SIN CARGAR
+            $this->bloqueoBtnEnviar = true;
         }
     }
 
@@ -78,6 +93,15 @@ class Voluntarios extends Component
         ]);
     }
 
+    public function enviar()
+    {
+        $this->asistencia->update([
+            'estado_id' => 3, // REMITIDO P/ VERIFICAR
+        ]);
+        session()->flash('success', 'Registrado Correctamente!');
+        $this->redirectRoute('personal.asistencias.show', $this->asistencia->id_asistemcia);
+    }
+
     // Obtener lo datos para los reportes pdf y excel
     public function cargarDatosExport()
     {
@@ -90,6 +114,6 @@ class Voluntarios extends Component
     {
         $detalles = $this->cargarDatosExport();
 
-        return Excel::download(new ExcelAsistenciasExport($this->asistencia ,$detalles), 'Asistencia.xlsx');
+        return Excel::download(new ExcelAsistenciasExport($this->asistencia, $detalles), 'Asistencia.xlsx');
     }
 }

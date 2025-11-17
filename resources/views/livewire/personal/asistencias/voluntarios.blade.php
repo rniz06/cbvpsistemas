@@ -14,6 +14,10 @@
             <x-slot name="headerBotones">
                 <x-adminlte-button wire:click="excel" label="Excel" icon="fas fa-file-excel" theme="outline-success"
                     class="btn-sm" />
+
+                <x-adminlte-button wire:click="enviar" label="Enviar Asistencia" icon="fas fa-paper-plane"
+                    theme="outline-secondary" class="btn-sm" :disabled="$bloqueoBtnEnviar"
+                    wire:confirm="¿ESTAS SEGURO QUE DESEAS REMITIR LA PLANILLA DE ASISTENCIA?" />
             </x-slot>
         @endcan
 
