@@ -17,7 +17,9 @@ class EstadoSeeder extends Seeder
         Estado::create(['estado' => 'NO INICIADO']);
         Estado::create(['estado' => 'SIN CARGAR']);
         Estado::create(['estado' => 'REMITIDO P/ VERIFICAR']);
-        Estado::create(['estado' => 'RECHAZADO']);
-        Estado::create(['estado' => 'APROBADO']);
+        Estado::create(['estado' => 'APROBADO POR PERSONAL']);
+        Estado::create(['estado' => 'RECHAZADO POR PERSONAL']);
+        Estado::create(['estado' => 'APROBADO POR COMANDANCIA']);
+        Estado::create(['estado' => 'RECHAZADO POR COMANDANCIA']);
     }
 }

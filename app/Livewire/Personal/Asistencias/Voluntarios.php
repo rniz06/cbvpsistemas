@@ -98,8 +98,8 @@ class Voluntarios extends Component
         $this->asistencia->update([
             'estado_id' => 3, // REMITIDO P/ VERIFICAR
         ]);
-        session()->flash('success', 'Registrado Correctamente!');
-        $this->redirectRoute('personal.asistencias.show', $this->asistencia->id_asistemcia);
+        session()->flash('success', 'Remitido Correctamente!');
+        $this->redirectRoute('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 
     // Obtener lo datos para los reportes pdf y excel
