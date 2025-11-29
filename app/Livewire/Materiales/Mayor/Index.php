@@ -102,7 +102,7 @@ class Index extends Component
                 $this->ciudades = [];
                 $usuario_id = Auth::id();
                 $asignacion = UserRoleCompania::whereNotNull('compania_id')->where('usuario_id', $usuario_id)->first();
-                $this->companias = Compania::select('id_compania', 'compania')->where('idcompanias', $asignacion->compania_id)->get();
+                $this->companias = Compania::select('id_compania', 'compania')->where('id_compania', $asignacion->compania_id)->get();
                 $this->compania_id = $asignacion->compania_id;
                 break;
             default:
