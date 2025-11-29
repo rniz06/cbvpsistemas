@@ -1,6 +1,4 @@
 <div>
-
-    {{$compania_id ?? 'S/D'}}
     {{-- Filtros de Búsqueda --}}
     <x-card.card-filtro>
         <div class="row">
