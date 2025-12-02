@@ -21,9 +21,10 @@ class DetalleSeeder extends Seeder
             Detalle::create([
                 'asistencia_id' => 1,
                 'personal_id'   => $personal->idpersonal,
-                'practica'      => null,
-                'guardia'       => null,
+                'practica'      => 0,
+                'guardia'       => 0,
                 'citacion'      => null,
+                'total'         => 0
             ]);
         }
     }

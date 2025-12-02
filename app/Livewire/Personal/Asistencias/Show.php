@@ -4,6 +4,7 @@ namespace App\Livewire\Personal\Asistencias;
 
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Show extends Component
@@ -14,7 +15,7 @@ class Show extends Component
 
     public function mount($asistencia)
     {
-        $this->asistencia = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
+        $this->asistencia = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id', 'hubo_citacion')
             ->with([
                 'compania:id_compania,compania',
                 'estado:id_asistencia_estado,estado',
@@ -22,32 +23,18 @@ class Show extends Component
                 'periodo.mes:id_mes,mes',
             ])->findOrFail($asistencia);
 
-        # Comprobar si ya se cargo la totalidad de la asistencia
-        $se_cargo_total = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)
-            ->whereNotNull('total')
-            ->exists();
-
         if ($this->asistencia->estado_id == 2 or $this->asistencia->estado_id == 5) { // ESTADO: SIN CARGAR - RECHAZADO POR PERSONAL
-            // Si no existen fichas por cargar asistencia se habilita el btn
-            if (!$se_cargo_total) {
-                $this->bloqueo_enviar_dpto_personal = false;
-            }
+            $this->bloqueo_enviar_dpto_personal = false;
         }
 
         # Bloqueo Btn Aprobar y Derivar al Dpto de Personal
         if ($this->asistencia->estado_id == 3 or $this->asistencia->estado_id == 7) { // ESTADO: REMITIDO P/ VERIFICAR - RECHAZADO POR COMANDANCIA
-            // Si no existen fichas por cargar asistencia se habilita el btn
-            if (!$se_cargo_total) {
-                $this->bloqueo_aprobar_derivar_comandancia = false;
-            }
+            $this->bloqueo_aprobar_derivar_comandancia = false;
         }
 
         # Bloqueo Btn Aprobado por Comandancia
         if ($this->asistencia->estado_id == 4) { // ESTADO: APROBADO POR PERSONAL
-            // Si no existen fichas por cargar asistencia se habilita el btn
-            if (!$se_cargo_total) {
-                $this->bloqueo_aprobar_comandancia = false;
-            }
+            $this->bloqueo_aprobar_comandancia = false;
         }
     }
 
@@ -103,6 +90,45 @@ class Show extends Component
         ]);
 
         session()->flash('success', 'La planilla de asistencia fue remitida al Comandancia con éxito.');
+        return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
+    }
+
+    # HABILITAR CAMPO CITACION PARA CARGA
+    public function habilitar_citacion()
+    {
+
+        DB::transaction(function () {
+            # ACTUALIZAR LA TABLA DE CABECERA
+            $this->asistencia->update([
+                'hubo_citacion' => true,
+            ]);
+
+            # INICIALIZAR EL CAMPO CITACION EN 0
+            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->update([
+                'citacion' => 0
+            ]);
+        });
+
+        session()->flash('success', 'SE HABILITO EL CAMPO DE CITACIÓN.');
+        return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
+    }
+
+    # CANCELAR CAMPO CITACION PARA CARGA
+    public function cancelar_citacion()
+    {
+        DB::transaction(function () {
+            # ACTUALIZAR LA TABLA DE CABECERA
+            $this->asistencia->update([
+                'hubo_citacion' => false,
+            ]);
+
+            # ACTUALIZAR EL CAMPO CITACION A NULL
+            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->update([
+                'citacion' => null
+            ]);
+        });
+
+        session()->flash('success', 'SE CANCELO EL CAMPO DE CITACIÓN');
         return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 }
