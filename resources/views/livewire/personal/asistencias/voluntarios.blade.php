@@ -111,10 +111,6 @@
                                 data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" />
                         @endif
 
-                        {{-- <x-adminlte-button label="Cargar" data-toggle="modal" icon="fas fa-pencil-alt"
-                                theme="outline-success" class="btn-sm" :disabled="$bloqueoBtnCargar"
-                                data-target="#cargar-asistencia-{{ $personal->id_asistencia_detalle }}" /> --}}
-
                         @livewire(
                             'personal.asistencias.carga',
                             [
