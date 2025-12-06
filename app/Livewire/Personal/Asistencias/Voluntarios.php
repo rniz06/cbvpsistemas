@@ -6,6 +6,7 @@ use App\Exports\Excel\Personal\Asistencias\ExcelAsistenciasExport;
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
 use Livewire\Component;
+use Livewire\Livewire;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -24,6 +25,15 @@ class Voluntarios extends Component
 
     // PROPIEDADES PARA MENSAJES DE ALERTA PERMANENTE
     public $mostrarMensajeAleta = false;
+
+    # PROPIEDADES PARA EL MODAL DE CARGA DE ASISTENCIA
+    public $mostrar_form_carga = false, $detalle = null;
+
+    public function habilitar_form_carga($detalle)
+    {
+        $this->detalle = $detalle;
+        $this->mostrar_form_carga = true;
+    }
 
     public function mount($asistencia)
     {
