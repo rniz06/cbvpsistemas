@@ -16,7 +16,7 @@ class AsistenciaController extends Controller
         $this->middleware('permission:Personal Asistencias Listar', ['only' => ['index']]);
         // $this->middleware('permission:Comisionamientos Crear', ['only' => ['create']]);
         // $this->middleware('permission:Comisionamientos Editar', ['only' => ['edit']]);
-        $this->middleware('permission:Conductores Ver', ['only' => ['show']]); 
+        $this->middleware('permission:Personal Asistencias Ver', ['only' => ['show']]); 
     }
 
     public function index()

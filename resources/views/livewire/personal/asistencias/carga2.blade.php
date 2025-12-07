@@ -31,7 +31,7 @@
 
             {{-- Botón de Volver --}}
             <div class="form-group col-md-3 d-flex align-items-end">
-                <a href="#" class="btn btn-block btn-outline-secondary text-decoration-none btn-sm"><i
+                <a href="{{ route('personal.asistencias.show', $detalle->asistencia_id) }}" class="btn btn-block btn-outline-secondary text-decoration-none btn-sm"><i
                         class="fas fa-arrow-left mr-1"></i>Cancelar</a>
             </div>
             {{-- Botón de Guardar --}}

@@ -99,6 +99,7 @@ class Voluntarios extends Component
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
                 ->buscarNombrecompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
+                ->orderBy('total')
                 ->paginate($this->paginado, ['*'], 'personales_page')
         ]);
     }

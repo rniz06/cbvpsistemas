@@ -19,7 +19,7 @@
         {{-- Acciones --}}
         <x-adminlte-callout theme="warning" title="Acciones" class="col-md-12">
 
-            @can('Personal Asistencia Enviar a Dpto de Personal')
+            @can('Personal Asistencias Enviar a Dpto de Personal')
                 @if ($bloqueo_enviar_dpto_personal)
                     <x-adminlte-button label="Enviar a Dpto de Personal" icon="fas fa-pencil-alt" theme="outline-success"
                         class="btn-sm" disabled />
@@ -30,7 +30,7 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencia Aprobar y derivar a Comandancia')
+            @can('Personal Asistencias Aprobar y derivar a Comandancia')
                 @if ($bloqueo_aprobar_derivar_comandancia)
                     <x-adminlte-button label="Aprobar y derivar a Comandancia" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm" disabled />
@@ -41,7 +41,7 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencia Rechazar y derivar a la Compania')
+            @can('Personal Asistencias Rechazar y derivar a la Compania')
                 @if ($bloqueo_aprobar_derivar_comandancia)
                     <x-adminlte-button label="Rechazar y derivar a la Compañia" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm" disabled />
@@ -52,7 +52,7 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencia Aprobado por Comandancia')
+            @can('Personal Asistencias Aprobado por Comandancia')
                 @if ($bloqueo_aprobar_comandancia)
                     <x-adminlte-button label="Aprobado por Comandancia" icon="fas fa-pencil-alt" theme="outline-success"
                         class="btn-sm" disabled />
@@ -63,7 +63,7 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencia Rechazar y derivar al Dpto de Personal')
+            @can('Personal Asistencias Rechazar y derivar al Dpto de Personal')
                 @if ($bloqueo_aprobar_comandancia)
                     <x-adminlte-button label="Rechazar y derivar al Dpto de Personal" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm" disabled />
@@ -74,10 +74,10 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencia Habilitar Citación')
+            @can('Personal Asistencias Habilitar Citacion')
                 @if ($asistencia->hubo_citacion == true)
                     <x-adminlte-button label="Cancelar Citación" icon="fas fa-pencil-alt" theme="outline-danger"
-                        class="btn-sm" wire:click="cancelar_citacion"
+                        class="btn-sm" wire:click="cancelar_citacion" :disabled="$asistencia->estado_id != 2"
                         wire:confirm="¿ESTAS SEGURO QUE DESEAS CANCELAR LAS CITACIONES?" />
                 @else
                     <x-adminlte-button label="Habilitar Citación" icon="fas fa-pencil-alt" theme="outline-success"
