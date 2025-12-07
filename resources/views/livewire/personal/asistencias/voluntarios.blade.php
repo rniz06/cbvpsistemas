@@ -14,8 +14,8 @@
 
         @can('Personal Asistencias Exportar Excel')
             <x-slot name="headerBotones">
-                <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf" theme="outline-secondary"
-                    class="btn-sm" />
+                <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf"
+                    theme="outline-secondary" class="btn-sm" />
             </x-slot>
         @endcan
 
@@ -79,6 +79,16 @@
             </th>
 
         </x-slot>
+
+        {{-- Spinner centrado en toda la tabla mientras se actualiza --}}
+        <div wire:loading class="loading-overlay">
+            <div class="spinner-container">
+                <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                <div class="mt-2">Generando Pdf...</div>
+            </div>
+        </div>
+
+
         @forelse ($voluntarios as $personal)
             <tr wire:key="fila-{{ $personal->id_asistencia_detalle }}">
                 <td>{{ $personal->personal->nombrecompleto ?? 'S/D' }}</td>
@@ -108,8 +118,7 @@
 
                         {{-- Boton Carga --}}
                         <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
-                            class="btn-sm"
-                            wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" />
+                            class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" />
 
                         @if ($personal->personal->estado_actualizar_id == 1)
                             <a href="{{ route('personal.edit', $personal->personal_id) }}"
@@ -128,3 +137,25 @@
         </x-slot>
     </x-table.table>
 </div>
+
+
+@push('css')
+    <style>
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.75);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner-container {
+            text-align: center;
+        }
+    </style>
+@endpush
