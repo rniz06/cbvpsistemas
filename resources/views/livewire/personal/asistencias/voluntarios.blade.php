@@ -14,7 +14,7 @@
 
         @can('Personal Asistencias Exportar Excel')
             <x-slot name="headerBotones">
-                <x-adminlte-button wire:click="excel" label="Excel" icon="fas fa-file-excel" theme="outline-success"
+                <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf" theme="outline-secondary"
                     class="btn-sm" />
             </x-slot>
         @endcan

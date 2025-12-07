@@ -3,6 +3,7 @@
 namespace App\Livewire\Personal\Asistencias;
 
 use App\Exports\Excel\Personal\Asistencias\ExcelAsistenciasExport;
+use App\Exports\Pdf\Personal\Asistencias\ListaDeAsistenciaPorPeriodoParaRemitirExport;
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
 use Livewire\Component;
@@ -121,10 +122,11 @@ class Voluntarios extends Component
             ->where('asistencia_id', $this->asistencia->id_asistencia)->get();
     }
 
-    public function excel()
+    public function pdf()
     {
-        $detalles = $this->cargarDatosExport();
+        $query = $this->cargarDatosExport();
+        $nombre_archivo = "Asistencia";
 
-        return Excel::download(new ExcelAsistenciasExport($this->asistencia, $detalles), 'Asistencia.xlsx');
+        return (new ListaDeAsistenciaPorPeriodoParaRemitirExport($query, $nombre_archivo))->download();
     }
 }

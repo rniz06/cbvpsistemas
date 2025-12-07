@@ -1,0 +1,92 @@
+@page {
+    margin: 3rem 3rem;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    border-style: groove;
+}
+
+.contenedor {
+    padding: 20px;
+    min-height: 100vh;
+    /* Hace que el recuadro abarque toda la página */
+}
+
+.tabla-encabezado {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.tabla-encabezado td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.logo {
+    width: 80px;
+}
+
+.titulo-principal {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.ficha-datos {
+    width: 100%;
+    margin-bottom: 15px;
+    border-spacing: 0;
+}
+
+.ficha-datos td {
+    padding: 6px 4px;
+    vertical-align: top;
+}
+
+.tabla-observaciones {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.tabla-observaciones th,
+.tabla-observaciones td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: left;
+}
+
+.subtitulo {
+    font-weight: bold;
+    text-align: center;
+    font-size: 13px;
+    margin: 0 0;
+    background-color: #f2f2f2;
+    padding: 5px;
+    border-style: groove;
+    border-left-style: groove;
+    border-top-style: groove;
+    border-right-style: groove;
+    border-bottom-style: none;
+}
+
+.lineas {
+    margin-top: 20px;
+    border-top: 1px dashed #000;
+    height: 25px;
+}
+
+.firma {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.firma small {
+    font-size: 11px;
+    color: #555;
+}
