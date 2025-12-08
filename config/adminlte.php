@@ -356,6 +356,11 @@ return [
                             'route' => 'personal.cargos.index',
                             'can' => 'Cargos Listar',
                         ],
+                        [
+                            'text' => 'Asis. Gen. Manual',
+                            'route' => 'personal.asistencias.generar-manualmente',
+                            'can' => 'SuperAdmin',
+                        ],
                     ],
                 ],
             ],

@@ -39,6 +39,7 @@ Route::middleware('auth')->prefix('personal')->group(function () {
     Route::controller(AsistenciaController::class)
         ->group(function () {
             Route::get('/asistencias', 'index')->name('personal.asistencias.index');
+            Route::get('/asistencias/generar-manualmente', 'generar_manualmente')->name('personal.asistencias.generar-manualmente');
             Route::get('/asistencias/{asistencia}', 'show')->name('personal.asistencias.show');
         });
 });

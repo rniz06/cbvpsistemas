@@ -28,4 +28,9 @@ class AsistenciaController extends Controller
     {
         return view('personal.asistencias.show', compact('asistencia'));
     }
+
+    public function generar_manualmente()
+    {
+        return view('personal.asistencias.generar-manualmente');
+    }
 }
