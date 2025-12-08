@@ -11,7 +11,7 @@ class Show extends Component
 {
     public $asistencia;
 
-    public $bloqueo_enviar_dpto_personal = true, $bloqueo_aprobar_derivar_comandancia = true, $bloqueo_aprobar_comandancia = true;
+    public $bloqueo_enviar_dpto_personal = true, $bloqueo_aprobar_dpto_personal = true;
 
     public function mount($asistencia)
     {
@@ -29,12 +29,7 @@ class Show extends Component
 
         # Bloqueo Btn Aprobar y Derivar al Dpto de Personal
         if ($this->asistencia->estado_id == 3 or $this->asistencia->estado_id == 7) { // ESTADO: REMITIDO P/ VERIFICAR - RECHAZADO POR COMANDANCIA
-            $this->bloqueo_aprobar_derivar_comandancia = false;
-        }
-
-        # Bloqueo Btn Aprobado por Comandancia
-        if ($this->asistencia->estado_id == 4) { // ESTADO: APROBADO POR PERSONAL
-            $this->bloqueo_aprobar_comandancia = false;
+            $this->bloqueo_aprobar_dpto_personal = false;
         }
     }
 
@@ -53,7 +48,7 @@ class Show extends Component
         return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 
-    public function aprobarDerivarComandancia()
+    public function aprobarDptoPersonal()
     {
         $this->asistencia->update([
             'estado_id' => 4, # ESTADO: APROBADO POR PERSONAL
@@ -70,26 +65,6 @@ class Show extends Component
         ]);
 
         session()->flash('success', 'La planilla de asistencia fue rechazada y remitida a la Compañia.');
-        return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
-    }
-
-    public function aprobadoComandancia()
-    {
-        $this->asistencia->update([
-            'estado_id' => 6, # ESTADO: APROBADO POR COMANDANCIA
-        ]);
-
-        session()->flash('success', 'La planilla de asistencia fue remitida al Comandancia con éxito.');
-        return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
-    }
-
-    public function rechazarDerivarDptoPersonal()
-    {
-        $this->asistencia->update([
-            'estado_id' => 7, # ESTADO: RECHAZADO POR COMANDANCIA
-        ]);
-
-        session()->flash('success', 'La planilla de asistencia fue remitida al Comandancia con éxito.');
         return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 

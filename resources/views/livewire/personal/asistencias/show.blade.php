@@ -30,47 +30,25 @@
                 @endif
             @endcan
 
-            @can('Personal Asistencias Aprobar y derivar a Comandancia')
-                @if ($bloqueo_aprobar_derivar_comandancia)
-                    <x-adminlte-button label="Aprobar y derivar a Comandancia" icon="fas fa-pencil-alt"
-                        theme="outline-success" class="btn-sm" disabled />
+            @can('Personal Asistencias Aprobar')
+                @if ($bloqueo_aprobar_dpto_personal)
+                    <x-adminlte-button label="Aprobar Dpto. Personal" icon="fas fa-pencil-alt" theme="outline-success"
+                        class="btn-sm" disabled />
                 @else
-                    <x-adminlte-button label="Aprobar y derivar a Comandancia" icon="fas fa-pencil-alt"
-                        theme="outline-success" class="btn-sm" wire:click="aprobarDerivarComandancia"
-                        wire:confirm="¿ESTAS SEGURO QUE DESEAS APROBAR Y DERIVAR A COMANDANCIA?" />
+                    <x-adminlte-button label="Aprobar Dpto. Personal" icon="fas fa-pencil-alt" theme="outline-success"
+                        class="btn-sm" wire:click="aprobarDptoPersonal"
+                        wire:confirm="¿ESTAS SEGURO QUE DESEAS APROBAR ESTA PERIODO DE ASISTENCIA?" />
                 @endif
             @endcan
 
             @can('Personal Asistencias Rechazar y derivar a la Compania')
-                @if ($bloqueo_aprobar_derivar_comandancia)
+                @if ($bloqueo_aprobar_dpto_personal)
                     <x-adminlte-button label="Rechazar y derivar a la Compañia" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm" disabled />
                 @else
                     <x-adminlte-button label="Rechazar y derivar a la Compañia" icon="fas fa-pencil-alt"
                         theme="outline-danger" class="btn-sm" wire:click="rechazarDerivarCompania"
                         wire:confirm="¿ESTAS SEGURO QUE DESEAS RECHAZAR Y DERIVAR LA PLANILLA DEVUELTA A LA COMPAÑIA?" />
-                @endif
-            @endcan
-
-            @can('Personal Asistencias Aprobado por Comandancia')
-                @if ($bloqueo_aprobar_comandancia)
-                    <x-adminlte-button label="Aprobado por Comandancia" icon="fas fa-pencil-alt" theme="outline-success"
-                        class="btn-sm" disabled />
-                @else
-                    <x-adminlte-button label="Aprobado por Comandancia" icon="fas fa-pencil-alt" theme="outline-success"
-                        class="btn-sm" wire:click="aprobadoComandancia"
-                        wire:confirm="ESTAS SEGURO QUE DESEAS DAR LA APROBACION FINAL A ESTE PERIODO DE ASISTENCIA?" />
-                @endif
-            @endcan
-
-            @can('Personal Asistencias Rechazar y derivar al Dpto de Personal')
-                @if ($bloqueo_aprobar_comandancia)
-                    <x-adminlte-button label="Rechazar y derivar al Dpto de Personal" icon="fas fa-pencil-alt"
-                        theme="outline-success" class="btn-sm" disabled />
-                @else
-                    <x-adminlte-button label="Rechazar y derivar al Dpto de Personal" icon="fas fa-pencil-alt"
-                        theme="outline-danger" class="btn-sm" wire:click="rechazarDerivarDptoPersonal"
-                        wire:confirm="¿ESTAS SEGURO QUE DESEAS RECHAZAR Y DERIVAR LA PLANILLA DEVUELTA A LA COMPAÑIA AL DEPARTAMENTO DE PERSONAL?" />
                 @endif
             @endcan
 

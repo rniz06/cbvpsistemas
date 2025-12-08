@@ -48,10 +48,8 @@ class Asistencia extends Command
             'Personal Asistencias Listar',
             'Personal Asistencias Ver',
             'Personal Asistencias Enviar a Dpto de Personal',
-            'Personal Asistencias Aprobar y derivar a Comandancia',
+            'Personal Asistencias Aprobar',
             'Personal Asistencias Rechazar y derivar a la Compania',
-            'Personal Asistencias Aprobado por Comandancia',
-            'Personal Asistencias Rechazar y derivar al Dpto de Personal',
             'Personal Asistencias Habilitar Citacion',
             'Personal Asistencias Exportar Pdf',
             'Personal Asistencias Carga'

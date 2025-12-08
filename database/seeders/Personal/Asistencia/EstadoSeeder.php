@@ -19,7 +19,5 @@ class EstadoSeeder extends Seeder
         Estado::create(['estado' => 'REMITIDO P/ VERIFICAR']);
         Estado::create(['estado' => 'APROBADO POR PERSONAL']);
         Estado::create(['estado' => 'RECHAZADO POR PERSONAL']);
-        Estado::create(['estado' => 'APROBADO POR COMANDANCIA']);
-        Estado::create(['estado' => 'RECHAZADO POR COMANDANCIA']);
     }
 }
