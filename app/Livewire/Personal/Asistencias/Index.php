@@ -7,6 +7,8 @@ use App\Models\Gral\Compania;
 use App\Models\Gral\Mes;
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Estado;
+use App\Models\UserRoleCompania;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,19 +40,36 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.personal.asistencias.index',  [
-            'asistencias' => Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
-                ->with([
-                    'compania:id_compania,compania',
-                    'periodo:id_asistencia_periodo,anho_id,mes_id',
-                    'estado:id_asistencia_estado,estado'
-                ])
-                ->where('estado_id', '!=', 1) // DISTINTO DE NO INICIADO
-                ->buscarCompaniaId($this->buscarCompaniaId)
-                ->buscarAnhoId($this->buscarAnhoId)
-                ->buscarMesId($this->buscarMesId)
-                ->buscarEstadoId($this->buscarEstadoId)
-                ->paginate($this->paginado)
-        ]);
+        $usuario = Auth::user();
+        $usuarioRoles = $usuario->roles()->where('name', 'like', 'personal_%')->pluck('name')->first();
+        $queryBase = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
+            ->with([
+                'compania:id_compania,compania',
+                'periodo:id_asistencia_periodo,anho_id,mes_id',
+                'estado:id_asistencia_estado,estado'
+            ])
+            ->where('estado_id', '!=', 1); // DISTINTO DE NO INICIADO
+
+        switch ($usuarioRoles) {
+            case 'personal_moderador_compania':
+                $asistencias = $queryBase->where('compania_id', $usuario->personal->compania_id);
+                break;
+            case 'personal_moderador_por_compania':
+                $asignacion = UserRoleCompania::whereNotNull('compania_id')->where('usuario_id', $usuario->id_usuario)->first();
+                $asistencias = $queryBase->where('compania_id', $asignacion->compania_id);
+                break;
+
+            default:
+                $asistencias = $queryBase;
+                break;
+        }
+
+        $asistencias = $asistencias->buscarCompaniaId($this->buscarCompaniaId)
+            ->buscarAnhoId($this->buscarAnhoId)
+            ->buscarMesId($this->buscarMesId)
+            ->buscarEstadoId($this->buscarEstadoId)
+            ->paginate($this->paginado);
+
+        return view('livewire.personal.asistencias.index', compact('asistencias'));
     }
 }

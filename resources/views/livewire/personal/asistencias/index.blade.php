@@ -7,13 +7,19 @@
             {{-- Companias --}}
             <th>
                 <div>
-                    <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12"
-                        wire:model.live.debounce.200ms="buscarCompaniaId" igroup-size="sm">
-                        <option value="">-- Todos --</option>
-                        @foreach ($companias as $compania)
-                            <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'S/D' }}</option>
-                        @endforeach
-                    </x-adminlte-select>
+                    @if (Auth::user()->hasRole('personal_moderador_compania') || Auth::user()->hasRole('personal_moderador_por_compania'))
+                        <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12"
+                             igroup-size="sm" disabled>
+                        </x-adminlte-select>
+                    @else
+                        <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12"
+                            wire:model.live.debounce.200ms="buscarCompaniaId" igroup-size="sm">
+                            <option value="">-- Todos --</option>
+                            @foreach ($companias as $compania)
+                                <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'S/D' }}</option>
+                            @endforeach
+                        </x-adminlte-select>
+                    @endif
                 </div>
             </th>
 
