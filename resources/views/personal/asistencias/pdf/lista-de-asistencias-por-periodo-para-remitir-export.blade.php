@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Asistencia - CBVP</title>
-    <link rel="stylesheet" href="{{ public_path('css/pdf/personal/asistencias/asistencia-para-remitir.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pdf/personal/asistencias/asistencia-para-remitir.css') }}">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         <table class="tabla-encabezado">
             <tr>
                 <td style="width: 25%;">
-                    <img src="{{ public_path('img/cbvp-logo.png') }}" class="logo">
+                    <img src="{{ asset('img/cbvp-logo.png') }}" class="logo">
                 </td>
                 <td style="width: 50%;">
                     <strong style="font-size: 18px; font-weight: bold;">Cuerpo De Bomberos Voluntarios Del
@@ -25,7 +25,7 @@
                     <small>Generado el: {{ date('d / m / Y H:i') ?? 'N/A' }} Hs </small>
                 </td>
                 <td style="width: 25%;">
-                    <img src="{{ public_path('img/cbvp-personal-logo.webp') }}" class="logo">
+                    <img src="{{ asset('img/cbvp-personal-logo.webp') }}" class="logo">
                 </td>
             </tr>
         </table>
@@ -72,6 +72,28 @@
             <small>{{ "$letraCategoria-$codigo" }}</small>
         </div>
     </div>
+
+    <script type="text/php">
+            if (isset($pdf)) {
+            $pdf->page_script('
+                $text = __("Página :pageNum/:pageCount", ["pageNum" => $PAGE_NUM, "pageCount" => $PAGE_COUNT]);
+                $font = null;
+                $size = 9;
+                $color = array(0,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+ 
+                // Compute text width to center correctly
+                $textWidth = $fontMetrics->getTextWidth($text, $font, $size);
+ 
+                $x = ($pdf->get_width() - $textWidth) / 2;
+                $y = $pdf->get_height() - 35;
+ 
+                $pdf->text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            ');
+        }
+    </script>
 
 </body>
 

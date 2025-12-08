@@ -26,8 +26,15 @@ class ListaDeAsistenciaPorPeriodoParaRemitirExport
             'periodo'     => $this->periodo,
             'compania'    => $this->compania
         ]);
+
+        // $pdf->setOptions(['enable_php' => true]);
+        $pdf->setOptions([
+            'enable_remote' => true, // HABILITA EL USO DEL HELPER ASSET() EN LAS VISTAS
+            'enable_php' => true
+        ]);
+
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, $this->nombre_archivo.'.pdf');
+        }, $this->nombre_archivo . '.pdf');
     }
 }
