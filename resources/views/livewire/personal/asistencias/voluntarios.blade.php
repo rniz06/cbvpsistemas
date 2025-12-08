@@ -12,7 +12,7 @@
     {{-- Tabla de Voluntarios --}}
     <x-table.table titulo="Listado De Voluntarios" ocultarBuscador>
 
-        @can('Personal Asistencias Exportar Excel')
+        @can('Personal Asistencias Exportar Pdf')
             <x-slot name="headerBotones">
                 <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf"
                     theme="outline-secondary" class="btn-sm" />
@@ -81,12 +81,12 @@
         </x-slot>
 
         {{-- Spinner centrado en toda la tabla mientras se actualiza --}}
-        <div wire:loading class="loading-overlay">
+        {{-- <div wire:loading class="loading-overlay">
             <div class="spinner-container">
                 <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
                 <div class="mt-2">Generando Pdf...</div>
             </div>
-        </div>
+        </div> --}}
 
 
         @forelse ($voluntarios as $personal)
@@ -116,9 +116,11 @@
                 <td>
                     <div class="d-inline-flex align-items-center gap-2">
 
-                        {{-- Boton Carga --}}
-                        <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
-                            class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" />
+                        @can('Personal Asistencias Carga')
+                            {{-- Boton Carga --}}
+                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
+                                class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" />
+                        @endcan
 
                         @if ($personal->personal->estado_actualizar_id == 1)
                             <a href="{{ route('personal.edit', $personal->personal_id) }}"
