@@ -19,7 +19,7 @@ class Voluntarios extends Component
     public $asistencia;
 
     // PROPIEDADES DE FILTRADO
-    public $buscarNombreCompleto, $buscarCodigo, $paginado = 5;
+    public $buscarNombreCompleto, $buscarCodigo, $paginado = 10;
 
     // PROPIEDADES PARA EL BLOQUEO
     public $bloqueoBtnCargar = true, $bloquearBtnCargarPorFichaActualizar = false, $bloqueoBtnEnviar = false;
@@ -100,7 +100,6 @@ class Voluntarios extends Component
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
                 ->buscarNombrecompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
-                ->orderBy('total')
                 ->paginate($this->paginado, ['*'], 'personales_page')
         ]);
     }
