@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ListaDeAsistenciaPorPeriodoParaRemitirExport
 {
-    protected $query, $nombre_archivo = "Listado de Asistencias";
+    protected $query, $nombre_archivo = "Listado de Asistencias", $periodo, $compania;
 
-    public function __construct($query, $nombre_archivo)
+    public function __construct($query, $nombre_archivo, $periodo, $compania)
     {
-        $this->query = $query;
+        $this->query          = $query;
         $this->nombre_archivo = $nombre_archivo;
+        $this->periodo        = $periodo;
+        $this->compania       = $compania;
     }
 
     public function download()
@@ -20,7 +22,9 @@ class ListaDeAsistenciaPorPeriodoParaRemitirExport
         $usuario = Auth::user();
         $pdf = Pdf::loadView('personal.asistencias.pdf.lista-de-asistencias-por-periodo-para-remitir-export', [
             'query'       => $this->query,
-            'usuario'     => $usuario
+            'usuario'     => $usuario,
+            'periodo'     => $this->periodo,
+            'compania'    => $this->compania
         ]);
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();

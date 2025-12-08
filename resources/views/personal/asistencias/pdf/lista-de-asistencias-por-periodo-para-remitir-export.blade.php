@@ -30,7 +30,7 @@
             </tr>
         </table>
 
-        <div class="subtitulo">Asistencia periodo xxxxx/xxxx Compania: xx</div>
+        <div class="subtitulo">Asistencia periodo {{ $periodo ?? 'S/D' }} Compania: {{ $compania ?? 'S/D' }}</div>
 
         <!-- {{-- Observaciones --}} -->
         <table class="tabla-observaciones">
