@@ -15,7 +15,7 @@
         @can('Personal Asistencias Exportar Pdf')
             <x-slot name="headerBotones">
                 <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf"
-                    theme="outline-secondary" class="btn-sm" />
+                    theme="outline-secondary" class="btn-sm" :disabled="$asistencia->estado_id == 2" />
             </x-slot>
         @endcan
 
