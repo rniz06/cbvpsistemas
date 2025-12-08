@@ -78,10 +78,15 @@ class Show extends Component
                 'hubo_citacion' => true,
             ]);
 
-            # INICIALIZAR EL CAMPO CITACION EN 0
-            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->update([
-                'citacion' => 0
-            ]);
+            # INICIALIZAR EL CAMPO CITACION EN 0 Y RECALCULAR TOTAL
+            $detalles = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->get();
+
+            foreach ($detalles as $detalle) {
+                $detalle->update([
+                    'citacion' => 0,
+                    'total'    => ($detalle->practica + $detalle->guardia + $detalle->citacion)  / 3
+                ]);
+            }
         });
 
         session()->flash('success', 'SE HABILITO EL CAMPO DE CITACIÓN.');
@@ -97,10 +102,13 @@ class Show extends Component
                 'hubo_citacion' => false,
             ]);
 
-            # ACTUALIZAR EL CAMPO CITACION A NULL
-            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->update([
-                'citacion' => null
-            ]);
+            $detalles = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->get();
+            foreach ($detalles as $detalle) {
+                $detalle->update([
+                    'citacion' => null,
+                    'total'    => ($detalle->practica + $detalle->guardia) / 2
+                ]);
+            }
         });
 
         session()->flash('success', 'SE CANCELO EL CAMPO DE CITACIÓN');
