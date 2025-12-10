@@ -118,20 +118,17 @@
                         {{ $personal->total ?? 'S/D' }}
                     </span></td>
                 <td>
-                    <div class="d-inline-flex align-items-center gap-2">
+                    @can('Personal Asistencias Carga')
+                        {{-- Boton Carga --}}
+                        <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success" class="btn-sm"
+                            wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" data-toggle="modal"
+                            data-target="#modal-carga" />
+                    @endcan
 
-                        @can('Personal Asistencias Carga')
-                            {{-- Boton Carga --}}
-                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
-                                class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})"
-                                data-toggle="modal" data-target="#modal-carga" />
-                        @endcan
-
-                        @if ($personal->personal->estado_actualizar_id == 1)
-                            <a href="{{ route('personal.edit', $personal->personal_id) }}"
+                    @if ($personal->personal->estado_actualizar_id == 1)
+                        <a href="{{ route('personal.edit', $personal->personal_id) }}"
                                 class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Act. Ficha Vol.</a>
-                        @endif
-                    </div>
+                    @endif
                 </td>
             </tr>
         @empty
