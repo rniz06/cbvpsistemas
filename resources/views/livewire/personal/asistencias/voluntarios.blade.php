@@ -159,6 +159,23 @@
             // EVENTO PARA CERRAR EL MODAL
             Livewire.on('asistencia-cargada', (event) => {
                 $('#modal-carga').modal('hide');
+
+                // EMITIR UNA NOTIFICACION DE EXITO EN LA PANTALLA SUPERIOR LADO DERECHO
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Asistencia Registrada!"
+                });
             });
         });
 

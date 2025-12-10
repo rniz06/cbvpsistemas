@@ -702,11 +702,17 @@ return [
             'active' => true,
             'files' => [
                 [
+                    'type' => 'css',
+                    'asset' => true,
+                    //'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
+                    'location' => 'vendor/sweetalert2/sweetalert2.min.css',
+                ],
+                [
                     'type' => 'js',
                     'asset' => true,
-                    // 'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
+                    //'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                     'location' => 'vendor/sweetalert2/sweetalert2.all.min.js',
-                ],
+                ]
             ],
         ],
         'Pace' => [

@@ -40,7 +40,7 @@ class Voluntarios extends Component
     #[On('asistencia-cargada')]
     public function cerra_modal()
     {
-        $this->detalle            = null;
+        $this->detalle = null;
     }
 
     public function mount($asistencia)
