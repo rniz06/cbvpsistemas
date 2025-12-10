@@ -1,8 +1,8 @@
 <div>
     {{-- MODAL DE CARGA DE ASISTENCIA --}}
     <x-adminlte-modal id="modal-carga" title="Carga de Asistencia" size="lg" icon="fas fa-tasks" theme="default"
-        v-centered static-backdrop scrollable>
-        @if ($mostrar_form_carga)
+        wire:ignore.self v-centered static-backdrop scrollable>
+        @if ($detalle)
             @livewire('personal.asistencias.carga2', ['detalle' => $detalle], key('carga-' . $detalle))
         @endif
     </x-adminlte-modal>
@@ -148,10 +148,24 @@
 
 @push('scripts')
     <script>
+        // ESCUCHAR EVENTOS DE LIVEWIRE
         document.addEventListener('livewire:init', () => {
+
+            // EVENTO PARA ABRIR EL MODAL
+            Livewire.on('abrir-modal-carga', (event) => {
+                $('#modal-carga').modal('show');
+            });
+
+            // EVENTO PARA CERRAR EL MODAL
             Livewire.on('asistencia-cargada', (event) => {
                 $('#modal-carga').modal('hide');
             });
+        });
+
+        // Limpieza después del cierre del modal
+        $('#modal-carga').on('hidden.bs.modal', function() {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open').css('padding-right', '').css('overflow', '');
         });
     </script>
 @endpush

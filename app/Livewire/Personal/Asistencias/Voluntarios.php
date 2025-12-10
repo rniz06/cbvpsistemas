@@ -29,19 +29,18 @@ class Voluntarios extends Component
     public $mostrarMensajeAleta = false;
 
     # PROPIEDADES PARA EL MODAL DE CARGA DE ASISTENCIA
-    public $mostrar_form_carga = false, $detalle = null;
+    public $detalle = null;
 
+    #[On('abril-modal-carga')]
     public function habilitar_form_carga($detalle)
     {
         $this->detalle = $detalle;
-        $this->mostrar_form_carga = true;
     }
 
     #[On('asistencia-cargada')]
     public function cerra_modal()
     {
         $this->detalle            = null;
-        $this->mostrar_form_carga = false;
     }
 
     public function mount($asistencia)

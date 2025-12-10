@@ -29,7 +29,7 @@
      <div class="modal-footer justify-content-between p-0">
          {{-- BOTON CERRAR MODAL --}}
          <x-adminlte-button label="Cerrar" class="btn-sm" data-dismiss="modal" theme="outline-secondary"
-             icon="fas fa-arrow-left" />
+             icon="fas fa-arrow-left" onclick="this.blur()" />
 
          {{-- BOTON GUARDAR --}}
          <x-adminlte-button type="submit" label="Guardar" theme="outline-success" class="btn-sm" icon="fas fa-save" />
