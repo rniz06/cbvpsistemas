@@ -60,7 +60,8 @@ class Carga2 extends Component
       session()->flash('error', 'NO SE PUDO REGISTRAR LA ASISTENCIAS' . $e->getMessage());
     }
 
-    $this->redirectRoute('personal.asistencias.show', $this->detalle->asistencia_id);
+    # EMITE EVENTO QUE ESCUCHA EL COMPONENTE PRINCIPAL PARA REFRESCAR LOS DATOS SIN REFRESCAR LA PAGINA
+    $this->dispatch('asistencia-cargada');
   }
 
   private function calcularPromedio()

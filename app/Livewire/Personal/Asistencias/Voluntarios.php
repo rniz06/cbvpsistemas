@@ -6,6 +6,7 @@ use App\Exports\Excel\Personal\Asistencias\ExcelAsistenciasExport;
 use App\Exports\Pdf\Personal\Asistencias\ListaDeAsistenciaPorPeriodoParaRemitirExport;
 use App\Models\Personal\Asistencia\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Livewire;
 use Livewire\WithPagination;
@@ -34,6 +35,13 @@ class Voluntarios extends Component
     {
         $this->detalle = $detalle;
         $this->mostrar_form_carga = true;
+    }
+
+    #[On('asistencia-cargada')]
+    public function cerra_modal()
+    {
+        $this->detalle            = null;
+        $this->mostrar_form_carga = false;
     }
 
     public function mount($asistencia)

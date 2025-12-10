@@ -147,4 +147,11 @@
 
 
 @push('scripts')
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('asistencia-cargada', (event) => {
+                $('#modal-carga').modal('hide');
+            });
+        });
+    </script>
 @endpush
