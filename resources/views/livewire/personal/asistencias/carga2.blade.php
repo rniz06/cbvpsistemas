@@ -1,44 +1,37 @@
-<div>
-    {{-- Formulario --}}
-    <x-adminlte-card theme="light"
-        title="Cargar Asistencia del voluntario {{ $detalle->personal->nombrecompleto ?? 'S/D' }} con Código {{ $detalle->personal->codigo ?? 'S/D' }}"
-        icon="fas fa-plus-circle" header-class="text-muted text-sm">
-        <form class="row col-md-12 p-2" wire:submit="guardar">
+ {{-- FORMULARIO DE CARGA DE ASISTENCIA DENTRO DEL MODAL --}}
+ <form wire:submit.prevent="guardar">
 
-            {{-- Práctica --}}
-            <x-adminlte-input type="number" name="practica" wire:model.blur="practica"
-                placeholder="Porcetanje de 0 a 100" label-class="text-lightblue" fgroup-class="col-md-4" igroup-size="sm">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">Práctica *</div>
-                </x-slot>
-            </x-adminlte-input>
+     {{-- VOLUNTARIO --}}
+     <div class="row col-md-12">
+         <x-adminlte-input name="" label="Voluntario" fgroup-class="col-md-12" igroup-size="sm" readonly
+             value="{{ $detalle->personal->nombrecompleto . ' | Código:' . $detalle->personal->codigo }}" />
+     </div>
 
-            {{-- Guardia --}}
-            <x-adminlte-input type="number" name="guardia" wire:model.blur="guardia"
-                placeholder="Porcetanje de 0 a 100" label-class="text-lightblue" fgroup-class="col-md-4" igroup-size="sm">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">Guardia *</div>
-                </x-slot>
-            </x-adminlte-input>
+     <div class="row col-md-12">
+         {{-- PRACTICA --}}
+         <x-adminlte-input name="practica" wire:model.blur="practica" label="Práctica *" fgroup-class="col-md-4"
+             igroup-size="sm" />
 
-            {{-- Citación --}}
-            <x-adminlte-input type="number" name="citacion" wire:model.blur="citacion" :disabled="$bloqueoCitacion"
-                placeholder="Porcetanje de 0 a 100" label-class="text-lightblue" fgroup-class="col-md-4" igroup-size="sm">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">Citación *</div>
-                </x-slot>
-            </x-adminlte-input>
+         {{-- GUARDIA --}}
+         <x-adminlte-input name="guardia" wire:model.blur="guardia" label="Guardia *" fgroup-class="col-md-4"
+             igroup-size="sm" />
 
-            {{-- Botón de Volver --}}
-            <div class="form-group col-md-3 d-flex align-items-end">
-                <a href="{{ route('personal.asistencias.show', $detalle->asistencia_id) }}" class="btn btn-block btn-outline-secondary text-decoration-none btn-sm"><i
-                        class="fas fa-arrow-left mr-1"></i>Cancelar</a>
-            </div>
-            {{-- Botón de Guardar --}}
-            <div class="form-group col-md-3 d-flex align-items-end">
-                <x-adminlte-button type="submit" label="Guardar" theme="outline-success" icon="fas fa-lg fa-save"
-                    class="w-100 btn-sm" />
-            </div>
-        </form>
-    </x-adminlte-card>
-</div>
+         {{-- CITACION --}}
+         @if ($detalle->asistencia->hubo_citacion)
+             <x-adminlte-input name="citacion" wire:model.blur="citacion" label="Citación *" fgroup-class="col-md-4"
+                 igroup-size="sm" />
+         @endif
+     </div>
+
+     {{-- SLOT DE FOOTER VACIO DEBIDO A QUE EL COMPONENTE DEL MODAL SE ENCUENTRA EN OTRA VISTA Y GENERA FALLO AL UTILIZAR METODOS DESDE AQUI --}}
+     <x-slot name="footerSlot" class="p-0"></x-slot>
+
+     <div class="modal-footer justify-content-between p-0">
+         {{-- BOTON CERRAR MODAL --}}
+         <x-adminlte-button label="Cerrar" class="btn-sm" data-dismiss="modal" theme="outline-secondary"
+             icon="fas fa-arrow-left" />
+
+         {{-- BOTON GUARDAR --}}
+         <x-adminlte-button type="submit" label="Guardar" theme="outline-success" class="btn-sm" icon="fas fa-save" />
+     </div>
+ </form>

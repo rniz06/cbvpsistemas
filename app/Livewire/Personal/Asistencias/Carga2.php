@@ -25,9 +25,6 @@ class Carga2 extends Component
     $this->practica = $this->detalle->practica;
     $this->guardia  = $this->detalle->guardia;
     $this->citacion = $this->detalle->citacion;
-
-    # SI hubo_citacion ES false, BOQUEA EL INPUT CITACION
-    $this->bloqueoCitacion = !$this->detalle->asistencia->hubo_citacion;
   }
 
   protected function rules()

@@ -1,7 +1,11 @@
 <div>
-    @if ($mostrar_form_carga)
-        @livewire('personal.asistencias.carga2', ['detalle' => $detalle])
-    @endif
+    {{-- MODAL DE CARGA DE ASISTENCIA --}}
+    <x-adminlte-modal id="modal-carga" title="Carga de Asistencia" size="lg" icon="fas fa-tasks" theme="default"
+        v-centered static-backdrop scrollable>
+        @if ($mostrar_form_carga)
+            @livewire('personal.asistencias.carga2', ['detalle' => $detalle], key('carga-' . $detalle))
+        @endif
+    </x-adminlte-modal>
 
     {{-- SI EXISTEN FICHAS PENDIENTES DE ACTUALIZACION MOSTRAR MENSAJE DE ALERTA --}}
     @if ($mostrarMensajeAleta)
@@ -119,7 +123,8 @@
                         @can('Personal Asistencias Carga')
                             {{-- Boton Carga --}}
                             <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
-                                class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" />
+                                class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})"
+                                data-toggle="modal" data-target="#modal-carga" />
                         @endcan
 
                         @if ($personal->personal->estado_actualizar_id == 1)
@@ -141,23 +146,5 @@
 </div>
 
 
-@push('css')
-    <style>
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.75);
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner-container {
-            text-align: center;
-        }
-    </style>
+@push('scripts')
 @endpush
