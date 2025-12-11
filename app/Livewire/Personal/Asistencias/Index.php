@@ -27,7 +27,8 @@ class Index extends Component
         $this->companias = Compania::select('id_compania', 'compania')->orderBy('orden')->get();
         $this->anhos     = Anho::select('id_anho', 'anho')->orderByDesc('anho')->get();
         $this->meses     = Mes::select('id_mes', 'mes')->get();
-        $this->estados   = Estado::select('id_asistencia_estado', 'estado')->get();
+        //$this->estados   = Estado::select('id_asistencia_estado', 'estado')->where('id_asistencia_estado', '!=', 1)->get();
+        $this->estados   = Estado::select('id_asistencia_estado', 'estado')->whereNot('id_asistencia_estado', 1)->get();
     }
 
     // Limpiar el buscador y la paginación al cambiar de pagina
