@@ -9,16 +9,16 @@
 
      <div class="row col-md-12">
          {{-- PRACTICA --}}
-         <x-adminlte-input name="practica" wire:model.blur="practica" label="Práctica *" fgroup-class="col-md-4"
+         <x-adminlte-input type="number" name="practica" wire:model.blur="practica" label="Práctica *" fgroup-class="col-md-4"
              igroup-size="sm" />
 
          {{-- GUARDIA --}}
-         <x-adminlte-input name="guardia" wire:model.blur="guardia" label="Guardia *" fgroup-class="col-md-4"
+         <x-adminlte-input type="number" name="guardia" wire:model.blur="guardia" label="Guardia *" fgroup-class="col-md-4"
              igroup-size="sm" />
 
          {{-- CITACION --}}
          @if ($detalle->asistencia->hubo_citacion)
-             <x-adminlte-input name="citacion" wire:model.blur="citacion" label="Citación *" fgroup-class="col-md-4"
+             <x-adminlte-input type="number" name="citacion" wire:model.blur="citacion" label="Citación *" fgroup-class="col-md-4"
                  igroup-size="sm" />
          @endif
      </div>

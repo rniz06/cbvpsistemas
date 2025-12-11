@@ -30,11 +30,11 @@ class Carga2 extends Component
   protected function rules()
   {
     return [
-      'practica' => ['required', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
-      'guardia'  => ['required', 'numeric', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
+      'practica' => ['required', 'integer', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
+      'guardia'  => ['required', 'integer', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
       'citacion' => [
         'nullable',
-        'numeric',
+        'integer',
         'min_digits:1',
         'max_digits:3',
         'min:0',
@@ -67,12 +67,14 @@ class Carga2 extends Component
   private function calcularPromedio()
   {
     // SI NO HAY CITACION PROMEDIAR POR PRACTICA Y GUARDIA
-    if ($this->bloqueoCitacion === true) {
-      return ($this->practica + $this->guardia) / 2;
+    if ($this->detalle->asistencia->hubo_citacion == true) {
+      return ($this->practica + $this->guardia + $this->citacion) / 3;
     }
 
-    // SI HAY CITACION PROMEDIAR POR PRACTICA, GUARDIA Y CITACION
-    return ($this->practica + $this->guardia + $this->citacion) / 3;
+    if ($this->detalle->asistencia->hubo_citacion == false) {
+      return ($this->practica + $this->guardia) / 2;
+    }
+    return;
   }
 
   public function render()
