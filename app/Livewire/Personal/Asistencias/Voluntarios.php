@@ -135,7 +135,8 @@ class Voluntarios extends Component
 
         $periodo = $this->asistencia->periodo->mes->mes . '/' . $this->asistencia->periodo->anho->anho;
         $compania = $this->asistencia->compania->compania;
+        $hubo_citacion = $this->asistencia->hubo_citacion;
 
-        return (new ListaDeAsistenciaPorPeriodoParaRemitirExport($query, $nombre_archivo, $periodo, $compania))->download();
+        return (new ListaDeAsistenciaPorPeriodoParaRemitirExport($query, $nombre_archivo, $periodo, $compania, $hubo_citacion))->download();
     }
 }

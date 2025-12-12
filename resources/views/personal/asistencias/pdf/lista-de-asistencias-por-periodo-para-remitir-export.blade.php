@@ -22,7 +22,7 @@
                         Paraguay</strong><br>
                     recepcion@cbvp.org.py | bomberoscbvp.org.py<br>
                     Departamento de Personal<br>
-                    <small>Generado el: {{ date('d / m / Y H:i') ?? 'N/A' }} Hs </small>
+                    <small>Generado el: {{ date('d / m / Y H:i') ?? 'S/D' }} Hs </small>
                 </td>
                 <td style="width: 25%;">
                     <img src="{{ asset('img/cbvp-personal-logo.webp') }}" class="logo">
@@ -40,7 +40,9 @@
                     <th>Código:</th>
                     <th>Práctica:</th>
                     <th>Guardia:</th>
-                    <th>Citación:</th>
+                    @if ($hubo_citacion == true)
+                        <th>Citación:</th>
+                    @endif
                     <th>Total:</th>
                 </tr>
             </thead>
@@ -51,7 +53,9 @@
                         <td>{{ $asistencia->personal->codigo ?? 'S/D' }}</td>
                         <td>{{ $asistencia->practica ?? 'S/D' }}</td>
                         <td>{{ $asistencia->guardia ?? 'S/D' }}</td>
-                        <td>{{ $asistencia->citacion ?? 'NO' }}</td>
+                        @if ($hubo_citacion == true)
+                            <td>{{ $asistencia->citacion ?? 'NO' }}</td>
+                        @endif
                         <td>{{ $asistencia->total ?? 'S/D' }}</td>
                     </tr>
                 @empty
@@ -76,21 +80,31 @@
     <script type="text/php">
             if (isset($pdf)) {
             $pdf->page_script('
-                $text = __("Página :pageNum/:pageCount", ["pageNum" => $PAGE_NUM, "pageCount" => $PAGE_COUNT]);
-                $font = null;
-                $size = 9;
-                $color = array(0,0,0);
-                $word_space = 0.0;  //  default
-                $char_space = 0.0;  //  default
-                $angle = 0.0;   //  default
- 
-                // Compute text width to center correctly
-                $textWidth = $fontMetrics->getTextWidth($text, $font, $size);
- 
-                $x = ($pdf->get_width() - $textWidth) / 2;
-                $y = $pdf->get_height() - 35;
- 
-                $pdf->text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            // Fuente
+            $font = $fontMetrics->get_font("Arial", "normal");
+            $size = 9;
+            $color = [0,0,0];
+
+            // Margenes usados en @page
+            $marginLeft = 36;   // 3rem
+            $marginRight = 36;  // 3rem
+            $marginBottom = 48; // 3rem
+
+            // --- Texto izquierda ---
+            $leftText = "Departamento de TI a través del Sistema Nacional de Bomberos | https://sinabom.cbvp.org.py";
+            $leftX = $marginLeft;
+            $leftY = $pdf->get_height() - $marginBottom + 20; // posición dentro del footer
+
+            $pdf->text($leftX, $leftY, $leftText, $font, $size, $color);
+
+            // --- Número de página (derecha) ---
+            $pageText = "Página " . $PAGE_NUM . " / " . $PAGE_COUNT;
+            $textWidth = $fontMetrics->getTextWidth($pageText, $font, $size);
+
+            $rightX = $pdf->get_width() - $marginRight - $textWidth;
+            $rightY = $leftY;
+
+            $pdf->text($rightX, $rightY, $pageText, $font, $size, $color);
             ');
         }
     </script>
