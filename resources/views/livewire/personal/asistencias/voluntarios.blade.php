@@ -59,12 +59,14 @@
             </th>
 
             {{-- Citación --}}
-            <th>
-                <div>
-                    <x-adminlte-input name="" label="Citación:" fgroup-class="col-md-12" igroup-size="sm"
-                        readonly />
-                </div>
-            </th>
+            @if ($asistencia->hubo_citacion == true)
+                <th>
+                    <div>
+                        <x-adminlte-input name="" label="Citación:" fgroup-class="col-md-12" igroup-size="sm"
+                            readonly />
+                    </div>
+                </th>
+            @endif
 
             {{-- Total --}}
             <th>
@@ -109,11 +111,11 @@
                         {{ $personal->guardia ?? 'S/D' }}
                     </span>
                 </td>
-
-                <td><span class="badge {{ $personal->citacion !== null ? 'badge-success' : 'badge-danger' }}">
-                        {{ $personal->citacion ?? 'S/D' }}
-                    </span></td>
-
+                @if ($asistencia->hubo_citacion == true)
+                    <td><span class="badge {{ $personal->citacion !== null ? 'badge-success' : 'badge-danger' }}">
+                            {{ $personal->citacion ?? 'S/D' }}
+                        </span></td>
+                @endif
                 <td><span class="badge {{ $personal->total !== null ? 'badge-success' : 'badge-danger' }}">
                         {{ $personal->total ?? 'S/D' }}
                     </span></td>
@@ -127,7 +129,7 @@
 
                     @if ($personal->personal->estado_actualizar_id == 1)
                         <a href="{{ route('personal.edit', $personal->personal_id) }}"
-                                class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Act. Ficha Vol.</a>
+                            class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i> Act. Ficha Vol.</a>
                     @endif
                 </td>
             </tr>

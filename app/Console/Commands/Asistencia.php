@@ -36,8 +36,8 @@ class Asistencia extends Command
         Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Gral\\MesSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\EstadoSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\PeriodoSeeder']);
-        Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\AsistenciaSeeder']);
-        Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\DetalleSeeder']);
+        //Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\AsistenciaSeeder']); # SE GENERARA DE FORMA MANUAL
+        //Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Personal\\Asistencia\\DetalleSeeder']); # SE GENERARA DE FORMA MANUAL
 
         $sub_modulo = SysSubModulo::create([
             'sub_modulo' => 'Asistencias',

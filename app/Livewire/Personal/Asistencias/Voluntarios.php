@@ -46,7 +46,7 @@ class Voluntarios extends Component
     public function mount($asistencia)
     {
         // OBTENER REGISTRO ACTUAL
-        $this->asistencia = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id')
+        $this->asistencia = Asistencia::select('id_asistencia', 'compania_id', 'periodo_id', 'estado_id', 'hubo_citacion')
             ->with([
                 'compania:id_compania,compania',
                 'estado:id_asistencia_estado,estado',
