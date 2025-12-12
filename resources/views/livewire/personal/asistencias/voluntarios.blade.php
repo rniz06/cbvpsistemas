@@ -122,9 +122,14 @@
                 <td>
                     @can('Personal Asistencias Carga')
                         {{-- Boton Carga --}}
-                        <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success" class="btn-sm"
-                            wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})" data-toggle="modal"
-                            data-target="#modal-carga" />
+                        @if ($bloqueoBtnCargar == true or $bloquearBtnCargarPorFichaActualizar == true)
+                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
+                                class="btn-sm" disabled />
+                        @else
+                            <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
+                                class="btn-sm" wire:click="habilitar_form_carga({{ $personal->id_asistencia_detalle }})"
+                                data-toggle="modal" data-target="#modal-carga" />
+                        @endif
                     @endcan
 
                     @if ($personal->personal->estado_actualizar_id == 1)
