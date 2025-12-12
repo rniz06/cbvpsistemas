@@ -337,6 +337,11 @@ return [
                     'can' => 'Comisionamientos Listar',
                 ],
                 [
+                    'text' => 'Asistencias',
+                    'route' => 'personal.asistencias.index',
+                    'can' => 'Personal Asistencias Listar',
+                ],
+                [
                     'text' => 'Reportes',
                     'route' => 'personal.reportes',
                     'can' => 'Personal Reportes Listar',
@@ -350,6 +355,11 @@ return [
                             'text' => 'Cargos',
                             'route' => 'personal.cargos.index',
                             'can' => 'Cargos Listar',
+                        ],
+                        [
+                            'text' => 'Asis. Gen. Manual',
+                            'route' => 'personal.asistencias.generar-manualmente',
+                            'can' => 'SuperAdmin',
                         ],
                     ],
                 ],
@@ -692,11 +702,17 @@ return [
             'active' => true,
             'files' => [
                 [
+                    'type' => 'css',
+                    'asset' => true,
+                    //'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
+                    'location' => 'vendor/sweetalert2/sweetalert2.min.css',
+                ],
+                [
                     'type' => 'js',
                     'asset' => true,
-                    // 'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
+                    //'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                     'location' => 'vendor/sweetalert2/sweetalert2.all.min.js',
-                ],
+                ]
             ],
         ],
         'Pace' => [

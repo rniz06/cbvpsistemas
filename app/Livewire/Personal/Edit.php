@@ -19,7 +19,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $personal;
+    public $personal, $url_previa;
     // PROPIEDADES DEL FORMULARIO
     #[Validate]
     public $nombrecompleto, $codigo, $categoria_id, $compania_id, $fecha_juramento, $fecha_de_juramento, $fecha_nacimiento, $estado_id, $documento, $sexo_id, $nacionalidad_id, $ultima_actualizacion, $estado_actualizar_id, $grupo_sanguineo_id;
@@ -55,6 +55,9 @@ class Edit extends Component
         $this->estado_actualizar_id = $personal->estado_actualizar_id;
         $this->grupo_sanguineo_id   = $personal->grupo_sanguineo_id;
         $this->tipo_documento_id    = $personal->tipo_documento_id;
+
+
+        $this->url_previa    = url()->previous();
     }
 
     protected function rules()
@@ -114,8 +117,8 @@ class Edit extends Component
             'tipo_documento_id' => $this->tipo_documento_id ?? 1, // CEDULA PARAGUAYA
         ]);
 
-        session()->flash('success', 'Personal Voluntario Registrado Correctamente!');
-        $this->redirectRoute('personal.show', ['personal' => $this->personal]);
+        session()->flash('success', 'FICHA DEL VOLUNTARIO ACTUALIZADA CORRECTAMENTE!');
+        return redirect($this->url_previa);
     }
 
     public function render()

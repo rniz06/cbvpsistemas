@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Personal\Asistencia;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Contacto;
 use App\Models\Personal\ContactoEmergencia;
@@ -49,6 +50,12 @@ class Personal extends Model implements Auditable
         'grupo_sanguineo_id',
         'tipo_documento_id',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELACIONES
+    |--------------------------------------------------------------------------
+    */
 
     public function mesas()
     {
@@ -184,4 +191,15 @@ class Personal extends Model implements Auditable
     {
         return $this->belongsTo(VtCompania::class, 'compania_id', 'idcompanias');
     }
+
+    public function asistenciasDetalles()
+    {
+        return $this->hasMany(Asistencia::class);    
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FIN RELACIONES
+    |--------------------------------------------------------------------------
+    */
 }
