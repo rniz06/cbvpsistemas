@@ -23,7 +23,6 @@
             <th>A Cargo:</th>
             <th>chofer:</th>
             <th>Tripulantes:</th>
-            <th>911:</th>
             <th>Despacho Cia:</th>
             <th>Salida de Móvil:</th>
             <th>Llegada de Móvil:</th>
