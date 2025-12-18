@@ -52,6 +52,7 @@ class ServiciosActivos911 extends Component
                 ->paginate($this->paginadolistadoSinMoviles, ['*'], 'listadoSinMoviles_page'),
             'apoyosActivos' => VtExistenteApoyo::select('idservicio_existente_apoyo', 'servicio_existente_id', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'fecha_cia')
                 ->whereNull('fecha_base')
+                ->where('despacho_policia', true) # SOLO DESPACHO DE 911
                 ->orderBy('compania')
                 ->paginate($this->paginadoApoyosActivos, ['*'], 'apoyos_activos_page'),
         ]);

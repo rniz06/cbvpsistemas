@@ -23,6 +23,7 @@
             <th>A Cargo:</th>
             <th>chofer:</th>
             <th>Tripulantes:</th>
+            <th>911:</th>
             <th>Despacho Cia:</th>
             <th>Salida de Móvil:</th>
             <th>Llegada de Móvil:</th>
@@ -36,6 +37,7 @@
                 <td>{{ $apoyo->acargo ?? 'S/D' }}</td>
                 <td>{{ $apoyo->chofer ?? 'S/D' }}</td>
                 <td>{{ $apoyo->cantidad_tripulantes ?? 'N/A' }}</td>
+                <td>{{ $apoyo->despacho_policia ? 'SI' : 'NO' }}</td>
 
                 <td>
                     @if ($apoyo->fecha_cia == null)

@@ -101,6 +101,7 @@ class Apoyos extends Component
             'compania',
             'movil',
             'tipo',
+            'despacho_policia',
             // Acargo: si es null usar acargo_aux
             DB::raw("
                 CASE 

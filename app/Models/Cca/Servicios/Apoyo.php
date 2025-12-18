@@ -32,12 +32,14 @@ class Apoyo extends Model implements Auditable
         'fecha_base',
         'km_final',
         'desperfecto',
+        'despacho_policia',
         'creadoPor',
         'actualizadoPor',
     ];
 
     protected $casts = [
-        'chofer_rentado' => 'boolean',
-        'desperfecto'    => 'boolean',
+        'chofer_rentado'   => 'boolean',
+        'desperfecto'      => 'boolean',
+        'despacho_policia' => 'boolean'
     ];
 }

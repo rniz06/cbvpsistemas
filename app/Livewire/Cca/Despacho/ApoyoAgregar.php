@@ -22,7 +22,7 @@ class ApoyoAgregar extends Component
 
     // Propiedad del formulario
     #[Validate]
-    public $compania_id, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $compania_id, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes, $despacho_policia = false;
 
     public function mount($servicio)
     {
@@ -58,6 +58,7 @@ class ApoyoAgregar extends Component
                 ['required']
             ), 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
+            'despacho_policia' => ['required', 'boolean']
         ];
     }
 
@@ -86,6 +87,11 @@ class ApoyoAgregar extends Component
         if ($this->acargo_rentado) {
             $this->acargo = null;
         }
+    }
+
+    public function depacho_por_policia()
+    {
+        $this->despacho_policia = !$this->despacho_policia;    
     }
 
     public function guardar()
@@ -134,6 +140,7 @@ class ApoyoAgregar extends Component
             'chofer_aux'            => $chofer_aux ?? null,
             'chofer_rentado'        => $this->chofer_rentado ?? null,
             'cantidad_tripulantes'  => $this->cantidad_tripulantes,
+            'despacho_policia'      => $this->despacho_policia,
             'creadoPor'             => Auth::id(),
         ]);
         $this->dispatch('apoyo-agregado');

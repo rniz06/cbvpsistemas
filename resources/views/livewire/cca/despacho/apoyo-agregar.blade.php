@@ -54,6 +54,12 @@
                 <x-adminlte-input name="cantidad_tripulantes" type="number" label="Tripulantes:"
                     wire:model.blur="cantidad_tripulantes" fgroup-class="col-md-1" />
 
+                     {{-- BOTON DE RENTADO --}}
+            <div class="form-group col-md-1 align-self-end">
+                <x-adminlte-button :label="$despacho_policia ? 'Cancelar 911' : 'Despachar desde 911'" :theme="$despacho_policia ? 'outline-secondary' : 'outline-warning'" :icon="$despacho_policia ? 'fas fa-times-circle' : 'fas fa-user-check'"
+                    wire:click="depacho_por_policia" />
+            </div>
+
                 {{-- BOTON DE GUARDADO --}}
                 <div class="col-md-2">
                     <x-adminlte-button label="Guardar" icon="fas fa-save" type="submit" theme="success"
