@@ -4,6 +4,7 @@ namespace App\Livewire\Cca\Despacho;
 
 use App\Models\Admin\CompaniaGral;
 use App\Models\Cca\Servicios\Apoyo;
+use App\Models\Cca\Servicios\Existente;
 use App\Models\Materiales\Movil\Movil;
 use App\Models\Personal;
 use App\Models\Vistas\Materiales\VtMayor;
@@ -22,11 +23,11 @@ class ApoyoAgregar extends Component
 
     // Propiedad del formulario
     #[Validate]
-    public $compania_id, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $compania_id, $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes, $despacho_policia = false;
 
     public function mount($servicio)
     {
-        $this->servicio = $servicio;
+        $this->servicio = Existente::findOrFail($servicio, ['id_servicio_existente', 'despacho_policia']);
         $this->companias = CompaniaGral::select('id_compania', 'compania')->orderBy('orden')->get();
         $this->moviles = VtMayor::select('id_movil', 'tipo', 'movil')->where([['compania_id', $this->compania_id], ['operativo', 1]])->orderBy('tipo')->get();
     }
@@ -58,6 +59,7 @@ class ApoyoAgregar extends Component
                 ['required']
             ), 'string', 'regex:/^[A-Z]{1,3}?[0-9]{1,5}$|^[0-9]{1,5}$/'],
             'cantidad_tripulantes' => ['required', 'integer', 'min:1', 'min_digits:1', 'max:12', 'max_digits:2'],
+            'despacho_policia' => ['required', 'boolean']
         ];
     }
 
@@ -86,6 +88,11 @@ class ApoyoAgregar extends Component
         if ($this->acargo_rentado) {
             $this->acargo = null;
         }
+    }
+
+    public function depacho_por_policia()
+    {
+        $this->despacho_policia = !$this->despacho_policia;    
     }
 
     public function guardar()
@@ -124,7 +131,7 @@ class ApoyoAgregar extends Component
             }
         }
         Apoyo::create([
-            'servicio_id'           => $this->servicio,
+            'servicio_id'           => $this->servicio->id_servicio_existente,
             'compania_id'           => $this->compania_id,
             'movil_id'              => $this->movil_id,
             'acargo'                => $acargo ?? null,
@@ -134,6 +141,7 @@ class ApoyoAgregar extends Component
             'chofer_aux'            => $chofer_aux ?? null,
             'chofer_rentado'        => $this->chofer_rentado ?? null,
             'cantidad_tripulantes'  => $this->cantidad_tripulantes,
+            'despacho_policia'      => $this->servicio->despacho_policia,
             'creadoPor'             => Auth::id(),
         ]);
         $this->dispatch('apoyo-agregado');

@@ -49,8 +49,14 @@
 
             {{-- Informaciones --}}
             <x-adminlte-input name="calle_referencia" label="Calles/Referencias:" placeholder="Calles/Referencias..."
-                fgroup-class="col-md-9" oninput="this.value = this.value.toUpperCase()"
-                wire:model.blur="calle_referencia" />            
+                fgroup-class="col-md-7" oninput="this.value = this.value.toUpperCase()"
+                wire:model.blur="calle_referencia" />
+
+            {{-- BOTON DE RENTADO --}}
+            <div class="form-group col-md-2 align-self-end">
+                <x-adminlte-button :label="$despacho_policia ? 'Cancelar 911' : 'Despachar desde 911'" :theme="$despacho_policia ? 'outline-secondary' : 'outline-warning'" :icon="$despacho_policia ? 'fas fa-times-circle' : 'fas fa-user-check'"
+                    wire:click="depacho_por_policia" />
+            </div>
 
             {{-- Botones --}}
             <div class="card-footer">

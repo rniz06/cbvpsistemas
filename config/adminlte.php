@@ -425,6 +425,11 @@ return [
                             'route' => 'cca.despacho.servicios-activos',
                             'can' => 'Servicios Activos',
                         ],
+                        [
+                            'text' => 'Servicios Activos 911',
+                            'route' => 'cca.despacho.servicios-activos-911',
+                            'can' => 'Servicios Activos 911',
+                        ],
                     ],
                 ],
                 [
