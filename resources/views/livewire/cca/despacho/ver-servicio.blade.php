@@ -155,6 +155,12 @@
                     fgroup-class="col-md-2" disabled />
             @endif
 
+            @if ($servicio->despacho_policia == true)
+                <x-adminlte-input name="" label="Despachado por 911"
+                    value="{{ $servicio->despacho_policia ? 'SI' : 'NO' }}"
+                    fgroup-class="col-md-2" disabled />
+            @endif
+
 
             {{-- Botones --}}
             {{-- <div class="card-footer">

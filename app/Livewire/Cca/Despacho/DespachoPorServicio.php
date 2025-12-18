@@ -18,7 +18,7 @@ class DespachoPorServicio extends Component
 
     // Propiedades para el formulario
     #[Validate]
-    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia;
+    public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia, $despacho_policia = false;
 
     public function mount()
     {
@@ -37,6 +37,7 @@ class DespachoPorServicio extends Component
             'informacion_servicio' => ['required', 'min:2', 'max:255'],
             'ciudad_id' => ['required', Rule::exists(CiudadGral::class, 'id_ciudad')],
             'calle_referencia' => ['required', 'min:3', 'max:255'],
+            'despacho_policia' => ['required', 'boolean'],
         ];
     }
 
@@ -51,6 +52,7 @@ class DespachoPorServicio extends Component
             'clasificacion_id' => $this->clasificacion_id,
             'ciudad_id' => $this->ciudad_id,
             'estado_id' => 1, // Estado: Inicializado
+            'despacho_policia' => $this->despacho_policia,
             'creadoPor' => Auth::id()
         ]);
         return redirect()->route('cca.despacho.despacho-por-servicio-add-compania', ['servicio' => $servicio->id_servicio_existente])
@@ -65,6 +67,11 @@ class DespachoPorServicio extends Component
             })
             ->get();
         $this->clasificacion_id = '';
+    }
+
+    public function depacho_por_policia()
+    {
+        $this->despacho_policia = !$this->despacho_policia;    
     }
 
     public function render()

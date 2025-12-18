@@ -40,12 +40,14 @@ class Existente extends Model implements Auditable
         'fecha_servicio',
         'fecha_base',
         'falsa_alarma',
+        'despacho_policia',
         'creadoPor',
         'actualizadoPor',
     ];
 
     protected $casts = [
-        'chofer_rentado' => 'boolean',
-        'desperfecto'    => 'boolean',
+        'chofer_rentado'   => 'boolean',
+        'desperfecto'      => 'boolean',
+        'despacho_policia' => 'boolean'
     ];
 }
