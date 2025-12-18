@@ -37,7 +37,6 @@
                 <td>{{ $apoyo->acargo ?? 'S/D' }}</td>
                 <td>{{ $apoyo->chofer ?? 'S/D' }}</td>
                 <td>{{ $apoyo->cantidad_tripulantes ?? 'N/A' }}</td>
-                <td>{{ $apoyo->despacho_policia ? 'SI' : 'NO' }}</td>
 
                 <td>
                     @if ($apoyo->fecha_cia == null)
