@@ -359,7 +359,7 @@ return [
                         [
                             'text' => 'Asis. Gen. Manual',
                             'route' => 'personal.asistencias.generar-manualmente',
-                            'can' => 'SuperAdmin',
+                            'can' => 'Personal Asistencias Generar Manualmente',
                         ],
                     ],
                 ],
