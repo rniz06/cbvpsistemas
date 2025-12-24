@@ -18,8 +18,19 @@
 
         @can('Personal Asistencias Exportar Pdf')
             <x-slot name="headerBotones">
-                <x-adminlte-button wire:click="pdf" label="Exportar Listado en PDF" icon="far fa-file-pdf"
-                    theme="outline-secondary" class="btn-sm" />
+                <button class="btn btn-sm btn-outline-secondary" wire:click="pdf" wire:loading.attr="disabled">
+
+                    {{-- Estado normal --}}
+                    <span wire:loading.remove wire:target="pdf">
+                        <i class="far fa-file-pdf"></i> Exportar Listado en PDF
+                    </span>
+
+                    {{-- Estado cargando --}}
+                    <span wire:loading wire:target="pdf">
+                        <i class="fas fa-spinner fa-spin"></i> Generando PDF...
+                    </span>
+
+                </button>
             </x-slot>
         @endcan
 
