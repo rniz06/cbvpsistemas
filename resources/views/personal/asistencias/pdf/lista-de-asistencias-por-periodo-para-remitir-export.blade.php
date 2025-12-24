@@ -30,7 +30,8 @@
             </tr>
         </table>
 
-        <div class="subtitulo">Asistencia periodo {{ $periodo ?? 'S/D' }} Compania: {{ $compania ?? 'S/D' }}</div>
+        <div class="subtitulo">Planilla de asistencia correspondiente al Mes de {{ $periodo ?? 'S/D' }} Compania: {{ $compania ?? 'S/D' }}
+        </div>
 
         <!-- {{-- Observaciones --}} -->
         <table class="tabla-observaciones">
@@ -50,7 +51,7 @@
                 @forelse ($query as $asistencia)
                     <tr>
                         <td>{{ $asistencia->personal->nombrecompleto ?? 'S/D' }}</td>
-                        <td>{{ $asistencia->personal->codigo ?? 'S/D' }}</td>
+                        <td>{{ $asistencia->personal->categoria_codigo_juramento ?? 'S/D' }}</td>
                         <td>{{ $asistencia->practica ?? 'S/D' }}</td>
                         <td>{{ $asistencia->guardia ?? 'S/D' }}</td>
                         @if ($hubo_citacion == true)
@@ -65,8 +66,38 @@
         </table>
 
         <br><br>
-        <!-- {{-- Firma --}} -->
-        <div class="firma">
+
+        {{-- FIRMAS --}}
+        <div class="firmas">
+
+            <table>
+                <thead>
+                    <tr>
+
+                        <!-- Firma izquierda -->
+                        <td class="firma" style="text-align: left;">
+                            ________________________________<br>
+                        </td>
+
+                        <td style="padding-left: 17.5rem"></td> <!-- 17.5rem = 280px -->
+
+                        <!-- Firma derecha -->
+                        <td class="firma" style="text-align: right;">
+                            ________________________________<br>
+                            Emitido por: {{ $usuario->nombrecompleto ?? 'S/D' }}<br>
+                            @php
+                                $letraCategoria = $usuario->categoria ? substr($usuario->categoria, 0, 1) : 'N/A';
+                                $codigo = $usuario->codigo ?? 'N/A';
+                            @endphp
+                            <small>{{ "$letraCategoria-$codigo" }}</small>
+                        </td>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        {{-- <div class="firma">
             ________________________________<br>
             Emitido por: {{ $usuario->nombrecompleto ?? 'S/D' }}<br>
             @php
@@ -74,7 +105,7 @@
                 $codigo = $usuario->codigo ?? 'N/A';
             @endphp
             <small>{{ "$letraCategoria-$codigo" }}</small>
-        </div>
+        </div> --}}
     </div>
 
     <script type="text/php">

@@ -124,7 +124,9 @@ class Voluntarios extends Component
     public function cargarDatosExport()
     {
         return Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion', 'total')
-            ->with('personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id')
+            ->with([
+                'personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id,categoria_id,fecha_juramento',
+                'personal.categoria:idpersonal_categorias,categoria'])
             ->where('asistencia_id', $this->asistencia->id_asistencia)->get();
     }
 

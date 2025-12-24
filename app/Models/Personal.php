@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Personal\Asistencia;
+use App\Models\Personal\Asistencia\Detalle;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Contacto;
 use App\Models\Personal\ContactoEmergencia;
@@ -12,6 +13,7 @@ use App\Models\Personal\GrupoSanguineo;
 use App\Models\Personal\Pais;
 use App\Models\Personal\Sexo;
 use App\Models\Vistas\VtCompania;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,8 @@ class Personal extends Model implements Auditable
     protected $primaryKey = 'idpersonal';
 
     public $timestamps = false;
+
+    protected $appends = ['categoria_codigo_juramento'];
 
     /**
      * Los campos que se pueden asignar.
@@ -194,7 +198,7 @@ class Personal extends Model implements Auditable
 
     public function asistenciasDetalles()
     {
-        return $this->hasMany(Asistencia::class);    
+        return $this->hasMany(Detalle::class);    
     }
 
     /*
@@ -202,4 +206,21 @@ class Personal extends Model implements Auditable
     | FIN RELACIONES
     |--------------------------------------------------------------------------
     */
+
+    protected function categoriaCodigoJuramento(): Attribute
+    {
+        $letraCategoria = $this->categoria->categoria
+            ? substr($this->categoria->categoria, 0, 1)
+            : 'S/D';
+
+        $codigo = $this->codigo ?? 'S/D';
+
+        $anhoJuramento = $this->fecha_juramento
+            ? substr((string) $this->fecha_juramento, -2)
+            : 'S/D';
+
+        return Attribute::make(
+            get: fn () => $letraCategoria . '-' . $codigo . '/' . $anhoJuramento,
+        );
+    }
 }

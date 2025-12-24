@@ -1,6 +1,6 @@
 <div>
     {{-- Formulario --}}
-    <x-adminlte-card theme="light" title="Añadir Usuario" icon="fas fa-plus-circle" header-class="text-muted text-sm">
+    <x-adminlte-card theme="light" title="Generar Manualmente el periodo de asistencia de una Compañia" icon="fas fa-plus-circle" header-class="text-muted text-sm">
         <form class="row col-md-12 p-2" wire:submit="guardar">
 
             {{-- Compañia --}}
