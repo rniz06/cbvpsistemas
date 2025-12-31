@@ -66,9 +66,7 @@ class Voluntarios extends Component
 
         // COMPROBAR RESULTADO DE LA CONSULTA ANTERIOR
         if ($pendiente) {
-            //session()->flash('danger', 'EXISTEN FICHAS NO ACTUALIZADAS.');
             $this->mostrarMensajeAleta = true;
-            $this->bloquearBtnCargarPorFichaActualizar = true; //OMITIR MOMENTANEAMENTE BLOQUEO POR FASE DE DESARROLLO
         }
 
         // CONSULTA PARA VERIFICAR QUE NO EXISTEN FICHAS POR CARGAR ASISTENCIA
@@ -103,7 +101,9 @@ class Voluntarios extends Component
     {
         return view('livewire.personal.asistencias.voluntarios', [
             'voluntarios' => Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion', 'total')
-                ->with('personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id')
+                ->with([
+                    'personal:idpersonal,nombrecompleto,codigo,estado_id,estado_actualizar_id',
+                    'personal.estado:idpersonal_estados,estado'])
                 ->where('asistencia_id', $this->asistencia->id_asistencia)
                 ->buscarNombrecompleto($this->buscarNombreCompleto)
                 ->buscarCodigo($this->buscarCodigo)
@@ -126,7 +126,8 @@ class Voluntarios extends Component
         return Detalle::select('id_asistencia_detalle', 'personal_id', 'asistencia_id', 'practica', 'guardia', 'citacion', 'total')
             ->with([
                 'personal:idpersonal,nombrecompleto,codigo,estado_actualizar_id,categoria_id,fecha_juramento',
-                'personal.categoria:idpersonal_categorias,categoria'])
+                'personal.categoria:idpersonal_categorias,categoria'
+            ])
             ->where('asistencia_id', $this->asistencia->id_asistencia)->get();
     }
 

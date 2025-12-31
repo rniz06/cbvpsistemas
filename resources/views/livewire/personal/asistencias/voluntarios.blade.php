@@ -10,11 +10,11 @@
     {{-- SI EXISTEN FICHAS PENDIENTES DE ACTUALIZACION MOSTRAR MENSAJE DE ALERTA --}}
     @if ($mostrarMensajeAleta)
         <x-adminlte-alert theme="danger"
-            title="EXISTEN FICHAS NO ACTUALIZADAS. NO PODRA REALIZAR LA CARGA DE ASISTENCIA" />
+            title="EXISTEN FICHAS NO ACTUALIZADAS. NO PODRA REALIZAR LA CARGA DE ASISTENCIA DE ESOS VOLUNTARIOS" />
     @endif
 
     {{-- Tabla de Voluntarios --}}
-    <x-table.table titulo="Listado De Voluntarios" ocultarBuscador>
+    <x-table.table titulo="Lista De Voluntarios" ocultarBuscador>
 
         @can('Personal Asistencias Exportar Pdf')
             <x-slot name="headerBotones">
@@ -50,6 +50,13 @@
                 <div>
                     <x-adminlte-input type="number" name="buscarCodigo" label="Código:" fgroup-class="col-md-12"
                         wire:model.live.debounce.250ms="buscarCodigo" igroup-size="sm" />
+                </div>
+            </th>
+
+            {{-- Estado --}}
+            <th>
+                <div>
+                    <x-adminlte-input name="" label="Estado:" fgroup-class="col-md-12" igroup-size="sm" disabled />
                 </div>
             </th>
 
@@ -97,19 +104,11 @@
 
         </x-slot>
 
-        {{-- Spinner centrado en toda la tabla mientras se actualiza --}}
-        {{-- <div wire:loading class="loading-overlay">
-            <div class="spinner-container">
-                <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                <div class="mt-2">Generando Pdf...</div>
-            </div>
-        </div> --}}
-
-
         @forelse ($voluntarios as $personal)
             <tr wire:key="fila-{{ $personal->id_asistencia_detalle }}">
                 <td>{{ $personal->personal->nombrecompleto ?? 'S/D' }}</td>
                 <td>{{ $personal->personal->codigo ?? 'S/D' }}</td>
+                <td>{{ $personal->personal->estado->estado ?? 'S/D' }}</td>
 
                 <td>
                     <span class="badge {{ $personal->practica !== null ? 'badge-success' : 'badge-danger' }}">
@@ -133,7 +132,7 @@
                 <td>
                     @can('Personal Asistencias Carga')
                         {{-- Boton Carga --}}
-                        @if ($bloqueoBtnCargar == true or $bloquearBtnCargarPorFichaActualizar == true)
+                        @if ($bloqueoBtnCargar == true or $personal->personal->estado_actualizar_id == 1)
                             <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
                                 class="btn-sm" disabled />
                         @else
