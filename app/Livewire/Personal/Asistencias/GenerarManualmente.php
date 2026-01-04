@@ -49,18 +49,30 @@ class GenerarManualmente extends Component
                 $asistencia = Asistencia::create(['compania_id' => $this->compania_id, 'periodo_id' => $this->periodo_id, 'estado_id' => $this->estado_id]);
 
                 # OBTENER LOS VOLUNTARIOS DE TAL COMPANIA
-                $personales = Personal::where('compania_id', $this->compania_id)->get(['idpersonal']);
+                $personales = Personal::where('compania_id', $this->compania_id)->get(['idpersonal', 'estado_id']);
 
                 # GENERAR LOS DETALLES
                 foreach ($personales as $personal) {
-                    Detalle::create([
-                        'asistencia_id' => $asistencia->id_asistencia,
-                        'personal_id'   => $personal->idpersonal,
-                        'practica'      => 0,
-                        'guardia'       => 0,
-                        'citacion'      => null,
-                        'total'         => 0
-                    ]);
+
+                    if ($personal->estado_id == 11) {   # ESTADO_ID == 11(FALLECIO EN SERVICIO(MARTIR) CON 100%)
+                        Detalle::create([
+                            'asistencia_id' => $asistencia->id_asistencia,
+                            'personal_id'   => $personal->idpersonal,
+                            'practica'      => 100,
+                            'guardia'       => 100,
+                            'citacion'      => null,
+                            'total'         => 100
+                        ]);
+                    } else {
+                        Detalle::create([
+                            'asistencia_id' => $asistencia->id_asistencia,
+                            'personal_id'   => $personal->idpersonal,
+                            'practica'      => 0,
+                            'guardia'       => 0,
+                            'citacion'      => null,
+                            'total'         => 0
+                        ]);
+                    }
                 }
             });
 

@@ -56,7 +56,8 @@
             {{-- Estado --}}
             <th>
                 <div>
-                    <x-adminlte-input name="" label="Estado:" fgroup-class="col-md-12" igroup-size="sm" disabled />
+                    <x-adminlte-input name="" label="Estado:" fgroup-class="col-md-12" igroup-size="sm"
+                        disabled />
                 </div>
             </th>
 
@@ -107,7 +108,7 @@
         @forelse ($voluntarios as $personal)
             <tr wire:key="fila-{{ $personal->id_asistencia_detalle }}">
                 <td>{{ $personal->personal->nombrecompleto ?? 'S/D' }}</td>
-                <td>{{ $personal->personal->codigo ?? 'S/D' }}</td>
+                <td>{{ $personal->personal->categoria_codigo_juramento ?? 'S/D' }}</td>
                 <td>{{ $personal->personal->estado->estado ?? 'S/D' }}</td>
 
                 <td>
@@ -132,7 +133,10 @@
                 <td>
                     @can('Personal Asistencias Carga')
                         {{-- Boton Carga --}}
-                        @if ($bloqueoBtnCargar == true or $personal->personal->estado_actualizar_id == 1)
+                        @if (
+                            $bloqueoBtnCargar == true or
+                                $personal->personal->estado_actualizar_id == 1 or
+                                in_array($personal->personal->estado_id, [2, 3, 4, 5, 6, 7, 10, 11]))
                             <x-adminlte-button label="Cargar" icon="fas fa-pencil-alt" theme="outline-success"
                                 class="btn-sm" disabled />
                         @else
