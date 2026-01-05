@@ -72,7 +72,7 @@ class GenerarManualmente extends Component
                             'personal_id'   => $personal->idpersonal,
                             'practica'      => 100,
                             'guardia'       => 100,
-                            'citacion'      => null,
+                            'citacion'      => 100,
                             'total'         => 100
                         ]);
                     } else {

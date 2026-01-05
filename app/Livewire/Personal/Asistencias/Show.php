@@ -58,7 +58,7 @@ class Show extends Component
         return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 
-    # HABILITAR CAMPO CITACION PARA CARGA
+    # HABILITAR CAMPO CITACION PARA CnullARGA
     public function habilitar_citacion()
     {
 
@@ -68,15 +68,15 @@ class Show extends Component
                 'hubo_citacion' => true,
             ]);
 
-            # INICIALIZAR EL CAMPO CITACION EN 0 Y RECALCULAR TOTAL
-            $detalles = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->get();
-
-            foreach ($detalles as $detalle) {
-                $detalle->update([
+            # SOLO PERSONAL QUE NO SEA MARTIR (estado_id != 11)
+            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)
+                ->whereHas('personal', function ($query) {
+                    $query->where('estado_id', '!=', 11);
+                })
+                ->update([
                     'citacion' => 0,
-                    'total'    => ($detalle->practica + $detalle->guardia + $detalle->citacion)  / 3
+                    'total' => DB::raw('(practica + guardia + 0) / 3')
                 ]);
-            }
         });
 
         session()->flash('success', 'SE HABILITO EL CAMPO DE CITACIÓN.');
@@ -92,13 +92,15 @@ class Show extends Component
                 'hubo_citacion' => false,
             ]);
 
-            $detalles = Detalle::where('asistencia_id', $this->asistencia->id_asistencia)->get();
-            foreach ($detalles as $detalle) {
-                $detalle->update([
+            # SOLO PERSONAL QUE NO SEA MARTIR (estado_id != 11)
+            Detalle::where('asistencia_id', $this->asistencia->id_asistencia)
+                ->whereHas('personal', function ($query) {
+                    $query->where('estado_id', '!=', 11);
+                })
+                ->update([
                     'citacion' => null,
-                    'total'    => ($detalle->practica + $detalle->guardia) / 2
+                    'total' => DB::raw('(practica + guardia) / 2')
                 ]);
-            }
         });
 
         session()->flash('success', 'SE CANCELO EL CAMPO DE CITACIÓN');
