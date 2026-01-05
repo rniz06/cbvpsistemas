@@ -8,8 +8,8 @@
             <th>
                 <div>
                     @if (Auth::user()->hasRole('personal_moderador_compania') || Auth::user()->hasRole('personal_moderador_por_compania'))
-                        <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12"
-                             igroup-size="sm" disabled>
+                        <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12" igroup-size="sm"
+                            disabled>
                         </x-adminlte-select>
                     @else
                         <x-adminlte-select name="" label="Compañia:" fgroup-class="col-md-12"
@@ -76,9 +76,17 @@
                 <td>{{ $asistencia->periodo->anho->anho ?? 'N/A' }}</td>
                 <td>{{ $asistencia->periodo->mes->mes ?? 'N/A' }}</td>
                 <td>{{ $asistencia->estado->estado ?? 'N/A' }}</td>
-                <td>
-                    <a href="{{ route('personal.asistencias.show', $asistencia->id_asistencia) }}"
-                        class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i> Ver</a>
+                <td class="row">
+                    {{-- VER --}}
+                    @can('Personal Asistencias Ver')
+                        <a href="{{ route('personal.asistencias.show', $asistencia->id_asistencia) }}"
+                            class="btn btn-sm btn-outline-secondary mr-2"><i class="fas fa-eye"></i> Ver</a>
+                    @endcan
+
+                    {{-- ELIMINAR --}}
+                    @can('Personal Asistencia Eliminar')
+                        @livewire('personal.asistencias.eliminar', ['asistencia' => $asistencia->id_asistencia], key($asistencia->id_asistencia))
+                    @endcan
                 </td>
             </tr>
         @empty
