@@ -34,8 +34,20 @@ class GenerarManualmente extends Component
     {
         return [
             'compania_id' => ['required', 'integer', Rule::exists(Compania::class, 'id_compania')],
-            'periodo_id'  => ['required', 'integer', Rule::exists(Periodo::class, 'id_asistencia_periodo')],
+            'periodo_id'  => [
+                'required',
+                'integer',
+                Rule::exists(Periodo::class, 'id_asistencia_periodo'),
+                Rule::unique(Asistencia::class)->where('compania_id', $this->compania_id)->whereNull('deleted_at')
+            ],
             'estado_id'   => ['required', 'integer', Rule::exists(Estado::class, 'id_asistencia_estado')]
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'periodo_id.unique' => 'YA EXISTE UN PERIODO PARA ESTA COMPAÑIA.',
         ];
     }
 
