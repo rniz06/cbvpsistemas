@@ -17,7 +17,7 @@
         </x-adminlte-callout>
 
         {{-- Acciones --}}
-        <x-adminlte-callout theme="warning" title="Acciones" class="col-md-12">
+        <x-adminlte-callout theme="warning" title="Acciones:" class="col-md-12">
 
             @can('Personal Asistencias Enviar a Dpto de Personal')
                 @if ($bloqueo_enviar_dpto_personal)
@@ -46,9 +46,7 @@
                     <x-adminlte-button label="Rechazar y derivar a la Compañia" icon="fas fa-pencil-alt"
                         theme="outline-success" class="btn-sm" disabled />
                 @else
-                    <x-adminlte-button label="Rechazar y derivar a la Compañia" icon="fas fa-pencil-alt"
-                        theme="outline-danger" class="btn-sm" wire:click="rechazarDerivarCompania"
-                        wire:confirm="¿ESTAS SEGURO QUE DESEAS RECHAZAR Y DERIVAR LA PLANILLA DEVUELTA A LA COMPAÑIA?" />
+                    @livewire('personal.asistencias.modal-rechazo-personal', ['asistencia' => $asistencia->id_asistencia], key($asistencia->id_asistencia))
                 @endif
             @endcan
 

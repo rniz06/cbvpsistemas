@@ -58,16 +58,6 @@ class Show extends Component
         return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
     }
 
-    public function rechazarDerivarCompania()
-    {
-        $this->asistencia->update([
-            'estado_id' => 5, # ESTADO: RECHAZADO POR PERSONAL
-        ]);
-
-        session()->flash('success', 'La planilla de asistencia fue rechazada y remitida a la Compañia.');
-        return redirect()->route('personal.asistencias.show', $this->asistencia->id_asistencia);
-    }
-
     # HABILITAR CAMPO CITACION PARA CARGA
     public function habilitar_citacion()
     {

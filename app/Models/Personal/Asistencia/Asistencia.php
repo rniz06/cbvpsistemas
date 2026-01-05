@@ -50,6 +50,11 @@ class Asistencia extends Model implements Auditable
         return $this->hasMany(Asistencia::class);
     }
 
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'asistencia_id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FIN RELACIONES
