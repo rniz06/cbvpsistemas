@@ -55,7 +55,7 @@ class Voluntarios extends Component
             ])->findOrFail($asistencia);
 
         # SI EL ESTADO ES "SIN CARGAR" HABILITA BTN PARA LA CARGA, SI ES DISTINTO PERMANECE BLOQUEADO
-        if ($this->asistencia->estado_id == 2) { // SIN CARGAR
+        if ($this->asistencia->estado_id == 2 or $this->asistencia->estado_id == 5) { // SIN CARGAR - RECHAZADO POR PERSONAL
             $this->bloqueoBtnCargar = false;
         }
 
