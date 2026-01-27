@@ -25,7 +25,7 @@
                     <div class="col-md-2">
                         <x-adminlte-select name="compania_id" label="Compañía:" wire:model.live="compania_id">
                             @foreach ($companias as $compania)
-                                <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
+                                <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'N/A' }}</option>
                             @endforeach
 
                         </x-adminlte-select>

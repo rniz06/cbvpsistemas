@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Materiales\Mayor;
 
-use App\Models\Compania;
+use App\Models\Gral\Compania;
 use App\Models\Materiales\Accion;
 use App\Models\Materiales\AccionCategoria;
 use App\Models\Materiales\AccionCategoriaDetalle;
@@ -42,7 +42,7 @@ class AgregarAccion extends Component
     public function mount($movil_id)
     {
         $this->movil_id = $movil_id;
-        $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
+        $this->companias = Compania::orderBy('orden')->get(['id_compania', 'compania']);
         //$this->accionCategorias = AccionCategoria::select('id_accion_categoria', 'categoria', 'accion_id')
         //    ->where('accion_id', $this->accion_id)->get();
         //$this->categoriasDetalles = AccionCategoriaDetalle::select('idaccion_categoria_detalle', 'detalle', 'accion_categoria_id')
