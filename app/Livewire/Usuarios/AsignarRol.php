@@ -4,7 +4,7 @@ namespace App\Livewire\Usuarios;
 
 use Livewire\Component;
 use Illuminate\Support\Str;
-use App\Models\Compania;
+use App\Models\Gral\Compania;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRoleCompania;
@@ -38,7 +38,7 @@ class AsignarRol extends Component
         }
         //$this->rolesSelect = Role::pluck('name', 'name')->all();
 
-        $this->companias = Compania::select('idcompanias', 'compania')->orderBy('orden')->get();
+        $this->companias = Compania::orderBy('orden')->get(['id_compania', 'compania']);
 
         $this->cargarCompaniaSiAplica();
     }
@@ -53,7 +53,7 @@ class AsignarRol extends Component
         $this->validate([
             'roles' => 'array',
             'roles.*' => 'string|exists:roles,name',
-            'compania_id' => ['nullable', Rule::exists(Compania::class, 'idcompanias')]
+            'compania_id' => ['nullable', Rule::exists(Compania::class, 'id_compania')]
         ]);
 
         $user = $this->usuario;
@@ -104,7 +104,7 @@ class AsignarRol extends Component
     {
         return view('livewire.usuarios.asignar-rol', [
             'companiaAsignada' => $this->compania_id
-                ? $this->companias->firstWhere('idcompanias', $this->compania_id)
+                ? $this->companias->firstWhere('id_compania', $this->compania_id)
                 : null,
         ]);
     }

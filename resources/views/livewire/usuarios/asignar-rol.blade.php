@@ -42,7 +42,7 @@
                 <div class="col-md-4">
                     <x-adminlte-select name="compania_id" wire:model.live="compania_id" label="Compañía:">
                         @forelse ($companias as $compania)
-                            <option value="{{ $compania->idcompanias }}">{{ $compania->compania ?? 'N/A' }}</option>
+                            <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'N/A' }}</option>
                         @empty
                             <option value="">Sin datos...</option>
                         @endforelse
