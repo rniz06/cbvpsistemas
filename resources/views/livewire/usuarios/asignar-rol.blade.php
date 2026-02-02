@@ -41,11 +41,10 @@
             @if ($this->debeMostrarSelectCompania)
                 <div class="col-md-4">
                     <x-adminlte-select name="compania_id" wire:model.live="compania_id" label="Compañía:">
-                        @forelse ($companias as $compania)
-                            <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'N/A' }}</option>
-                        @empty
-                            <option value="">Sin datos...</option>
-                        @endforelse
+                        <option value="">-- Seleccionar --</option>
+                        @foreach ($companias as $compania)
+                            <option value="{{ $compania->id_compania }}">{{ $compania->compania ?? 'S/D' }}</option>
+                        @endforeach
                     </x-adminlte-select>
                 </div>
             @endif
