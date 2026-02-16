@@ -26,6 +26,9 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             Route::get('/despacho-por-servicio-add-compania/{servicio}', 'despachoPorServicioAddCompania')->name('cca.despacho.despacho-por-servicio-add-compania');
             Route::get('/despacho-por-servicio-final/{servicio}', 'despachoPorServicioFinal')->name('cca.despacho.despacho-por-servicio-final');
 
+            # DESPACHOS PARALELOS( NO ALFA CENTRAL) POR DPTO O CIA
+            Route::get('/despacho-por-dpto', 'despachoPorDpto')->name('cca.despacho.paralelo.despacho-por-dpto');
+
             Route::get('/ver-servicio/{servicio}', 'verServicio')->name('cca.despacho.ver-servicio');
             Route::get('/servicios-activos', 'serviciosActivos')->name('cca.despacho.servicios-activos');
             Route::get('/servicios-activos-911', 'serviciosActivos911')->name('cca.despacho.servicios-activos-911');

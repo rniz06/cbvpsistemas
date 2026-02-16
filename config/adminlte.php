@@ -421,6 +421,11 @@ return [
                             'can' => 'Despacho Por Servicio',
                         ],
                         [
+                            'text' => 'Por Departamento (No CCA)',
+                            'route' => 'cca.despacho.paralelo.despacho-por-dpto',
+                            'can' => 'Despacho Por Dpto',
+                        ],
+                        [
                             'text' => 'Servicios Activos',
                             'route' => 'cca.despacho.servicios-activos',
                             'can' => 'Servicios Activos',

@@ -47,7 +47,7 @@ class Movil extends Model implements Auditable
 
     public function acronimo()
     {
-        return $this->belongsTo(Acronimo::class, 'movil_tipo_id');
+        return $this->belongsTo(Acronimo::class, 'movil_tipo_id', 'id_movil_tipo');
     }
 
     public function marca()
