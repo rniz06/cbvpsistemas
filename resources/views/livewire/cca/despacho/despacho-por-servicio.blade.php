@@ -36,15 +36,24 @@
 
             {{-- Ciudad --}}
             <div class="col-md-3">
-                <x-adminlte-select name="ciudad_id" label="ciudad:" wire:model.blur="ciudad_id">
-                    <option>-- Seleccionar --</option>
-                    @forelse ($ciudades as $ciudad)
-                        <option value="{{ $ciudad->id_ciudad ?? 'null' }}">
-                            {{ $ciudad->ciudad ?? 'S/D' }}</option>
-                    @empty
-                        <option>Sin datos...</option>
-                    @endforelse
-                </x-adminlte-select>
+                <div class="form-group">
+                    <label>Ciudad del Servicio:</label>
+                    <div wire:ignore>
+                        <select class="form-control @error('ciudad_id') is-invalid @enderror" id="ciudad_id"
+                            name="ciudad_id" wire:model.blur="ciudad_id">
+                            <option value="">-- Seleccionar --</option>
+                            @foreach ($ciudades as $ciudad)
+                                <option value="{{ $ciudad->id_ciudad ?? 'null' }}">
+                                    {{ $ciudad->ciudad ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('ciudad_id')
+                        <div class="invalid-feedback d-block" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
             </div>
 
             {{-- Informaciones --}}
@@ -65,3 +74,17 @@
         </form>
     </x-adminlte-card>
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        new SlimSelect({
+            select: '#ciudad_id'
+        })
+    </script>
+@endpush

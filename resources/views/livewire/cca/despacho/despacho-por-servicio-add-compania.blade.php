@@ -31,17 +31,45 @@
         <form wire:submit="grabar" class="col-md-12 row">
             {{-- Compania --}}
             <div class="col-md-4">
-                <x-adminlte-select name="compania_id" label="Compañia:" wire:model.blur="compania_id">
-                    <option>Seleccionar...</option>
-                    @forelse ($companias as $compania)
-                        <option value="{{ $compania->id_compania ?? 'null' }}">{{ $compania->compania ?? 'S/D' }} -
+                <div class="form-group">
+                    <label>Compañia:</label>
+                    <div wire:ignore>
+                        <select class="form-control @error('compania_id') is-invalid @enderror" id="compania_id"
+                            name="compania_id" wire:model.blur="compania_id">
+                            <option value="">-- Seleccionar --</option>
+                            @foreach ($companias as $compania)
+                                <option value="{{ $compania->id_compania }}">
+                                    {{ $compania->compania ?? 'S/D' }} -
+                                    {{ $compania->departamento ?? 'S/D' }} -
+                                    {{ $compania->ciudad ?? 'S/D' }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('compania_id')
+                        <div class="invalid-feedback d-block" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- <div class="col-md-4" wire:ignore>
+                <div class="form-group">
+                    <label>Compañia:</label>
+                    <select class="form-control" id="compania_id" name="compania_id" wire:model.blur="compania_id">
+                        <option>-- Seleccionar --</option>
+                        @foreach ($companias as $compania)
+                            <option value="{{ $compania->id_compania ?? 'null' }}">{{ $compania->compania ?? 'S/D' }} -
                             {{ $compania->departamento ?? 'S/D' }} - {{ $compania->ciudad ?? 'S/D' }}
                         </option>
-                    @empty
-                        <option>Sin datos...</option>
-                    @endforelse
-                </x-adminlte-select>
-            </div>
+                        @endforeach
+                    </select>
+                    @error('compania_id')
+                        <p>{{ $message }}</p>
+                    @enderror
+                </div>
+            </div> --}}
 
             {{-- Botones --}}
             <div class="card-footer">
@@ -50,3 +78,17 @@
         </form>
     </x-adminlte-card>
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        new SlimSelect({
+            select: '#compania_id'
+        })
+    </script>
+@endpush
