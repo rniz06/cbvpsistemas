@@ -8,9 +8,9 @@ use App\Models\Cca\Servicios\Servicio;
 use App\Models\Gral\Ciudad;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Movil\Movil;
+use App\Models\Personal;
 use App\Models\UserRoleCompania;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -52,9 +52,7 @@ class DespachoPorDpto extends Component
             $this->cargarDatosSinFiltros();
         }
 
-        $this->servicios        = Servicio::get(['id_servicio', 'servicio']);
-
-        // $this->moviles          = Ciudad::get(['id_ciudad', 'ciudad']);
+        $this->servicios = Servicio::get(['id_servicio', 'servicio']);
     }
 
     # REGLAS DE VALIDACION
@@ -62,7 +60,7 @@ class DespachoPorDpto extends Component
     {
         return [
             'servicio_id'           => ['required', 'integer', Rule::exists(Servicio::class, 'id_servicio')],
-            'clasificacion_id'      => ['required', 'integer', Rule::exists(Clasificacion::class, 'id_clasificacion')],
+            'clasificacion_id'      => ['required', 'integer', Rule::exists(Clasificacion::class, 'id_servicio_clasificacion')],
             'informacion_servicio'  => ['required', 'string', 'min:2', 'max:255'],
             'ciudad_id'             => ['required', 'integer', Rule::exists(Ciudad::class, 'id_ciudad')],
             'compania_id'           => ['required', 'integer', Rule::exists(Compania::class, 'id_compania')],
@@ -86,8 +84,11 @@ class DespachoPorDpto extends Component
         $this->validate();
 
         try {
+            $acargoData = $this->obtenerPersonal($this->acargo, $this->acargo_rentado);
+            $choferData = $this->obtenerPersonal($this->chofer, $this->chofer_rentado);
+
             # DAR DE ALTA EL SERVICIO
-            Existente::create([
+            $servicio = Existente::create([
                 'informacion_servicio' => $this->informacion_servicio ?? null,
                 'calle_referencia'     => $this->calle_referencia ?? null,
                 'cantidad_tripulantes' => $this->cantidad_tripulantes ?? 0,
@@ -96,11 +97,11 @@ class DespachoPorDpto extends Component
                 'clasificacion_id'     => $this->clasificacion_id ?? null,
                 'ciudad_id'            => $this->ciudad_id ?? null,
                 'movil_id'             => $this->movil_id ?? null,
-                'acargo'               => 'veremos',
-                'acargo_aux'           => 'veremos',
+                'acargo'               => $acargoData['idpersonal'],
+                'acargo_aux'           => $acargoData['aux'],
                 'acargo_rentado'       => $this->acargo_rentado ?? null,
-                'chofer'               => 'veremos',
-                'chofer_aux'           => 'veremos',
+                'chofer'               => $choferData['idpersonal'],
+                'chofer_aux'           => $choferData['aux'],
                 'chofer_rentado'       => $this->chofer_rentado ?? null,
                 'estado_id'            => 4, # Servicio Culminado
                 'km_final'             => $this->km_final ?? null,
@@ -111,19 +112,20 @@ class DespachoPorDpto extends Component
                 'fecha_servicio'       => $this->fecha_servicio ?? null,
                 'fecha_base'           => $this->fecha_base ?? null,
                 'falsa_alarma'         => false, # FALSA ALARMA POR DEFECTO
-                'despacho_policia'     => false, # NO ES DESPACHO DESDE 911
+                'despacho_policia'     => false, # NO ES DESPACHO DESDE 911, CARGA COMANDANCIA DEPARTAMENTAL
                 'creadoPor'            => Auth::id()
             ]);
 
             session()->flash('success', 'SERVICIO CREADO CORRECTAMENTE!');
+            return redirect()->route('cca.despacho.ver-servicio', $servicio->id_servicio_existente);
         } catch (\Exception $e) {
             session()->flash(
                 'error',
                 'NO SE PUDO CREAR EL SERVICIO - ' . $e->getMessage()
             );
+            return redirect()->route('cca.despacho.paralelo.despacho-por-dpto');
         }
-
-        return redirect()->route('admin.companias.index');
+        
     }
 
     public function render()
@@ -139,7 +141,7 @@ class DespachoPorDpto extends Component
     private function cargarDatosSinFiltros()
     {
         $this->ciudades  = Ciudad::get(['id_ciudad', 'ciudad']);
-        $this->companias = Compania::get(['id_compania', 'compania']);
+        $this->companias = Compania::orderBy('orden')->get(['id_compania', 'compania']);
     }
 
     private function cargarDatosFiltradosPorDepartamento()
@@ -164,6 +166,28 @@ class DespachoPorDpto extends Component
             ->get(['id_compania', 'compania']);
     }
 
+    # FUNCION PARA OBTENER PERSONAL PARA CHOFER Y/O ACARGO
+    private function obtenerPersonal($valor, $esRentado = false): array
+    {
+        if ($esRentado || empty($valor)) {
+            return [
+                'idpersonal'  => null,
+                'aux' => null,
+            ];
+        }
+
+        $query = Personal::query();
+
+        $campo = is_numeric($valor) ? 'codigo' : 'codigo_comisionamiento';
+
+        $id = $query->where($campo, $valor)->value('idpersonal');
+
+        return [
+            'idpersonal'  => $id,
+            'aux'         => is_null($id) ? $valor : null,
+        ];
+    }
+
     public function updatedServicioId($value)
     {
         $this->clasificaciones  = Clasificacion::where('servicio_id', $value)->get(['id_servicio_clasificacion', 'clasificacion']);
@@ -177,6 +201,17 @@ class DespachoPorDpto extends Component
 
     public function btnChoferRentado()
     {
-        # 
+        $this->chofer_rentado = !$this->chofer_rentado;
+        if ($this->chofer_rentado) {
+            $this->chofer = null;
+        }
+    }
+
+    public function btnAcargoRentado()
+    {
+        $this->acargo_rentado = !$this->acargo_rentado;
+        if ($this->acargo_rentado) {
+            $this->acargo = null;
+        }
     }
 }

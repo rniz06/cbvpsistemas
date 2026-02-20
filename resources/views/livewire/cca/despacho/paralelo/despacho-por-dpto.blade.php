@@ -1,9 +1,9 @@
 <div>
     {{-- Formulario --}}
-    <x-adminlte-card theme="light" title="Despacho por Departamento" icon="fas fa-plus-circle"
-        header-class="text-muted text-sm">
-        <form class="col-md-12 p-2 row" wire:submit="guardar">
-
+    <form wire:submit="guardar">
+        {{-- DATOS GENERALES DEL SERVICIO --}}
+        <x-adminlte-card theme="light" title="Despacho por Departamento" icon="fas fa-plus-circle"
+            header-class="text-muted text-sm" body-class="col-md-12 row">
             {{-- Servicio --}}
             <x-adminlte-select name="servicio_id" wire:model.blur="servicio_id" label-class="text-lightblue"
                 fgroup-class="col-md-2" igroup-size="sm">
@@ -24,7 +24,8 @@
                 </x-slot>
                 <option value="">Seleccionar</option>
                 @foreach ($clasificaciones as $clasificacion)
-                    <option value="{{ $clasificacion->id_clasificacion }}">{{ $clasificacion->clasificacion ?? 'S/D' }}
+                    <option value="{{ $clasificacion->id_servicio_clasificacion }}">
+                        {{ $clasificacion->clasificacion ?? 'S/D' }}
                     </option>
                 @endforeach
             </x-adminlte-select>
@@ -89,9 +90,11 @@
 
             {{-- Chofer --}}
             <x-adminlte-input name="chofer" wire:model.blur="chofer" label-class="text-lightblue"
-                fgroup-class="col-md-3" igroup-size="sm" oninput="this.value = this.value.toUpperCase()">
+                fgroup-class="col-md-3" igroup-size="sm" oninput="this.value = this.value.toUpperCase()"
+                :disabled="$chofer_rentado">
                 <x-slot name="appendSlot">
-                    <x-adminlte-button theme="outline-warning" label="Rentado" wire:click="btnChoferRentado" />
+                    <x-adminlte-button theme="outline-warning" :label="$chofer_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$chofer_rentado ? 'secondary' : 'outline-warning'"
+                        wire:click="btnChoferRentado" />
                 </x-slot>
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Chofer *</div>
@@ -100,9 +103,11 @@
 
             {{-- A cargo --}}
             <x-adminlte-input name="acargo" wire:model.blur="acargo" label-class="text-lightblue"
-                fgroup-class="col-md-3" igroup-size="sm" oninput="this.value = this.value.toUpperCase()">
+                fgroup-class="col-md-3" igroup-size="sm" oninput="this.value = this.value.toUpperCase()"
+                :disabled="$acargo_rentado">
                 <x-slot name="appendSlot">
-                    <x-adminlte-button theme="outline-warning" label="Rentado" />
+                    <x-adminlte-button theme="outline-warning" :label="$acargo_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$acargo_rentado ? 'secondary' : 'outline-warning'"
+                        wire:click="btnAcargoRentado" />
                 </x-slot>
                 <x-slot name="prependSlot">
                     <div class="input-group-text">A cargo *</div>
@@ -181,6 +186,6 @@
                 <x-adminlte-button type="submit" label="Guardar" theme="outline-success" icon="fas fa-lg fa-save"
                     class="w-100 btn-sm" />
             </div>
-        </form>
-    </x-adminlte-card>
+        </x-adminlte-card>
+    </form>
 </div>
