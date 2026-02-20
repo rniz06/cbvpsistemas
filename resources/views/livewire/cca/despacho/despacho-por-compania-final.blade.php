@@ -37,15 +37,24 @@
 
             {{-- Ciudad --}}
             <div class="col-md-3">
-                <x-adminlte-select name="ciudad_id" label="ciudad:" wire:model.blur="ciudad_id">
-                    <option>-- Seleccionar --</option>
-                    @forelse ($ciudades as $ciudad)
-                        <option value="{{ $ciudad->id_ciudad ?? 'null' }}">
-                            {{ $ciudad->ciudad ?? 'S/D' }}</option>
-                    @empty
-                        <option>Sin datos...</option>
-                    @endforelse
-                </x-adminlte-select>
+                <div class="form-group">
+                    <label>Ciudad del Servicio:</label>
+                    <div wire:ignore>
+                        <select class="form-control @error('ciudad_id') is-invalid @enderror" id="ciudad_id"
+                            name="ciudad_id" wire:model.blur="ciudad_id">
+                            <option value="">-- Seleccionar --</option>
+                            @foreach ($ciudades as $ciudad)
+                                <option value="{{ $ciudad->id_ciudad ?? 'null' }}">
+                                    {{ $ciudad->ciudad ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('ciudad_id')
+                        <div class="invalid-feedback d-block" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
             </div>
 
             {{-- Calles/Referencias --}}
@@ -70,18 +79,20 @@
             <x-adminlte-input name="chofer" label="Chofer:" placeholder="Chofer..." fgroup-class="col-md-2"
                 wire:model.blur="chofer" :disabled="$chofer_rentado" oninput="this.value = this.value.toUpperCase()" />
 
-                {{-- BOTON DE RENTADO --}}
+            {{-- BOTON DE RENTADO --}}
             <div class="form-group col-md-1 align-self-end">
                 <x-adminlte-button :label="$chofer_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$chofer_rentado ? 'secondary' : 'warning'" :icon="$chofer_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnrentado" />
             </div>
 
             {{-- A cargo --}}
             <x-adminlte-input name="acargo" label="A cargo:" placeholder="Codigo del A cargo..."
-                fgroup-class="col-md-2" :disabled="$acargo_rentado" oninput="this.value = this.value.toUpperCase()" wire:model.blur="acargo" />
+                fgroup-class="col-md-2" :disabled="$acargo_rentado" oninput="this.value = this.value.toUpperCase()"
+                wire:model.blur="acargo" />
 
-                {{-- BOTON DE ACARGO RENTADO --}}
+            {{-- BOTON DE ACARGO RENTADO --}}
             <div class="form-group col-md-1 align-self-end">
-                <x-adminlte-button :label="$acargo_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$acargo_rentado ? 'secondary' : 'warning'" :icon="$acargo_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'" wire:click="btnAcargoRentado" />
+                <x-adminlte-button :label="$acargo_rentado ? 'Cancelar Rentado' : 'Rentado'" :theme="$acargo_rentado ? 'secondary' : 'warning'" :icon="$acargo_rentado ? 'fas fa-times-circle' : 'fas fa-user-check'"
+                    wire:click="btnAcargoRentado" />
             </div>
 
             {{-- Tripulantes --}}
@@ -132,3 +143,23 @@
         </div>
     @endif
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        new SlimSelect({
+            select: '#ciudad_id'
+        })
+    </script>
+
+    <script>
+        // new SlimSelect({
+        //     select: '#ciudad_id'
+        // })
+    </script>
+@endpush
