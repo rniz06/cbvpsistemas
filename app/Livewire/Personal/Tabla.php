@@ -117,6 +117,7 @@ class Tabla extends Component
             ->buscarGrupoSanguineoId($this->buscarGrupoSanguineoId)
             //->buscarCompania($this->buscarCompania)
             ->buscarCompaniaId($this->buscarCompaniaId)
+            ->orderBy('codigo')
             ->paginate($this->paginado);
 
         return view('livewire.personal.tabla', compact('personales'));
