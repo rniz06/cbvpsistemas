@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Personal;
 
+use App\Exports\Excel\Personal\Personal\ExcelPersonalExport;
 use App\Exports\ExcelGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Compania;
@@ -125,7 +126,7 @@ class Tabla extends Component
 
     public function excel()
     {
-        $datos = VtPersonales::select(
+        $query = VtPersonales::select(
             'nombrecompleto',
             'codigo',
             'documento',
@@ -149,23 +150,9 @@ class Tabla extends Component
             ->buscarPaisId($this->buscarPaisId)
             ->buscarSexoId($this->buscarSexoId)
             ->buscarGrupoSanguineoId($this->buscarGrupoSanguineoId)
-            ->buscarCompaniaId($this->buscarCompaniaId)
-            ->get();
-        $encabezados = [
-            'Nombre Completo',
-            'Codigo',
-            'Documento',
-            'Año Juramento',
-            'Fecha Juramento',
-            'Categoria',
-            'Estado',
-            'Actualizar',
-            'Nacionalidad',
-            'Sexo',
-            'Grupo Sanguineo',
-            'Compañia'
-        ];
+            ->buscarCompaniaId($this->buscarCompaniaId);
+            //->get();
 
-        return Excel::download(new ExcelGenericoExport($datos, $encabezados), 'Personal CBVP.xlsx');
+        return Excel::download(new ExcelPersonalExport($query), 'Personal.xlsx');
     }
 }
