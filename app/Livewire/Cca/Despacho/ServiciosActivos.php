@@ -15,6 +15,9 @@ class ServiciosActivos extends Component
     public $paginadolistadoSinMoviles = 10;
     public $paginadoApoyosActivos = 10;
 
+    # FILTRO DE BUSQUEDA
+    public $buscarMovil = '';
+
     // Limpiar el buscador y la paginación al cambiar de pagina
     public function updating($key): void
     {
@@ -37,6 +40,7 @@ class ServiciosActivos extends Component
             'listadoActivos' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'informacion_servicio', 'fecha_alfa')
                 ->where('estado_id', 3) // Movil Despachado
                 ->where('despacho_policia', false) # NO DESPACHO DE 911
+                ->buscarMovil($this->buscarMovil)
                 ->orderBy('compania')
                 ->paginate($this->paginadolistadoActivos, ['*'], 'listadoActivos_page'),
 
@@ -53,6 +57,7 @@ class ServiciosActivos extends Component
             'apoyosActivos' => VtExistenteApoyo::select('idservicio_existente_apoyo', 'servicio_existente_id', 'compania', 'servicio', 'clasificacion', 'tipo', 'movil', 'fecha_cia')
                 ->whereNull('fecha_base')
                 ->where('despacho_policia', false) # NO DESPACHO DE 911
+                ->buscarMovil($this->buscarMovil)
                 ->orderBy('compania')
                 ->paginate($this->paginadoApoyosActivos, ['*'], 'apoyos_activos_page'),
         ]);
