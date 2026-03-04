@@ -1,11 +1,11 @@
 <div>
     {{-- Datos del servicio --}}
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
-        <div>
+        {{-- <div>
             <h4 class="mb-1">
                 Ficha de despacho - Compañía {{ $servicio->compania ?? 'S/D' }}
             </h4>
-        </div>
+        </div> --}}
 
         {{-- Línea horizontal solo visible en móviles --}}
         <hr class="w-100 my-2 d-md-none">
@@ -20,7 +20,32 @@
 
 
 
-    <x-adminlte-card theme="success" theme-mode="outline">
+    <x-adminlte-card theme="success" theme-mode="outline"
+        title="Ficha de despacho - Compañía {{ $servicio->compania ?? 'S/D' }}">
+
+        {{-- TOOLS DEL CARD --}}
+        <x-slot name="toolsSlot">
+            {{-- DROPDOWN --}}
+            <div class="btn-group dropleft">
+                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    Mas Acciones
+                </button>
+                <div class="dropdown-menu">
+                    {{-- <a class="btn-sm dropdown-item" href="#">Falsa Alarma</a> --}}
+                    {{-- BTN FALSA ALARMA --}}
+                    @if ($servicio->falsa_alarma == false)
+                        <x-adminlte-button class="btn-sm dropdown-item" label="Falsa Alarma" icon="fas fa-times-circle"
+                            wire:click="falsaAlarma"
+                            wire:confirm="¿Estas Seguro de Declarar este Servicio Como una Falsa Alarma?" />
+                    @else
+                        {{-- BTN FALSA ALARMA DESHABILITADO --}}
+                        <x-adminlte-button class="btn-sm dropdown-item" label="Falsa Alarma" icon="fas fa-times-circle" disabled />
+                    @endif
+                </div>
+            </div>
+        </x-slot>
+
         <div class="col-md-12 row">
             {{-- Servicio --}}
             <x-adminlte-input name="" label="Servicio:" value="{{ $servicio->servicio ?? 'S/D' }}"
@@ -35,7 +60,7 @@
                 value="{{ $servicio->informacion_servicio ?? 'S/D' }}" fgroup-class="col-md-8" disabled />
 
             {{-- Ciudad --}}
-            <x-adminlte-input name="" label="Ciudad:" value="{{ $servicio->ciudad ?? 'S/D' }}"
+            <x-adminlte-input name="" label="Ciudad del Servicio:" value="{{ $servicio->ciudad ?? 'S/D' }}"
                 fgroup-class="col-md-3" disabled />
 
             {{-- Calles/Referencias --}}
@@ -157,15 +182,13 @@
 
             @if ($servicio->despacho_policia == true)
                 <x-adminlte-input name="" label="Despachado por 911"
-                    value="{{ $servicio->despacho_policia ? 'SI' : 'NO' }}"
-                    fgroup-class="col-md-2" disabled />
+                    value="{{ $servicio->despacho_policia ? 'SI' : 'NO' }}" fgroup-class="col-md-2" disabled />
             @endif
 
-
-            {{-- Botones --}}
-            {{-- <div class="card-footer">
-                <x-adminlte-button type="submit" label="Guardar" theme="success" icon="fas fa-lg fa-save" />
-            </div> --}}
+            @if ($servicio->falsa_alarma == true)
+                <x-adminlte-input name="" label="Falsa Alarma:"
+                    value="{{ $servicio->falsa_alarma ? 'SI' : 'NO' }}" fgroup-class="col-md-2" disabled />
+            @endif
         </div>
     </x-adminlte-card>
 

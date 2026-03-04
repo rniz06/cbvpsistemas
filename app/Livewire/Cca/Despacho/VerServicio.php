@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Cca\Despacho;
 
+use App\Models\Cca\Servicios\Comentario;
 use App\Models\Cca\Servicios\Existente;
 use App\Models\Vistas\Cca\VtExistente;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -40,7 +42,7 @@ class VerServicio extends Component
         } else {
             $mensaje = "Kilometraje Final y Móvil en Base Asignado Correctamente!";
         }
-        
+
         return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
             ->with('success', $mensaje);
     }
@@ -95,5 +97,35 @@ class VerServicio extends Component
     public function render()
     {
         return view('livewire.cca.despacho.ver-servicio');
+    }
+
+    # FUNCIONES ADICIONALES
+    
+    public function falsaAlarma()
+    {
+        try {
+            # ACTUALIZAR EN LA TABLA
+            Existente::findOrFail($this->servicio->id_servicio_existente)->update([
+                'estado_id'      => 4, # SERVICIO CULMINADO
+                'falsa_alarma'   => true, # DECLARAR COMO FALSA ALARMA
+                'actualizadoPor' => Auth::id(),
+            ]);
+
+            # GENERAR COMENTARIO AUTOMATICO
+            Comentario::create([
+                'comentario'  => 'DECLARADO COMO FALSA ALARMA',
+                'servicio_id' => $this->servicio->id_servicio_existente,
+                'creadoPor'   => Auth::id()
+            ]);
+
+            session()->flash('success', 'CORRECTAMENTE DECLARADA COMO FALSA ALARMA!');
+        } catch (\Exception $e) {
+            session()->flash(
+                'error',
+                'NO SE PUDO DECLARAR COMO FALSA ALARMA - ' . $e->getMessage()
+            );
+        }
+
+        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente]);
     }
 }
