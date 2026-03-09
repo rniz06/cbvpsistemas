@@ -5,6 +5,7 @@ namespace App\Livewire\Cca\Despacho;
 use App\Models\Cca\Servicios\Comentario;
 use App\Models\Cca\Servicios\Existente;
 use App\Models\Vistas\Cca\VtExistente;
+use App\Services\Cca\Servicio\FalsaAlarmaService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -101,22 +102,10 @@ class VerServicio extends Component
 
     # FUNCIONES ADICIONALES
     
-    public function falsaAlarma()
+    public function falsaAlarma(FalsaAlarmaService $servicio)
     {
         try {
-            # ACTUALIZAR EN LA TABLA
-            Existente::findOrFail($this->servicio->id_servicio_existente)->update([
-                'estado_id'      => 4, # SERVICIO CULMINADO
-                'falsa_alarma'   => true, # DECLARAR COMO FALSA ALARMA
-                'actualizadoPor' => Auth::id(),
-            ]);
-
-            # GENERAR COMENTARIO AUTOMATICO
-            Comentario::create([
-                'comentario'  => 'DECLARADO COMO FALSA ALARMA',
-                'servicio_id' => $this->servicio->id_servicio_existente,
-                'creadoPor'   => Auth::id()
-            ]);
+            $servicio->handle($this->servicio->id_servicio_existente);
 
             session()->flash('success', 'CORRECTAMENTE DECLARADA COMO FALSA ALARMA!');
         } catch (\Exception $e) {
