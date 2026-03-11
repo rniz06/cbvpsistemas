@@ -1,5 +1,19 @@
 <div>
 
+    {{-- FILTROS DE BUSQUEDA --}}
+    <x-adminlte-card theme="light" title="Filtros de Búsqueda" icon="fas fa-filter" header-class="text-muted text-sm"
+        body-class="col-md-12 p-2 row">
+
+        {{-- MOVIL (EJ: AB-154 --}}
+        <x-adminlte-input name="buscarMovil" wire:model.live.debounce.250ms="buscarMovil" placeholder="EJ: AB-11"
+            label-class="text-lightblue" fgroup-class="col-md-3" igroup-size="sm" oninput="this.value = this.value.toUpperCase()">
+            <x-slot name="prependSlot">
+                <div class="input-group-text">Móvil *</div>
+            </x-slot>
+        </x-adminlte-input>
+
+    </x-adminlte-card>
+
     {{-- Tabla de Móviles en servicio --}}
     <div wire:poll.10s>
         <x-table.table titulo="Móviles en servicio" ocultarBuscador personalizarPaginacion="paginadolistadoActivos">
@@ -52,7 +66,8 @@
 
     {{-- Tabla de Móviles en servicio --}}
     <div wire:poll.10s>
-        <x-table.table titulo="Listado de Apoyos Activos" ocultarBuscador personalizarPaginacion="paginadoApoyosActivos">
+        <x-table.table titulo="Listado de Apoyos Activos" ocultarBuscador
+            personalizarPaginacion="paginadoApoyosActivos">
             <x-slot name="cabeceras">
                 <th>Compañía:</th>
                 <th>Servicio:</th>
