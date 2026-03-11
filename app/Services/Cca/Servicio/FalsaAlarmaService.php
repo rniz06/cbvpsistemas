@@ -20,7 +20,6 @@ class FalsaAlarmaService
 
             # ACTUALIZAR CAMPOS DE LA TABLA
             $servicio->update([
-                'estado_id'      => 4, # Servicio Culminado
                 'falsa_alarma'   => true,
                 'actualizadoPor' => Auth::id(),
             ]);
