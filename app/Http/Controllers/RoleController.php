@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\DB;
 class RoleController extends Controller
 {
     /**
+     * Establece los middleware necesarios para gestionar permisos
+     * Se utilizan permisos específicos para cada acción del controlador.
+     */
+    function __construct()
+    {
+        $this->middleware('permission:Roles Remover En Lote', ['only' => ['removerEnLote']]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -50,14 +59,6 @@ class RoleController extends Controller
 
         return redirect()->route('roles.index')
             ->with('success', 'Rol Creado Exitosamente');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role)
-    {
-        //
     }
 
     /**
@@ -109,5 +110,10 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('roles.index')
             ->with('success', 'Rol Eliminado Exitosamente');
+    }
+
+    public function removerEnLote()
+    {
+        return view('roles.remover-en-lote');
     }
 }

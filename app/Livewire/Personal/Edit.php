@@ -61,40 +61,81 @@ class Edit extends Component
     }
 
     protected function rules()
-    {
-        return [
-            'nombrecompleto' => ['required', 'string', 'max:255'],
-            // 'codigo' => [
-            //     'required',
-            //     'numeric',
-            //     'max_digits:5',
-            //     'min_digits:1',
-            //     Rule::unique('personal')->where(function ($query) {
-            //         return $query->where('categoria_id', $this->categoria_id);
-            //     })->ignore($this->personal, 'idpersonal'),
-            // ],
-            'categoria_id' => ['required', Rule::exists(Categoria::class, 'idpersonal_categorias')],
-            // 'compania_id' => 'required',
-            'fecha_de_juramento' => ['required', 'date'],
-            'fecha_juramento' => ['nullable', 'numeric', 'min_digits:4', 'max_digits:4'],
-            'fecha_nacimiento' => ['required', 'date'],
-            'estado_id' => ['required', Rule::exists(Estado::class, 'idpersonal_estados')],
-            'documento' => [
-                'required',
-                'numeric',
-                Rule::unique(Personal::class, 'documento')->ignore($this->personal, 'idpersonal'),
-                Rule::when(
-                    $this->tipo_documento_id != 1,
-                    ['min_digits:6', 'max_digits:15'],
-                    ['min_digits:6', 'max_digits:7']
-                )
-            ],
-            'sexo_id' => ['required', Rule::exists(Sexo::class, 'idpersonal_sexo')],
-            'nacionalidad_id' => ['required', Rule::exists(Pais::class, 'idpaises')],
-            'grupo_sanguineo_id' => ['required', Rule::exists(GrupoSanguineo::class, 'idpersonal_grupo_sanguineo')],
-            'tipo_documento_id'  => ['required', Rule::exists(TipoDocumento::class, 'id_tipo_documento')],
-        ];
-    }
+{
+    # OMITIR REGLA "required" SI EL USUARIO POSEE ALGUN ROL ADMIN
+    $requiredIf = Rule::requiredIf(
+        !auth()->user()->hasAnyRole(['SuperAdmin', 'personal_admin'])
+    );
+
+    # REGLAS BASE PARA CAMPOS QUE PUEDEN SER NULL PERO A VECES REQUIRED
+    $nullableRequired = ['nullable', $requiredIf];
+
+    return [
+        'nombrecompleto' => [
+            'required',
+            'string',
+            'max:255'
+        ],
+
+        'categoria_id' => [
+            'required',
+            Rule::exists(Categoria::class, 'idpersonal_categorias')
+        ],
+
+        'fecha_de_juramento' => [
+            ...$nullableRequired,
+            'date'
+        ],
+
+        'fecha_juramento' => [
+            'nullable',
+            'numeric',
+            'min_digits:4',
+            'max_digits:4'
+        ],
+
+        'fecha_nacimiento' => [
+            ...$nullableRequired,
+            'date'
+        ],
+
+        'estado_id' => [
+            ...$nullableRequired,
+            Rule::exists(Estado::class, 'idpersonal_estados')
+        ],
+
+        'documento' => [
+            ...$nullableRequired,
+            'numeric',
+            Rule::unique(Personal::class, 'documento')->ignore($this->personal, 'idpersonal'),
+            Rule::when(
+                $this->tipo_documento_id != 1,
+                ['min_digits:6', 'max_digits:15'],
+                ['min_digits:6', 'max_digits:7']
+            )
+        ],
+
+        'sexo_id' => [
+            ...$nullableRequired,
+            Rule::exists(Sexo::class, 'idpersonal_sexo')
+        ],
+
+        'nacionalidad_id' => [
+            ...$nullableRequired,
+            Rule::exists(Pais::class, 'idpaises')
+        ],
+
+        'grupo_sanguineo_id' => [
+            ...$nullableRequired,
+            Rule::exists(GrupoSanguineo::class, 'idpersonal_grupo_sanguineo')
+        ],
+
+        'tipo_documento_id' => [
+            ...$nullableRequired,
+            Rule::exists(TipoDocumento::class, 'id_tipo_documento')
+        ],
+    ];
+}
 
     public function guardar()
     {

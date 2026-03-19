@@ -104,10 +104,11 @@ Route::middleware('auth')->group(function () {
         Route::get('roles', 'index')->name('roles.index');
         Route::get('roles/create', 'create')->name('roles.create');
         Route::post('roles/store', 'store')->name('roles.store');
-        Route::get('roles/{role}', 'show')->name('roles.show');
+        //Route::get('roles/{role}', 'show')->name('roles.show');
         Route::get('roles/{role}/edit', 'edit')->name('roles.edit');
         Route::put('roles/{role}', 'update')->name('roles.update');
         Route::delete('roles/{role}', 'destroy')->name('roles.destroy');
+        Route::get('roles/remover-en-lote', 'removerEnLote')->name('roles.remover-en-lote');
     });
 
     /*

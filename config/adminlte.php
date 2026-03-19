@@ -465,6 +465,11 @@ return [
                     'route' => 'roles.index',
                     'can' => 'Roles Listar',
                 ],
+                [
+                    'text' => 'Roles Remover en Lote',
+                    'route' => 'roles.remover-en-lote',
+                    'can' => 'Roles Remover en Lote',
+                ],
             ],
         ],
         [
