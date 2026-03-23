@@ -146,9 +146,11 @@
                                     <x-slot name="edit">{{ route('personal.edit', $personal->idpersonal) }}</x-slot>
                                 @endif
 
-                                @if (auth()->user()->can('Personal Eliminar'))
-                                    <x-slot name="action">#</x-slot>
-                                @endif
+                                @can('Personal Eliminar')
+                                    <x-adminlte-button label="Eliminar" class="dropdown-item" icon="fas fa-trash-alt"
+                                        wire:click="eliminar({{ $personal->idpersonal }})"
+                                        wire:confirm="¿Estas Seguro que deseas eliminar este registro?" />
+                                @endcan
 
                                 @can('Personal Comisionamientos Create')
                                     <x-slot

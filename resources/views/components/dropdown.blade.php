@@ -33,6 +33,7 @@
                             style="color: #dc3545"></i>Eliminar</button>
                 </form>
             @endif
+            {{ $slot }}
         @else
             <div class="dropdown-item">No permisos...</div>
         @endif

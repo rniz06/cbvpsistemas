@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Personal;
 
+use App\Actions\Personal\EliminarPersonal;
 use App\Exports\Excel\Personal\Personal\ExcelPersonalExport;
 use App\Exports\ExcelGenericoExport;
 use App\Models\Admin\CompaniaGral;
 use App\Models\Compania;
+use App\Models\Personal;
 use App\Models\Personal\Categoria;
 use App\Models\Personal\Estado;
 use App\Models\Personal\EstadoActualizar;
@@ -154,5 +156,11 @@ class Tabla extends Component
             //->get();
 
         return Excel::download(new ExcelPersonalExport($query), 'Personal.xlsx');
+    }
+
+    public function eliminar(Personal $personal, EliminarPersonal $eliminarPersonal) 
+    {
+        $eliminarPersonal->handle($personal);
+        return redirect()->route('personal.index')->with('success', 'Personal Eliminado Correctamente');
     }
 }

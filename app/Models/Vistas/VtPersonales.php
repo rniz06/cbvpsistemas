@@ -5,9 +5,12 @@ namespace App\Models\Vistas;
 use App\Models\Personal\Contacto;
 use App\Models\Personal\ContactoEmergencia;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class VtPersonales extends Model
 {
+    use SoftDeletes;
     protected $table = "vt_personales";
 
     protected $primaryKey = 'idpersonal';

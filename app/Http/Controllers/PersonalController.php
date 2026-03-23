@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Personal\EliminarPersonal;
 use App\Exports\PersonalExport;
 use App\Http\Requests\Personal\StoreAgregarContactoRequest;
 use App\Http\Requests\Personal\StorePersonalRequest;
@@ -271,10 +272,11 @@ class PersonalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // public function destroy(Personal $personal, EliminarPersonal $eliminarPersonal)
+    // {
+    //     $eliminarPersonal->handle($personal);
+    //     return redirect()->route('personal.index')->with('success', 'Personal Eliminado Correctamente');
+    // }
 
     public function search(Request $request)
     {
