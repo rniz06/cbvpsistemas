@@ -24,17 +24,15 @@
                 {{-- FUERA DE SERVICION -> MOSTRAR LAS HERRAMIENTAS --}}
                 @if ($accion_id == 2)
                     <div class="col-md-12">
-                        <h5>Herramientas (Marcar para pasar a inoperativo):</h5>
-                        @foreach ($herramientas as $herramienta)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" wire:model="herramientasSeleccionadas"
-                                    value="{{ $herramienta->id_hidraulico_herr }}"
-                                    id="herr_{{ $herramienta->id_hidraulico_herr }}">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    {{ $herramienta->tipo->tipo ?? 'S/D' }}
-                                </label>
-                            </div>
-                        @endforeach
+                        <x-adminlte-select name="herramientaSeleccionada"
+                            label="Herramientas (Marcar para pasar a inoperativo):"
+                            wire:model.live="herramientaSeleccionada">
+                            <option value="">Seleccione una acción</option>
+                            @foreach ($herramientas as $herramienta)
+                                <option value="{{ $herramienta->id_hidraulico_herr }}">
+                                    {{ $herramienta->tipo->tipo ?? 'S/D' }}</option>
+                            @endforeach
+                        </x-adminlte-select>
                     </div>
                 @endif
 
