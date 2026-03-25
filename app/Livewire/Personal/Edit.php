@@ -107,7 +107,7 @@ class Edit extends Component
         'documento' => [
             ...$nullableRequired,
             'numeric',
-            Rule::unique(Personal::class, 'documento')->ignore($this->personal, 'idpersonal'),
+            Rule::unique(Personal::class, 'documento')->withoutTrashed()->ignore($this->personal, 'idpersonal'),
             Rule::when(
                 $this->tipo_documento_id != 1,
                 ['min_digits:6', 'max_digits:15'],
