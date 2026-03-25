@@ -48,8 +48,10 @@ class AgregarAccion extends Component
                 $hidraulico->update([
                     'operatividad_id' => 0,
                 ]);
-                # PASAR HERRAMIENTA A INOPERATIVO Y GENERAR COMENTARIO
-                $action->handle($this->herramientaSeleccionada);
+                # SOLO ejecutar si seleccionó una herramienta válida
+                if (!empty($this->herramientaSeleccionada) && $this->herramientaSeleccionada != 0) {
+                    $action->handle((int) $this->herramientaSeleccionada);
+                }
                 break;
         }
         # GUARDAR COMENTARIO DE LA FICHA

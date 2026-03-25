@@ -28,6 +28,8 @@
                             label="Herramientas (Marcar para pasar a inoperativo):"
                             wire:model.live="herramientaSeleccionada">
                             <option value="">Seleccione una acción</option>
+                            {{-- SOLO MARCAR LA FICHA DEL HIDRAULICO COMO INOPERATIVO --}}
+                            <option value="0">SOLO MARCAR EQUIPO (NO AFECTAR HERRAMIENTAS)</option>
                             @foreach ($herramientas as $herramienta)
                                 <option value="{{ $herramienta->id_hidraulico_herr }}">
                                     {{ $herramienta->tipo->tipo ?? 'S/D' }}</option>
