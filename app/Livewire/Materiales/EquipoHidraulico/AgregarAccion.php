@@ -3,6 +3,7 @@
 namespace App\Livewire\Materiales\EquipoHidraulico;
 
 use App\Actions\Materiales\Hidraulicos\PasarHerramientaAInoperativo;
+use App\Actions\Materiales\Hidraulicos\PasarHerramientaOpetativo;
 use App\Models\Materiales\Accion;
 use App\Models\Materiales\EquipoHidraulico\Comentario;
 use App\Models\Materiales\EquipoHidraulico\Herramienta;
@@ -34,21 +35,34 @@ class AgregarAccion extends Component
         $this->hidraulico_id = $hidraulico_id;
     }
 
-    public function guardar(PasarHerramientaAInoperativo $action)
+    public function guardar(PasarHerramientaOpetativo $actionOperativo, PasarHerramientaAInoperativo $action)
     {
         $this->validate();
         $hidraulico = Hidraulico::findOrFail($this->hidraulico_id);
         switch ($this->accion_id) {
             case 1:
-                $hidraulico->update([
-                    'operatividad_id' => 1,
-                ]);
+                # CONSULTAR SI HAY HERRAMIENTAS INOPERATIVAS
+                $herrInoperativo = Herramienta::where('id_hidraulico_herr', $this->herramientaSeleccionada)->where('operatividad_id', 0)->exists();
+
+                # SI NO HAY HERRAMIENTAS INOPERATIVAS, MARCAR HIDRAULICO COMO OPERATIVO
+                if (!$herrInoperativo) {
+                    $hidraulico->update([
+                        'operatividad_id' => 1,
+                    ]);
+                }
+
+                # EJECUTAR SI LA HERRAMIENTA ES VALIDA O SI SELECCIONA LA FICHA
+                if (!empty($this->herramientaSeleccionada) && $this->herramientaSeleccionada != 0) {
+                    $actionOperativo->handle((int) $this->herramientaSeleccionada);
+                }
                 break;
             case 2:
+                # MARCAR HIDRAULICO COMO INOPERATIVO
                 $hidraulico->update([
                     'operatividad_id' => 0,
                 ]);
-                # SOLO ejecutar si seleccionó una herramienta válida
+
+                # SOLO EJECUTAR SI SELECCIONA UN HERRAMIENTA O EL SET
                 if (!empty($this->herramientaSeleccionada) && $this->herramientaSeleccionada != 0) {
                     $action->handle((int) $this->herramientaSeleccionada);
                 }
@@ -72,6 +86,13 @@ class AgregarAccion extends Component
 
     public function updatedAccionId($value)
     {
+        if ($value == 1) { # EN SERVICIO
+            $this->herramientas = Herramienta::select('id_hidraulico_herr', 'tipo_id')
+                ->where('hidraulico_id', $this->hidraulico_id)
+                ->where('operatividad_id', 0) # SOLO INOPERATIVOS
+                ->with(['tipo:idhidraulico_herr_tipo,tipo'])->get();
+        }
+
         if ($value == 2) { # FUERA DE SERVICIO
             $this->herramientas = Herramienta::select('id_hidraulico_herr', 'tipo_id')
                 ->where('hidraulico_id', $this->hidraulico_id)

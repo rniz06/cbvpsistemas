@@ -21,19 +21,20 @@
                         label="Comentario:" wire:model.live="comentario" placeholder="Comentario..." rows=1 />
                 </div>
 
-                {{-- FUERA DE SERVICION -> MOSTRAR LAS HERRAMIENTAS --}}
-                @if ($accion_id == 2)
+                @if (in_array($accion_id, [1, 2]))
                     <div class="col-md-12">
-                        <x-adminlte-select name="herramientaSeleccionada"
-                            label="Herramientas (Marcar para pasar a inoperativo):"
+                        <x-adminlte-select name="herramientaSeleccionada" label="Herramientas:"
                             wire:model.live="herramientaSeleccionada">
+
                             <option value="">Seleccione una acción</option>
-                            {{-- SOLO MARCAR LA FICHA DEL HIDRAULICO COMO INOPERATIVO --}}
                             <option value="0">SOLO MARCAR EQUIPO (NO AFECTAR HERRAMIENTAS)</option>
+
                             @foreach ($herramientas as $herramienta)
                                 <option value="{{ $herramienta->id_hidraulico_herr }}">
-                                    {{ $herramienta->tipo->tipo ?? 'S/D' }}</option>
+                                    {{ $herramienta->tipo->tipo ?? 'S/D' }}
+                                </option>
                             @endforeach
+
                         </x-adminlte-select>
                     </div>
                 @endif
