@@ -14,68 +14,99 @@ use Livewire\Component;
 
 class AgregarAccion extends Component
 {
-    public $hidraulico_id;
-    public $accion_id = '';
-    public $compania_id = '';
-    public $comentario = '';
-    public $herramientas = []; # ARRAY PARA HERRAMIENTAS A PONER INOPERATIVOS
-    public $herramientaSeleccionada; # HERRAMIENTA SELECCIONADA
+    public int $hidraulico_id;
+    public string $accion_id = '';
+    public string $comentario = '';
+    public $herramientaSeleccionada = null;
+    public $herramientas = [];
 
-    protected function rules()
+    # CONSTANTES DE ACCIONES
+    const ACCION_EN_SERVICIO    = 1;
+    const ACCION_FUERA_SERVICIO = 2;
+    const ACCION_NOVEDAD        = 3;
+
+    const OPERATIVIDAD_INOPERATIVO = 0;
+    const OPERATIVIDAD_OPERATIVO   = 1;
+
+    const HERRAMIENTA_SOLO_EQUIPO = 0; // AFECTAR SOLO HIDRAULICO, NO LAS HERRAMIENTAS
+
+    protected function rules(): array
+    {
+        $rules = [
+            'hidraulico_id' => ['required', Rule::exists(Hidraulico::class, 'id_hidraulico')],
+            'accion_id'     => ['required', Rule::exists(Accion::class, 'id_accion')],
+            'comentario'    => ['required', 'string', 'max:65535'],
+        ];
+
+        # SI LA ACCION REQUIERE SELECCION DE HERRAMIENTA, VALIDARLA
+        if (in_array($this->accion_id, [self::ACCION_EN_SERVICIO, self::ACCION_FUERA_SERVICIO])) {
+            $rules['herramientaSeleccionada'] = [
+                'required',
+                Rule::in(
+                    array_merge(
+                        [self::HERRAMIENTA_SOLO_EQUIPO],
+                        $this->herramientas->pluck('id_hidraulico_herr')->toArray()
+                    )
+                ),
+            ];
+        }
+
+        return $rules;
+    }
+
+    protected function messages(): array
     {
         return [
-            'hidraulico_id' => ['required', Rule::exists(Hidraulico::class, 'id_hidraulico')],
-            'accion_id' => ['required', Rule::exists(Accion::class, 'id_accion')],
-            'comentario' => ['required', 'string', 'max:65535'],
+            'accion_id.required'              => 'Debe seleccionar una acción.',
+            'comentario.required'             => 'El comentario es obligatorio.',
+            'comentario.max'                  => 'El comentario no puede superar los 65.535 caracteres.',
+            'herramientaSeleccionada.required' => 'Debe seleccionar una herramienta o la opción de solo marcar equipo.',
         ];
     }
 
-    public function mount($hidraulico_id)
+    public function mount(int $hidraulico_id): void
     {
         $this->hidraulico_id = $hidraulico_id;
     }
 
-    public function guardar(PasarHerramientaOpetativo $actionOperativo, PasarHerramientaAInoperativo $action)
+    public function updatedAccionId(string $value): void
+    {
+        # RESETEAR SELECCION AL CAMBIAR DE ACCION
+        $this->herramientaSeleccionada = null;
+        $this->herramientas = collect();
+
+        $query = Herramienta::select('id_hidraulico_herr', 'tipo_id')
+            ->where('hidraulico_id', $this->hidraulico_id)
+            ->with(['tipo:idhidraulico_herr_tipo,tipo']);
+
+        match ((int) $value) {
+            self::ACCION_EN_SERVICIO    => $this->herramientas = $query->where('operatividad_id', self::OPERATIVIDAD_INOPERATIVO)->get(),
+            self::ACCION_FUERA_SERVICIO => $this->herramientas = $query->get(),
+            default                     => null,
+        };
+    }
+
+    public function guardar(PasarHerramientaOpetativo $actionOperativo, PasarHerramientaAInoperativo $actionInoperativo): void
     {
         $this->validate();
+
         $hidraulico = Hidraulico::findOrFail($this->hidraulico_id);
-        switch ($this->accion_id) {
-            case 1:
-                # CONSULTAR SI HAY HERRAMIENTAS INOPERATIVAS
-                $herrInoperativo = Herramienta::where('id_hidraulico_herr', $this->herramientaSeleccionada)->where('operatividad_id', 0)->exists();
 
-                # SI NO HAY HERRAMIENTAS INOPERATIVAS, MARCAR HIDRAULICO COMO OPERATIVO
-                if (!$herrInoperativo) {
-                    $hidraulico->update([
-                        'operatividad_id' => 1,
-                    ]);
-                }
+        match ((int) $this->accion_id) {
+            self::ACCION_EN_SERVICIO    => $this->procesarEnServicio($hidraulico, $actionOperativo),
+            self::ACCION_FUERA_SERVICIO => $this->procesarFueraDeServicio($hidraulico, $actionInoperativo),
+            default                     => null,
+        };
 
-                # EJECUTAR SI LA HERRAMIENTA ES VALIDA O SI SELECCIONA LA FICHA
-                if (!empty($this->herramientaSeleccionada) && $this->herramientaSeleccionada != 0) {
-                    $actionOperativo->handle((int) $this->herramientaSeleccionada);
-                }
-                break;
-            case 2:
-                # MARCAR HIDRAULICO COMO INOPERATIVO
-                $hidraulico->update([
-                    'operatividad_id' => 0,
-                ]);
-
-                # SOLO EJECUTAR SI SELECCIONA UN HERRAMIENTA O EL SET
-                if (!empty($this->herramientaSeleccionada) && $this->herramientaSeleccionada != 0) {
-                    $action->handle((int) $this->herramientaSeleccionada);
-                }
-                break;
-        }
-        # GUARDAR COMENTARIO DE LA FICHA
         Comentario::create([
             'hidraulico_id' => $this->hidraulico_id,
-            'accion_id' => $this->accion_id,
-            'comentario' => $this->comentario,
-            'creadoPor' => Auth::id(),
+            'accion_id'     => $this->accion_id,
+            'comentario'    => $this->comentario,
+            'creadoPor'     => Auth::id(),
         ]);
-        session()->flash('success', 'Comentario Guardado Exitosamente!');
+
+        session()->flash('success', 'Comentario guardado exitosamente.');
+
         $this->redirectRoute('materiales.hidraulicos.show', ['hidraulico' => $this->hidraulico_id]);
     }
 
@@ -84,19 +115,37 @@ class AgregarAccion extends Component
         return view('livewire.materiales.equipo-hidraulico.agregar-accion');
     }
 
-    public function updatedAccionId($value)
+    # --- Métodos privados ---
+
+    private function procesarEnServicio(Hidraulico $hidraulico, PasarHerramientaOpetativo $action): void
     {
-        if ($value == 1) { # EN SERVICIO
-            $this->herramientas = Herramienta::select('id_hidraulico_herr', 'tipo_id')
-                ->where('hidraulico_id', $this->hidraulico_id)
-                ->where('operatividad_id', 0) # SOLO INOPERATIVOS
-                ->with(['tipo:idhidraulico_herr_tipo,tipo'])->get();
+        // VERIFICAR SI QUEDAN HERRAMIENTAS INOPERATIVAS (EXCLUYENDO LA QUE SE ESTÁ PASANDO A OPERATIVO)
+        $quedanInoperativas = Herramienta::where('id_hidraulico_herr', '!=', $this->herramientaSeleccionada)
+            ->where('hidraulico_id', $this->hidraulico_id)
+            ->where('operatividad_id', self::OPERATIVIDAD_INOPERATIVO)
+            ->exists();
+
+        if (!$quedanInoperativas) {
+            $hidraulico->update(['operatividad_id' => self::OPERATIVIDAD_OPERATIVO]);
         }
 
-        if ($value == 2) { # FUERA DE SERVICIO
-            $this->herramientas = Herramienta::select('id_hidraulico_herr', 'tipo_id')
-                ->where('hidraulico_id', $this->hidraulico_id)
-                ->with(['tipo:idhidraulico_herr_tipo,tipo'])->get();
+        if ($this->herramientaEsValida()) {
+            $action->handle((int) $this->herramientaSeleccionada);
         }
+    }
+
+    private function procesarFueraDeServicio(Hidraulico $hidraulico, PasarHerramientaAInoperativo $action): void
+    {
+        $hidraulico->update(['operatividad_id' => self::OPERATIVIDAD_INOPERATIVO]);
+
+        if ($this->herramientaEsValida()) {
+            $action->handle((int) $this->herramientaSeleccionada);
+        }
+    }
+
+    private function herramientaEsValida(): bool
+    {
+        return !empty($this->herramientaSeleccionada)
+            && (int) $this->herramientaSeleccionada !== self::HERRAMIENTA_SOLO_EQUIPO;
     }
 }
