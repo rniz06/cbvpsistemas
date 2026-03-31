@@ -119,19 +119,30 @@ class AgregarAccion extends Component
 
     private function procesarEnServicio(Hidraulico $hidraulico, PasarHerramientaOpetativo $action): void
     {
-        // VERIFICAR SI QUEDAN HERRAMIENTAS INOPERATIVAS (EXCLUYENDO LA QUE SE ESTÁ PASANDO A OPERATIVO)
-        $quedanInoperativas = Herramienta::where('id_hidraulico_herr', '!=', $this->herramientaSeleccionada)
-            ->where('hidraulico_id', $this->hidraulico_id)
+        if ((int) $this->herramientaSeleccionada === self::HERRAMIENTA_SOLO_EQUIPO) {
+            # Caso 1: Solo marcar equipo — pasar hidráulico Y todas sus herramientas a operativo
+            $hidraulico->update(['operatividad_id' => self::OPERATIVIDAD_OPERATIVO]);
+
+            Herramienta::where('hidraulico_id', $this->hidraulico_id)
+                ->where('operatividad_id', self::OPERATIVIDAD_INOPERATIVO)
+                ->each(fn($herramienta) => $action->handle($herramienta->id_hidraulico_herr));
+
+            return;
+        }
+
+        # Casos 2 y 3: Se seleccionó una herramienta específica
+        $otraInoperativaExiste = Herramienta::where('hidraulico_id', $this->hidraulico_id)
+            ->where('id_hidraulico_herr', '!=', $this->herramientaSeleccionada)
             ->where('operatividad_id', self::OPERATIVIDAD_INOPERATIVO)
             ->exists();
 
-        if (!$quedanInoperativas) {
+        if (!$otraInoperativaExiste) {
+            # Caso 2: Es la única inoperativa — pasar hidráulico y herramienta a operativo
             $hidraulico->update(['operatividad_id' => self::OPERATIVIDAD_OPERATIVO]);
         }
 
-        if ($this->herramientaEsValida()) {
-            $action->handle((int) $this->herramientaSeleccionada);
-        }
+        # Caso 2 y 3: Siempre pasar la herramienta seleccionada a operativo
+        $action->handle((int) $this->herramientaSeleccionada);
     }
 
     private function procesarFueraDeServicio(Hidraulico $hidraulico, PasarHerramientaAInoperativo $action): void
