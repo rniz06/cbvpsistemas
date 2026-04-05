@@ -2,9 +2,11 @@
 
 namespace App\Models\Gral;
 
+use App\Models\Materiales\Menor\Item;
 use App\Models\Materiales\Movil\Movil;
 use App\Models\Personal\Asistencia\Asistencia;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -47,6 +49,12 @@ class Compania extends Model implements Auditable
     public function asistencias()
     {
         return $this->hasMany(Asistencia::class);    
+    }
+
+    # RELACION CON MODELO DE MATERIAL MENOR
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'compania_id');
     }
 
     /*
