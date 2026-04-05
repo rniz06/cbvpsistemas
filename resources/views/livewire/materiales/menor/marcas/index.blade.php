@@ -29,8 +29,8 @@
 
                         {{-- EDITAR --}}
                         @can('Materiales Menor Marcas Editar')
-                            <a href="#" class="btn dropdown-item btn-sm"><i class="fas fa-edit"></i>
-                                Editar</a>
+                            <x-adminlte-button label="Editar" class="dropdown-item btn-sm" icon="fas fa-edit"
+                                data-toggle="modal" data-target="#modal-edit-marca-{{ $marca->id_menor_marca }}" />
                         @endcan
 
                         {{-- LINEA DIVISORIA --}}
@@ -43,7 +43,8 @@
                                 Eliminar</a>
                         @endcan
                     </x-tabla-dropdown>
-
+                    {{-- Componente con Modal Fuera del Dropdonw para evitar superposicion --}}
+                    @livewire('materiales.menor.marcas.modal-edit', ['marca_id' => $marca->id_menor_marca])
                 </td>
             </tr>
         @empty

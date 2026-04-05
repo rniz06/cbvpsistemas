@@ -1,6 +1,6 @@
 <div>
-    {{-- FORMULARIO DE ALTA DE MENOR MARCA --}}
-    <x-adminlte-modal id="modal-create-marca" title="Agregar Marca" size="lg" static-backdrop icon="fas fa-tasks"
+    {{-- FORMULARIO DE EDICION DE MARCA --}}
+    <x-adminlte-modal id="modal-edit-marca-{{$registro->id_menor_marca}}" title="Editar Marca" size="lg" static-backdrop icon="fas fa-tasks"
         theme="default" wire:ignore.self v-centered>
 
         <div class="row col-md-12">
@@ -20,7 +20,7 @@
                 wire:click="grabar" />
 
             <x-adminlte-button theme="outline-secondary" class="btn-sm" icon="fas fa-arrow-left" label="Cerrar"
-                data-dismiss="modal" wire:click="resetForm" />
+                data-dismiss="modal" />
         </x-slot>
 
     </x-adminlte-modal>

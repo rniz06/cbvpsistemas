@@ -23,7 +23,7 @@ class ModalCreate extends Component
     protected function rules()
     {
         return [
-            'nombre' => ['required', 'string', 'max:50', Rule::unique(Marca::class, 'nombre')]
+            'nombre' => ['required', 'string', 'max:50', Rule::unique(Marca::class, 'nombre')->withoutTrashed()]
         ];
     }
 
@@ -39,7 +39,7 @@ class ModalCreate extends Component
         ]);
         session()->flash('success', 'MARCA REGISTRADA CORRECTAMENTE!');
         } catch (\Exception $e) {
-            session()->flash('error', 'NO SE PUDO CREAR LA COMPAÑIA - ' . $e->getMessage());
+            session()->flash('error', 'NO SE PUDO CREAR LA MARCA - ' . $e->getMessage());
         }
         
         $this->redirectRoute('materiales.menor.marcas.index');
