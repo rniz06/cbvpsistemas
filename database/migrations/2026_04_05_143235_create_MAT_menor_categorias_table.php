@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('MAT_menor_componentes', function (Blueprint $table) {
-            $table->id('id_menor_componente');
-            $table->string('nombre', 100);
-            $table->foreignId('marca_id')->constrained('MAT_menor_marcas', 'id_menor_marca')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('categoria_id')->constrained('MAT_menor_categorias', 'id_menor_categoria')->cascadeOnUpdate()->cascadeOnDelete();
+        Schema::create('MAT_menor_categorias', function (Blueprint $table) {
+            $table->id('id_menor_categoria');
+            $table->string('nombre', 50);
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('MAT_menor_componentes');
+        Schema::dropIfExists('MAT_menor_categorias');
     }
 };

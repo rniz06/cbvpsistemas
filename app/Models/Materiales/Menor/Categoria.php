@@ -4,20 +4,18 @@ namespace App\Models\Materiales\Menor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Componente extends Model implements Auditable
+class Categoria extends Model
 {
     use \OwenIt\Auditing\Auditable, SoftDeletes;
 
-    protected $table = "MAT_menor_componentes";
+    protected $table = "MAT_menor_categorias";
 
-    protected $primaryKey = 'id_menor_componente';
+    protected $primaryKey = 'id_menor_categoria';
 
-    protected $fillable = ['nombre', 'marca_id', 'categoria_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -25,20 +23,9 @@ class Componente extends Model implements Auditable
     |---------------------------------------
     */
 
-    public function marca(): BelongsTo
+    public function componentes(): HasMany
     {
-        return $this->belongsTo(Marca::class, 'marca_id');
-    }
-
-    public function categoria(): BelongsTo
-    {
-        return $this->belongsTo(Categoria::class, 'categoria_id');
-    }
-
-    # RELACION CON MODELO DE MATERIAL MENOR
-    public function items(): HasMany
-    {
-        return $this->hasMany(Item::class, 'componente_id');
+        return $this->hasMany(Componente::class, 'categoria_id');
     }
 
     /*
