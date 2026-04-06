@@ -2,10 +2,14 @@
 
 namespace App\Livewire\Materiales\Menor\Marcas;
 
+use App\Exports\Excel\Materiales\Menor\Marcas\ExcelMenorMarcasExport;
+use App\Exports\Pdf\Materiales\Menor\Marcas\ListaMenorMarcasPdf;
 use App\Models\Materiales\Menor\Marca;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -56,5 +60,28 @@ class Index extends Component
         }
 
         $this->redirectRoute('materiales.menor.marcas.index');
+    }
+
+    private function cargarDatosParaExportar() : Collection
+    {
+        return Marca::select('id_menor_marca', 'nombre')
+            ->buscarNombre($this->buscarNombre)
+            ->orderBy('nombre')
+            ->get();
+    }
+
+    public function excel()
+    {
+        $datos = $this->cargarDatosParaExportar();
+
+        return Excel::download(new ExcelMenorMarcasExport($datos), 'Marcas.xlsx');
+    }
+
+    public function pdf()
+    {
+        $nombre_archivo = "Marcas";
+        $datos = $this->cargarDatosParaExportar();
+
+        return (new ListaMenorMarcasPdf($datos, $nombre_archivo))->download();
     }
 }
