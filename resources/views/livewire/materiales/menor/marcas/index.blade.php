@@ -38,9 +38,9 @@
 
                         {{-- ELIMINAR --}}
                         @can('Materiales Menor Marcas Eliminar')
-                            {{-- @livewire('admin.usuarios.eliminar', ['usuario_id' => $usuario->id_usuario], key($usuario->id_usuario)) --}}
-                            <a href="#" class="btn dropdown-item btn-sm"><i class="fas fa-trash"></i>
-                                Eliminar</a>
+                            <x-adminlte-button label="Eliminar" class="dropdown-item btn-sm" icon="fas fa-trash"
+                                wire:click="eliminar({{ $marca->id_menor_marca }})"
+                                wire:confirm="¿ESTÁ SEGURO DE ELIMINAR LA MARCA {{ $marca->nombre ?? '' }}?" />
                         @endcan
                     </x-tabla-dropdown>
                     {{-- Componente con Modal Fuera del Dropdonw para evitar superposicion --}}

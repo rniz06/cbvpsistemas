@@ -44,4 +44,17 @@ class Index extends Component
                 ->paginate($this->paginado, [''], 'marcas-page')
         ]);
     }
+
+    # ELIMINAR UN REGISTRO
+    public function eliminar(int $id): void
+    {
+        try {
+            Marca::findOrFail($id)->delete();
+            session()->flash('success', 'MARCA ELIMINADA CORRECTAMENTE!');
+        } catch (\Exception $e) {
+            session()->flash('error', 'NO SE PUDO ELIMINAR LA MARCA - ' . $e->getMessage());
+        }
+
+        $this->redirectRoute('materiales.menor.marcas.index');
+    }
 }
