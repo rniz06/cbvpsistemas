@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
+use App\Enums\Materiales\Menor\CategoriaComponente;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,10 @@ class Componente extends Model implements Auditable
     protected $primaryKey = 'id_menor_componente';
 
     protected $fillable = ['nombre', 'marca_id', 'categoria_id', 'creadoPor', 'actualizadoPor'];
+
+    protected $casts = [
+        'categoria_id' => CategoriaComponente::class,
+    ];
 
     /*
     |---------------------------------------

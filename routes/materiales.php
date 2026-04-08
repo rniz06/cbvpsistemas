@@ -4,6 +4,7 @@ use App\Http\Controllers\Materiales\ConductorController;
 use App\Http\Controllers\Materiales\EquipoHidraulicoController;
 use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\Materiales\Menor\MarcaController;
+use App\Http\Controllers\Materiales\Menor\MenorController;
 use App\Http\Controllers\Materiales\Reportes\ReporteController;
 use App\Http\Controllers\Materiales\Reportes\ReporteMayorController;
 use App\Http\Controllers\MaterialParametroController;
@@ -124,6 +125,11 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
     |--------------------------------------------------------------------------
     */
     Route::prefix('/menor')->name('menor.')->group(function () {
+        # MENOR
+        Route::controller(MenorController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+
         # MARCAS
         Route::controller(MarcaController::class)->prefix('/marcas')->name('marcas.')->group(function () {
             Route::get('/', 'index')->name('index');
