@@ -6,6 +6,9 @@ use App\Enums\Materiales\Menor\CategoriaComponente;
 use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorInoperativosExcel;
 use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorOperativosExcel;
 use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorResumenExcel;
+use App\Exports\Pdf\Materiales\Menor\Menor\ListaMenorInoperativosPdf;
+use App\Exports\Pdf\Materiales\Menor\Menor\ListaMenorOperativosPdf;
+use App\Exports\Pdf\Materiales\Menor\Menor\ListaMenorResumenPdf;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
@@ -136,12 +139,15 @@ class Index extends Component
     |-------------------------------------------------------------
     */
 
-    public function exportar($metodo)
+    public function exportar($formatoExportacion)
     {
-        return match ($metodo) {
+        return match ($formatoExportacion) {
             'excelOperativos' => Excel::download(new ListadoMenorOperativosExcel($this->queryBase()->operativos()->get()), 'Menor Operativos.xlsx'),
             'excelInoperativos' => Excel::download(new ListadoMenorInoperativosExcel($this->queryBase()->inoperativos()->get()), 'Menor Inoperativos.xlsx'),
             'excelResumen' => Excel::download(new ListadoMenorResumenExcel($this->queryResumen()->get()), 'Menor Resumen.xlsx'),
+            'pdfOperativos' => (new ListaMenorOperativosPdf($this->queryBase()->operativos()->get(), 'Menor Operativos'))->download(),
+            'pdfInoperativos' => (new ListaMenorInoperativosPdf($this->queryBase()->inoperativos()->get(), 'Menor Inoperativos'))->download(),
+            'pdfResumen' => (new ListaMenorResumenPdf($this->queryResumen()->get(), 'Menor Resumen'))->download(),
         };
     }
 }
