@@ -3,6 +3,9 @@
 namespace App\Livewire\Materiales\Menor\Menor;
 
 use App\Enums\Materiales\Menor\CategoriaComponente;
+use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorInoperativosExcel;
+use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorOperativosExcel;
+use App\Exports\Excel\Materiales\Menor\Menor\ListadoMenorResumenExcel;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
@@ -11,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -124,5 +128,20 @@ class Index extends Component
         return Compania::filtrarPorRolMateriales()
             ->orderBy('orden')
             ->get(['id_compania', 'compania']);
+    }
+
+    /*
+    |-------------------------------------------------------------
+    | FUNCIONES DE EXPORTACION DE DATOS
+    |-------------------------------------------------------------
+    */
+
+    public function exportar($metodo)
+    {
+        return match ($metodo) {
+            'excelOperativos' => Excel::download(new ListadoMenorOperativosExcel($this->queryBase()->operativos()->get()), 'Menor Operativos.xlsx'),
+            'excelInoperativos' => Excel::download(new ListadoMenorInoperativosExcel($this->queryBase()->inoperativos()->get()), 'Menor Inoperativos.xlsx'),
+            'excelResumen' => Excel::download(new ListadoMenorResumenExcel($this->queryResumen()->get()), 'Menor Resumen.xlsx'),
+        };
     }
 }

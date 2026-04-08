@@ -68,8 +68,8 @@
     <div class="row">
         {{-- OPERATIVOS --}}
         <div class="col-md-6">
-            <x-table.tabla titulo="Operativos" pdf="pdfOperativos" excel="excelOperativos"
-                dropdown_direccion="dropleft">
+            <x-table.tabla titulo="Operativos" pdf="exportar('pdfOperativos')" excel="exportar('excelOperativos')"
+                dropdown_direccion="dropleft" paginado="paginadoOperativo">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
@@ -112,8 +112,8 @@
 
         {{-- INOPERATIVOS --}}
         <div class="col-md-6">
-            <x-table.tabla titulo="Inoperativos" pdf="pdfInoperativos" excel="excelInoperativos"
-                dropdown_direccion="dropleft">
+            <x-table.tabla titulo="Inoperativos" pdf="exportar('pdfInoperativos')" excel="exportar('excelInoperativos')"
+                dropdown_direccion="dropleft" paginado="paginadoInoperativo">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
@@ -156,7 +156,7 @@
 
         {{-- RESUMEN --}}
         <div class="col-md-12">
-            <x-table.tabla titulo="Resumen" pdf="pdfResumen" excel="excelResumen" dropdown_direccion="dropleft">
+            <x-table.tabla titulo="Resumen" pdf="exportar('pdfResumen')" excel="exportar('excelResumen')" dropdown_direccion="dropleft" paginado="paginadoResumen">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
