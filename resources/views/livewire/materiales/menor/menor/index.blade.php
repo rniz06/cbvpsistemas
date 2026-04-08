@@ -12,7 +12,8 @@
                             <div class="input-group-text">Items:</div>
                         </div>
                         <select class="form-control @error('buscarComponenteId') is-invalid @enderror"
-                            id="buscarComponenteId" name="buscarComponenteId" wire:model.live.debounce.200ms="buscarComponenteId">
+                            id="buscarComponenteId" name="buscarComponenteId"
+                            wire:model.live.debounce.200ms="buscarComponenteId">
                             <option value="">Todos</option>
                             @foreach ($this->componentes as $componente)
                                 <option value="{{ $componente->id_menor_componente }}">
@@ -50,7 +51,8 @@
                             <div class="input-group-text">Compañias:</div>
                         </div>
                         <select class="form-control @error('buscarCompaniaId') is-invalid @enderror"
-                            id="buscarCompaniaId" name="buscarCompaniaId" wire:model.live.debounce.200ms="buscarCompaniaId">
+                            id="buscarCompaniaId" name="buscarCompaniaId"
+                            wire:model.live.debounce.200ms="buscarCompaniaId">
                             <option value="">Todos</option>
                             @foreach ($this->companias as $compania)
                                 <option value="{{ $compania->id_compania }}">
@@ -92,7 +94,8 @@
                         <td>{{ $operativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->componente->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->compania->compania ?? 'S/D' }}</td>
-                        <td><x-adminlte-button label="Ver" class="btn-sm" icon="fas fa-eye" /></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-success w-100"><i
+                                    class="fas fa-eye mr-1"></i> Ver Ficha</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -135,7 +138,8 @@
                         <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->componente->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
-                        <td><x-adminlte-button label="Ver" class="btn-sm" icon="fas fa-eye" /></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-danger w-100"><i
+                                    class="fas fa-eye mr-1"></i> Ver Ficha</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -149,9 +153,51 @@
                 </x-slot>
             </x-table.tabla>
         </div>
+
+        {{-- RESUMEN --}}
+        <div class="col-md-12">
+            <x-table.tabla titulo="Resumen" pdf="pdfResumen" excel="excelResumen" dropdown_direccion="dropleft">
+
+                <x-slot name="encabezados">
+                    {{-- NUMERO EN LA FILA --}}
+                    <th style="width: 10px">N°</th>
+
+                    {{-- NOMBRE --}}
+                    <th>Nombre</th>
+
+                    {{-- MARCA --}}
+                    <th>Marca</th>
+
+                    {{-- OPERATIVOS --}}
+                    <th>Operativos</th>
+
+                    {{-- INOPERATIVOS --}}
+                    <th>Inperativos</th>
+
+                </x-slot>
+
+                @forelse ($resumen as $index => $record)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $record->componente ?? 'S/D' }}</td>
+                        <td>{{ $record->marca ?? 'S/D' }}</td>
+                        <td><span class="badge badge-success">{{ $record->operativos ?? 'S/D' }}</span></td>
+                        <td><span class="badge badge-danger">{{ $record->inoperativos ?? 'S/D' }}</span></td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted font-italic">Sin resultados coincidentes...
+                        </td>
+                    </tr>
+                @endforelse
+
+                <x-slot name="paginacion">
+                    {{ $resumen->links() }}
+                </x-slot>
+            </x-table.tabla>
+        </div>
     </div>
 
-    
 </div>
 
 @push('styles')

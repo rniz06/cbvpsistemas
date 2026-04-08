@@ -7,8 +7,8 @@ use App\Models\Gral\Compania;
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
 use App\Models\Materiales\Menor\Marca;
-use App\Models\Materiales\Operatividad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,9 +25,6 @@ class Index extends Component
     public $buscarComponenteId = '', $buscarMarcaId = '', $buscarCompaniaId = '';
     public $paginadoOperativo, $paginadoInoperativo, $paginadoResumen;
 
-    # PROPIEDADES PARA LOS SELECTS
-    //public $componentes = [], $marcas = [], $companias = [];
-
     # FUNCION MOUNT DE LIVEWIRE
     public function mount()
     {
@@ -36,15 +33,6 @@ class Index extends Component
         $this->paginadoOperativo   = $paginado;
         $this->paginadoInoperativo = $paginado;
         $this->paginadoResumen     = $paginado;
-
-        // $this->componentes = Componente::select('id_menor_componente', 'nombre', 'marca_id')
-        //     ->where('categoria_id', CategoriaComponente::MATERIAL_MENOR) # FILTRADO POR MATERIAL MENOR
-        //     ->with('marca:id_menor_marca,nombre')
-        //     ->orderBy('nombre')
-        //     ->get();
-
-        // $this->marcas    = Marca::get(['id_menor_marca', 'nombre']);
-        // $this->companias = Compania::filtrarPorRolMateriales()->orderBy('orden')->get(['id_compania', 'compania']);
     }
 
     # LIMPIAR EL BUSCADOR Y LA PAGINACION AL CAMBIAR DE PAGINA
@@ -73,11 +61,11 @@ class Index extends Component
             'inoperativos' => $this->queryBase()
                 ->inoperativos()
                 ->paginate($this->paginadoInoperativo, [''], 'inoperativos-page'),
-            'resumen' => 'aaa',
+            'resumen' => $this->queryResumen()->paginate($this->paginadoResumen, [''], 'resumen-page'),
         ]);
     }
 
-    # QUERY BASE PARA OPERATIVOS E INOPERATIVOS
+    # QUERY BASE
     public function queryBase()
     {
         return Item::select('id_menor_item', 'componente_id', 'estado_id', 'compania_id')
@@ -92,6 +80,24 @@ class Index extends Component
                 'compania:id_compania,compania'
             ])
             ->whereRelation('componente', 'categoria_id', CategoriaComponente::MATERIAL_MENOR);
+    }
+
+    public function queryResumen()
+    {
+        # TRAE CAMPOS NOMBRE, MARCA, ESTADO Y PINTARLOS ASI:
+        # nombre, marca, operativo, inoperativo
+        # Manga,  ucsa,  10,        12
+        # Piton,  ucsa,  5,         8 
+        return $this->queryBase()->join('MAT_menor_componentes as c', 'c.id_menor_componente', '=', 'MAT_menor_items.componente_id')
+            ->join('MAT_menor_marcas as m', 'm.id_menor_marca', '=', 'c.marca_id')
+            ->select(
+                'c.nombre as componente',
+                'm.nombre as marca',
+                DB::raw('SUM(CASE WHEN MAT_menor_items.estado_id = 1 THEN 1 ELSE 0 END) as operativos'),
+                DB::raw('SUM(CASE WHEN MAT_menor_items.estado_id = 0 THEN 1 ELSE 0 END) as inoperativos')
+            )
+            ->groupBy('c.nombre', 'm.nombre')
+            ->orderBy('c.nombre');
     }
 
     /*
