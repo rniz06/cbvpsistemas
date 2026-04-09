@@ -62,6 +62,18 @@
                     </div>
                 </div>
             </div>
+
+            {{-- VER COMPANIA --}}
+            @can('Material Menor Ver Compania')
+                <div class="col-md-3">
+                    @if (count($this->companias) > 1)
+                        <a href="{{ $buscarCompaniaId != '' ? route('materiales.menor.ver-compania', $buscarCompaniaId) : '#' }}"
+                            class="btn btn-outline-success w-100 {{ $buscarCompaniaId == '' ? 'disabled' : '' }}">
+                            <i class="fas fa-eye mr-1"></i> Ver Compañia
+                        </a>
+                    @endif
+                </div>
+            @endcan
         </div>
     </x-adminlte-card>
 
@@ -156,7 +168,8 @@
 
         {{-- RESUMEN --}}
         <div class="col-md-12">
-            <x-table.tabla titulo="Resumen" pdf="exportar('pdfResumen')" excel="exportar('excelResumen')" dropdown_direccion="dropleft" paginado="paginadoResumen">
+            <x-table.tabla titulo="Resumen" pdf="exportar('pdfResumen')" excel="exportar('excelResumen')"
+                dropdown_direccion="dropleft" paginado="paginadoResumen">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
