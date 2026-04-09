@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
-                    <td>{{ $inoperativo->componente->marca->nombre ?? 'S/D' }}</td>
+                    <td>{{ $inoperativo->marca->nombre ?? 'S/D' }}</td>
                     <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
                 </tr>
             @empty

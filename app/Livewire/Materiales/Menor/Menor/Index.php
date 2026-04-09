@@ -75,14 +75,14 @@ class Index extends Component
     # QUERY BASE
     public function queryBase()
     {
-        return Item::select('id_menor_item', 'componente_id', 'estado_id', 'compania_id')
+        return Item::select('id_menor_item', 'componente_id', 'marca_id', 'estado_id', 'compania_id')
             ->filtrarPorRolMateriales()
             ->buscarComponenteId($this->buscarComponenteId)
             ->buscarMarcaId($this->buscarMarcaId)
             ->buscarCompaniaId($this->buscarCompaniaId)
             ->with([
-                'componente:id_menor_componente,nombre,marca_id,categoria_id',
-                'componente.marca:id_menor_marca,nombre',
+                'componente:id_menor_componente,nombre,categoria_id',
+                'marca:id_menor_marca,nombre',
                 'estado:id_operatividad,operatividad',
                 'compania:id_compania,compania'
             ])
@@ -96,7 +96,7 @@ class Index extends Component
         # Manga,  ucsa,  10,        12
         # Piton,  ucsa,  5,         8 
         return $this->queryBase()->join('MAT_menor_componentes as c', 'c.id_menor_componente', '=', 'MAT_menor_items.componente_id')
-            ->join('MAT_menor_marcas as m', 'm.id_menor_marca', '=', 'c.marca_id')
+            ->join('MAT_menor_marcas as m', 'm.id_menor_marca', '=', 'MAT_menor_items.marca_id')
             ->select(
                 'c.nombre as componente',
                 'm.nombre as marca',
@@ -115,7 +115,7 @@ class Index extends Component
 
     public function getComponentesProperty()
     {
-        return Componente::select('id_menor_componente', 'nombre', 'marca_id')
+        return Componente::select('id_menor_componente', 'nombre')
             ->where('categoria_id', CategoriaComponente::MATERIAL_MENOR)
             ->orderBy('nombre')
             ->get();

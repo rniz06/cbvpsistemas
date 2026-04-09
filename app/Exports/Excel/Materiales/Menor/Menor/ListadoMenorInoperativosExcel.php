@@ -32,7 +32,7 @@ class ListadoMenorInoperativosExcel implements FromCollection, WithHeadings, Wit
     {
         return [
             $inoperativo->componente->nombre ?? 'S/D',
-            $inoperativo->componente->marca->nombre ?? 'S/D',
+            $inoperativo->marca->nombre ?? 'S/D',
             $inoperativo->compania->compania ?? 'S/D'
         ];
     }

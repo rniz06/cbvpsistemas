@@ -25,9 +25,9 @@ class Marca extends Model implements Auditable
     |---------------------------------------
     */
 
-    public function componentes(): HasMany
+    public function items(): HasMany
     {
-        return $this->hasMany(Componente::class, 'marca_id');
+        return $this->hasMany(Item::class, 'marca_id');
     }
 
     /*

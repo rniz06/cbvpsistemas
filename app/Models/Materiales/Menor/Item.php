@@ -20,7 +20,7 @@ class Item extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_item';
 
-    protected $fillable = ['componente_id', 'estado_id', 'compania_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['componente_id', 'marca_id', 'estado_id', 'compania_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -31,6 +31,11 @@ class Item extends Model implements Auditable
     public function componente(): BelongsTo
     {
         return $this->belongsTo(Componente::class, 'componente_id');
+    }
+
+    public function marca(): BelongsTo
+    {
+        return $this->belongsTo(Marca::class, 'marca_id');
     }
 
     public function estado(): BelongsTo
@@ -78,11 +83,11 @@ class Item extends Model implements Auditable
         });
     }
 
-    # BUSCAR POR RELACION componente CAMPO marca_id
+    # BUSCAR POR CAMPO marca_id
     public function scopeBuscarMarcaId(Builder $query, $search = null): void
     {
         $query->when($search, function (Builder $query, int $search) {
-            $query->whereRelation('componente', 'marca_id', $search);
+            $query->where('marca_id', $search);
         });
     }
 

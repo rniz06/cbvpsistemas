@@ -18,7 +18,7 @@ class Componente extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_componente';
 
-    protected $fillable = ['nombre', 'marca_id', 'categoria_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'categoria_id', 'creadoPor', 'actualizadoPor'];
 
     protected $casts = [
         'categoria_id' => CategoriaComponente::class,
@@ -29,11 +29,6 @@ class Componente extends Model implements Auditable
     | RELACIONES DEL MODELO
     |---------------------------------------
     */
-
-    public function marca(): BelongsTo
-    {
-        return $this->belongsTo(Marca::class, 'marca_id');
-    }
 
     public function categoria(): BelongsTo
     {

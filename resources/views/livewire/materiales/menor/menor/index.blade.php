@@ -104,7 +104,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $operativo->componente->nombre ?? 'S/D' }}</td>
-                        <td>{{ $operativo->componente->marca->nombre ?? 'S/D' }}</td>
+                        <td>{{ $operativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->compania->compania ?? 'S/D' }}</td>
                         <td><a href="#" class="btn btn-sm btn-outline-success w-100"><i
                                     class="fas fa-eye mr-1"></i> Ver Ficha</a></td>
@@ -148,7 +148,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
-                        <td>{{ $inoperativo->componente->marca->nombre ?? 'S/D' }}</td>
+                        <td>{{ $inoperativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
                         <td><a href="#" class="btn btn-sm btn-outline-danger w-100"><i
                                     class="fas fa-eye mr-1"></i> Ver Ficha</a></td>

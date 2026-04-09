@@ -32,7 +32,7 @@ class ListadoMenorOperativosExcel implements FromCollection, WithHeadings, WithM
     {
         return [
             $operativo->componente->nombre ?? 'S/D',
-            $operativo->componente->marca->nombre ?? 'S/D',
+            $operativo->marca->nombre ?? 'S/D',
             $operativo->compania->compania ?? 'S/D'
         ];
     }
