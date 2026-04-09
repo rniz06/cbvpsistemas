@@ -15,7 +15,7 @@
 <x-adminlte-card :icon="$icono" :title="$titulo"  :theme="$tema" :theme-mode="$tema_modo" header-class="text-dark">
 
     {{-- HERRAMIENTAS DEL ENCABEZADO --}}
-    @if ($buscador || $excel || $pdf)
+    @if ($buscador || $excel || $pdf || $acciones)
         <x-slot name="toolsSlot">
 
             <div class="d-flex justify-content-center align-items-center">

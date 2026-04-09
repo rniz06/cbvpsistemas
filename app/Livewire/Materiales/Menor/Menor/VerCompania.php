@@ -2,6 +2,10 @@
 
 namespace App\Livewire\Materiales\Menor\Menor;
 
+use App\Enums\Materiales\Menor\CategoriaComponente;
+use App\Models\Gral\Compania;
+use App\Models\Materiales\Menor\Item;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class VerCompania extends Component
@@ -12,8 +16,43 @@ class VerCompania extends Component
     |------------------------------------------------------
     */
 
+    # COMPANIA A VER - PAGINACION
+    public $compania, $paginado;
+
+    # FUNCION MOUNT DE LIVEWIRE
+    public function mount(Compania $compania)
+    {
+        $this->compania = $compania;
+        $paginado       = Auth::user()->paginado_por_defecto ?? 5;
+    }
+
+    # LIMPIAR EL BUSCADOR Y LA PAGINACION AL CAMBIAR DE PAGINA
+    public function updating($key): void
+    {
+        if (in_array($key, [
+            'paginado',
+        ])) {
+            $this->resetPage();
+        }
+    }
+
     public function render()
     {
-        return view('livewire.materiales.menor.menor.ver-compania');
+        return view('livewire.materiales.menor.menor.ver-compania', [
+            'items' =>$this->queryBase()->paginate($this->paginado)
+        ]);
+    }
+
+    # QUERY BASE
+    public function queryBase()
+    {
+        return Item::select('id_menor_item', 'componente_id', 'marca_id', 'estado_id')
+            ->where('compania_id', $this->compania->id_compania)
+            ->with([
+                'componente:id_menor_componente,nombre,categoria_id',
+                'marca:id_menor_marca,nombre',
+                'estado:id_operatividad,operatividad'
+            ])
+            ->whereRelation('componente', 'categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 }
