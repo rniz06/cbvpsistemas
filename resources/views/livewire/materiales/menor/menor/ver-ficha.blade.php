@@ -25,12 +25,12 @@
         </x-adminlte-card>
     </div>
 
-    {{-- @if ($ver_form_alta)
+    @if ($ver_form_alta)
         <br>
         <div class="col-md-12">
-            @livewire('materiales.menor.menor.create', ['companiaId' => $compania->id_compania])
+            @livewire('materiales.menor.menor.create-comentario', ['item' => $item->id_menor_item])
         </div>
-    @endif --}}
+    @endif
 
     {{-- ITEMS --}}
 

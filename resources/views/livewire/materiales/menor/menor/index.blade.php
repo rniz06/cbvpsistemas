@@ -151,7 +151,7 @@
                         <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
-                        <td><a href="{{ route('materiales.menor.ver-ficha', $operativo->id_menor_item) }}"
+                        <td><a href="{{ route('materiales.menor.ver-ficha', $inoperativo->id_menor_item) }}"
                                 class="btn btn-sm btn-outline-danger w-100"><i class="fas fa-eye mr-1"></i> Ver
                                 Ficha</a></td>
                     </tr>
