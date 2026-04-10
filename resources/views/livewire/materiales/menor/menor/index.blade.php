@@ -102,7 +102,7 @@
 
                 @forelse ($operativos as $index => $operativo)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration + $operativos->firstItem() - 1 }}</td>
                         <td>{{ $operativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->compania->compania ?? 'S/D' }}</td>
@@ -147,7 +147,7 @@
 
                 @forelse ($inoperativos as $index => $inoperativo)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration + $inoperativos->firstItem() - 1 }}</td>
                         <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
@@ -193,7 +193,7 @@
 
                 @forelse ($resumen as $index => $record)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration + $resumen->firstItem() - 1 }}</td>
                         <td>{{ $record->componente ?? 'S/D' }}</td>
                         <td>{{ $record->marca ?? 'S/D' }}</td>
                         <td><span class="badge badge-success">{{ $record->operativos ?? 'S/D' }}</span></td>
