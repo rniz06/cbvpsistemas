@@ -5,13 +5,17 @@ namespace App\Models\Materiales\Menor;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Operatividad;
 use App\Models\User;
+use App\Observers\Materiales\Menor\ItemObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[ObservedBy([ItemObserver::class])]
 class Item extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable, SoftDeletes;
@@ -46,6 +50,11 @@ class Item extends Model implements Auditable
     public function compania(): BelongsTo
     {
         return $this->belongsTo(Compania::class, 'compania_id');
+    }
+
+    public function comentarios(): HasMany
+    {
+        return $this->hasMany(ItemComentario::class, 'item_id');
     }
 
     /*

@@ -4,6 +4,7 @@ namespace App\Models\Materiales\Menor;
 
 use App\Enums\Materiales\Menor\CategoriaComponente;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,6 +45,24 @@ class Componente extends Model implements Auditable
     /*
     |---------------------------------------
     | FIN RELACIONES DEL MODELO
+    |---------------------------------------
+    */
+
+    /*
+    |---------------------------------------
+    | SCOPES LOCALES PARA FILTROS
+    |---------------------------------------
+    */
+
+    # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
+    public function scopeMenor(Builder $query): void
+    {
+        $query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
+    }
+
+    /*
+    |---------------------------------------
+    | FIN SCOPES LOCALES PARA FILTROS
     |---------------------------------------
     */
 

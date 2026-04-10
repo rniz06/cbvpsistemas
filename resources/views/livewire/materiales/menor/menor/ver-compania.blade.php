@@ -2,13 +2,21 @@
     {{-- Do your work, then step back. --}}
     <h4>Ficha de Compañia: {{ $compania->compania ?? 'S/D' }}</h4>
 
+    @if ($ver_form_alta)
+        <br>
+        <div class="col-md-12">
+            @livewire('materiales.menor.menor.create', ['companiaId' => $compania->id_compania])
+        </div>
+    @endif
+
     {{-- ITEMS --}}
     <div class="col-md-12">
         <x-table.tabla titulo="Material Menor" dropdown_direccion="dropleft" paginado="paginado">
 
             @can('Material Menor Crear')
                 <x-slot name="acciones">
-                    <x-adminlte-button label="Añadir Marca" class="btn-sm dropdown-item" icon="fas fa-plus" />
+                    <x-adminlte-button :label="$ver_form_alta ? 'Cerrar Formulario' : 'Añadir Item'" class="btn-sm dropdown-item" :icon="$ver_form_alta ? 'fas fa-times' : 'fas fa-plus'"
+                        wire:click="$toggle('ver_form_alta')" />
                 </x-slot>
             @endcan
 
@@ -31,7 +39,7 @@
 
             @forelse ($items as $index => $item)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $loop->iteration + $items->firstItem() - 1 }}</td>
                     <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
                     <td>{{ $item->marca->nombre ?? 'S/D' }}</td>
                     <td>
@@ -68,3 +76,26 @@
         </x-table.tabla>
     </div>
 </div>
+
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        // RECIBIR EVENTO DEL COMPONENTE HIJO Y ACTIVAR LOS SELECTS
+        Livewire.on('ver-form-alta', () => {
+            // alert('Funciona');
+            new SlimSelect({
+                select: '#componente_id'
+            })
+
+            new SlimSelect({
+                select: '#marca_id'
+            })
+        });
+    </script>
+@endpush

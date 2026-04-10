@@ -7,6 +7,7 @@ use App\Models\Gral\Compania;
 use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class VerCompania extends Component
 {
@@ -16,14 +17,16 @@ class VerCompania extends Component
     |------------------------------------------------------
     */
 
-    # COMPANIA A VER - PAGINACION
-    public $compania, $paginado;
+    use WithPagination;
+
+    # COMPANIA A VER - PAGINACION - CONDICIONAL PARA FORM ALTA
+    public $compania, $paginado, $ver_form_alta = false;
 
     # FUNCION MOUNT DE LIVEWIRE
     public function mount(Compania $compania)
     {
         $this->compania = $compania;
-        $paginado       = Auth::user()->paginado_por_defecto ?? 5;
+        $this->paginado       = Auth::user()->paginado_por_defecto ?? 5;
     }
 
     # LIMPIAR EL BUSCADOR Y LA PAGINACION AL CAMBIAR DE PAGINA
