@@ -129,6 +129,7 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
         Route::controller(MenorController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
+            Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
         });
 
         # MARCAS

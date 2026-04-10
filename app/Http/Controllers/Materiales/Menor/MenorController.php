@@ -14,6 +14,7 @@ class MenorController extends Controller
     function __construct()
     {
         $this->middleware('permission:Material Menor Listar', ['only' => ['index']]);
+        $this->middleware('permission:Material Menor Ver', ['only' => ['verFicha']]);
         $this->middleware('permission:Material Menor Ver Compania', ['only' => ['verCompania']]);
     }
 
@@ -25,5 +26,10 @@ class MenorController extends Controller
     public function verCompania($compania)
     {
         return view('materiales.menor.menor.ver-compania', compact('compania'));
+    }
+
+    public function verFicha($item)
+    {
+        return view('materiales.menor.menor.ver-ficha', compact('item'));
     }
 }

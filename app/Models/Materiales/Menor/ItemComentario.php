@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
+use App\Models\Materiales\Accion;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ class ItemComentario extends Model implements Auditable
 
     protected $primaryKey = 'idmenor_item_comentario';
 
-    protected $fillable = ['comentario', 'item_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['comentario', 'accion_id', 'item_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -27,6 +28,11 @@ class ItemComentario extends Model implements Auditable
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function accion(): BelongsTo
+    {
+        return $this->belongsTo(Accion::class, 'accion_id');
     }
 
     /*

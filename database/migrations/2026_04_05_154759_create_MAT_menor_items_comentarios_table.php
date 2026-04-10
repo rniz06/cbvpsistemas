@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('MAT_menor_items_comentarios', function (Blueprint $table) {
             $table->id('idmenor_item_comentario');
             $table->text('comentario');
+            $table->foreignId('accion_id')->constrained('MAT_acciones', 'id_accion')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained('MAT_menor_items', 'id_menor_item')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();

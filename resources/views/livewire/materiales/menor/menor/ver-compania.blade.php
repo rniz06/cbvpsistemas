@@ -52,7 +52,7 @@
                         @endif
                     </td>
                     <td>
-                        <a href="#"
+                        <a href="{{ route('materiales.menor.ver-ficha', $item->id_menor_item) }}"
                             class="btn btn-sm w-100 
                             @if ($item->estado->operatividad === 'OPERATIVO') btn-outline-success
                             @elseif ($item->estado->operatividad === 'INOPERATIVO')

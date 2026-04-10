@@ -106,8 +106,9 @@
                         <td>{{ $operativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $operativo->compania->compania ?? 'S/D' }}</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-success w-100"><i
-                                    class="fas fa-eye mr-1"></i> Ver Ficha</a></td>
+                        <td><a href="{{ route('materiales.menor.ver-ficha', $operativo->id_menor_item) }}"
+                                class="btn btn-sm btn-outline-success w-100"><i class="fas fa-eye mr-1"></i> Ver
+                                Ficha</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -150,8 +151,9 @@
                         <td>{{ $inoperativo->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->marca->nombre ?? 'S/D' }}</td>
                         <td>{{ $inoperativo->compania->compania ?? 'S/D' }}</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-danger w-100"><i
-                                    class="fas fa-eye mr-1"></i> Ver Ficha</a></td>
+                        <td><a href="{{ route('materiales.menor.ver-ficha', $operativo->id_menor_item) }}"
+                                class="btn btn-sm btn-outline-danger w-100"><i class="fas fa-eye mr-1"></i> Ver
+                                Ficha</a></td>
                     </tr>
                 @empty
                     <tr>

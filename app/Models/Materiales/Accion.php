@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales;
 
+use App\Models\Materiales\Menor\ItemComentario;
 use App\Models\Materiales\Movil\MovilComentario;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,5 +24,10 @@ class Accion extends Model implements Auditable
     public function movilcomentarios()
     {
         return $this->hasMany(MovilComentario::class, 'accion_id');
+    }
+
+    public function menorcomentarios()
+    {
+        return $this->hasMany(ItemComentario::class, 'accion_id');
     }
 }
