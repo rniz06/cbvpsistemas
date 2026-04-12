@@ -20,7 +20,7 @@
             <x-slot name="acciones">
                 <x-adminlte-button label="Añadir Componente" class="btn-sm dropdown-item" icon="fas fa-plus" data-toggle="modal"
                     data-target="#modal-create-componente" /> </x-slot>
-            {{-- @livewire('materiales.menor.marcas.modal-create') --}}
+            @livewire('materiales.menor.componentes.modal-create', ['routeToRedirect' => 'materiales.menor.componentes.index', 'categoriaId' => \App\Enums\Materiales\Menor\CategoriaComponente::MATERIAL_MENOR])
         @endcan
 
         <x-slot name="encabezados">
