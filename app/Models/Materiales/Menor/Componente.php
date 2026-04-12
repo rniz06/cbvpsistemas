@@ -60,6 +60,16 @@ class Componente extends Model implements Auditable
         $query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 
+    /**
+     * Busqueda por campo nombre.
+     */
+    public function scopeBuscarNombre(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, string $search) {
+            $query->whereLike('nombre', "%{$search}%");
+        });
+    }
+
     /*
     |---------------------------------------
     | FIN SCOPES LOCALES PARA FILTROS

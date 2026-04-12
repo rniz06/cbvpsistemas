@@ -100,6 +100,12 @@
                 <h5>Marcas</h5>
             </div>
         </a>
+
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.componentes.index') }}">
+            <div class="callout callout-warning">
+                <h5>Componentes</h5>
+            </div>
+        </a>
     </div>
 
 @stop
