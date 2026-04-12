@@ -33,7 +33,9 @@
                 {{-- COMPAÑIA --}}
                 <th>Estado</th>
 
-                <th></th>
+                @can('Material Menor Ver')
+                    <th></th>
+                @endcan
 
             </x-slot>
 
@@ -51,17 +53,19 @@
                             <span class="badge badge-secondary">S/D</span>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('materiales.menor.ver-ficha', $item->id_menor_item) }}"
-                            class="btn btn-sm w-100 
+                    @can('Material Menor Ver')
+                        <td>
+                            <a href="{{ route('materiales.menor.ver-ficha', $item->id_menor_item) }}"
+                                class="btn btn-sm w-100 
                             @if ($item->estado->operatividad === 'OPERATIVO') btn-outline-success
                             @elseif ($item->estado->operatividad === 'INOPERATIVO')
                                 btn-outline-danger
                             @else
                                 btn-outline-secondary @endif">
-                            <i class="fas fa-eye mr-1"></i> Ver Ficha
-                        </a>
-                    </td>
+                                <i class="fas fa-eye mr-1"></i> Ver Ficha
+                            </a>
+                        </td>
+                    @endcan
                 </tr>
             @empty
                 <tr>
