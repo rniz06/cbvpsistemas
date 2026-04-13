@@ -15,6 +15,7 @@ class ItemObserver
     {
         $item->comentarios()->create([
             'comentario' => "SE DA DE ALTA EN EL SISTEMA",
+            'accion_id'  => 3, # REPORTE
             'creadoPor'  => Auth::id(),
         ]);
     }
