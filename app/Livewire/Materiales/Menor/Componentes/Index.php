@@ -6,6 +6,7 @@ use App\Exports\Excel\Materiales\Menor\Componentes\ExcelMenorComponentesExport;
 use App\Exports\Pdf\Materiales\Menor\Componentes\ListaMenorComponentesPdf;
 use App\Models\Materiales\Menor\Componente;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,6 +22,9 @@ class Index extends Component
 
     # PROPIEDADES DE BUSQUEDA Y PAGINACION
     public $buscarNombre = '', $paginado;
+
+    # PROPIEDAD PARA PASAR AL MODAL EDIT
+    public $componente = null;
 
     # FUNCION MOUNT DE LIVEWIRE
     public function mount()
@@ -65,6 +69,18 @@ class Index extends Component
         }
 
         $this->redirectRoute('materiales.menor.marcas.index');
+    }
+
+    #[On('abrir-modal-edit')]
+    public function abrir_modal_edit($id)
+    {
+        $this->componente = $id;
+    }
+
+    #[On('cerrar-modal-edit')]
+    public function cerrar_modal_edit()
+    {
+        $this->componente = null;
     }
 
     /*

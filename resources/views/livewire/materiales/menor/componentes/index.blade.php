@@ -1,12 +1,29 @@
 <div>
+    {{-- MODAL DE EDICION --}}
+    <x-adminlte-modal id="modal-edit-componente" title="Editar Componente" size="lg" static-backdrop
+        icon="fas fa-tasks" theme="default" wire:ignore.self v-centered>
+        @if ($componente)
+            @livewire(
+                'materiales.menor.componentes.modal-edit',
+                [
+                    'componente' => $componente,
+                    'routeToRedirect' => 'materiales.menor.componentes.index',
+                    'categoriaId' => \App\Enums\Materiales\Menor\CategoriaComponente::MATERIAL_MENOR,
+                ],
+                key('modal-edit-' . $componente)
+            )
+        @endif
+    </x-adminlte-modal>
+
     {{-- FILTROS DE BUSQUEDA --}}
     <x-adminlte-card theme="light" title="Filtros de Búsqueda" icon="fas fa-filter" header-class="text-muted text-sm"
         collapsible>
 
         <div class="col-md-12 row">
             {{-- COMPONENTE --}}
-            <x-adminlte-input name="buscarNombre" wire:model.live.debounce.200ms="buscarNombre" oninput="this.value = this.value.toUpperCase()"
-                placeholder="Nombre del Componente..." label-class="text-lightblue" fgroup-class="col-md-3" igroup-size="sm">
+            <x-adminlte-input name="buscarNombre" wire:model.live.debounce.200ms="buscarNombre"
+                oninput="this.value = this.value.toUpperCase()" placeholder="Nombre del Componente..."
+                label-class="text-lightblue" fgroup-class="col-md-3" igroup-size="sm">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Nombre del Componente</div>
                 </x-slot>
@@ -14,12 +31,13 @@
         </div>
     </x-adminlte-card>
 
-    <x-table.tabla titulo="Lista de Componentes - Mat. Menor" pdf="exportar('pdf')" excel="exportar('excel')" dropdown_direccion="dropleft">
+    <x-table.tabla titulo="Lista de Componentes - Mat. Menor" pdf="exportar('pdf')" excel="exportar('excel')"
+        dropdown_direccion="dropleft">
 
         @can('Materiales Menor Componentes Crear')
             <x-slot name="acciones">
-                <x-adminlte-button label="Añadir Componente" class="btn-sm dropdown-item" icon="fas fa-plus" data-toggle="modal"
-                    data-target="#modal-create-componente" /> </x-slot>
+                <x-adminlte-button label="Añadir Componente" class="btn-sm dropdown-item" icon="fas fa-plus"
+                    data-toggle="modal" data-target="#modal-create-componente" /> </x-slot>
             @livewire('materiales.menor.componentes.modal-create', ['routeToRedirect' => 'materiales.menor.componentes.index', 'categoriaId' => \App\Enums\Materiales\Menor\CategoriaComponente::MATERIAL_MENOR])
         @endcan
 
@@ -45,7 +63,8 @@
                         {{-- EDITAR --}}
                         @can('Materiales Menor Componentes Editar')
                             <x-adminlte-button label="Editar" class="dropdown-item btn-sm" icon="fas fa-edit"
-                                data-toggle="modal" data-target="#modal-edit-componente-{{ $componente->id_menor_componente }}" />
+                                data-toggle="modal" data-target="#modal-edit-componente"
+                                wire:click="abrir_modal_edit({{ $componente->id_menor_componente }})" />
                         @endcan
 
                         {{-- LINEA DIVISORIA --}}
@@ -74,3 +93,27 @@
         </x-slot>
     </x-table.tabla>
 </div>
+
+@push('scripts')
+    <script>
+        // ESCUCHAR EVENTOS DE LIVEWIRE
+        document.addEventListener('livewire:init', () => {
+
+            // EVENTO PARA ABRIR EL MODAL
+            Livewire.on('abrir-modal-edit', (event) => {
+                $('#modal-edit-componente').modal('show');
+            });
+
+            document.addEventListener('livewire:init', () => {
+                $('#modal-edit-componente').on('hidden.bs.modal', function() {
+
+                    // 🔥 Quitar foco del botón problemático
+                    document.activeElement.blur();
+
+                    // 🔥 Notificar a Livewire
+                    Livewire.dispatch('cerrar-modal-edit');
+                });
+            });
+        });
+    </script>
+@endpush
