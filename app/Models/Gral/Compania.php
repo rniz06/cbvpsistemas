@@ -73,7 +73,7 @@ class Compania extends Model implements Auditable
 
     # FILTRO DIRECTO: TOMA PRIMER ROL DEL USUARIO EN EL MODULO DE MATERIALES 
     # DEPENDIENDO DEL ROL TRAE LISTADO COMPLETO DE COMPANIAS O SOLO EL ESPECIFICO
-    public function scopeFiltrarPorRolMateriales(Builder $query) : Builder
+    public function scopeFiltrarPorRolMateriales(Builder $query): Builder
     {
         $usuario = Auth::user();
 
@@ -105,4 +105,20 @@ class Compania extends Model implements Auditable
             default => $query->orderBy('orden'),
         };
     }
+
+    /**
+     * Busqueda por campo nombre.
+     */
+    public function scopeBuscarIdCompania(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, int $search) {
+            $query->where('id_compania', $search);
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FIN SCOPES LOCALES PARA FILTROS
+    |--------------------------------------------------------------------------
+    */
 }

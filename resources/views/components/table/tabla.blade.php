@@ -10,6 +10,7 @@
     'paginacion' => null,
     'paginado' => 'paginado',
     'dropdown_direccion' => '', // Opciones: dropright, dropleft, dropup.
+    'acciones' => null,
 ])
 
 <x-adminlte-card :icon="$icono" :title="$titulo"  :theme="$tema" :theme-mode="$tema_modo" header-class="text-dark">
