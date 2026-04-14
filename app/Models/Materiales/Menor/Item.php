@@ -24,7 +24,7 @@ class Item extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_item';
 
-    protected $fillable = ['componente_id', 'marca_id', 'estado_id', 'compania_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------

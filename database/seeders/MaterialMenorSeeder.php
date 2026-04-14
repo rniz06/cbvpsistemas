@@ -156,24 +156,24 @@ class MaterialMenorSeeder extends Seeder
             ["nombre" => "BOLSO RIT", "categoria_id" => 3],
         ]);
 
-        $permisos = [
-            'Material Menor Marcas Listar',
-            'Material Menor Marcas Crear',
-            'Material Menor Marcas Editar',
-            'Material Menor Marcas Eliminar',
+        // $permisos = [
+        //     'Material Menor Marcas Listar',
+        //     'Material Menor Marcas Crear',
+        //     'Material Menor Marcas Editar',
+        //     'Material Menor Marcas Eliminar',
 
-            'Material Menor Agregar Accion',
-            'Material Menor Ver Compania',
-            'Material Menor Ver Ficha',
-        ];
+        //     'Material Menor Agregar Accion',
+        //     'Material Menor Ver Compania',
+        //     'Material Menor Ver Ficha',
+        // ];
 
-        foreach ($permisos as $permiso) {
-            Permission::create([
-                'name' => $permiso,
-                'guard_name' => 'web',
-                'modulo_id' => 5, # Materiales
-                'sub_modulo_id' => 7, # Menor
-            ]);
-        }
+        // foreach ($permisos as $permiso) {
+        //     Permission::create([
+        //         'name' => $permiso,
+        //         'guard_name' => 'web',
+        //         'modulo_id' => 5, # Materiales
+        //         'sub_modulo_id' => 7, # Menor
+        //     ]);
+        // }
     }
 }
