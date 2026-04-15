@@ -19,8 +19,8 @@ class VerCompania extends Component
 
     use WithPagination;
 
-    # COMPANIA A VER - PAGINACION - CONDICIONAL PARA FORM ALTA
-    public $compania, $paginado, $ver_form_alta = false;
+    # COMPANIA A VER - PAGINACION - CONDICIONAL PARA FORM ALTA - CONDICIONAL PARA FORM EDICION - ID DEL ITEM A EDITAR
+    public $compania, $paginado, $ver_form_alta = false, $ver_form_edicion = false, $item_id = null;
 
     # FUNCION MOUNT DE LIVEWIRE
     public function mount(Compania $compania)
@@ -53,5 +53,17 @@ class VerCompania extends Component
             ->where('compania_id', $this->compania->id_compania)
             ->with(['componente:id_menor_componente,nombre,categoria_id'])
             ->whereRelation('componente', 'categoria_id', CategoriaComponente::MATERIAL_MENOR);
+    }
+
+    public function form_edicion($item_id)
+    {
+        $this->item_id = $item_id;
+        $this->ver_form_edicion = ! $this->ver_form_edicion;    
+    }
+
+    public function form_edicion_cerrar()
+    {
+        $this->ver_form_edicion = ! $this->ver_form_edicion;    
+        $this->item_id = null;
     }
 }

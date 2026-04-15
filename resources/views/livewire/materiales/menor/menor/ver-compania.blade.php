@@ -9,6 +9,14 @@
         </div>
     @endif
 
+    @if ($ver_form_edicion and $item_id)
+        <br>
+        <div class="col-md-12">
+            @livewire('materiales.menor.menor.edit', ['item' => $item_id])
+            
+        </div>
+    @endif
+
     {{-- ITEMS --}}
     <div class="col-md-12">
         <x-table.tabla titulo="Material Menor" dropdown_direccion="dropleft" paginado="paginado">
@@ -45,11 +53,17 @@
                     <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
                     <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
                     <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
-                    @can('Material Menor Ver')
+                    @can('Material Menor Editar')
                         <td>
-                            <a href="#" class="btn btn-sm w-100">
-                                <i class="fas fa-edit mr-1"></i> Actualizar
-                            </a>
+                            @if ($ver_form_edicion == false)
+                                <x-adminlte-button theme="outline-warning" label="Actualizar" class="btn-sm" icon="fas fa-edit"
+                                    wire:click="form_edicion({{ $item->id_menor_item }})" />
+                            @endif
+
+                            @if ($ver_form_edicion == true)
+                                <x-adminlte-button theme="outline-warning" label="Cerrar" class="btn-sm" icon="fas fa-times"
+                                    wire:click="form_edicion_cerrar" />
+                            @endif
                         </td>
                     @endcan
                 </tr>

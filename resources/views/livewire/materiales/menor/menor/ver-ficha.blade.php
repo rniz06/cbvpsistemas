@@ -10,12 +10,12 @@
                 <x-adminlte-input name="" label="Item:" value="{{ $item->componente->nombre ?? 'S/D' }}"
                     fgroup-class="col-md-3" igroup-size="sm" readonly />
 
-                {{-- MARCA --}}
-                <x-adminlte-input name="" label="Marca:" value="{{ $item->marca->nombre ?? 'S/D' }}"
+                {{-- CANTIDAD OPERATIVO --}}
+                <x-adminlte-input name="" label="Cant. Operativo:" value="{{ $item->cantidad_operativo ?? 'S/D' }}"
                     fgroup-class="col-md-3" igroup-size="sm" readonly />
 
-                {{-- ESTADO --}}
-                <x-adminlte-input name="" label="Estado:" value="{{ $item->estado->operatividad ?? 'S/D' }}"
+                {{-- CANTIDAD INOPERATIVO --}}
+                <x-adminlte-input name="" label="Cant. Inoperativo:" value="{{ $item->cantidad_inoperativo ?? 'S/D' }}"
                     fgroup-class="col-md-3" igroup-size="sm" readonly />
 
                 {{-- COMPANIA --}}
@@ -28,7 +28,7 @@
     @if ($ver_form_alta)
         <br>
         <div class="col-md-12">
-            @livewire('materiales.menor.menor.create-comentario', ['item' => $item->id_menor_item])
+            @livewire('materiales.menor.menor.edit', ['item' => $item->id_menor_item])
         </div>
     @endif
 
@@ -37,9 +37,9 @@
     <div class="col-md-12">
         <x-table.tabla titulo="Comentarios" dropdown_direccion="dropleft" paginado="paginado">
 
-            @can('Material Menor Agregar Accion')
+            @can('Material Menor Editar')
                 <x-slot name="acciones">
-                    <x-adminlte-button :label="$ver_form_alta ? 'Cerrar Formulario' : 'Añadir Acción'" class="btn-sm dropdown-item" :icon="$ver_form_alta ? 'fas fa-times' : 'fas fa-plus'"
+                    <x-adminlte-button :label="$ver_form_alta ? 'Cerrar Formulario' : 'Actualizar'" class="btn-sm dropdown-item" :icon="$ver_form_alta ? 'fas fa-times' : 'fas fa-plus'"
                         wire:click="$toggle('ver_form_alta')" />
                 </x-slot>
             @endcan
