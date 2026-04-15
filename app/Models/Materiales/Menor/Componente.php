@@ -60,6 +60,12 @@ class Componente extends Model implements Auditable
         $query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 
+    # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
+    public function scopeForestales(Builder $query): void
+    {
+        $query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
+    }
+
     /**
      * Busqueda por campo nombre.
      */
