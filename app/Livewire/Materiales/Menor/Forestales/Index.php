@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Materiales\Menor\Menor;
+namespace App\Livewire\Materiales\Menor\Forestales;
 
 use App\Models\Gral\Compania;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +38,7 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.materiales.menor.menor.index', [
+        return view('livewire.materiales.menor.forestales.index', [
             'companias' => $this->queryBase()->paginate($this->paginado, [''], 'companias-page'),
         ]);
     }

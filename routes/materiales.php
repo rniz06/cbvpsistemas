@@ -4,6 +4,7 @@ use App\Http\Controllers\Materiales\ConductorController;
 use App\Http\Controllers\Materiales\EquipoHidraulicoController;
 use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\Materiales\Menor\ComponenteController;
+use App\Http\Controllers\Materiales\Menor\EquipoForestalController;
 use App\Http\Controllers\Materiales\Menor\MarcaController;
 use App\Http\Controllers\Materiales\Menor\MenorController;
 use App\Http\Controllers\Materiales\Reportes\ReporteController;
@@ -128,6 +129,13 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
     Route::prefix('/menor')->name('menor.')->group(function () {
         # MENOR
         Route::controller(MenorController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
+            Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
+        });
+
+        # FORESTALES
+        Route::controller(EquipoForestalController::class)->prefix('/forestales')->name('forestales.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
             Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
