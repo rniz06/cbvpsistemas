@@ -12,7 +12,7 @@
     @if ($ver_form_edicion and $item_id)
         <br>
         <div class="col-md-12">
-            @livewire('materiales.menor.menor.edit', ['item' => $item_id])
+            @livewire('materiales.menor.forestales.edit', ['item' => $item_id])
             
         </div>
     @endif
