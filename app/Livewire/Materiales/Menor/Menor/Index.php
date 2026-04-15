@@ -51,14 +51,14 @@ class Index extends Component
     public function render()
     {
         return view('livewire.materiales.menor.menor.index', [
-            'companias' => $this->queryBase()->paginate($this->paginado),
+            'companias' => $this->queryBase()->paginate($this->paginado, [''], 'companias-page'),
         ]);
     }
 
     # QUERY BASE
     public function queryBase()
     {
-        return Compania::filtrarPorRolMateriales()
+        return Compania::select('id_compania', 'compania')->filtrarPorRolMateriales()
             ->buscarIdCompania($this->buscarIdCompania);
     }
 
