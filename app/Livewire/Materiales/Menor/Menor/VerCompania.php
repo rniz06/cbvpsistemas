@@ -49,13 +49,9 @@ class VerCompania extends Component
     # QUERY BASE
     public function queryBase()
     {
-        return Item::select('id_menor_item', 'componente_id', 'marca_id', 'estado_id')
+        return Item::select('id_menor_item', 'componente_id', 'cantidad_operativo', 'cantidad_inoperativo')
             ->where('compania_id', $this->compania->id_compania)
-            ->with([
-                'componente:id_menor_componente,nombre,categoria_id',
-                'marca:id_menor_marca,nombre',
-                'estado:id_operatividad,operatividad'
-            ])
+            ->with(['componente:id_menor_componente,nombre,categoria_id'])
             ->whereRelation('componente', 'categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 }

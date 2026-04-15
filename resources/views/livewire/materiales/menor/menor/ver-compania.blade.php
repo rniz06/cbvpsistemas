@@ -27,42 +27,28 @@
                 {{-- NOMBRE --}}
                 <th>Nombre</th>
 
-                {{-- MARCA --}}
-                <th>Marca</th>
+                {{-- CANTIDAD DE OPERATIVOS --}}
+                <th>Cant. Operativos</th>
 
-                {{-- COMPAÑIA --}}
-                <th>Estado</th>
+                {{-- CANTIDAD DE INOPERATIVOS --}}
+                <th>Cant. Inoperativos</th>
 
                 @can('Material Menor Ver')
-                    <th></th>
+                    <th>Acciones</th>
                 @endcan
 
             </x-slot>
 
-            @forelse ($items as $index => $item)
+            @forelse ($items as $item)
                 <tr>
                     <td>{{ $loop->iteration + $items->firstItem() - 1 }}</td>
                     <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
-                    <td>{{ $item->marca->nombre ?? 'S/D' }}</td>
-                    <td>
-                        @if ($item->estado->operatividad === 'OPERATIVO')
-                            <span class="badge badge-success">OPERATIVO</span>
-                        @elseif ($item->estado->operatividad === 'INOPERATIVO')
-                            <span class="badge badge-danger">INOPERATIVO</span>
-                        @else
-                            <span class="badge badge-secondary">S/D</span>
-                        @endif
-                    </td>
+                    <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
+                    <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
                     @can('Material Menor Ver')
                         <td>
-                            <a href="{{ route('materiales.menor.ver-ficha', $item->id_menor_item) }}"
-                                class="btn btn-sm w-100 
-                            @if ($item->estado->operatividad === 'OPERATIVO') btn-outline-success
-                            @elseif ($item->estado->operatividad === 'INOPERATIVO')
-                                btn-outline-danger
-                            @else
-                                btn-outline-secondary @endif">
-                                <i class="fas fa-eye mr-1"></i> Ver Ficha
+                            <a href="#" class="btn btn-sm w-100">
+                                <i class="fas fa-edit mr-1"></i> Actualizar
                             </a>
                         </td>
                     @endcan
@@ -97,9 +83,9 @@
                 select: '#componente_id'
             })
 
-            new SlimSelect({
-                select: '#marca_id'
-            })
+            // new SlimSelect({
+            //     select: '#marca_id'
+            // })
         });
     </script>
 @endpush

@@ -94,7 +94,6 @@ class MaterialMenorSeeder extends Seeder
             ["nombre" => "SOMBRERO", "categoria_id" => 1],
             ["nombre" => "AHUMADOR", "categoria_id" => 1],
             ["nombre" => "MAMELUCO", "categoria_id" => 1],
-            ["nombre" => "TRÍPODE", "categoria_id" => 1],
             ["nombre" => "CARRETEL", "categoria_id" => 1],
             ["nombre" => "LINTERNA", "categoria_id" => 1],
             ["nombre" => "REFLECTOR", "categoria_id" => 1],

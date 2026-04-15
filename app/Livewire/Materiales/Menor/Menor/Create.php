@@ -22,23 +22,36 @@ class Create extends Component
 
     # PROPIEDADES DEL FORMULARIO
     #[Validate]
-    public $componente_id, $marca_id, $compania_id;
+    public $componente_id, $cantidad_operativo = 0, $cantidad_inoperativo = 0, $compania_id;
 
     # PROPIEDADES DE LOS SELECTS
     public $componentes, $marcas;
 
     public function mount(int $companiaId)
     {
-        $this->componentes  = Componente::menor()->get(['id_menor_componente', 'nombre']);
-        $this->marcas       = Marca::get(['id_menor_marca', 'nombre']);
+        $this->componentes  = Componente::menor()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
         $this->compania_id  = $companiaId; # ID DE COMPANIA RECIBIDA
     }
 
     protected function rules()
     {
         return [
-            'componente_id'  => ['required', Rule::exists(Componente::class, 'id_menor_componente')],
-            'marca_id'       => ['required', 'integer', Rule::exists(Marca::class, 'id_menor_marca')],
+            'componente_id'  => [
+                'required',
+                Rule::exists(Componente::class, 'id_menor_componente'),
+                Rule::unique(Item::class, 'componente_id')->where('compania_id', $this->compania_id)
+            ],
+            'cantidad_operativo' => ['required', 'integer', 'min:0'],
+            'cantidad_inoperativo' => ['required', 'integer', 'min:0'],
+        ];
+    }
+
+    protected function messages() 
+    {
+        return [
+            'componente_id.required' => 'El campo :attribute es requerido.',
+            'componente_id.exists' => 'Selecciona una opción valida para el campo :attribute.',
+            'componente_id.unique' => 'Ya existe un item con el mismo componente en esta compañia.',
         ];
     }
 
@@ -49,11 +62,11 @@ class Create extends Component
         try {
 
             Item::create([
-                'componente_id' => $this->componente_id,
-                'marca_id'      => $this->marca_id,
-                'estado_id'     => 1, # OPERATIVO POR DEFECTO
-                'compania_id'   => $this->compania_id,
-                'creadoPor'     => Auth::id(),
+                'componente_id'        => $this->componente_id,
+                'cantidad_operativo'   => $this->cantidad_operativo,
+                'cantidad_inoperativo' => $this->cantidad_inoperativo,
+                'compania_id'          => $this->compania_id,
+                'creadoPor'            => Auth::id(),
             ]);
 
             session()->flash('success', 'MATERIAL MENOR CREADO CORRECTAMENTE');
@@ -63,7 +76,7 @@ class Create extends Component
                 'NO SE PUDO CREAR - ' . $e->getMessage()
             );
         }
-        $this->reset(['componente_id', 'marca_id']);
+        $this->reset(['componente_id', 'cantidad_operativo', 'cantidad_inoperativo']);
         return redirect()->route('materiales.menor.ver-compania', $this->compania_id);
     }
 
