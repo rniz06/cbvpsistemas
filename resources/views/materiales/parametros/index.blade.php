@@ -95,11 +95,11 @@
     <h4 class="font-weight-bold">Material Menor</h4>
     <div class="row">
         <!-- Cada callout ocupa 3 columnas (12/4=3) -->
-        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.marcas.index') }}">
+        {{-- <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.marcas.index') }}">
             <div class="callout callout-warning">
                 <h5>Marcas</h5>
             </div>
-        </a>
+        </a> --}}
 
         <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.componentes.index') }}">
             <div class="callout callout-warning">
