@@ -149,6 +149,7 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
         # COMPONENTES
         Route::controller(ComponenteController::class)->prefix('/componentes')->name('componentes.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/forestales', 'indexForestales')->name('index-forestales');
         });
     });
     /*

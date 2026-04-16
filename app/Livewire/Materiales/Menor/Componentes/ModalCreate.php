@@ -48,7 +48,7 @@ class ModalCreate extends Component
         try {
             Componente::create([
                 'nombre'       => $this->nombre,
-                'categoria_id' => CategoriaComponente::MATERIAL_MENOR,
+                'categoria_id' => $this->categoriaId,
                 'creadoPor'    => Auth::id(),
             ]);
             session()->flash('success', 'COMPONENTE REGISTRADO CORRECTAMENTE!');
