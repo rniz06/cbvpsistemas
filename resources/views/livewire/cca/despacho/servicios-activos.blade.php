@@ -173,6 +173,7 @@
                 <th>Servicio:</th>
                 <th>Clasificación:</th>
                 <th>Información:</th>
+                <th>Fecha Y Hora:</th>
                 <th>Ver:</th>
             </x-slot>
 
