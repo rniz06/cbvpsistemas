@@ -44,12 +44,12 @@ class ServiciosActivos extends Component
                 ->orderBy('compania')
                 ->paginate($this->paginadolistadoActivos, ['*'], 'listadoActivos_page'),
 
-            'listadoSinCompanias' => VtExistente::select('id_servicio_existente', 'servicio', 'clasificacion', 'informacion_servicio')
+            'listadoSinCompanias' => VtExistente::select('id_servicio_existente', 'servicio', 'clasificacion', 'informacion_servicio', 'fecha_alfa')
                 ->where('estado_id', 1) // Inicializado - Denunciado en alfa
                 ->where('despacho_policia', false) # NO DESPACHO DE 911
                 ->paginate($this->paginadolistadoSinCompanias, ['*'], 'listadoSinCompanias_page'),
 
-            'listadoSinMoviles' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'informacion_servicio')
+            'listadoSinMoviles' => VtExistente::select('id_servicio_existente', 'compania', 'servicio', 'clasificacion', 'informacion_servicio', 'fecha_alfa')
                 ->where('estado_id', 2) // Compañia Despachada
                 ->where('despacho_policia', false) # NO DESPACHO DE 911
                 ->orderBy('compania')
