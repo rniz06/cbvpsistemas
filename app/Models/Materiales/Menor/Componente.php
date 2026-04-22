@@ -31,6 +31,11 @@ class Componente extends Model implements Auditable
     |---------------------------------------
     */
 
+    public function tipo(): BelongsTo
+    {
+        return $this->belongsTo(Tipo::class, 'tipo_id');
+    }
+
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'categoria_id');

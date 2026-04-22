@@ -4,19 +4,19 @@ namespace App\Models\Materiales\Menor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Categoria extends Model
+class Tipo extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable, SoftDeletes;
 
-    protected $table = "MAT_menor_categorias";
+    protected $table = "MAT_menor_tipos";
 
-    protected $primaryKey = 'id_menor_categoria';
+    protected $primaryKey = 'id_menor_tipo';
 
-    protected $fillable = ['nombre', 'padre_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['tipo', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -26,7 +26,7 @@ class Categoria extends Model
 
     public function componentes(): HasMany
     {
-        return $this->hasMany(Componente::class, 'categoria_id');
+        return $this->hasMany(Componente::class, 'tipo_id');
     }
 
     /*
