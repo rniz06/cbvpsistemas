@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_menor_componente');
             $table->string('nombre', 100);
             $table->foreignId('tipo_id')->constrained('MAT_menor_tipos', 'id_menor_tipo')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('categoria_id')->constrained('MAT_menor_categorias', 'id_menor_categoria')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('categoria_id')->nullable()->constrained('MAT_menor_categorias', 'id_menor_categoria')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

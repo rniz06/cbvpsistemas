@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('cantidad_operativo')->default(0);
             $table->integer('cantidad_inoperativo')->default(0);
             $table->foreignId('compania_id')->constrained('GRAL_companias', 'id_compania')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('marca_id')->constrained('MAT_menor_marcas', 'id_menor_marca')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('marca_id')->nullable()->constrained('MAT_menor_marcas', 'id_menor_marca')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
