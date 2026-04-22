@@ -24,7 +24,7 @@ class Item extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_item';
 
-    protected $fillable = ['componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -42,10 +42,10 @@ class Item extends Model implements Auditable
         return $this->belongsTo(Marca::class, 'marca_id');
     }
 
-    public function estado(): BelongsTo
-    {
-        return $this->belongsTo(Operatividad::class, 'estado_id');
-    }
+    // public function estado(): BelongsTo
+    // {
+    //     return $this->belongsTo(Operatividad::class, 'estado_id');
+    // }
 
     public function compania(): BelongsTo
     {

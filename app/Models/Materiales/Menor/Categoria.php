@@ -4,6 +4,7 @@ namespace App\Models\Materiales\Menor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,13 +16,18 @@ class Categoria extends Model
 
     protected $primaryKey = 'id_menor_categoria';
 
-    protected $fillable = ['nombre', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'padre_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
     | RELACIONES DEL MODELO
     |---------------------------------------
     */
+
+    public function padre(): BelongsTo
+    {
+        return $this->belongsTo(Categoria::class, 'padre_id');
+    }
 
     public function componentes(): HasMany
     {
