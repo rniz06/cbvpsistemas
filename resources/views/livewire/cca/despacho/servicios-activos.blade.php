@@ -123,6 +123,7 @@
                 <th>Servicio:</th>
                 <th>Clasificación:</th>
                 <th>Información:</th>
+                <th>Fecha Y Hora:</th>
                 <th>Ver:</th>
             </x-slot>
 
@@ -141,6 +142,7 @@
                         <td>{{ $listadoSinCompania->servicio ?? 'N/A' }}</td>
                         <td>{{ $listadoSinCompania->clasificacion ?? 'N/A' }}</td>
                         <td>{{ $listadoSinCompania->informacion_servicio ?? 'N/A' }}</td>
+                        <td>{{ optional($listadoSinCompania->fecha_alfa)->format('d/m/Y H:i:s') ?? 'N/A' }}</td>
                         <td>
                             <a class="btn btn-success btn-sm"
                                 href="{{ route('cca.despacho.despacho-por-servicio-add-compania', $listadoSinCompania->id_servicio_existente) }}"><i
@@ -190,6 +192,7 @@
                         <td>{{ $listadoSinMovil->servicio ?? 'N/A' }}</td>
                         <td>{{ $listadoSinMovil->clasificacion ?? 'N/A' }}</td>
                         <td>{{ $listadoSinMovil->informacion_servicio ?? 'N/A' }}</td>
+                        <td>{{ optional($listadoSinMovil->fecha_alfa)->format('d/m/Y H:i:s') ?? 'N/A' }}</td>
                         <td>
                             <a class="btn btn-success btn-sm"
                                 href="{{ route('cca.despacho.despacho-por-servicio-final', $listadoSinMovil->id_servicio_existente) }}"><i
