@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
+use App\Enums\Materiales\Menor\TipoMenor;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Operatividad;
 use App\Models\User;
@@ -68,6 +69,21 @@ class Item extends Model implements Auditable
     | SCOPES LOCALES PARA FILTROS
     |---------------------------------------
     */
+
+    public function scopeMenor(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::MENOR);
+    }
+
+    public function scopeForestales(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::FORESTALES);
+    }
+
+    public function scopeEras(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::ERAS);
+    }
 
     public function scopeOperativos(Builder $query): void
     {

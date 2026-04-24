@@ -4,11 +4,11 @@ namespace App\Models\Materiales\Menor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Categoria extends Model
+class Categoria extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable, SoftDeletes;
 
@@ -16,7 +16,7 @@ class Categoria extends Model
 
     protected $primaryKey = 'id_menor_categoria';
 
-    protected $fillable = ['nombre', 'padre_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------

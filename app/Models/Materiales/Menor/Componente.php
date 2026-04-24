@@ -2,7 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
-use App\Enums\Materiales\Menor\CategoriaComponente;
+use App\Enums\Materiales\Menor\TipoMenor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,10 +19,10 @@ class Componente extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_componente';
 
-    protected $fillable = ['nombre', 'categoria_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'tipo_id', 'categoria_id', 'creadoPor', 'actualizadoPor'];
 
     protected $casts = [
-        'categoria_id' => CategoriaComponente::class,
+        'tipo_id' => TipoMenor::class,
     ];
 
     /*
@@ -62,13 +62,13 @@ class Componente extends Model implements Auditable
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeMenor(Builder $query): void
     {
-        $query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
+        #$query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeForestales(Builder $query): void
     {
-        $query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
+        #$query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
     }
 
     /**
