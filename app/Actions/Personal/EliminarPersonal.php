@@ -3,6 +3,7 @@
 namespace App\Actions\Personal;
 
 use App\Models\Personal;
+use Illuminate\Support\Facades\DB;
 
 class EliminarPersonal
 {
@@ -11,12 +12,11 @@ class EliminarPersonal
      */
     public function handle(Personal $personal): void
     {
-        # VALIDAR QUE EXISTE REGISTRO CON ESE ID
-        if (!$personal->exists) {
-            throw new \Exception('EL REGISTRO CON ESE ID NO EXISTE');
-        }
+        DB::transaction(function () use ($personal) {
 
-        # ELIMINAR REGISTRO
-        $personal->delete();
+            $personal->tableusuario?->delete();
+
+            $personal->delete();
+        });
     }
 }
