@@ -1,7 +1,7 @@
 <div>
     <div class="row col-md-12">
         <div class="col-md-6">
-            <x-table.tabla titulo="Material Menor">
+            <x-table.tabla titulo="Material Menor" paginado="paginadoMenor">
 
                 <x-slot name="encabezados">
                     <th>#</th>
@@ -44,15 +44,11 @@
                 </x-slot>
 
             </x-table.tabla>
-            <br>
-            @foreach ($menor as $item)
-                {{ $item ?? 'S/D' }}
-            @endforeach
         </div>
 
         {{-- EQUIPOS FORESTALES --}}
         <div class="col-md-6">
-            <x-table.tabla titulo="Equipos Forestales">
+            <x-table.tabla titulo="Equipos Forestales" paginado="paginadoForestales">
 
                 <x-slot name="encabezados">
                     <th>#</th>
@@ -94,10 +90,6 @@
                 </x-slot>
 
             </x-table.tabla>
-            <br>
-            @foreach ($forestales as $item)
-                {{ $item ?? 'S/D' }}
-            @endforeach
         </div>
     </div>
 </div>
