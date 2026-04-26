@@ -20,7 +20,7 @@ class Index extends Component
     # PROPIEDADES DE BUSQUEDA Y PAGINACION
     #public $buscador = '', $buscarCompania = '', $buscarDepartamentoId = '', $buscarCiudadId = '', $buscarRegionId = '', $paginado;
 
-    public $paginadoMenor, $paginadoForestales, $paginadoEras;
+    public $paginadoMenor, $paginadoForestales;
 
     # PROPIEDADES PARA LOS SELECTS
     #public $departamentos = [], $ciudades = [], $regiones = [];
@@ -31,15 +31,13 @@ class Index extends Component
 
         $this->paginadoMenor      = $paginadoDefault;
         $this->paginadoForestales = $paginadoDefault;
-        $this->paginadoEras       = $paginadoDefault;
     }
 
     public function render()
     {
         return view('livewire.materiales.menor.index', [
             'menor' => $this->queryBase()->menor()->paginate($this->paginadoMenor, [''], 'paginado-menor'),
-            'forestales' => $this->queryBase()->forestales()->get(),
-            'eras' => $this->queryBase()->eras()->get()
+            'forestales' => $this->queryBase()->forestales()->paginate($this->paginadoForestales, [''], 'paginado-forestales'),
         ]);
     }
 
