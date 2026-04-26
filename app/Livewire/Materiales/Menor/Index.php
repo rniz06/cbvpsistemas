@@ -25,6 +25,9 @@ class Index extends Component
     # PROPIEDADES PARA LOS SELECTS
     #public $departamentos = [], $ciudades = [], $regiones = [];
 
+     # PROPIEDAD PARA PASAR AL MODAL EDIT
+    public $item = null;
+
     public function mount()
     {
         $paginadoDefault = Auth::user()->paginado_por_defecto;
@@ -43,12 +46,17 @@ class Index extends Component
 
     public function queryBase()
     {
-        return Item::select('componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id')
+        return Item::select('id_menor_item','componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id')
             ->with([
                 'componente:id_menor_componente,nombre,categoria_id',
                 'componente.categoria:id_menor_categoria,nombre',
                 'compania:id_compania,compania',
                 'marca:id_menor_marca,nombre',
             ]);
+    }
+
+    public function abrirModalEdit($item)
+    {
+        $this->item = $item;
     }
 }

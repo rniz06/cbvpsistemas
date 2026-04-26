@@ -1,4 +1,13 @@
 <div>
+    {{-- MODAL COMPONENTE DE ACTUALIZACION --}}
+    <x-adminlte-modal id="modal-actualizar" title="Actualizar Registro" theme="light" icon="fas fa-edit" v-centered
+        static-backdrop size="lg">
+        @if ($item)
+            @livewire('materiales.menor.edit', ['item' => $item], key('modal-edit' . $item))
+        @endif
+        <x-slot name="footerSlot"></x-slot>
+    </x-adminlte-modal>
+
     <div class="row col-md-12">
         <div class="col-md-6">
             <x-table.tabla titulo="Material Menor" paginado="paginadoMenor">
@@ -23,11 +32,13 @@
                         <th>{{ $item->compania->compania ?? 'S/D' }}</th>
                         <th>
                             <x-tabla-dropdown>
-                                <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-ver-movimientos" />
+                                <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
+                                    class="dropdown-item btn-sm" data-toggle="modal"
+                                    data-target="#modal-ver-movimientos" />
 
                                 <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-ver-movimientos" />
+                                    data-toggle="modal" data-target="#modal-actualizar"
+                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
                             </x-tabla-dropdown>
 
                         </th>
@@ -73,7 +84,8 @@
                                     data-target="#modal-ver-movimientos" />
 
                                 <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-ver-movimientos" />
+                                    data-toggle="modal" data-target="#modal-actualizar"
+                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
                             </x-tabla-dropdown>
 
                         </th>
