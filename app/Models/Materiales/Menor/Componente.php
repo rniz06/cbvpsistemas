@@ -87,6 +87,26 @@ class Componente extends Model implements Auditable
         });
     }
 
+    /**
+     * Busqueda por campo tipo_id.
+     */
+    public function scopeBuscarTipoId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, int $search) {
+            $query->where('tipo_id', $search);
+        });
+    }
+
+    /**
+     * Busqueda por campo categoria_id.
+     */
+    public function scopeBuscarCategoriaId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, int $search) {
+            $query->where('categoria_id', $search);
+        });
+    }
+
     /*
     |---------------------------------------
     | FIN SCOPES LOCALES PARA FILTROS

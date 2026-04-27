@@ -20,6 +20,8 @@
             <tr>
                 <th style="width: 10px">#</th>
                 <th>Nombre</th>
+                <th>Componente de</th>
+                <th>Categoria</th>
             </tr>
         </thead>
 
@@ -28,6 +30,8 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $componente->nombre ?? 'S/D' }}</td>
+                    <td>{{ $componente->tipo->tipo ?? 'S/D' }}</td>
+                    <td>{{ $componente->categoria->nombre ?? 'S/D' }}</td>
                 </tr>
             @empty
                 <tr>
@@ -38,7 +42,7 @@
 
         <tfoot>
             <tr>
-                <td colspan="2" style="text-align: right; font-weight: bold;">
+                <td colspan="4" style="text-align: right; font-weight: bold;">
                     Total: {{ $datos->count() }}
                 </td>
             </tr>

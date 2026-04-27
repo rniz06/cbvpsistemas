@@ -13,17 +13,11 @@ class ComponenteController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:Materiales Menor Componentes Listar', ['only' => ['index']]);
-        $this->middleware('permission:Materiales Menor Componentes Listar', ['only' => ['indexForestales']]);
+        $this->middleware('permission:Materiales Parametros', ['only' => ['index']]);
     }
 
     public function index()
     {
         return view('materiales.menor.componentes.index');
-    }
-
-    public function indexForestales()
-    {
-        return view('materiales.menor.componentes.index-forestales');
     }
 }

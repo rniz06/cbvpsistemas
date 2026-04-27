@@ -25,13 +25,15 @@ class ExcelMenorComponentesExport implements FromCollection, WithHeadings, WithM
 
     public function headings(): array
     {
-        return ['Nombre'];
+        return ['Nombre', 'Componente de', 'Categoria'];
     }
 
     public function map($componente): array
     {
         return [
             $componente->nombre ?? 'S/D',
+            $componente->tipo->tipo ?? 'S/D',
+            $componente->categoria->nombre ?? 'S/D',
         ];
     }
 }
