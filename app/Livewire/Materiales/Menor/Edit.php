@@ -68,7 +68,7 @@ class Edit extends Component
             );
         }
 
-        return redirect()->route('materiales.menor.index');
+        return redirect()->route('materiales.menor.ver-compania', $this->registro->compania_id);
     }
 
     public function render()
