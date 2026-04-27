@@ -20,7 +20,7 @@ class VerCompania extends Component
     use WithPagination;
 
     # COMPANIA A VER - CONDICIONAL PARA FORM ALTA - CONDICIONAL PARA FORM EDICION - ID DEL ITEM A EDITAR
-    public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item_id = null;
+    public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item = null;
 
     # PAGINACION
     public $paginadoMenor, $paginadoForestales;
@@ -65,15 +65,13 @@ class VerCompania extends Component
             ]);
     }
 
-    public function form_edicion($item_id)
+    public function abrirModalEdit($item)
     {
-        $this->item_id = $item_id;
-        $this->ver_form_edicion = ! $this->ver_form_edicion;
+        $this->item = $item;
     }
 
-    public function form_edicion_cerrar()
+    public function abrirModalVerComentarios($item)
     {
-        $this->ver_form_edicion = ! $this->ver_form_edicion;
-        $this->item_id = null;
+        $this->item = $item;
     }
 }

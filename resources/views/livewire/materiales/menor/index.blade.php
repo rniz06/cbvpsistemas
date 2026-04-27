@@ -107,25 +107,28 @@
 
                 @forelse ($menor as $item)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <th>{{ $item->componente->nombre ?? 'S/D' }}</th>
-                        <th>{{ $item->componente->categoria->nombre ?? 'S/D' }}</th>
-                        <th>{{ $item->cantidad_operativo ?? 'S/D' }}</th>
-                        <th>{{ $item->cantidad_inoperativo ?? 'S/D' }}</th>
-                        <th>{{ $item->compania->compania ?? 'S/D' }}</th>
-                        <th>
+                        <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
+                        <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
+                        <td>{{ $item->componente->categoria->nombre ?? 'S/D' }}</td>
+                        <td>{{ $item->cantidad_operativo ?? 'S/D' }}</td>
+                        <td>{{ $item->cantidad_inoperativo ?? 'S/D' }}</td>
+                        <td>{{ $item->compania->compania ?? 'S/D' }}</td>
+                        <td>
                             <x-tabla-dropdown>
-                                <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
-                                    class="dropdown-item btn-sm" data-toggle="modal"
-                                    data-target="#modal-ver-comentarios"
-                                    wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                                @can('Material Menor Ver')
+                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
+                                        class="dropdown-item btn-sm" data-toggle="modal"
+                                        data-target="#modal-ver-comentarios"
+                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                                @endcan
 
-                                <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-actualizar"
-                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                @can('Material Menor Editar')
+                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
+                                        data-toggle="modal" data-target="#modal-actualizar"
+                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                @endcan
                             </x-tabla-dropdown>
-
-                        </th>
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -156,24 +159,27 @@
 
                 @forelse ($forestales as $item)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <th>{{ $item->componente->nombre ?? 'S/D' }}</th>
-                        <th>{{ $item->cantidad_operativo ?? 'S/D' }}</th>
-                        <th>{{ $item->cantidad_inoperativo ?? 'S/D' }}</th>
-                        <th>{{ $item->compania->compania ?? 'S/D' }}</th>
-                        <th>
+                        <td>{{ $loop->iteration + $forestales->firstItem() - 1 }}</td>
+                        <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
+                        <td>{{ $item->cantidad_operativo ?? 'S/D' }}</td>
+                        <td>{{ $item->cantidad_inoperativo ?? 'S/D' }}</td>
+                        <td>{{ $item->compania->compania ?? 'S/D' }}</td>
+                        <td>
                             <x-tabla-dropdown>
-                                <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
-                                    class="dropdown-item btn-sm" data-toggle="modal"
-                                    data-target="#modal-ver-comentarios"
-                                    wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                                @can('Material Menor Ver')
+                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
+                                        class="dropdown-item btn-sm" data-toggle="modal"
+                                        data-target="#modal-ver-comentarios"
+                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                                @endcan
 
-                                <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-actualizar"
-                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                @can('Material Menor Editar')
+                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
+                                        data-toggle="modal" data-target="#modal-actualizar"
+                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                @endcan
                             </x-tabla-dropdown>
-
-                        </th>
+                        </td>
                     </tr>
                 @empty
                     <tr>
