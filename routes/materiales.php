@@ -134,13 +134,6 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
             Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
         });
 
-        # FORESTALES
-        Route::controller(EquipoForestalController::class)->prefix('/forestales')->name('forestales.')->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
-            Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
-        });
-
         # MARCAS
         Route::controller(MarcaController::class)->prefix('/marcas')->name('marcas.')->group(function () {
             Route::get('/', 'index')->name('index');
