@@ -8,6 +8,15 @@
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
+    {{-- MODAL COMPONENTE VER COMENTARIOS --}}
+    <x-adminlte-modal id="modal-ver-comentarios" title="Historil de Movimientos" theme="light" icon="fas fa-list-ul"
+        v-centered static-backdrop size="xl">
+        @if ($item)
+            @livewire('materiales.menor.ver-comentarios', ['item' => $item], key('modal-ver-comentarios' . $item))
+        @endif
+        <x-slot name="footerSlot"></x-slot>
+    </x-adminlte-modal>
+
     <div class="row col-md-12">
         <div class="col-md-6">
             <x-table.tabla titulo="Material Menor" paginado="paginadoMenor">
@@ -34,7 +43,8 @@
                             <x-tabla-dropdown>
                                 <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
                                     class="dropdown-item btn-sm" data-toggle="modal"
-                                    data-target="#modal-ver-movimientos" />
+                                    data-target="#modal-ver-comentarios"
+                                    wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
 
                                 <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
                                     data-toggle="modal" data-target="#modal-actualizar"
@@ -81,7 +91,8 @@
                             <x-tabla-dropdown>
                                 <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
                                     class="dropdown-item btn-sm" data-toggle="modal"
-                                    data-target="#modal-ver-movimientos" />
+                                    data-target="#modal-ver-comentarios"
+                                    wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
 
                                 <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
                                     data-toggle="modal" data-target="#modal-actualizar"

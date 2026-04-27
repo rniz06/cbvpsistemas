@@ -59,4 +59,9 @@ class Index extends Component
     {
         $this->item = $item;
     }
+
+    public function abrirModalVerComentarios($item)
+    {
+        $this->item = $item;
+    }
 }

@@ -25,8 +25,8 @@
 
 
     <div class="modal-footer">
-        <x-adminlte-button type="submit" theme="outline-success" icon="fas fa-save" label="Guardar cambios" />
-        <x-adminlte-button theme="outline-secondary" label="Cerrar" icon="fas fa-window-close" data-dismiss="modal" />
+        <x-adminlte-button type="submit" theme="outline-success" icon="fas fa-save" class="btn-sm" label="Guardar cambios" />
+        <x-adminlte-button theme="outline-secondary" label="Cerrar" icon="fas fa-window-close" class="btn-sm" data-dismiss="modal" />
     </div>
 
 </form>
