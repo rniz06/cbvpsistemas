@@ -61,6 +61,7 @@ class Index extends Component
         return Item::select('id_menor_item', 'componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id')
             ->buscarComponenteId($this->buscarComponenteId)
             ->buscarCompaniaId($this->buscarCompaniaId)
+            ->filtrarPorRolMateriales()
             ->with([
                 'componente:id_menor_componente,nombre,categoria_id',
                 'componente.categoria:id_menor_categoria,nombre',

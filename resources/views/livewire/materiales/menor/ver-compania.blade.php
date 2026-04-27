@@ -52,9 +52,7 @@
                     {{-- CANTIDAD DE INOPERATIVOS --}}
                     <th>Cant. Inoperativos</th>
 
-                    @can('Material Menor Ver')
-                        <th>Acciones</th>
-                    @endcan
+                    <th>Acciones</th>
 
                 </x-slot>
 
@@ -112,31 +110,32 @@
                     {{-- CANTIDAD DE INOPERATIVOS --}}
                     <th>Cant. Inoperativos</th>
 
-                    @can('Material Menor Ver')
-                        <th>Acciones</th>
-                    @endcan
+                    <th>Acciones</th>
 
                 </x-slot>
 
                 @forelse ($forestales as $item)
                     <tr>
-                        <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
+                        <td>{{ $loop->iteration + $forestales->firstItem() - 1 }}</td>
                         <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
                         <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
                         <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
-                        @can('Material Menor Editar')
-                            <td>
-                                @if ($ver_form_edicion == false)
-                                    <x-adminlte-button theme="outline-warning" label="Actualizar" class="btn-sm"
-                                        icon="fas fa-edit" wire:click="form_edicion({{ $item->id_menor_item }})" />
-                                @endif
+                        <td>
+                            <x-tabla-dropdown>
+                                @can('Material Menor Ver')
+                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
+                                        class="dropdown-item btn-sm" data-toggle="modal"
+                                        data-target="#modal-ver-comentarios"
+                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                                @endcan
 
-                                @if ($ver_form_edicion == true)
-                                    <x-adminlte-button theme="outline-warning" label="Cerrar" class="btn-sm"
-                                        icon="fas fa-times" wire:click="form_edicion_cerrar" />
-                                @endif
-                            </td>
-                        @endcan
+                                @can('Material Menor Editar')
+                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
+                                        data-toggle="modal" data-target="#modal-actualizar"
+                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                @endcan
+                            </x-tabla-dropdown>
+                        </td>
                     </tr>
                 @empty
                     <tr>
