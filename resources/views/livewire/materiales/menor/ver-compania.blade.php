@@ -1,11 +1,12 @@
 <div>
     {{-- Do your work, then step back. --}}
-    <h4>Ficha de Compañia: {{ $compania->compania ?? 'S/D' }}</h4>
+    <h4>Ficha de Compañia: {{ $compania->compania ?? 'S/D' }} - <x-adminlte-button theme="outline-success"
+            :label="$ver_form_alta ? 'Cerrar Formulario' : 'Añadir Item'" class="btn-sm" :icon="$ver_form_alta ? 'fas fa-times' : 'fas fa-plus'" wire:click="$toggle('ver_form_alta')" /></h4>
 
     @if ($ver_form_alta)
         <br>
         <div class="col-md-12">
-            @livewire('materiales.menor.menor.create', ['companiaId' => $compania->id_compania])
+            @livewire('materiales.menor.create', ['companiaId' => $compania->id_compania])
         </div>
     @endif
 

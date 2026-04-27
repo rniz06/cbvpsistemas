@@ -71,6 +71,12 @@ class Componente extends Model implements Auditable
         #$query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
     }
 
+    # RETORNAR REGISTROS QUE PERTENESCAN A MENOR Y FORESTALES
+    public function scopeMenorAndForestales(Builder $query): void
+    {
+        $query->whereIn('tipo_id', [TipoMenor::MENOR, TipoMenor::FORESTALES]);
+    }
+
     /**
      * Busqueda por campo nombre.
      */
