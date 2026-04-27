@@ -85,6 +85,16 @@ class Item extends Model implements Auditable
         $query->whereRelation('componente', 'tipo_id', TipoMenor::ERAS);
     }
 
+    public function scopeMenorAndForestales(Builder $query): void
+    {
+        $query->whereHas('componente', function ($q) {
+            $q->whereIn('tipo_id', [
+                TipoMenor::MENOR,
+                TipoMenor::FORESTALES,
+            ]);
+        });
+    }
+
     public function scopeOperativos(Builder $query): void
     {
         $query->where('estado_id', 1); # 1 -> OPERATIVO

@@ -12,7 +12,7 @@
         <x-adminlte-callout :icon="session('success') ? 'fas fa-check-circle' : 'fas fa-times'" :theme="session('success') ? 'success' : 'danger'" :title="$msg" :title-class="session('success') ? 'text-success' : 'text-danger'" />
     @endif
     {{-- INCLUIR COMPONENTE LIVEWIRE DE PERSONAL --}}
-    @livewire('materiales.menor.menor.ver-compania', ['compania' => $compania])
+    @livewire('materiales.menor.ver-compania', ['compania' => $compania])
 @stop
 
 @push('css')
