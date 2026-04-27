@@ -1,4 +1,78 @@
 <div>
+    {{-- FILTROS DE BUSQUEDA --}}
+    <x-adminlte-card theme="light" title="Filtros de Búsqueda" icon="fas fa-filter" header-class="text-muted text-sm"
+        collapsible>
+
+        <div class="col-md-12 row">
+
+            {{-- ITEMS --}}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-2" wire:ignore>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Items:</div>
+                        </div>
+                        <select class="form-control @error('buscarComponenteId') is-invalid @enderror"
+                            id="buscarComponenteId" name="buscarComponenteId"
+                            wire:model.live.debounce.200ms="buscarComponenteId">
+                            <option value="">Todos</option>
+                            @foreach ($componentes as $componente)
+                                <option value="{{ $componente->id_menor_componente }}">
+                                    {{ $componente->nombre ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {{-- CATEGORIAS --}}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-2" wire:ignore>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Categorias:</div>
+                        </div>
+                        <select class="form-control @error('buscarCategoriaId') is-invalid @enderror"
+                            id="buscarCategoriaId" name="buscarCategoriaId"
+                            wire:model.live.debounce.200ms="buscarCategoriaId">
+                            <option value="">Todos</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id_menor_categoria }}">
+                                    {{ $categoria->nombre ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {{-- COMPANIAS --}}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-2" wire:ignore>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Compañias:</div>
+                        </div>
+                        <select class="form-control @error('buscarCompaniaId') is-invalid @enderror"
+                            id="buscarCompaniaId" name="buscarCompaniaId"
+                            wire:model.live.debounce.200ms="buscarCompaniaId">
+                            <option value="">Todos</option>
+                            @foreach ($companias as $compania)
+                                <option value="{{ $compania->id_compania }}">
+                                    {{ $compania->compania ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <x-adminlte-button label="Ver Compañia" theme="outline-success" class="w-100" :disabled="!$buscarCompaniaId"
+                    onclick="window.location='{{ $buscarCompaniaId ? route('materiales.menor.ver-compania', $buscarCompaniaId) : '#' }}'" />
+            </div>
+
+        </div>
+    </x-adminlte-card>
+
     {{-- MODAL COMPONENTE DE ACTUALIZACION --}}
     <x-adminlte-modal id="modal-actualizar" title="Actualizar Registro" theme="light" icon="fas fa-edit" v-centered
         static-backdrop size="lg">
@@ -116,3 +190,25 @@
         </div>
     </div>
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        new SlimSelect({
+            select: '#buscarComponenteId'
+        })
+
+        new SlimSelect({
+            select: '#buscarCategoriaId'
+        })
+
+        new SlimSelect({
+            select: '#buscarCompaniaId'
+        })
+    </script>
+@endpush

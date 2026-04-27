@@ -108,6 +108,14 @@ class Item extends Model implements Auditable
         });
     }
 
+    # BUSCAR POR RELACION componente CAMPO categoria_id
+    public function scopeBuscarCategoriaId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, int $search) {
+            $query->whereRelation('componente', 'categoria_id', $search);
+        });
+    }
+
     # BUSCAR POR CAMPO marca_id
     public function scopeBuscarMarcaId(Builder $query, $search = null): void
     {
