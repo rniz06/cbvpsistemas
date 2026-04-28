@@ -3,6 +3,11 @@
 use App\Http\Controllers\Materiales\ConductorController;
 use App\Http\Controllers\Materiales\EquipoHidraulicoController;
 use App\Http\Controllers\Materiales\MayorController;
+use App\Http\Controllers\Materiales\Menor\CategoriaController;
+use App\Http\Controllers\Materiales\Menor\ComponenteController;
+use App\Http\Controllers\Materiales\Menor\EquipoForestalController;
+use App\Http\Controllers\Materiales\Menor\MarcaController;
+use App\Http\Controllers\Materiales\Menor\MenorController;
 use App\Http\Controllers\Materiales\Reportes\ReporteController;
 use App\Http\Controllers\Materiales\Reportes\ReporteMayorController;
 use App\Http\Controllers\MaterialParametroController;
@@ -114,6 +119,35 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
     /*
     |--------------------------------------------------------------------------
     | FIN REPORTES 
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | RUTAS DEL MODULO MENOR 
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('/menor')->name('menor.')->group(function () {
+        # MENOR
+        Route::controller(MenorController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
+            Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
+        });
+
+        # CATEGORIAS
+        Route::controller(CategoriaController::class)->prefix('/categorias')->name('categorias.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+
+        # COMPONENTES
+        Route::controller(ComponenteController::class)->prefix('/componentes')->name('componentes.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+    });
+    /*
+    |--------------------------------------------------------------------------
+    | FIN RUTAS DEL MODULO CONDUCTORES 
     |--------------------------------------------------------------------------
     */
 });

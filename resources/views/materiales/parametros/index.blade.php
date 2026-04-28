@@ -21,13 +21,11 @@
             </div>
         </a>
 
-        @can('Material Mayor Transmision Listar')
-            <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.mayor.transmision') }}">
-                <div class="callout callout-warning">
-                    <h5>Transmisión</h5>
-                </div>
-            </a>
-        @endcan
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.mayor.transmision') }}">
+            <div class="callout callout-warning">
+                <h5>Transmisión</h5>
+            </div>
+        </a>
 
         <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.mayor.ejes') }}">
             <div class="callout callout-warning">
@@ -89,6 +87,25 @@
                 <h5>Tipos</h5>
             </div>
         </a>
+    </div>
+
+    <hr>
+    <h4 class="font-weight-bold">Material Menor</h4>
+    <div class="row">
+        <!-- Cada callout ocupa 3 columnas (12/4=3) -->
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.componentes.index') }}">
+            <div class="callout callout-warning">
+                <h5>Componentes</h5>
+            </div>
+        </a>
+
+        <!-- Cada callout ocupa 3 columnas (12/4=3) -->
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.categorias.index') }}">
+            <div class="callout callout-warning">
+                <h5>Categorias</h5>
+            </div>
+        </a>
+
     </div>
 
 @stop
