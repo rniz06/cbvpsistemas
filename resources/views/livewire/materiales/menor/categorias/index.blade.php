@@ -3,7 +3,7 @@
     <x-adminlte-modal id="modal-create-categoria" title="Agregar Categoria" size="lg" static-backdrop
         icon="fas fa-plus" theme="default" v-centered>
 
-        {{-- @livewire('materiales.menor.componentes.modal-create') --}}
+        @livewire('materiales.menor.categorias.modal-create')
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
