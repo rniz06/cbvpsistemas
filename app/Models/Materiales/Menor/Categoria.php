@@ -3,6 +3,7 @@
 namespace App\Models\Materiales\Menor;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +35,16 @@ class Categoria extends Model implements Auditable
     | FIN RELACIONES DEL MODELO
     |---------------------------------------
     */
+
+    /**
+     * Busqueda por campo nombre.
+     */
+    public function scopeBuscador(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, string $search) {
+            $query->whereLike('nombre', "%{$search}%");
+        });
+    }
 
     /*
     |---------------------------------------
