@@ -1,25 +1,18 @@
 <div>
     {{-- FORMULARIO DE ALTA DE MENOR MARCA --}}
-    <x-adminlte-modal id="modal-create-componente" title="Agregar Componente" size="xl" static-backdrop icon="fas fa-tasks"
-        theme="default" v-centered>
+    <x-adminlte-modal id="modal-create-componente" title="Agregar Componente" size="xl" static-backdrop
+        icon="fas fa-plus" theme="default" v-centered>
 
         @livewire('materiales.menor.componentes.modal-create')
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
     {{-- MODAL DE EDICION --}}
-    <x-adminlte-modal id="modal-edit-componente" title="Editar Componente" size="lg" static-backdrop
-        icon="fas fa-tasks" theme="default" wire:ignore.self v-centered>
-        {{-- @if ($componente)
-            @livewire(
-                'materiales.menor.componentes.modal-edit',
-                [
-                    'componente' => $componente,
-                    'routeToRedirect' => 'materiales.menor.componentes.index',
-                    'categoriaId' => \App\Enums\Materiales\Menor\CategoriaComponente::MATERIAL_MENOR,
-                ],
-                key('modal-edit-' . $componente)
-            )
-        @endif --}}
+    <x-adminlte-modal id="modal-edit-componente" title="Editar Componente" size="xl" static-backdrop icon="fas fa-edit"
+        theme="default" v-centered>
+        @if ($componente)
+            @livewire('materiales.menor.componentes.modal-edit', ['componente' => $componente], key($componente))
+        @endif
+        <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
     {{-- FILTROS DE BUSQUEDA --}}

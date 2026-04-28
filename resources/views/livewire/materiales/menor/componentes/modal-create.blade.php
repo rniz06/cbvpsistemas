@@ -19,23 +19,6 @@
                             {{ $tipo->tipo ?? 'S/D' }}</option>
                     @endforeach
         </x-adminlte-select>
-    {{-- <div class="col-md-4">
-        <div class="form-group">
-            <div class="input-group mb-2" wire:ignore>
-                <div class="input-group-prepend">
-                    <div class="input-group-text">Componentes de:</div>
-                </div>
-                <select class="form-control @error('tipo_id') is-invalid @enderror" id="buscarTipoId"
-                    name="tipo_id" wire:model.live.debounce.200ms="tipo_id">
-                    <option value="">-- Seleccionar --</option>
-                    @foreach ($tipos as $tipo)
-                        <option value="{{ $tipo->id_menor_tipo }}">
-                            {{ $tipo->tipo ?? 'S/D' }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    </div> --}}
 
     {{-- CATEGORIAS --}}
     <div class="col-md-4">
