@@ -1,4 +1,11 @@
 <div>
+    {{-- FORMULARIO DE ALTA DE MENOR MARCA --}}
+    <x-adminlte-modal id="modal-create-componente" title="Agregar Componente" size="xl" static-backdrop icon="fas fa-tasks"
+        theme="default" v-centered>
+
+        @livewire('materiales.menor.componentes.modal-create')
+        <x-slot name="footerSlot"></x-slot>
+    </x-adminlte-modal>
     {{-- MODAL DE EDICION --}}
     <x-adminlte-modal id="modal-edit-componente" title="Editar Componente" size="lg" static-backdrop
         icon="fas fa-tasks" theme="default" wire:ignore.self v-centered>
