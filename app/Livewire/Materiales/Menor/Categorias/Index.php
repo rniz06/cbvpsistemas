@@ -19,6 +19,8 @@ class Index extends Component
     # PROPIEDADES DE BUSQUEDA Y PAGINACION
     public $buscador = '', $paginado;
 
+    public $categoria = null;
+
     # FUNCION MOUNT DE LIVEWIRE
     public function mount()
     {
@@ -48,5 +50,10 @@ class Index extends Component
         return Categoria::select('id_menor_categoria', 'nombre')
             ->buscador($this->buscador)
             ->orderBy('nombre');
+    }
+
+    public function abrir_modal_edit($id)
+    {
+        $this->categoria = $id;
     }
 }

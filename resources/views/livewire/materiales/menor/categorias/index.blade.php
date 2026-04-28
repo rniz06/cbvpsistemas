@@ -10,9 +10,9 @@
     {{-- MODAL DE EDICION --}}
     <x-adminlte-modal id="modal-edit-categoria" title="Editar Categoria" size="lg" static-backdrop icon="fas fa-edit"
         theme="default" v-centered>
-        {{-- @if ($componente)
-            @livewire('materiales.menor.componentes.modal-edit', ['componente' => $componente], key($componente))
-        @endif --}}
+        @if ($categoria)
+            @livewire('materiales.menor.categorias.modal-edit', ['categoria' => $categoria], key($categoria))
+        @endif
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
