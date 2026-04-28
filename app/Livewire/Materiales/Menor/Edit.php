@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Materiales\Menor\Forestales;
+namespace App\Livewire\Materiales\Menor;
 
 use App\Actions\Materiales\Menor\CrearComentarioItemAccion;
 use App\Models\Materiales\Menor\Item;
@@ -11,7 +11,13 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    # RESGISTRO A EDITAR
+    /*
+    |--------------------------------------------------------
+    | COMPONENTE FORMULARIO DE ACTUALIZACION DE DATOS DE ITEM
+    |--------------------------------------------------------
+    */
+
+    # COMPAÑIA A EDITAR
     public $registro;
 
     # PROPIEDADES DEL FORMULARIO
@@ -62,11 +68,11 @@ class Edit extends Component
             );
         }
 
-        return redirect()->route('materiales.menor.forestales.ver-compania', $this->registro->compania_id);
+        return redirect()->route('materiales.menor.ver-compania', $this->registro->compania_id);
     }
 
     public function render()
     {
-        return view('livewire.materiales.menor.forestales.edit');
+        return view('livewire.materiales.menor.edit');
     }
 }
