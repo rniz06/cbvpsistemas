@@ -2,14 +2,10 @@
 
 namespace App\Models\Gral;
 
-use App\Models\Materiales\Menor\Item;
 use App\Models\Materiales\Movil\Movil;
 use App\Models\Personal\Asistencia\Asistencia;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Compania extends Model implements Auditable
@@ -50,75 +46,12 @@ class Compania extends Model implements Auditable
 
     public function asistencias()
     {
-        return $this->hasMany(Asistencia::class);
-    }
-
-    # RELACION CON MODELO DE MATERIAL MENOR
-    public function items(): HasMany
-    {
-        return $this->hasMany(Item::class, 'compania_id');
+        return $this->hasMany(Asistencia::class);    
     }
 
     /*
     |--------------------------------------------------------------------------
     | FIN RELACIONES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES LOCALES PARA FILTROS
-    |--------------------------------------------------------------------------
-    */
-
-    # FILTRO DIRECTO: TOMA PRIMER ROL DEL USUARIO EN EL MODULO DE MATERIALES 
-    # DEPENDIENDO DEL ROL TRAE LISTADO COMPLETO DE COMPANIAS O SOLO EL ESPECIFICO
-    public function scopeFiltrarPorRolMateriales(Builder $query): Builder
-    {
-        $usuario = Auth::user();
-
-        $rol = $usuario->roles()
-            ->where('name', 'like', 'materiales_%')
-            ->value('name');
-
-        return match ($rol) {
-
-            # ADMIN Y SEMI -> VEN TODAS LAS COMPANIAS
-            'materiales_admin',
-            'materiales_semi_admin' => $query->orderBy('orden'),
-
-            # MODERADOR CON COMPANIA DIRECTA
-            'materiales_moderador_compania' => $query
-                ->where('id_compania', $usuario->compania_id),
-
-            # MODERADOR CON ASIGNACION PIVOTE
-            'materiales_moderador_por_compania' => $query
-                ->where('id_compania', function ($sub) use ($usuario) {
-                    $sub->select('compania_id')
-                        ->from('user_role_compania')
-                        ->where('usuario_id', $usuario->id_usuario)
-                        ->whereNotNull('compania_id')
-                        ->limit(1);
-                }),
-
-            # DEFAULT -> COMPORTAMIENTO GENERAL
-            default => $query->orderBy('orden'),
-        };
-    }
-
-    /**
-     * Busqueda por campo nombre.
-     */
-    public function scopeBuscarIdCompania(Builder $query, $search = null): void
-    {
-        $query->when($search, function (Builder $query, int $search) {
-            $query->where('id_compania', $search);
-        });
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FIN SCOPES LOCALES PARA FILTROS
     |--------------------------------------------------------------------------
     */
 }

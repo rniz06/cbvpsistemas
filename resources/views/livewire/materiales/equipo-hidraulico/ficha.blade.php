@@ -49,19 +49,20 @@
 
         @forelse ($herramientas as $herramienta)
             <tr>
-                <td>{{ $herramienta->tipo ?? 'S/D' }}</td>
-                <td>{{ $herramienta->marca ?? 'S/D' }}</td>
-                <td>{{ $herramienta->modelo ?? 'S/D' }}</td>
-                <td>{{ $herramienta->motor ?? 'S/D' }}</td>
-                <td>
-                    @if ($herramienta->operatividad === 'OPERATIVO')
-                        <span class="badge bg-success">OPERATIVO</span>
-                    @elseif($herramienta->operatividad === 'INOPERATIVO')
-                        <span class="badge bg-danger">INOPERATIVO</span>
-                    @else
-                        <span class="badge bg-secondary">{{ $herramienta->operatividad ?? 'S/D' }}</span>
-                    @endif
-                </td>
+                <td>{{ $herramienta->tipo ?? 'N/A' }}</td>
+                <td>{{ $herramienta->marca ?? 'N/A' }}</td>
+                <td>{{ $herramienta->modelo ?? 'N/A' }}</td>
+                <td>{{ $herramienta->motor ?? 'N/A' }}</td>
+                <td>{{ $herramienta->operatividad ?? 'N/A' }}</td>
+                @can('Equipos Hidraulicos Herramientas Ver')
+                    <td>
+                        <a href="{{ route('materiales.hidraulicos.herramientas.show', [
+                            'hidraulico' => $hidraulico->id_hidraulico,
+                            'herramienta' => $herramienta->id_hidraulico_herr,
+                        ]) }}"
+                            class="btn btn-block btn-sm btn-success">Ver Ficha</a>
+                    </td>
+                @endcan
             </tr>
         @empty
             <tr>
