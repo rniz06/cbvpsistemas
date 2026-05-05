@@ -1,6 +1,6 @@
 <div>
     {{-- Formulario --}}
-    <x-adminlte-card theme="light" title="Agregar Equipo Forestal" icon="fas fa-plus-circle" header-class="text-muted text-sm">
+    <x-adminlte-card theme="light" title="Agregar Item" icon="fas fa-plus-circle" header-class="text-muted text-sm">
         <form class="col-md-12 row" wire:submit="guardar">
 
             {{-- COMPONENTE --}}
