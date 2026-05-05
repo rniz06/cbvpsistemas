@@ -2,6 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
+use App\Enums\Materiales\Menor\TipoMenor;
 use App\Models\Gral\Compania;
 use App\Models\Materiales\Operatividad;
 use App\Models\User;
@@ -24,7 +25,7 @@ class Item extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_item';
 
-    protected $fillable = ['componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id', 'creadoPor', 'actualizadoPor'];
 
     /*
     |---------------------------------------
@@ -42,10 +43,10 @@ class Item extends Model implements Auditable
         return $this->belongsTo(Marca::class, 'marca_id');
     }
 
-    public function estado(): BelongsTo
-    {
-        return $this->belongsTo(Operatividad::class, 'estado_id');
-    }
+    // public function estado(): BelongsTo
+    // {
+    //     return $this->belongsTo(Operatividad::class, 'estado_id');
+    // }
 
     public function compania(): BelongsTo
     {
@@ -69,6 +70,31 @@ class Item extends Model implements Auditable
     |---------------------------------------
     */
 
+    public function scopeMenor(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::MENOR);
+    }
+
+    public function scopeForestales(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::FORESTALES);
+    }
+
+    public function scopeEras(Builder $query): void
+    {
+        $query->whereRelation('componente', 'tipo_id', TipoMenor::ERAS);
+    }
+
+    public function scopeMenorAndForestales(Builder $query): void
+    {
+        $query->whereHas('componente', function ($q) {
+            $q->whereIn('tipo_id', [
+                TipoMenor::MENOR,
+                TipoMenor::FORESTALES,
+            ]);
+        });
+    }
+
     public function scopeOperativos(Builder $query): void
     {
         $query->where('estado_id', 1); # 1 -> OPERATIVO
@@ -89,6 +115,14 @@ class Item extends Model implements Auditable
     {
         $query->when($search, function (Builder $query, int $search) {
             $query->where('componente_id', $search);
+        });
+    }
+
+    # BUSCAR POR RELACION componente CAMPO categoria_id
+    public function scopeBuscarCategoriaId(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, int $search) {
+            $query->whereRelation('componente', 'categoria_id', $search);
         });
     }
 
