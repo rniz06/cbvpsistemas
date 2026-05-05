@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('MAT_menor_categorias', function (Blueprint $table) {
             $table->id('id_menor_categoria');
             $table->string('nombre', 50);
-            $table->foreignId('padre_id')->nullable()->constrained('MAT_menor_categorias', 'id_menor_categoria')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

@@ -13,7 +13,7 @@ class ComponenteController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:Materiales Parametros', ['only' => ['index']]);
+        $this->middleware('permission:Materiales Menor Componentes Listar', ['only' => ['index']]);
     }
 
     public function index()
