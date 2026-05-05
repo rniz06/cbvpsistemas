@@ -3,9 +3,7 @@
 namespace App\Livewire\Materiales\Menor\Componentes;
 
 use App\Enums\Materiales\Menor\CategoriaComponente;
-use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Componente;
-use App\Models\Materiales\Menor\Tipo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -22,45 +20,43 @@ class ModalCreate extends Component
     */
     # PROPIEDADES DEL FORMULARIO
     #[Validate]
-    public $nombre, $tipo_id, $categoria_id;
+    public $nombre;
 
-    # PROPIEDADES PARA LOS SELECTS
-    public $tipos = [], $categorias;
+    public $routeToRedirect, $categoriaId;
 
-    public function mount()
+    # FUNCION MOUNT DE LIVEWIRE
+    public function mount($routeToRedirect, $categoriaId)
     {
-        $this->tipos      = Tipo::orderBy('tipo')->get(['id_menor_tipo', 'tipo']);
-        $this->categorias = Categoria::orderBy('nombre')->get(['id_menor_categoria', 'nombre']);
+        $this->routeToRedirect = $routeToRedirect ?? 'home';
+        $this->categoriaId     = $categoriaId;
     }
 
     # REGLAS DE VALIDACION
     protected function rules()
     {
         return [
-            'nombre'       => ['required', 'string', 'max:100', Rule::unique(Componente::class, 'nombre')->withoutTrashed()],
-            'tipo_id'      => ['required', Rule::exists(Tipo::class, 'id_menor_tipo')],
-            'categoria_id' => ['nullable', Rule::exists(Categoria::class, 'id_menor_categoria')]
+            'nombre' => ['required', 'string', 'max:100', Rule::unique(Componente::class, 'nombre')
+                ->where('categoria_id', $this->categoriaId)->withoutTrashed()]
         ];
     }
 
     # FUNCION PARA GUARDAR UN NUEVO REGISTRO
-    public function guardar()
+    public function grabar()
     {
         $this->validate();
 
         try {
             Componente::create([
                 'nombre'       => $this->nombre,
-                'tipo_id'      => $this->tipo_id,
-                'categoria_id' => $this->categoria_id,
+                'categoria_id' => CategoriaComponente::MATERIAL_MENOR,
                 'creadoPor'    => Auth::id(),
             ]);
             session()->flash('success', 'COMPONENTE REGISTRADO CORRECTAMENTE!');
         } catch (\Exception $e) {
-            session()->flash('error', 'NO SE PUDO REGISTRAR');
+            session()->flash('error', 'NO SE PUDO REGISTRAR - ' . $e->getMessage());
         }
 
-        $this->redirectRoute('materiales.menor.componentes.index');
+        $this->redirectRoute($this->routeToRedirect);
     }
 
     public function render()
@@ -71,9 +67,7 @@ class ModalCreate extends Component
     # FUNCION QUE ESCUCHA BTN CERRAR DEL MODAL Y RESETEA LOS CAMPOS
     public function resetForm()
     {
-        $this->reset(['nombre', 'tipo_id', 'categoria_id']);
+        $this->reset('nombre');
         $this->resetValidation('nombre');
-        $this->resetValidation('tipo_id');
-        $this->resetValidation('categoria_id');
     }
 }
