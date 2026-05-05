@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Materiales\Menor;
+namespace App\Livewire\Materiales\Menor\Forestales;
 
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
@@ -13,7 +13,7 @@ class Create extends Component
 {
     /*
     |------------------------------------------------------
-    | RENDERIZA FORM DE ALTA DE MATERIAL MENOR
+    | RENDERIZA FORM DE ALTA DE FORESTALES
     / RECIBE UN ID DE COMPANIA POR QUE EL FORM SE MUESTRA
     / EN materiales.menor.ver-compania
     |------------------------------------------------------
@@ -21,14 +21,14 @@ class Create extends Component
 
     # PROPIEDADES DEL FORMULARIO
     #[Validate]
-    public $componente_id, $categoria_id, $cantidad_operativo = 0, $cantidad_inoperativo = 0, $compania_id;
+    public $componente_id, $cantidad_operativo = 0, $cantidad_inoperativo = 0, $compania_id;
 
     # PROPIEDADES DE LOS SELECTS
-    public $componentes = [], $categorias = [];
+    public $componentes, $marcas;
 
     public function mount(int $companiaId)
     {
-        $this->componentes  = Componente::menorAndForestales()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
+        $this->componentes  = Componente::forestales()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
         $this->compania_id  = $companiaId; # ID DE COMPANIA RECIBIDA
     }
 
@@ -68,20 +68,20 @@ class Create extends Component
                 'creadoPor'            => Auth::id(),
             ]);
 
-            session()->flash('success', 'CREADO CORRECTAMENTE');
+            session()->flash('success', 'EQUIPO FORESTAL CREADO CORRECTAMENTE');
         } catch (\Exception $e) {
             session()->flash(
                 'error',
-                'NO SE PUDO CREAR'
+                'NO SE PUDO CREAR - ' . $e->getMessage()
             );
         }
         $this->reset(['componente_id', 'cantidad_operativo', 'cantidad_inoperativo']);
-        return redirect()->route('materiales.menor.ver-compania', $this->compania_id);
+        return redirect()->route('materiales.menor.forestales.ver-compania', $this->compania_id);
     }
 
     public function render()
     {
         $this->dispatch('ver-form-alta'); # EMITE EVENTO QUE ESCUCHA COMPONENTE PADRE PARA ACTIVAR LOS SlimSelect
-        return view('livewire.materiales.menor.create');
+        return view('livewire.materiales.menor.forestales.create');
     }
 }

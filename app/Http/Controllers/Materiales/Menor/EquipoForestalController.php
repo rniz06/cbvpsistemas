@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Materiales\Menor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MenorController extends Controller
+class EquipoForestalController extends Controller
 {
     /**
      * Establece los middleware necesarios para gestionar permisos
@@ -20,16 +20,16 @@ class MenorController extends Controller
 
     public function index()
     {
-        return view('materiales.menor.menor.index');
+        return view('materiales.menor.forestales.index');
     }
 
     public function verCompania($compania)
     {
-        return view('materiales.menor.menor.ver-compania', compact('compania'));
+        return view('materiales.menor.forestales.ver-compania', compact('compania'));
     }
 
     public function verFicha($item)
     {
-        return view('materiales.menor.menor.ver-ficha', compact('item'));
+        return view('materiales.menor.forestales.ver-ficha', compact('item'));
     }
 }

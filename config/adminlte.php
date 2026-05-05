@@ -390,6 +390,11 @@ return [
                     'can' => 'Material Menor Listar',
                 ],
                 [
+                    'text' => 'Equipo Forestal',
+                    'route' => 'materiales.menor.forestales.index',
+                    'can' => 'Material Menor Listar',
+                ],
+                [
                     'text' => 'Conductores',
                     'route' => 'materiales.conductores.index',
                     'can' => 'Conductores Listar',

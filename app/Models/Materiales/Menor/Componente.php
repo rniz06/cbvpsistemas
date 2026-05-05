@@ -2,7 +2,7 @@
 
 namespace App\Models\Materiales\Menor;
 
-use App\Enums\Materiales\Menor\TipoMenor;
+use App\Enums\Materiales\Menor\CategoriaComponente;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,10 +19,10 @@ class Componente extends Model implements Auditable
 
     protected $primaryKey = 'id_menor_componente';
 
-    protected $fillable = ['nombre', 'tipo_id', 'categoria_id', 'creadoPor', 'actualizadoPor'];
+    protected $fillable = ['nombre', 'categoria_id', 'creadoPor', 'actualizadoPor'];
 
     protected $casts = [
-        'tipo_id' => TipoMenor::class,
+        'categoria_id' => CategoriaComponente::class,
     ];
 
     /*
@@ -30,11 +30,6 @@ class Componente extends Model implements Auditable
     | RELACIONES DEL MODELO
     |---------------------------------------
     */
-
-    public function tipo(): BelongsTo
-    {
-        return $this->belongsTo(Tipo::class, 'tipo_id');
-    }
 
     public function categoria(): BelongsTo
     {
@@ -62,19 +57,13 @@ class Componente extends Model implements Auditable
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeMenor(Builder $query): void
     {
-        #$query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
+        $query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
     }
 
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeForestales(Builder $query): void
     {
-        #$query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
-    }
-
-    # RETORNAR REGISTROS QUE PERTENESCAN A MENOR Y FORESTALES
-    public function scopeMenorAndForestales(Builder $query): void
-    {
-        $query->whereIn('tipo_id', [TipoMenor::MENOR, TipoMenor::FORESTALES]);
+        $query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
     }
 
     /**
@@ -84,26 +73,6 @@ class Componente extends Model implements Auditable
     {
         $query->when($search, function (Builder $query, string $search) {
             $query->whereLike('nombre', "%{$search}%");
-        });
-    }
-
-    /**
-     * Busqueda por campo tipo_id.
-     */
-    public function scopeBuscarTipoId(Builder $query, $search = null): void
-    {
-        $query->when($search, function (Builder $query, int $search) {
-            $query->where('tipo_id', $search);
-        });
-    }
-
-    /**
-     * Busqueda por campo categoria_id.
-     */
-    public function scopeBuscarCategoriaId(Builder $query, $search = null): void
-    {
-        $query->when($search, function (Builder $query, int $search) {
-            $query->where('categoria_id', $search);
         });
     }
 

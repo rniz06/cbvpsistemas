@@ -2,17 +2,17 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Equipos Forestales')
-@section('content_header_title', 'Equipos Forestales')
-@section('content_header_subtitle', 'Index')
+@section('subtitle', 'Equipo Forestal')
+@section('content_header_title', 'Equipo Forestal')
+@section('content_header_subtitle', 'Ver Ficha')
 
 @section('content_body')
     {{-- MOSTRAR UN ALERT EN CASO DE HABER ALGUN MENSAJE : SUCCESS O ERROR --}}
     @if ($msg = session('success') ?? session('error'))
         <x-adminlte-callout :icon="session('success') ? 'fas fa-check-circle' : 'fas fa-times'" :theme="session('success') ? 'success' : 'danger'" :title="$msg" :title-class="session('success') ? 'text-success' : 'text-danger'" />
     @endif
-    {{-- INCLUIR COMPONENTE LIVEWIRE DE PERSONAL --}}
-    @livewire('materiales.menor.componentes.index-forestales')
+    {{-- INCLUIR COMPONENTE LIVEWIRE DE FORESTALES --}}
+    @livewire('materiales.menor.forestales.ver-ficha', ['item' => $item])
 @stop
 
 @push('css')
