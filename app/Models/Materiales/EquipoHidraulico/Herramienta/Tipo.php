@@ -2,9 +2,7 @@
 
 namespace App\Models\Materiales\EquipoHidraulico\Herramienta;
 
-use App\Models\Materiales\EquipoHidraulico\Herramienta;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -25,10 +23,5 @@ class Tipo extends Model implements Auditable
     public function scopeBuscador($query, $value)
     {
         $query->where('tipo', 'like', "%{$value}%");
-    }
-
-    public function herramientas(): HasMany
-    {
-        return $this->hasMany(Herramienta::class, 'tipo_id');
     }
 }

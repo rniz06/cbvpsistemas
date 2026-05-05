@@ -385,11 +385,6 @@ return [
                     'can' => 'Equipos Hidraulicos Listar',
                 ],
                 [
-                    'text' => 'Material Menor',
-                    'route' => 'materiales.menor.index',
-                    'can' => 'Material Menor Listar',
-                ],
-                [
                     'text' => 'Conductores',
                     'route' => 'materiales.conductores.index',
                     'can' => 'Conductores Listar',
