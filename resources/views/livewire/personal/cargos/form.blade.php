@@ -37,6 +37,15 @@
                     </x-adminlte-select>
                 </div>
 
+                {{-- Roles --}}
+                <div class="col-md-12">
+                    <x-adminlte-select name="roles" label="Roles a enlazar con el cargo:" wire:model.live.debounce.200ms="roles" :disabled="in_array($modo, ['inicio', 'seleccionado'])" multiple>
+                        @foreach ($rolSelect as $rol)
+                            <option value="{{ $rol->id }}">{{ $rol->name ?? 'S/D' }}</option>
+                        @endforeach
+                    </x-adminlte-select>
+                </div>
+
                 {{-- Botones --}}
                 <div class="card-footer">
                     @can('Cargos Crear')
@@ -65,7 +74,13 @@
     @endcanany
 </div>
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
 @push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
     {{-- Script para boton guardar --}}
     <script>
         const btnGuardar = document.getElementById('btn-grabar');
@@ -129,14 +144,5 @@
                 });
             });
         }
-    </script>
-    <!-- Script para select2 -->
-    <script>
-        $(document).ready(function() {
-            $('#ciudad').select2({
-                placeholder: 'Seleccionar...',
-                language: "es",
-            });
-        });
     </script>
 @endpush
