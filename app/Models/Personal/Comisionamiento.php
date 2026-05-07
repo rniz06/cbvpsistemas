@@ -2,7 +2,9 @@
 
 namespace App\Models\Personal;
 
+use App\Models\Personal;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -34,4 +36,9 @@ class Comisionamiento extends Model implements Auditable
         'fecha_inicio' => 'date',
         'fecha_fin'    => 'date',
     ];
+
+    public function personal(): BelongsTo
+    {
+        return $this->belongsTo(Personal::class, 'personal_id');
+    }
 }

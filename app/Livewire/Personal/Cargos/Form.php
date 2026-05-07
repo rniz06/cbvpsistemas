@@ -123,20 +123,6 @@ class Form extends Component
         $cargo->roles()->sync($rolesSync);
     }
 
-    // private function asignarRolCargo(int $cargoId)
-    // {
-    //     if (isset($this->roles)) {
-    //         DB::table('PER_cargo_rol')->where('cargo_id', $cargoId)->delete();
-    //         foreach ($this->roles as $x) {
-    //             DB::table('PER_cargo_rol')->insert([
-    //                 'cargo_id' => $cargoId,
-    //                 'rol_id' => $x,
-    //                 'creadoPor' => Auth::id(),
-    //             ]);
-    //         }
-    //     }
-    // }
-
     private function resetearForm()
     {
         $this->cargo_id    = null;

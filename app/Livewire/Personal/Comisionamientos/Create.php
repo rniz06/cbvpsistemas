@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Personal\Comisionamientos;
 
+use App\Actions\Personal\Comisionamientos\AsignarRolSegunCargo;
 use Illuminate\Support\Str;
 use App\Enums\Personal\Cargo\TipoCodigo;
 use App\Models\Admin\CompaniaGral;
@@ -200,22 +201,26 @@ class Create extends Component
         }
     }
 
-    public function guardar()
+    public function guardar(AsignarRolSegunCargo $action)
     {
         $this->validate();
-        Comisionamiento::create([
-            'fecha_inicio'           => $this->fecha_inicio ?? null,
-            'fecha_fin'              => $this->fecha_fin ?? null,
-            'personal_id'            => $this->personal_id,
-            'cargo_id'               => $this->cargo_id,
-            'compania_id'            => $this->compania_id,
-            'direccion_id'           => $this->direccion_id,
-            'resolucion_id'          => $this->resolucion_id ?? null,
-            'fecha_fin'              => $this->fecha_fin ?? null,
-            'codigo_comisionamiento' => $this->codigo_comisionamiento ?? null,
-            'culminado'              => 0, // false por defecto
-            'creadoPor'              => Auth::id()
-        ]);
+        DB::transaction(function () use ($action) {
+            $comisionamiento = Comisionamiento::create([
+                'fecha_inicio'           => $this->fecha_inicio ?? null,
+                'fecha_fin'              => $this->fecha_fin ?? null,
+                'personal_id'            => $this->personal_id,
+                'cargo_id'               => $this->cargo_id,
+                'compania_id'            => $this->compania_id,
+                'direccion_id'           => $this->direccion_id,
+                'resolucion_id'          => $this->resolucion_id ?? null,
+                'fecha_fin'              => $this->fecha_fin ?? null,
+                'codigo_comisionamiento' => $this->codigo_comisionamiento ?? null,
+                'culminado'              => 0, // false por defecto
+                'creadoPor'              => Auth::id()
+            ]);
+
+            $action->handle($comisionamiento->personal, $this->cargo_id);
+        });
 
         session()->flash('success', 'Comisionamiento Registrado Correctamente!');
         $this->redirectRoute('personal.comisionamientos.index');
