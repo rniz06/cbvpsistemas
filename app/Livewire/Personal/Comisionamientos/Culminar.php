@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Personal\Comisionamientos;
 
+use App\Actions\Personal\Comisionamientos\RemoverRolSegunCargo;
 use App\Models\Personal\Comisionamiento;
 use App\Models\Vistas\Personal\VtComisionamiento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -45,15 +47,20 @@ class Culminar extends Component
         ];
     }
 
-    public function culminar()
+    public function culminar(RemoverRolSegunCargo $action)
     {
         $this->validate();
-        Comisionamiento::findOrFail($this->comisionamiento->id_comisionamiento)
-        ->update([
-            'fecha_fin' => $this->fecha_fin ?? null,
-            'culminado' => true,
-            'actualizadoPor' => Auth::id(),
-        ]);
+        DB::transaction(function () use ($action) {
+            $comisionamiento = Comisionamiento::findOrFail($this->comisionamiento->id_comisionamiento);
+            $comisionamiento->update([
+                'fecha_fin' => $this->fecha_fin ?? null,
+                'culminado' => true,
+                'actualizadoPor' => Auth::id(),
+            ]);
+
+            $action->handle($comisionamiento->personal, $comisionamiento->cargo_id);
+        });
+
         session()->flash('success', 'Comisionamiento Finalizado!');
         $this->redirectRoute('personal.comisionamientos.index');
     }
