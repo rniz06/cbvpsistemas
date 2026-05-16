@@ -6,6 +6,7 @@ use App\Http\Controllers\Materiales\MayorController;
 use App\Http\Controllers\Materiales\Menor\CategoriaController;
 use App\Http\Controllers\Materiales\Menor\ComponenteController;
 use App\Http\Controllers\Materiales\Menor\EquipoForestalController;
+use App\Http\Controllers\Materiales\Menor\EraController;
 use App\Http\Controllers\Materiales\Menor\MarcaController;
 use App\Http\Controllers\Materiales\Menor\MenorController;
 use App\Http\Controllers\Materiales\Reportes\ReporteController;
@@ -133,6 +134,11 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
             Route::get('/', 'index')->name('index');
             Route::get('/ver-compania/{compania}', 'verCompania')->name('ver-compania');
             Route::get('/ver-ficha/{item}', 'verFicha')->name('ver-ficha');
+        });
+
+        # MENOR
+        Route::controller(EraController::class)->prefix('/eras')->name('eras.')->group(function () {
+            Route::get('/', 'index')->name('index');
         });
 
         # CATEGORIAS
