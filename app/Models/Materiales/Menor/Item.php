@@ -113,7 +113,7 @@ class Item extends Model implements Auditable
     # BUSCAR POR CAMPO componente_id
     public function scopeBuscarComponenteId(Builder $query, $search = null): void
     {
-        $query->when($search, function (Builder $query, int $search) {
+        $query->when($search, function (Builder $query, $search) {
             $query->where('componente_id', $search);
         });
     }
