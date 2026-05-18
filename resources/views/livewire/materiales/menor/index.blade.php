@@ -91,9 +91,8 @@
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
-    <div class="row col-md-12">
-        <div class="col-md-6">
-            <x-table.tabla titulo="Material Menor" paginado="paginadoMenor">
+        <div class="col-md-12">
+            <x-table.tabla titulo="Material Menor" >
 
                 <x-slot name="encabezados">
                     <th>#</th>
@@ -143,58 +142,6 @@
 
             </x-table.tabla>
         </div>
-
-        {{-- EQUIPOS FORESTALES --}}
-        <div class="col-md-6">
-            <x-table.tabla titulo="Equipos Forestales" paginado="paginadoForestales">
-
-                <x-slot name="encabezados">
-                    <th>#</th>
-                    <th>Item</th>
-                    <th>Cant. Operativos</th>
-                    <th>Cant. Inoperativos</th>
-                    <th>Compañia</th>
-                    <th>Acciones</th>
-                </x-slot>
-
-                @forelse ($forestales as $item)
-                    <tr>
-                        <td>{{ $loop->iteration + $forestales->firstItem() - 1 }}</td>
-                        <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
-                        <td>{{ $item->cantidad_operativo ?? 'S/D' }}</td>
-                        <td>{{ $item->cantidad_inoperativo ?? 'S/D' }}</td>
-                        <td>{{ $item->compania->compania ?? 'S/D' }}</td>
-                        <td>
-                            <x-tabla-dropdown>
-                                @can('Material Menor Ver')
-                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
-                                        class="dropdown-item btn-sm" data-toggle="modal"
-                                        data-target="#modal-ver-comentarios"
-                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
-                                @endcan
-
-                                @can('Material Menor Editar')
-                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                        data-toggle="modal" data-target="#modal-actualizar"
-                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
-                                @endcan
-                            </x-tabla-dropdown>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="100%" class="text-center text-muted font-italic">Sin resultados coincidentes...
-                        </td>
-                    </tr>
-                @endforelse
-
-                <x-slot name="paginacion">
-                    {{ $forestales->links() }}
-                </x-slot>
-
-            </x-table.tabla>
-        </div>
-    </div>
 </div>
 
 @push('styles')

@@ -22,9 +22,7 @@ class Index extends Component
     use WithPagination;
 
     # PROPIEDADES DE BUSQUEDA Y PAGINACION
-    public $buscarComponenteId = '', $buscarCategoriaId = '', $buscarCompaniaId = '';
-
-    public $paginadoMenor, $paginadoForestales;
+    public $buscarComponenteId = '', $buscarCategoriaId = '', $buscarCompaniaId = '', $paginado;
 
     # PROPIEDADES PARA LOS SELECTS
     public $componentes = [], $categorias = [], $companias = [];
@@ -34,15 +32,10 @@ class Index extends Component
 
     public function mount()
     {
-        $paginadoDefault = Auth::user()->paginado_por_defecto;
+        $this->paginado = Auth::user()->paginado_por_defecto;
 
-        $this->paginadoMenor      = $paginadoDefault;
-        $this->paginadoForestales = $paginadoDefault;
-
-        $this->componentes = Componente::whereIn('tipo_id', [
-            TipoMenor::MENOR->value,
-            TipoMenor::FORESTALES->value
-        ])->get(['id_menor_componente', 'nombre']);
+        $this->componentes = Componente::where('tipo_id', TipoMenor::MENOR->value)
+            ->get(['id_menor_componente', 'nombre']);
 
         $this->categorias = Categoria::get(['id_menor_categoria', 'nombre']);
         $this->companias  = Compania::filtrarPorRolMateriales()->get(['id_compania', 'compania']);
@@ -51,14 +44,15 @@ class Index extends Component
     public function render()
     {
         return view('livewire.materiales.menor.index', [
-            'menor' => $this->queryBase()->menor()->buscarCategoriaId($this->buscarCategoriaId)->paginate($this->paginadoMenor, [''], 'paginado-menor'),
-            'forestales' => $this->queryBase()->forestales()->paginate($this->paginadoForestales, [''], 'paginado-forestales'),
+            'menor' => $this->queryBase()->paginate($this->paginado, [''], 'paginado-menor'),
         ]);
     }
 
     public function queryBase()
     {
         return Item::select('id_menor_item', 'componente_id', 'cantidad_operativo', 'cantidad_inoperativo', 'compania_id', 'marca_id')
+            ->menor()
+            ->buscarCategoriaId($this->buscarCategoriaId)
             ->buscarComponenteId($this->buscarComponenteId)
             ->buscarCompaniaId($this->buscarCompaniaId)
             ->filtrarPorRolMateriales()
