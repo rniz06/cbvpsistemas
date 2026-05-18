@@ -20,37 +20,29 @@ class VerCompania extends Component
     use WithPagination;
 
     # COMPANIA A VER - CONDICIONAL PARA FORM ALTA - CONDICIONAL PARA FORM EDICION - ID DEL ITEM A EDITAR
-    public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item = null;
-
-    # PAGINACION
-    public $paginadoMenor, $paginadoForestales;
+    public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item = null, $paginado;
 
     # FUNCION MOUNT DE LIVEWIRE
     public function mount(Compania $compania)
     {
         $this->compania           = $compania;
-        $paginado                 = Auth::user()->paginado_por_defecto ?? 5;
-        $this->paginadoMenor      = $paginado;
-        $this->paginadoForestales = $paginado;
+        $this->paginado           = Auth::user()->paginado_por_defecto ?? 5;
     }
 
     # LIMPIAR EL BUSCADOR Y LA PAGINACION AL CAMBIAR DE PAGINA
     public function updating($key): void
     {
         if (in_array($key, [
-            'paginadoMenor',
-            'paginadoForestales'
+            'paginado',
         ])) {
             $this->resetPage('paginadoMenor');
-            $this->resetPage('paginadoForestales');
         }
     }
 
     public function render()
     {
         return view('livewire.materiales.menor.ver-compania', [
-            'menor' => $this->queryBase()->menor()->paginate($this->paginadoMenor, [''], 'paginado-menor'),
-            'forestales' => $this->queryBase()->forestales()->paginate($this->paginadoForestales, [''], 'paginado-forestales'),
+            'menor' => $this->queryBase()->paginate($this->paginado, [''], 'paginado-menor'),
         ]);
     }
 
@@ -58,6 +50,7 @@ class VerCompania extends Component
     public function queryBase()
     {
         return Item::select('id_menor_item', 'componente_id', 'cantidad_operativo', 'cantidad_inoperativo')
+            ->menor()
             ->where('compania_id', $this->compania->id_compania)
             ->with([
                 'componente:id_menor_componente,nombre,categoria_id',

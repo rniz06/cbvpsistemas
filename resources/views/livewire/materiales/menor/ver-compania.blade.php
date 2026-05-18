@@ -33,8 +33,8 @@
 
     <div class="row">
         {{-- ITEMS MENOR --}}
-        <div class="col-md-6">
-            <x-table.tabla titulo="Material Menor" dropdown_direccion="dropleft" paginado="paginadoMenor">
+        <div class="col-md-12">
+            <x-table.tabla titulo="Material Menor" dropdown_direccion="dropleft">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
@@ -61,63 +61,6 @@
                         <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
                         <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
                         <td>{{ $item->componente->categoria->nombre ?? 'S/D' }}</td>
-                        <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
-                        <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
-                        <td>
-                            <x-tabla-dropdown>
-                                @can('Material Menor Ver')
-                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
-                                        class="dropdown-item btn-sm" data-toggle="modal"
-                                        data-target="#modal-ver-comentarios"
-                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
-                                @endcan
-
-                                @can('Material Menor Editar')
-                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                        data-toggle="modal" data-target="#modal-actualizar"
-                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
-                                @endcan
-                            </x-tabla-dropdown>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="100%" class="text-center text-muted font-italic">Sin resultados coincidentes...
-                        </td>
-                    </tr>
-                @endforelse
-
-                <x-slot name="paginacion">
-                    {{ $menor->links() }}
-                </x-slot>
-            </x-table.tabla>
-        </div>
-
-        {{-- ITEMS FORESTALES --}}
-        <div class="col-md-6">
-            <x-table.tabla titulo="Equipos Forestales" dropdown_direccion="dropleft" paginado="paginadoForestales">
-
-                <x-slot name="encabezados">
-                    {{-- NUMERO EN LA FILA --}}
-                    <th style="width: 10px">N°</th>
-
-                    {{-- NOMBRE --}}
-                    <th>Nombre</th>
-
-                    {{-- CANTIDAD DE OPERATIVOS --}}
-                    <th>Cant. Operativos</th>
-
-                    {{-- CANTIDAD DE INOPERATIVOS --}}
-                    <th>Cant. Inoperativos</th>
-
-                    <th>Acciones</th>
-
-                </x-slot>
-
-                @forelse ($forestales as $item)
-                    <tr>
-                        <td>{{ $loop->iteration + $forestales->firstItem() - 1 }}</td>
-                        <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
                         <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
                         <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
                         <td>
