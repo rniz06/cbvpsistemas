@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Materiales\Menor;
 
+use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,10 @@ class Create extends Component
 
     public function mount(int $companiaId)
     {
-        $this->componentes  = Componente::menorAndForestales()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
+        //$this->componentes  = Componente::menorAndForestales()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
         $this->compania_id  = $companiaId; # ID DE COMPANIA RECIBIDA
+
+        $this->categorias   = Categoria::orderBy('nombre')->get(['id_menor_categoria', 'nombre']);
     }
 
     protected function rules()
@@ -40,6 +43,7 @@ class Create extends Component
                 Rule::exists(Componente::class, 'id_menor_componente'),
                 Rule::unique(Item::class, 'componente_id')->where('compania_id', $this->compania_id)
             ],
+            'categoria_id' => ['required', Rule::exists(Categoria::class, 'id_menor_categoria')],
             'cantidad_operativo' => ['required', 'integer', 'min:0'],
             'cantidad_inoperativo' => ['required', 'integer', 'min:0'],
         ];
@@ -84,4 +88,11 @@ class Create extends Component
         $this->dispatch('ver-form-alta'); # EMITE EVENTO QUE ESCUCHA COMPONENTE PADRE PARA ACTIVAR LOS SlimSelect
         return view('livewire.materiales.menor.create');
     }
+
+    public function updatedCategoriaId($categoriaId)
+    {
+        //$this->componente_id = null;
+        $this->componentes = Componente::where('categoria_id', $categoriaId)->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
+    }
+
 }

@@ -15,7 +15,7 @@ class MaterialMenor2Seeder extends Seeder
     public function run(): void
     {
         # CREAR TIPOS
-        $tipos = ['MATERIAL MENOR', 'EQUIPOS FORESTALES', 'ERAS'];
+        $tipos = ['MATERIAL MENOR', 'ERAS'];
         foreach ($tipos as $tipo) {
             Tipo::create([
                 'tipo'    => $tipo,
