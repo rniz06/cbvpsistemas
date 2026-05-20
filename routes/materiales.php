@@ -147,6 +147,11 @@ Route::prefix('materiales')->name('materiales.')->middleware('auth')->group(func
             Route::get('/', 'index')->name('index');
         });
 
+        # CATEGORIAS
+        Route::controller(MarcaController::class)->prefix('/marcas')->name('marcas.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+
         # COMPONENTES
         Route::controller(ComponenteController::class)->prefix('/componentes')->name('componentes.')->group(function () {
             Route::get('/', 'index')->name('index');

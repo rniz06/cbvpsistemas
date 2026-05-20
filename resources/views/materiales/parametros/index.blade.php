@@ -106,6 +106,13 @@
             </div>
         </a>
 
+        <!-- Cada callout ocupa 3 columnas (12/4=3) -->
+        <a class="col-md-3 col-sm-6 text-dark" href="{{ route('materiales.menor.marcas.index') }}">
+            <div class="callout callout-warning">
+                <h5>Marcas</h5>
+            </div>
+        </a>
+
     </div>
 
 @stop
