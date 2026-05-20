@@ -13,7 +13,7 @@ class MarcaController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:Materiales Menor Marcas Listar', ['only' => ['index']]);
+        $this->middleware('permission:Materiales Parametros', ['only' => ['index']]);
     }
 
     public function index()
