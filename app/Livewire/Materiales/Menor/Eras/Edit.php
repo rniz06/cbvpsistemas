@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Materiales\Menor;
+namespace App\Livewire\Materiales\Menor\Eras;
 
 use App\Actions\Materiales\Menor\CrearComentarioItemAccion;
 use App\Models\Materiales\Menor\Item;
@@ -68,11 +68,11 @@ class Edit extends Component
             );
         }
 
-        return redirect()->route('materiales.menor.ver-compania', $this->registro->compania_id);
+        return redirect()->route('materiales.menor.eras.ver-compania', $this->registro->compania_id);
     }
 
     public function render()
     {
-        return view('livewire.materiales.menor.edit');
+        return view('livewire.materiales.menor.eras.edit');
     }
 }

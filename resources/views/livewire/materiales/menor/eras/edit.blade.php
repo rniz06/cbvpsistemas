@@ -1,15 +1,23 @@
 <form wire:submit.prevent="guardar" class="row">
     {{-- COMPONENTE --}}
-    <x-adminlte-input name="" label-class="text-lightblue" fgroup-class="col-md-4"
+    <x-adminlte-input name="" label-class="text-lightblue" fgroup-class="col-md-3"
         value="{{ $registro->componente->nombre ?? 'S/D' }}" readonly>
         <x-slot name="prependSlot">
             <div class="input-group-text">Item *</div>
         </x-slot>
     </x-adminlte-input>
 
+    {{-- MARCA --}}
+    <x-adminlte-input name="" label-class="text-lightblue" fgroup-class="col-md-3"
+        value="{{ $registro->marca->nombre ?? 'S/D' }}" readonly>
+        <x-slot name="prependSlot">
+            <div class="input-group-text">Marca *</div>
+        </x-slot>
+    </x-adminlte-input>
+
     {{-- CANTIDAD OPERATIVO --}}
     <x-adminlte-input name="cantidad_operativo" wire:model.blur="cantidad_operativo" type="number" placeholder="EJ: 0"
-        label-class="text-lightblue" fgroup-class="col-md-4">
+        label-class="text-lightblue" fgroup-class="col-md-3">
         <x-slot name="prependSlot">
             <div class="input-group-text">Cant. Operativo *</div>
         </x-slot>
@@ -17,7 +25,7 @@
 
     {{-- CANTIDAD INOPERATIVO --}}
     <x-adminlte-input name="cantidad_inoperativo" wire:model.blur="cantidad_inoperativo" type="number"
-        placeholder="EJ: 0" label-class="text-lightblue" fgroup-class="col-md-4">
+        placeholder="EJ: 0" label-class="text-lightblue" fgroup-class="col-md-3">
         <x-slot name="prependSlot">
             <div class="input-group-text">Cant. Inoperativo *</div>
         </x-slot>

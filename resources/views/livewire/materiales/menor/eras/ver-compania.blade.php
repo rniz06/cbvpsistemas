@@ -15,9 +15,9 @@
 
     {{-- MODAL COMPONENTE DE ACTUALIZACION --}}
     <x-adminlte-modal id="modal-actualizar" title="Actualizar Registro" theme="light" icon="fas fa-edit" v-centered
-        static-backdrop size="lg">
+        static-backdrop size="xl">
         @if ($item)
-            @livewire('materiales.menor.edit', ['item' => $item], key('modal-edit' . $item))
+            @livewire('materiales.menor.eras.edit', ['item' => $item], key('modal-edit' . $item))
         @endif
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
