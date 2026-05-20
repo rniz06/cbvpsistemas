@@ -3,42 +3,55 @@
     <x-adminlte-card theme="light" title="Agregar Item" icon="fas fa-plus-circle" header-class="text-muted text-sm">
         <form class="col-md-12 row" wire:submit="guardar">
 
-            {{-- COMPONENTE --}}
-            <div class="col-md-3">
-                <div class="form-group">
-                    <div class="input-group mb-2" wire:ignore>
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Item:</div>
-                        </div>
-                        <select class="form-control @error('componente_id') is-invalid @enderror"
-                            id="componente_id" name="componente_id"
-                            wire:model.blur="componente_id">
-                            <option value="">-- Seleccionar --</option>
-                            @foreach ($this->componentes as $componente)
-                                <option value="{{ $componente->id_menor_componente }}">
-                                    {{ $componente->nombre ?? 'S/D' }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @error('componente_id')
-                        <div class="invalid-feedback d-block" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
-                </div>
-            </div>
+            {{-- Categorias --}}
+            <x-adminlte-select name="categoria_id" wire:model.live.debounce.200ms="categoria_id"
+                label-class="text-lightblue" fgroup-class="col-md-3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text">Categoria *</div>
+                </x-slot>
+                <option value="">Seleccionar</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->id_menor_categoria }}">{{ $categoria->nombre ?? 'S/D' }}</option>
+                @endforeach
+            </x-adminlte-select>
+
+            {{-- Componentes --}}
+            <x-adminlte-select name="componente_id" wire:model.blur="componente_id" label-class="text-lightblue"
+                fgroup-class="col-md-3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text">Componentes *</div>
+                </x-slot>
+                <option value="">Seleccionar</option>
+                @foreach ($componentes as $componente)
+                    <option value="{{ $componente->id_menor_componente }}">
+                        {{ $componente->nombre ?? 'S/D' }}</option>
+                @endforeach
+            </x-adminlte-select>
+
+            {{-- Marcas --}}
+            <x-adminlte-select name="marca_id" wire:model.blur="marca_id" label-class="text-lightblue"
+                fgroup-class="col-md-3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text">Marcas *</div>
+                </x-slot>
+                <option value="">Seleccionar</option>
+                @foreach ($marcas as $marca)
+                    <option value="{{ $marca->id_menor_marca }}">
+                        {{ $marca->nombre ?? 'S/D' }}</option>
+                @endforeach
+            </x-adminlte-select>
 
             {{-- CANTIDAD OPERATIVO --}}
-            <x-adminlte-input name="cantidad_operativo" wire:model.blur="cantidad_operativo" type="number" placeholder="EJ: 0"
-                label-class="text-lightblue" fgroup-class="col-md-3" >
+            <x-adminlte-input name="cantidad_operativo" wire:model.blur="cantidad_operativo" type="number"
+                placeholder="EJ: 0" label-class="text-lightblue" fgroup-class="col-md-3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Cant. Operativo *</div>
                 </x-slot>
             </x-adminlte-input>
 
             {{-- CANTIDAD INOPERATIVO --}}
-            <x-adminlte-input name="cantidad_inoperativo" wire:model.blur="cantidad_inoperativo" type="number" placeholder="EJ: 0"
-                label-class="text-lightblue" fgroup-class="col-md-3" >
+            <x-adminlte-input name="cantidad_inoperativo" wire:model.blur="cantidad_inoperativo" type="number"
+                placeholder="EJ: 0" label-class="text-lightblue" fgroup-class="col-md-3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text">Cant. Inoperativo *</div>
                 </x-slot>

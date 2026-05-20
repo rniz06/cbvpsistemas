@@ -9,7 +9,7 @@
     @if ($ver_form_alta)
         <br>
         <div class="col-md-12">
-            @livewire('materiales.menor.create', ['companiaId' => $compania->id_compania])
+            @livewire('materiales.menor.eras.create', ['companiaId' => $compania->id_compania])
         </div>
     @endif
 
@@ -111,9 +111,9 @@
         // RECIBIR EVENTO DEL COMPONENTE HIJO Y ACTIVAR LOS SELECTS
         Livewire.on('ver-form-alta', () => {
             // alert('Funciona');
-            new SlimSelect({
-                select: '#componente_id'
-            })
+            // new SlimSelect({
+            //     select: '#componente_id'
+            // })
 
             // new SlimSelect({
             //     select: '#marca_id'

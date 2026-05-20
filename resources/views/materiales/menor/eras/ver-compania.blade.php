@@ -2,8 +2,8 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Mat. Menor')
-@section('content_header_title', 'Menor')
+@section('subtitle', 'Eras')
+@section('content_header_title', 'Eras')
 @section('content_header_subtitle', 'Ver Compañia')
 
 @section('content_body')

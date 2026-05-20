@@ -2,7 +2,7 @@
 
 {{-- Customize layout sections --}}
 
-@section('subtitle', 'Mat. Menor')
+@section('subtitle', 'Eras')
 @section('content_header_title', 'Eras')
 @section('content_header_subtitle', 'Index')
 
