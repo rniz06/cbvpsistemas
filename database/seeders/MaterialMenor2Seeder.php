@@ -30,7 +30,8 @@ class MaterialMenor2Seeder extends Seeder
             'EQUIPOS FORESTALES',
             'EQUIPOS PARA RESCATE VERTICAL Y FIJACION',
             'EQUIPOS Y HERRAMIENTAS MANUALES',
-            'EQUIPOS Y HERRAMIENTAS MOTORIZADAS'
+            'EQUIPOS Y HERRAMIENTAS MOTORIZADAS',
+            'ERAS'
         ];
 
         foreach ($categorias as $categoria) {
