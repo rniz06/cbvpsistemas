@@ -34,17 +34,17 @@
     <div class="row">
         {{-- ITEMS MENOR --}}
         <div class="col-md-12">
-            <x-table.tabla titulo="Material Menor" dropdown_direccion="dropleft">
+            <x-table.tabla titulo="Eras" dropdown_direccion="dropleft">
 
                 <x-slot name="encabezados">
                     {{-- NUMERO EN LA FILA --}}
                     <th style="width: 10px">N°</th>
 
                     {{-- NOMBRE --}}
-                    <th>Nombre</th>
+                    <th>Item</th>
 
-                    {{-- CATEGORIA --}}
-                    <th>Categoria</th>
+                    {{-- MARCA --}}
+                    <th>Marca</th>
 
                     {{-- CANTIDAD DE OPERATIVOS --}}
                     <th>Cant. Operativos</th>
@@ -52,17 +52,21 @@
                     {{-- CANTIDAD DE INOPERATIVOS --}}
                     <th>Cant. Inoperativos</th>
 
+                    {{-- CANTIDAD TOTAL --}}
+                    <th>Cant. Total</th>
+
                     <th>Acciones</th>
 
                 </x-slot>
 
-                @forelse ($menor as $item)
+                @forelse ($eras as $item)
                     <tr>
-                        <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
+                        <td>{{ $loop->iteration + $eras->firstItem() - 1 }}</td>
                         <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
-                        <td>{{ $item->componente->categoria->nombre ?? 'S/D' }}</td>
+                        <td>{{ $item->marca->nombre ?? 'S/D' }}</td>
                         <td><span class="badge badge-success">{{ $item->cantidad_operativo ?? 'S/D' }}</span></td>
                         <td><span class="badge badge-danger">{{ $item->cantidad_inoperativo ?? 'S/D' }}</span></td>
+                        <td><span class="badge badge-secondary">{{ $item->cantidad_total ?? 'S/D' }}</span></td>
                         <td>
                             <x-tabla-dropdown>
                                 @can('Material Menor Ver')
@@ -88,7 +92,7 @@
                 @endforelse
 
                 <x-slot name="paginacion">
-                    {{ $menor->links() }}
+                    {{ $eras->links() }}
                 </x-slot>
             </x-table.tabla>
         </div>

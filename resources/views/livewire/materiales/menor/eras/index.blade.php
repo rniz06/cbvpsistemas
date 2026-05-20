@@ -67,7 +67,7 @@
 
             <div class="col-md-3">
                 <x-adminlte-button label="Ver Compañia" theme="outline-success" class="w-100" :disabled="!$buscarCompaniaId"
-                    onclick="window.location='{{ $buscarCompaniaId ? route('materiales.menor.ver-compania', $buscarCompaniaId) : '#' }}'" />
+                    onclick="window.location='{{ $buscarCompaniaId ? route('materiales.menor.eras.ver-compania', $buscarCompaniaId) : '#' }}'" />
             </div>
 
         </div>
