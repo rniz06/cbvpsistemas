@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Materiales\Menor;
+namespace App\Livewire\Materiales\Menor\Eras;
 
 use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +37,7 @@ class VerComentarios extends Component
 
     public function render()
     {
-        return view('livewire.materiales.menor.ver-comentarios', [
+        return view('livewire.materiales.menor.eras.ver-comentarios', [
             'comentarios' => $this->item->comentarios()
             ->select('idmenor_item_comentario', 'comentario', 'accion_id', 'creadoPor', 'created_at')
             ->with([

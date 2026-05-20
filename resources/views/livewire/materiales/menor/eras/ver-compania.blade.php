@@ -23,10 +23,10 @@
     </x-adminlte-modal>
 
     {{-- MODAL COMPONENTE VER COMENTARIOS --}}
-    <x-adminlte-modal id="modal-ver-comentarios" title="Historil de Movimientos" theme="light" icon="fas fa-list-ul"
+    <x-adminlte-modal id="modal-ver-comentarios" title="Historial de Movimientos" theme="light" icon="fas fa-list-ul"
         v-centered static-backdrop size="xl">
         @if ($item)
-            @livewire('materiales.menor.ver-comentarios', ['item' => $item], key('modal-ver-comentarios' . $item))
+            @livewire('materiales.menor.eras.ver-comentarios', ['item' => $item], key('modal-ver-comentarios' . $item))
         @endif
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
