@@ -62,13 +62,19 @@ class Componente extends Model implements Auditable
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeMenor(Builder $query): void
     {
-        #$query->where('categoria_id', CategoriaComponente::MATERIAL_MENOR);
+        $query->where('tipo_id', TipoMenor::MENOR);
     }
 
     # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
     public function scopeForestales(Builder $query): void
     {
         #$query->where('categoria_id', CategoriaComponente::EQUIPOS_FORESTALES);
+    }
+
+    # RETORNAR SOLO REGISTROS QUE PERTENESCAN A MATERIAL MENOR
+    public function scopeEras(Builder $query): void
+    {
+        $query->where('tipo_id', TipoMenor::ERAS);
     }
 
     # RETORNAR REGISTROS QUE PERTENESCAN A MENOR Y FORESTALES

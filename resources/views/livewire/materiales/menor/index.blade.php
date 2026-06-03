@@ -5,30 +5,10 @@
 
         <div class="col-md-12 row">
 
-            {{-- ITEMS --}}
-            <div class="col-md-3">
-                <div class="form-group">
-                    <div class="input-group mb-2" wire:ignore>
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Items:</div>
-                        </div>
-                        <select class="form-control @error('buscarComponenteId') is-invalid @enderror"
-                            id="buscarComponenteId" name="buscarComponenteId"
-                            wire:model.live.debounce.200ms="buscarComponenteId">
-                            <option value="">Todos</option>
-                            @foreach ($componentes as $componente)
-                                <option value="{{ $componente->id_menor_componente }}">
-                                    {{ $componente->nombre ?? 'S/D' }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-
             {{-- CATEGORIAS --}}
             <div class="col-md-3">
                 <div class="form-group">
-                    <div class="input-group mb-2" wire:ignore>
+                    <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">Categorias:</div>
                         </div>
@@ -39,6 +19,26 @@
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria->id_menor_categoria }}">
                                     {{ $categoria->nombre ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ITEMS --}}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Items:</div>
+                        </div>
+                        <select class="form-control @error('buscarComponenteId') is-invalid @enderror"
+                            id="buscarComponenteId" name="buscarComponenteId"
+                            wire:model.live.debounce.200ms="buscarComponenteId">
+                            <option value="">Todos</option>
+                            @foreach ($componentes as $componente)
+                                <option value="{{ $componente->id_menor_componente }}">
+                                    {{ $componente->nombre ?? 'S/D' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,57 +91,56 @@
         <x-slot name="footerSlot"></x-slot>
     </x-adminlte-modal>
 
-        <div class="col-md-12">
-            <x-table.tabla titulo="Material Menor" >
+    <div class="col-md-12">
+        <x-table.tabla titulo="Material Menor">
 
-                <x-slot name="encabezados">
-                    <th>#</th>
-                    <th>Item</th>
-                    <th>Categoria</th>
-                    <th>Cant. Operativos</th>
-                    <th>Cant. Inoperativos</th>
-                    <th>Compañia</th>
-                    <th>Acciones</th>
-                </x-slot>
+            <x-slot name="encabezados">
+                <th>#</th>
+                <th>Item</th>
+                <th>Categoria</th>
+                <th>Cant. Operativos</th>
+                <th>Cant. Inoperativos</th>
+                <th>Compañia</th>
+                <th>Acciones</th>
+            </x-slot>
 
-                @forelse ($menor as $item)
-                    <tr>
-                        <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
-                        <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
-                        <td>{{ $item->componente->categoria->nombre ?? 'S/D' }}</td>
-                        <td>{{ $item->cantidad_operativo ?? 'S/D' }}</td>
-                        <td>{{ $item->cantidad_inoperativo ?? 'S/D' }}</td>
-                        <td>{{ $item->compania->compania ?? 'S/D' }}</td>
-                        <td>
-                            <x-tabla-dropdown>
-                                @can('Material Menor Ver')
-                                    <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye"
-                                        class="dropdown-item btn-sm" data-toggle="modal"
-                                        data-target="#modal-ver-comentarios"
-                                        wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
-                                @endcan
+            @forelse ($menor as $item)
+                <tr>
+                    <td>{{ $loop->iteration + $menor->firstItem() - 1 }}</td>
+                    <td>{{ $item->componente->nombre ?? 'S/D' }}</td>
+                    <td>{{ $item->componente->categoria->nombre ?? 'S/D' }}</td>
+                    <td>{{ $item->cantidad_operativo ?? 'S/D' }}</td>
+                    <td>{{ $item->cantidad_inoperativo ?? 'S/D' }}</td>
+                    <td>{{ $item->compania->compania ?? 'S/D' }}</td>
+                    <td>
+                        <x-tabla-dropdown>
+                            @can('Material Menor Ver')
+                                <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye" class="dropdown-item btn-sm"
+                                    data-toggle="modal" data-target="#modal-ver-comentarios"
+                                    wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
+                            @endcan
 
-                                @can('Material Menor Editar')
-                                    <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                        data-toggle="modal" data-target="#modal-actualizar"
-                                        wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
-                                @endcan
-                            </x-tabla-dropdown>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="100%" class="text-center text-muted font-italic">Sin resultados coincidentes...
-                        </td>
-                    </tr>
-                @endforelse
+                            @can('Material Menor Editar')
+                                <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
+                                    data-toggle="modal" data-target="#modal-actualizar"
+                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                            @endcan
+                        </x-tabla-dropdown>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="100%" class="text-center text-muted font-italic">Sin resultados coincidentes...
+                    </td>
+                </tr>
+            @endforelse
 
-                <x-slot name="paginacion">
-                    {{ $menor->links() }}
-                </x-slot>
+            <x-slot name="paginacion">
+                {{ $menor->links() }}
+            </x-slot>
 
-            </x-table.tabla>
-        </div>
+        </x-table.tabla>
+    </div>
 </div>
 
 @push('styles')
@@ -152,14 +151,6 @@
     <script src="{{ asset('js/slimselect.js') }}"></script>
 
     <script>
-        new SlimSelect({
-            select: '#buscarComponenteId'
-        })
-
-        new SlimSelect({
-            select: '#buscarCategoriaId'
-        })
-
         new SlimSelect({
             select: '#buscarCompaniaId'
         })

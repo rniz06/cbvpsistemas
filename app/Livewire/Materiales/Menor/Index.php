@@ -8,6 +8,7 @@ use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Componente;
 use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -32,12 +33,8 @@ class Index extends Component
 
     public function mount()
     {
-        $this->paginado = Auth::user()->paginado_por_defecto;
-
-        $this->componentes = Componente::where('tipo_id', TipoMenor::MENOR->value)
-            ->get(['id_menor_componente', 'nombre']);
-
-        $this->categorias = Categoria::get(['id_menor_categoria', 'nombre']);
+        $this->paginado = Auth::user()->paginado_por_defecto ?? 15;
+        $this->categorias = Categoria::whereNot('nombre', 'ERAS')->get(['id_menor_categoria', 'nombre']);
         $this->companias  = Compania::filtrarPorRolMateriales()->get(['id_compania', 'compania']);
     }
 
@@ -62,6 +59,11 @@ class Index extends Component
                 'compania:id_compania,compania',
                 'marca:id_menor_marca,nombre',
             ]);
+    }
+
+    public function updatedBuscarCategoriaId($categoriaId)
+    {
+        $this->componentes = Componente::menor()->buscarCategoriaId($categoriaId)->get(['id_menor_componente', 'nombre']);
     }
 
     public function abrirModalEdit($item)

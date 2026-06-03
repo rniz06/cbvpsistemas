@@ -23,15 +23,15 @@ class Create extends Component
 
     # PROPIEDADES DEL FORMULARIO
     #[Validate]
-    public $componente_id, $categoria_id, $marca_id, $cantidad_operativo = 0, $cantidad_inoperativo = 0, $compania_id;
+    public $componente_id, $marca_id, $cantidad_operativo = 0, $cantidad_inoperativo = 0, $compania_id;
 
     # PROPIEDADES DE LOS SELECTS
-    public $componentes = [], $categorias = [], $marcas = [];
+    public $componentes = [], $marcas = [];
 
     public function mount(int $companiaId)
     {
         $this->compania_id  = $companiaId; # ID DE COMPANIA RECIBIDA
-        $this->categorias   = Categoria::orderBy('nombre')->get(['id_menor_categoria', 'nombre']);
+        $this->componentes   = Componente::eras()->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
         $this->marcas   = Marca::orderBy('nombre')->get(['id_menor_marca', 'nombre']);
     }
 
@@ -41,9 +41,7 @@ class Create extends Component
             'componente_id'  => [
                 'required',
                 Rule::exists(Componente::class, 'id_menor_componente'),
-                //Rule::unique(Item::class, 'componente_id')->where('compania_id', $this->compania_id)
             ],
-            'categoria_id' => ['required', Rule::exists(Categoria::class, 'id_menor_categoria')],
             'marca_id'  => [
                 'required',
                 Rule::exists(Marca::class, 'id_menor_marca'),
@@ -59,7 +57,6 @@ class Create extends Component
         return [
             'componente_id.required' => 'El campo :attribute es requerido.',
             'componente_id.exists' => 'Selecciona una opción valida para el campo :attribute.',
-            //'componente_id.unique' => 'Ya existe un item con el mismo componente en esta compañia.',
             'marca_id.required' => 'El campo :attribute es requerido.',
             'marca_id.exists' => 'Selecciona una opción valida para el campo :attribute.',
             'marca_id.unique' => 'Ya existe un item con la misma marca en esta compañia.',
@@ -98,9 +95,4 @@ class Create extends Component
         return view('livewire.materiales.menor.eras.create');
     }
 
-    public function updatedCategoriaId($categoriaId)
-    {
-        //$this->componente_id = null;
-        $this->componentes = Componente::where('categoria_id', $categoriaId)->orderBy('nombre')->get(['id_menor_componente', 'nombre']);
-    }
 }

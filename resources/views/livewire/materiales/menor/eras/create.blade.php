@@ -3,18 +3,6 @@
     <x-adminlte-card theme="light" title="Agregar Item" icon="fas fa-plus-circle" header-class="text-muted text-sm">
         <form class="col-md-12 row" wire:submit="guardar">
 
-            {{-- Categorias --}}
-            <x-adminlte-select name="categoria_id" wire:model.live.debounce.200ms="categoria_id"
-                label-class="text-lightblue" fgroup-class="col-md-3">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text">Categoria *</div>
-                </x-slot>
-                <option value="">Seleccionar</option>
-                @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->id_menor_categoria }}">{{ $categoria->nombre ?? 'S/D' }}</option>
-                @endforeach
-            </x-adminlte-select>
-
             {{-- Componentes --}}
             <x-adminlte-select name="componente_id" wire:model.blur="componente_id" label-class="text-lightblue"
                 fgroup-class="col-md-3">
