@@ -116,6 +116,14 @@ class Compania extends Model implements Auditable
         });
     }
 
+    /**
+     * Busqueda por campo nombre.
+     */
+    public function scopeCompaniasValidas(Builder $query): void
+    {
+        $query->whereNotIn('compania', ['ANB', 'DIRECTORIO', 'COMANDANCIA', 'BRAVO FENIX', 'BRAVO GOLF']);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FIN SCOPES LOCALES PARA FILTROS

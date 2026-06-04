@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Componente;
 use App\Enums\Materiales\Menor\TipoMenor;
+use App\Models\Gral\Compania;
+use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\DB;
 
 class MaterialMenorItemSeeder extends Seeder
@@ -177,6 +179,11 @@ class MaterialMenorItemSeeder extends Seeder
                 ],
             ];
 
+            /**
+             * 1. INSERTAR COMPONENTES
+             */
+            $componentesInsertados = [];
+
             foreach ($data as $categoriaNombre => $items) {
 
                 $categoriaId = Categoria::where('nombre', $categoriaNombre)
@@ -186,15 +193,53 @@ class MaterialMenorItemSeeder extends Seeder
                     throw new \Exception("No se encontró la categoría: $categoriaNombre");
                 }
 
-                $insertData = array_map(fn ($nombre) => [
-                    'nombre' => $nombre,
-                    'tipo_id' => TipoMenor::MENOR,
-                    'categoria_id' => $categoriaId,
-                    'creadoPor' => $creadoPor,
-                ], $items);
-
-                Componente::insert($insertData);
+                foreach ($items as $nombre) {
+                    $componentesInsertados[] = [
+                        'nombre' => $nombre,
+                        'tipo_id' => TipoMenor::MENOR,
+                        'categoria_id' => $categoriaId,
+                        'creadoPor' => $creadoPor,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
+
+            Componente::insert($componentesInsertados);
+
+            /**
+             * 2. OBTENER DATOS PARA ITEMS
+             */
+            $companias = Compania::companiasValidas()->get(['id_compania']);
+            $componentes = Componente::get(['id_menor_componente']);
+
+            /**
+             * 3. PRODUCTO CARTESIANO COMPANIA × COMPONENTE
+             */
+            $itemsInsert = [];
+
+            foreach ($companias as $compania) {
+                foreach ($componentes as $componente) {
+                    $itemsInsert[] = [
+                        'compania_id' => $compania->id_compania,
+                        'componente_id' => $componente->id_menor_componente,
+                        'cantidad_operativo' => 0,
+                        'cantidad_inoperativo' => 0,
+                        'creadoPor' => $creadoPor,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+
+            /**
+             * 4. INSERT FINAL
+             */
+            collect($itemsInsert)
+                ->chunk(300)
+                ->each(function ($chunk) {
+                    Item::insert($chunk->toArray());
+                });
         });
     }
 }

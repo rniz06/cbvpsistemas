@@ -42,11 +42,11 @@ class MaterialMenorSeeder extends Seeder
             ]);
         }
 
-        Permission::create([
-            'name' => 'Material Menor Ver Compania',
-            'guard_name' => 'web',
-            'modulo_id' => 5,
-            'sub_modulo_id' => 7,
-        ]);
+        // Permission::create([
+        //     'name' => 'Material Menor Ver Compania',
+        //     'guard_name' => 'web',
+        //     'modulo_id' => 5,
+        //     'sub_modulo_id' => 7,
+        // ]);
     }
 }
