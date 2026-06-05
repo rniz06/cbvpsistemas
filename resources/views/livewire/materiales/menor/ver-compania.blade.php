@@ -1,4 +1,32 @@
 <div>
+    {{-- FILTROS DE BUSQUEDA --}}
+    <x-adminlte-card theme="light" title="Filtros de Búsqueda" icon="fas fa-filter" header-class="text-muted text-sm"
+        collapsible>
+
+        <div class="col-md-12 row">
+
+            {{-- CATEGORIAS --}}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-2" wire:ignore>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Categorias:</div>
+                        </div>
+                        <select class="form-control @error('buscarCategoriaId') is-invalid @enderror"
+                            id="buscarCategoriaId" name="buscarCategoriaId"
+                            wire:model.live.debounce.200ms="buscarCategoriaId">
+                            <option value="">Todos</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id_menor_categoria }}">
+                                    {{ $categoria->nombre ?? 'S/D' }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-adminlte-card>
+
     {{-- Do your work, then step back. --}}
     <h4>Ficha de Compañia: {{ $compania->compania ?? 'S/D' }}
         @can('Material Menor Crear')
@@ -104,6 +132,9 @@
     <script src="{{ asset('js/slimselect.js') }}"></script>
 
     <script>
+        new SlimSelect({
+            select: '#buscarCategoriaId'
+        })
         // RECIBIR EVENTO DEL COMPONENTE HIJO Y ACTIVAR LOS SELECTS
         Livewire.on('ver-form-alta', () => {
             // alert('Funciona');

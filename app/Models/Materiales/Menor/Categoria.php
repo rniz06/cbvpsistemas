@@ -46,6 +46,14 @@ class Categoria extends Model implements Auditable
         });
     }
 
+    /**
+     * Filtrar sin registro "ERAS".
+     */
+    public function scopeMenor(Builder $query): void
+    {
+        $query->whereNot('nombre', 'ERAS');
+    }
+
     /*
     |---------------------------------------
     | RELACIONES DEL AUDITORIA DE LA TABLA

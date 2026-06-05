@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Materiales\Menor\Categoria;
 
 class VerCompania extends Component
 {
@@ -23,10 +24,14 @@ class VerCompania extends Component
     # COMPANIA A VER - CONDICIONAL PARA FORM ALTA - CONDICIONAL PARA FORM EDICION - ID DEL ITEM A EDITAR
     public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item = null, $paginado;
 
+    # PROPIEDAD DE BUSQUEDA Y SELECT
+    public $buscarCategoriaId = '', $categorias = [];
+
     # FUNCION MOUNT DE LIVEWIRE
     public function mount(Compania $compania)
     {
         $this->compania           = $compania;
+        $this->categorias         = Categoria::menor()->get(['id_menor_categoria', 'nombre']);
         $this->paginado           = Auth::user()->paginado_por_defecto ?? 10;
     }
 

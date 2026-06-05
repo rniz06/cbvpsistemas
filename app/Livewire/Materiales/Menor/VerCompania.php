@@ -4,6 +4,7 @@ namespace App\Livewire\Materiales\Menor;
 
 use App\Enums\Materiales\Menor\TipoMenor;
 use App\Models\Gral\Compania;
+use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Item;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -22,10 +23,14 @@ class VerCompania extends Component
     # COMPANIA A VER - CONDICIONAL PARA FORM ALTA - CONDICIONAL PARA FORM EDICION - ID DEL ITEM A EDITAR
     public $compania, $ver_form_alta = false, $ver_form_edicion = false, $item = null, $paginado;
 
+    # PROPIEDAD DE BUSQUEDA Y SELECT
+    public $buscarCategoriaId = '', $categorias = [];
+
     # FUNCION MOUNT DE LIVEWIRE
     public function mount(Compania $compania)
     {
         $this->compania           = $compania;
+        $this->categorias         = Categoria::menor()->get(['id_menor_categoria', 'nombre']);
         $this->paginado           = Auth::user()->paginado_por_defecto ?? 5;
     }
 
@@ -52,6 +57,7 @@ class VerCompania extends Component
         return Item::select('id_menor_item', 'componente_id', 'cantidad_operativo', 'cantidad_inoperativo')
             ->menor()
             ->where('compania_id', $this->compania->id_compania)
+            ->buscarCategoriaId($this->buscarCategoriaId)
             ->with([
                 'componente:id_menor_componente,nombre,categoria_id',
                 'componente.categoria:id_menor_categoria,nombre'
