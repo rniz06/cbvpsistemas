@@ -2,11 +2,16 @@
 
 namespace App\Livewire\Materiales\Menor\Componentes;
 
+use App\Actions\Materiales\Menor\CrearItemEnTodasLasCompanias;
 use App\Enums\Materiales\Menor\CategoriaComponente;
+use App\Enums\Materiales\Menor\TipoMenor;
+use App\Models\Gral\Compania;
 use App\Models\Materiales\Menor\Categoria;
 use App\Models\Materiales\Menor\Componente;
+use App\Models\Materiales\Menor\Item;
 use App\Models\Materiales\Menor\Tipo;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -44,20 +49,32 @@ class ModalCreate extends Component
     }
 
     # FUNCION PARA GUARDAR UN NUEVO REGISTRO
-    public function guardar()
+    public function guardar(CrearItemEnTodasLasCompanias $action)
     {
         $this->validate();
 
         try {
-            Componente::create([
-                'nombre'       => $this->nombre,
-                'tipo_id'      => $this->tipo_id,
-                'categoria_id' => $this->categoria_id,
-                'creadoPor'    => Auth::id(),
-            ]);
+
+            DB::transaction(function () use ($action) {
+                $userId = Auth::id();
+
+
+                $componente = Componente::create([
+                    'nombre'       => $this->nombre,
+                    'tipo_id'      => $this->tipo_id,
+                    'categoria_id' => $this->categoria_id,
+                    'creadoPor'    => $userId,
+                ]);
+
+                # SI ES UN MENOR, HACER ACCION
+                if ($this->tipo_id == TipoMenor::MENOR->value) {
+                    $action->handle($componente->id_menor_componente);
+                }
+            });
+
             session()->flash('success', 'COMPONENTE REGISTRADO CORRECTAMENTE!');
         } catch (\Exception $e) {
-            session()->flash('error', 'NO SE PUDO REGISTRAR');
+            session()->flash('error', 'NO SE PUDO REGISTRAR' . $e->getMessage());
         }
 
         $this->redirectRoute('materiales.menor.componentes.index');
