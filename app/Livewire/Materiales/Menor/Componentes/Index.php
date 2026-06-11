@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Materiales\Menor\Componentes;
 
+use App\Actions\Materiales\Menor\EliminarComponenteEnTodasLasCompanias;
 use App\Exports\Excel\Materiales\Menor\Componentes\ExcelMenorComponentesExport;
 use App\Exports\Pdf\Materiales\Menor\Componentes\ListaMenorComponentesPdf;
 use App\Models\Materiales\Menor\Categoria;
@@ -12,6 +13,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
@@ -73,10 +75,10 @@ class Index extends Component
     }
 
     # ELIMINAR UN REGISTRO
-    public function eliminar(int $id): void
+    public function eliminar(int $id, EliminarComponenteEnTodasLasCompanias $action): void
     {
         try {
-            Componente::findOrFail($id)->delete();
+            $action->handle($id);
             session()->flash('success', 'COMPONENTE ELIMINADO CORRECTAMENTE!');
         } catch (\Exception $e) {
             session()->flash('error', 'NO SE PUDO ELIMINAR - ' . $e->getMessage());
