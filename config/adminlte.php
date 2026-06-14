@@ -463,23 +463,27 @@ return [
         ],
         [
             'text' => 'ANB/ECB',
-            'icon' => 'fas fa-users-cog',
+            'icon' => 'fas fa-ethernet',
             'submenu' => [
                 [
                     'text' => 'Llamados',
                     'route' => 'anb.ecb.llamados.index',
+                    'can' => 'anb',
                 ],
                 [
                     'text' => 'Aspirantes',
                     'route' => 'anb.ecb.aspirantes.index',
+                    'can' => 'anb',
                 ],
                 [
                     'text' => 'Examenes físicos',
                     'route' => 'anb.ecb.examenes-fisicos.index',
+                    'can' => 'anb',
                 ],
                 [
                     'text' => 'Examenes PSICO',
                     'route' => 'anb.ecb.psico-tests.index',
+                    'can' => 'anb',
                 ],
             ],
         ],
