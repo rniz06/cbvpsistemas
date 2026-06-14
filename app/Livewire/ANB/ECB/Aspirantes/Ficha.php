@@ -292,7 +292,7 @@ class Ficha extends Component
 
             'companias'=>
 
-                Compania::all(),
+                Compania::companiasValidas()->orderBy('orden')->get(['id_compania','compania']),
 
             'examenesFisicos'=>
 

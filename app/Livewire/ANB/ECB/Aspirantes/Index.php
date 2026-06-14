@@ -236,7 +236,7 @@ class Index extends Component
 
                 'llamados'=>Llamado::all(),
 
-                'companias'=>Compania::all(),
+                'companias'=>Compania::companiasValidas()->orderBy('orden')->get(['id_compania','compania']),
 
             ]
 

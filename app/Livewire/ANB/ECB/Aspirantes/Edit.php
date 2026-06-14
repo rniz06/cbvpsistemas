@@ -40,7 +40,7 @@ class Edit extends Component
 
         $llamados=Llamado::all();
 
-        $companias=Compania::all();
+        $companias=Compania::companiasValidas()->orderBy('orden')->get(['id_compania','compania']);
 
         return view(
             'livewire.anb.ecb.aspirantes.edit',
