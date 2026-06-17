@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <livewire:anb.ecb.reportes.examenes-fisicos />
+    <livewire:ANB.ECB.Reportes.examenes-fisicos />
 
 @endsection

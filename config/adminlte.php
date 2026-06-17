@@ -485,6 +485,11 @@ return [
                     'route' => 'anb.ecb.psico-tests.index',
                     'can' => 'anb',
                 ],
+                [
+                    'text' => 'Reportes',
+                    'route' => 'anb.ecb.reportes.index',
+                    'can' => 'anb',
+                ],
             ],
         ],
         [

@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <livewire:anb.ecb.reportes.aspirantes-medicos />
+    <livewire.ANB.ECB.Reportes.aspirantes-medicos />
 
 @endsection

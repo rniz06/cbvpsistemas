@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <livewire:anb.ecb.reportes.index />
+    <livewire:ANB.ECB.Reportes.index />
 
 @endsection

@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <livewire:anb.ecb.reportes.psicologicos />
+    <livewire:ANB.ECB.Reportes.psicologicos />
 
 @endsection
