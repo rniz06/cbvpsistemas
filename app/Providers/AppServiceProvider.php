@@ -26,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('SuperAdmin') ? true : null;
         });
-        if (request()->header('x-forwarded-proto') == 'https') {
+        // if (request()->header('x-forwarded-proto') == 'https') {
+        //     URL::forceScheme('https');
+        // }
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
     }
