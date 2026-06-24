@@ -69,10 +69,14 @@ class Index extends Component
     public function abrirModalEdit($item)
     {
         $this->item = $item;
+
+        $this->dispatch('abrir-modal-actualizar');
     }
 
     public function abrirModalVerComentarios($item)
     {
         $this->item = $item;
+
+        $this->dispatch('abrir-modal-ver-comentarios');
     }
 }

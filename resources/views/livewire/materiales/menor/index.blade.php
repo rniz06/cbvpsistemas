@@ -74,13 +74,15 @@
     </x-adminlte-card>
 
     {{-- MODAL COMPONENTE DE ACTUALIZACION --}}
-    <x-adminlte-modal id="modal-actualizar" title="Actualizar Registro" theme="light" icon="fas fa-edit" v-centered
-        static-backdrop size="lg">
-        @if ($item)
-            @livewire('materiales.menor.edit', ['item' => $item], key('modal-edit' . $item))
-        @endif
-        <x-slot name="footerSlot"></x-slot>
-    </x-adminlte-modal>
+    <div wire:ignore.self>
+        <x-adminlte-modal id="modal-actualizar" title="Actualizar Registro" theme="light" icon="fas fa-edit" v-centered
+            static-backdrop size="lg">
+            @if ($item)
+                @livewire('materiales.menor.edit', ['item' => $item], key('modal-edit' . $item))
+            @endif
+            <x-slot name="footerSlot"></x-slot>
+        </x-adminlte-modal>
+    </div>
 
     {{-- MODAL COMPONENTE VER COMENTARIOS --}}
     <x-adminlte-modal id="modal-ver-comentarios" title="Historial de Movimientos" theme="light" icon="fas fa-list-ul"
@@ -116,14 +118,13 @@
                         <x-tabla-dropdown>
                             @can('Material Menor Ver')
                                 <x-adminlte-button label="Ver Movimientos" icon="fas fa-eye" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-ver-comentarios"
+                                    {{-- data-toggle="modal" data-target="#modal-ver-comentarios" --}}
                                     wire:click="abrirModalVerComentarios({{ $item->id_menor_item }})" />
                             @endcan
 
                             @can('Material Menor Editar')
                                 <x-adminlte-button label="Actualizar" icon="fas fa-edit" class="dropdown-item btn-sm"
-                                    data-toggle="modal" data-target="#modal-actualizar"
-                                    wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
+                                    {{-- data-toggle="modal" data-target="#modal-actualizar" --}} wire:click="abrirModalEdit({{ $item->id_menor_item }})" />
                             @endcan
                         </x-tabla-dropdown>
                     </td>
@@ -154,5 +155,20 @@
         new SlimSelect({
             select: '#buscarCompaniaId'
         })
+
+        // ABRIR MODAL DE EDICION
+
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('abrir-modal-actualizar', () => {
+                $('#modal-actualizar').modal('show');
+            });
+        });
+
+        // ABRI MODAL DE VER COMENTARIOS
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('abrir-modal-ver-comentarios', () => {
+                $('#modal-ver-comentarios').modal('show');
+            });
+        });
     </script>
 @endpush
