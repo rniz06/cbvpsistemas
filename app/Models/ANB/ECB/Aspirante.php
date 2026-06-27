@@ -21,15 +21,7 @@ class Aspirante extends Model
     public function compania()
     {
         return $this->belongsTo(
-            \App\Models\Gral\Compania::class,
-            'compania_id'
-        );
-    }
-
-    public function ciudad()
-    {
-        return $this->belongsTo(
-            \App\Models\Gral\Ciudad::class,
+            \App\Models\Compania::class,
             'compania_id'
         );
     }

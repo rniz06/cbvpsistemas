@@ -266,19 +266,34 @@ INACTIVO
 
 <a
 href="{{ route(
-
 'anb.ecb.psico-tests.preguntas.index',
-
 $t->id
-
 ) }}"
 class="btn btn-primary btn-sm"
 >
-
 Preguntas
-
 </a>
 
+<a
+href="{{ route(
+'anb.ecb.psico-tests.motor.index',
+$t->id
+) }}"
+class="btn btn-warning btn-sm"
+>
+Motor
+</a>
+<a
+href="{{ route(
+'anb.ecb.psico-tests.baremos.index',
+$t->id
+) }}"
+class="btn btn-info btn-sm"
+>
+
+Baremos
+
+</a>
 </td>
 
 </tr>

@@ -13,7 +13,12 @@ class PsicoDimension extends Model
 
         'test_id',
 
-        'nombre'
+        'orden',
+
+        'nombre',
+
+        'divisor',
+        'codigo',
 
     ];
 
@@ -44,6 +49,21 @@ public function preguntas()
         PsicoPregunta::class,
 
         'dimension_id'
+
+    );
+}
+
+public function preguntasRelacionadas()
+{
+    return $this->belongsToMany(
+
+        PsicoPregunta::class,
+
+        'ECB_psico_dimension_preguntas',
+
+        'dimension_id',
+
+        'pregunta_id'
 
     );
 }

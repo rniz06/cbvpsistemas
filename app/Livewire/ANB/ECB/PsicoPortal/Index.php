@@ -9,6 +9,7 @@ use App\Models\ANB\ECB\PsicoSesion;
 use App\Models\ANB\ECB\PsicoPregunta;
 use App\Models\ANB\ECB\PsicoRespuesta;
 use App\Models\ANB\ECB\PsicoResultado;
+use App\Services\Psicologia\PsicoMotorService;
 
 
 class Index extends Component
@@ -644,7 +645,7 @@ switch(
 
     break;
 
-    case 'LSB50':
+    case 'LSB50-ORIGINAL':
 
         $this->calcularLsb50();
 
@@ -701,14 +702,21 @@ private function calcularWonderlic()
 
 }
 
+//private function calcularNeoFfi()
+//{
+ //   $this->guardarResultadosPorDimension();
+//}
+
 private function calcularNeoFfi()
 {
-    $this->guardarResultadosPorDimension();
+    app(PsicoMotorService::class)
+        ->corregir($this->sesionExamen);
 }
 
 private function calcularLsb50()
 {
-    $this->guardarResultadosPorDimension();
+    app(PsicoMotorService::class)
+        ->corregir($this->sesionExamen);
 }
 
 
@@ -728,11 +736,11 @@ private function guardarResultadosPorDimension()
 
 
 
-    $respuestas=
+    $respuestas =
 
         PsicoRespuesta::with(
 
-            'pregunta.dimension',
+            'pregunta.dimensionesRelacionadas',
 
             'opcion'
 
@@ -750,79 +758,106 @@ private function guardarResultadosPorDimension()
 
 
 
-    foreach($respuestas as $respuesta){
+foreach($respuestas as $respuesta){
 
-        if(
-            !$respuesta->pregunta?->dimension
-        ){
-            continue;
-        }
-
-
-
-        $dimensionId=
-
-            $respuesta
-                ->pregunta
-                ->dimension
-                ->id;
-
-
-
-        $valor=
-
-            $respuesta
-                ->opcion
-                ?->valor
-
-            ?? 0;
-
-
-
-        if(
-            !isset(
-                $resultados[$dimensionId]
-            )
-        ){
-
-            $resultados[$dimensionId]=0;
-
-        }
-
-
-
-        $resultados[$dimensionId]+=$valor;
+    if(
+        !$respuesta->pregunta
+    ){
+        continue;
     }
 
+    $valor =
 
+        $respuesta
+            ->opcion
+            ?->valor
+
+        ?? 0;
 
     foreach(
 
-        $resultados
+        $respuesta
+            ->pregunta
+            ->dimensionesRelacionadas
 
         as
 
-        $dimensionId=>$puntaje
+        $dimension
 
     ){
 
-        PsicoResultado::create([
+        if(
 
-            'sesion_id'=>
+            !isset(
 
-                $this->sesionExamen->id,
+                $resultados[
+                    $dimension->id
+                ]
 
-            'dimension_id'=>
+            )
 
-                $dimensionId,
+        ){
 
-            'puntaje'=>
+            $resultados[
+                $dimension->id
+            ] = 0;
 
-                $puntaje
+        }
 
-        ]);
+        $resultados[
+            $dimension->id
+        ] += $valor;
 
     }
+
+}
+
+
+
+foreach($resultados as $dimensionId => $datos){
+
+    $puntajeBruto = $datos['puntaje'];
+
+    $dimension = $datos['dimension'];
+
+    $puntajeDirecto = $puntajeBruto;
+
+    if(
+
+        $dimension->divisor > 0
+
+    ){
+
+        $puntajeDirecto = round(
+
+            $puntajeBruto /
+
+            $dimension->divisor,
+
+            2
+
+        );
+
+    }
+
+    PsicoResultado::create([
+
+        'sesion_id'        => $this->sesionExamen->id,
+
+        'dimension_id'     => $dimensionId,
+
+        'puntaje'          => $puntajeDirecto,
+
+        'puntaje_bruto'    => $puntajeBruto,
+
+        'puntaje_directo'  => $puntajeDirecto,
+
+        'percentil'        => null,
+
+        'interpretacion'   => null
+
+    ]);
+}
 }
 
 

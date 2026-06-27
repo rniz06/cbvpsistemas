@@ -45,4 +45,33 @@ class PsicoPregunta extends Model
 
         );
     }
+
+    public function dimensiones()
+    {
+        return $this->belongsToMany(
+
+            PsicoDimension::class,
+
+            'ECB_psico_dimension_preguntas',
+
+            'pregunta_id',
+
+            'dimension_id'
+
+        );
+    }
+    public function dimensionesRelacionadas()
+{
+    return $this->belongsToMany(
+
+        PsicoDimension::class,
+
+        'ECB_psico_dimension_preguntas',
+
+        'pregunta_id',
+
+        'dimension_id'
+
+    );
+}
 }
