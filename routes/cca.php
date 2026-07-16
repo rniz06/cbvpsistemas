@@ -31,11 +31,12 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             Route::get('/servicios-activos-911', 'serviciosActivos911')->name('cca.despacho.servicios-activos-911');
         });
 
-        // Rutas de Reportes
+    // Rutas de Reportes
     Route::controller(ReporteController::class)
         ->prefix('reportes')
         ->group(function () {
             Route::get('/historico', 'historico')->name('cca.reportes.historico');
             Route::get('/graficos-por-compania', 'graficosPorCompania')->name('cca.reportes.graficos-por-compania');
+            Route::get('/reporte-personalizado', 'reportePersonalizado')->name('cca.reportes.reporte-personalizado');
         });
 });

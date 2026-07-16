@@ -15,6 +15,7 @@ class ReporteController extends Controller
     {
         $this->middleware('permission:Reportes Historico', ['only' => ['historico']]);
         $this->middleware('permission:Reportes Por Compania', ['only' => ['graficosPorCompania']]);
+        $this->middleware('permission:Reporte Personalizado', ['only' => ['reportePersonalizado']]);
     }
 
     public function historico()
@@ -25,5 +26,10 @@ class ReporteController extends Controller
     public function graficosPorCompania()
     {
         return view('cca.reportes.graficos-por-compania');
+    }
+
+    public function reportePersonalizado()
+    {
+        return view('cca.reportes.reporte-personalizado');
     }
 }

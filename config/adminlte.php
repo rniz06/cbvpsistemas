@@ -457,6 +457,11 @@ return [
                             'route' => 'cca.reportes.graficos-por-compania',
                             'can' => 'Reportes Por Compania',
                         ],
+                        [
+                            'text' => 'Reporte Personalizado',
+                            'route' => 'cca.reportes.reporte-personalizado',
+                            'can' => 'Reporte Personalizado',
+                        ],
                     ],
                 ],
             ],
