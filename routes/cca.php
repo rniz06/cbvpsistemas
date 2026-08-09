@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Cca\DespachoController;
 use App\Http\Controllers\Cca\DespachoPorCompaniaController;
+use App\Http\Controllers\Cca\OperatividadController;
 use App\Http\Controllers\Cca\ReporteController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,11 +32,18 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             Route::get('/servicios-activos-911', 'serviciosActivos911')->name('cca.despacho.servicios-activos-911');
         });
 
-        // Rutas de Reportes
+    // Rutas de Reportes
     Route::controller(ReporteController::class)
         ->prefix('reportes')
         ->group(function () {
             Route::get('/historico', 'historico')->name('cca.reportes.historico');
             Route::get('/graficos-por-compania', 'graficosPorCompania')->name('cca.reportes.graficos-por-compania');
+        });
+
+    // Rutas de Operatidad
+    Route::controller(OperatividadController::class)
+        ->prefix('operatividad')
+        ->group(function () {
+            Route::get('/', 'index')->name('cca.operatividad.index');
         });
 });

@@ -459,6 +459,19 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'text' => 'Operatividad',
+                    'route' => 'cca.operatividad.index',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'can' => 'Cca Operatividad Listar',
+                    // 'submenu' => [
+                    //     [
+                    //         'text' => 'Listar',
+                    //         'route' => 'cca.operatividad.index',
+                    //         'can' => 'Cca Operatividad Listar',
+                    //     ]
+                    // ],
+                ],
             ],
         ],
         [
