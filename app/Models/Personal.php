@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cca\Operatividad\Operatividad;
 use App\Models\Personal\Asistencia;
 use App\Models\Personal\Asistencia\Detalle;
 use App\Models\Personal\Categoria;
@@ -199,6 +200,12 @@ class Personal extends Model implements Auditable
     public function asistenciasDetalles()
     {
         return $this->hasMany(Detalle::class);    
+    }
+
+    # ACARGO DE LA OPERATIVIDAD DE LA CIA EN CONDICION DE GUARDIA
+    public function operatividadAcargo()
+    {
+        return $this->hasMany(Operatividad::class);    
     }
 
     /*

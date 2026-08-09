@@ -17,9 +17,9 @@ return new class extends Migration
                 ->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('movil_id')->constrained('MAT_moviles', 'id_movil')
                 ->cascadeOnUpdate()->cascadeOnDelete();
+                $table->boolean('operativo');
             $table->foreignId('creadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('actualizadoPor')->nullable()->constrained('users', 'id_usuario')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->boolean('operativo');
             $table->timestamps();
             $table->softDeletes();
         });

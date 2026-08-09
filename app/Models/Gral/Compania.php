@@ -2,6 +2,7 @@
 
 namespace App\Models\Gral;
 
+use App\Models\Cca\Operatividad\Operatividad;
 use App\Models\Materiales\Menor\Item;
 use App\Models\Materiales\Movil\Movil;
 use App\Models\Personal\Asistencia\Asistencia;
@@ -25,7 +26,15 @@ class Compania extends Model implements Auditable
         'ciudad_id',
         'region_id',
         'orden',
+        'cca_operativo',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'cca_operativo' => 'boolean',
+        ];
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -57,6 +66,12 @@ class Compania extends Model implements Auditable
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'compania_id');
+    }
+
+    # OPERATIVIDAD EN CONDICION DE GUARDIA
+    public function operatividad()
+    {
+        return $this->hasMany(Operatividad::class);    
     }
 
     /*
