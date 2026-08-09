@@ -319,4 +319,25 @@ class PersonalController extends Controller
     {
         return view('personal.reportes');
     }
+
+    public function constanciaDeSerBombero($personal)
+    {
+        // Cargar todas las relaciones en una sola consulta
+        $personal = Personal::with([
+            'categoria',
+            'estado',
+            'sexo',
+            'pais',
+            'estadoActualizar',
+            'grupoSanguineo',
+            'vtcompania'
+        ])
+            ->findOrFail($personal);
+
+        $pdf = Pdf::loadView('personal.constancia-de-ser-bombero', ['personal' => $personal]);
+
+        return $pdf->download('Constancia de ser Bombero.pdf');
+
+        // return view('personal.constancia-de-ser-bombero');
+    }
 }

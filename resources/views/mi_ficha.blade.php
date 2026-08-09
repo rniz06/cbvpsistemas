@@ -33,9 +33,10 @@
                             <b>Resoluciones</b> <a
                                 class="float-right text-dark badge badge-warning">{{ $resoluciones->total() ?? '000' }}</a>
                         </li>
-                        {{-- <li class="list-group-item">
-                            <b>Friends</b> <a class="float-right">13,287</a>
-                        </li> --}}
+                        <li class="list-group-item">
+                            <a href="{{ route('personal.constancia-de-ser-bombero', $personal->idpersonal ) }}"
+                                class="btn btn-warning btn-block">Generar Constancia de ser Bombero</a>
+                        </li>
                     </ul>
 
                     {{-- <a href="#" class="btn btn-warning btn-block"><b>Follow</b></a> --}}
@@ -153,7 +154,7 @@
                         </div>
                         <!-- /.tab-pane -->
 
-                       <div class="tab-pane" id="mis_comisionamientos">
+                        <div class="tab-pane" id="mis_comisionamientos">
                             @livewire('perfil.mis-comisionamientos')
                         </div>
                         <!-- /.tab-pane -->

@@ -3,11 +3,22 @@
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Personal\AsistenciaController;
 use App\Http\Controllers\Personal\ComisionamientoController;
+use App\Http\Controllers\PersonalController;
 use Illuminate\Support\Facades\Route;
 
 
 
 Route::middleware('auth')->prefix('personal')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rutas del modulo Personal
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(PersonalController::class)
+        ->group(function () {
+            Route::get('/constancia-de-ser-bombero/{personal}', 'constanciaDeSerBombero')->name('personal.constancia-de-ser-bombero');
+        });
 
     /*
     |--------------------------------------------------------------------------
