@@ -41,7 +41,7 @@ class Operatividad extends Model implements Auditable
         ];
     }
 
-    public function acargo()
+    public function acargo_rel()
     {
         return $this->belongsTo(Personal::class, 'acargo', 'idpersonal');
     }
@@ -53,7 +53,7 @@ class Operatividad extends Model implements Auditable
 
     public function moviles()
     {
-        return $this->hasMany(Operatividad::class, 'operatividad_detalle_id', 'id_operatividad_detalle');
+        return $this->hasMany(OperatividadMovil::class, 'operatividad_detalle_id', 'id_operatividad_detalle');
     }
 
     /*

@@ -2,6 +2,7 @@
 
 namespace App\Models\Cca\Operatividad;
 
+use App\Models\Materiales\Movil\Movil;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,6 +40,11 @@ class OperatividadMovil extends Model implements Auditable
     public function operatividadDetalle()
     {
         return $this->belongsTo(Operatividad::class, 'operatividad_detalle_id');
+    }
+
+    public function movil()
+    {
+        return $this->belongsTo(Movil::class, 'movil_id');
     }
 
     /*

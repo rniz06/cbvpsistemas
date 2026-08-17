@@ -13,8 +13,8 @@
     @if ($msg = session('success') ?? session('error'))
         <x-adminlte-callout :icon="session('success') ? 'fas fa-check-circle' : 'fas fa-times'" :theme="session('success') ? 'success' : 'danger'" :title="$msg" :title-class="session('success') ? 'text-success' : 'text-danger'" />
     @endif
-    {{-- @livewire('cca.operatividad.index') --}}
-    aaa
+    @livewire('cca.operatividad.monitoreo')
+    
 @stop
 
 {{-- Push extra CSS --}}

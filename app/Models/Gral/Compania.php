@@ -69,9 +69,22 @@ class Compania extends Model implements Auditable
     }
 
     # OPERATIVIDAD EN CONDICION DE GUARDIA
-    public function operatividad()
+    public function operatividades()
     {
-        return $this->hasMany(Operatividad::class);    
+        return $this->hasMany(
+            Operatividad::class,
+            'compania_id',
+            'id_compania'
+        );
+    }
+
+    public function ultimaOperatividad()
+    {
+        return $this->hasOne(
+            Operatividad::class,
+            'compania_id',
+            'id_compania'
+        )->latestOfMany('fecha_hora');
     }
 
     /*
