@@ -37,11 +37,13 @@
                                 {{ $compania->ultimaOperatividad?->acargo_aux ??
                                     ($compania->ultimaOperatividad?->acargo_rel?->categoria_codigo_juramento ?? 'S/D') }}
                             </td>
-                            <td class="text-center"><span
-                                    class="badge badge-secondary">{{ $compania->ultimaOperatividad->cant_personal ?? 'S/D' }}</span>
+                            <td class="text-center"><span class="badge badge-light border"><i
+                                        class="fas fa-users mr-1"></i>
+                                    {{ $compania->ultimaOperatividad->cant_personal ?? 'S/D' }}</span>
                             </td>
-                            <td class="text-center"><span
-                                    class="badge badge-secondary">{{ $compania->ultimaOperatividad->cant_conductor ?? 'S/D' }}</span>
+                            <td class="text-center"><span class="badge badge-light border"><i
+                                        class="fas fa-id-card mr-1"></i>
+                                    {{ $compania->ultimaOperatividad->cant_conductor ?? 'S/D' }}</span>
                             </td>
                             {{-- <td>
                                 <ul>
@@ -75,28 +77,41 @@
                                 </span>
                             </td>
                             <td class="text-center"><span
-                                    class="badge badge-secondary">{{ $compania->ultimaOperatividad->cant_autonomo ?? 'S/D' }}</span>
+                                    class="badge badge-secondary">{{ $compania->ultimaOperatividad?->cant_autonomo ?? 'S/D' }}</span>
                             </td>
                             <td class="text-center"><span
                                     class="badge badge-secondary">{{ $compania->ultimaOperatividad->cant_espuma ?? 'S/D' }}</span>
                             </td>
                             <td>
                                 <span
-                                    class="badge {{ $compania->ultimaOperatividad->equipo_hidraulico ? 'badge-success' : 'badge-danger' }}">
+                                    class="badge {{ $compania->ultimaOperatividad?->equipo_hidraulico ? 'badge-success' : 'badge-danger' }}">
                                     <i
-                                        class="fas {{ $compania->ultimaOperatividad->equipo_hidraulico ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
-                                    {{ $compania->ultimaOperatividad->equipo_hidraulico ? 'Operativo' : 'Inoperativo' }}
+                                        class="fas {{ $compania->ultimaOperatividad?->equipo_hidraulico ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
+                                    {{ $compania->ultimaOperatividad?->equipo_hidraulico ? 'Operativo' : 'Inoperativo' }}
                                 </span>
                             </td>
                             <td>
                                 <span
-                                    class="badge {{ $compania->ultimaOperatividad->pileta ? 'badge-success' : 'badge-danger' }}">
+                                    class="badge {{ $compania->ultimaOperatividad?->pileta ? 'badge-success' : 'badge-danger' }}">
                                     <i
-                                        class="fas {{ $compania->ultimaOperatividad->pileta ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
-                                    {{ $compania->ultimaOperatividad->pileta ? 'Operativo' : 'Inoperativo' }}
+                                        class="fas {{ $compania->ultimaOperatividad?->pileta ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
+                                    {{ $compania->ultimaOperatividad?->pileta ? 'Operativo' : 'Inoperativo' }}
                                 </span>
                             </td>
-                            <td>{{ $compania->ultimaOperatividad->fecha_hora->format('d/m/Y H:m') ?? 'S/D' }}</td>
+                            <td>{{ $compania?->ultimaOperatividad?->fecha_hora?->format('d/m/Y H:i') ?? 'S/D' }}</td>
+                            <td class="text-right">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-toggle="dropdown" aria-expanded="false">
+                                        Acciones
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item"><i class="fas fa-car mr-1"></i>Ver Móviles</button>
+                                        <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver historial</button>
+                                        <button class="dropdown-item"><i class="fas fa-edit mr-1"></i>Actualizar Condición</button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                     @endforelse

@@ -34,7 +34,7 @@ class Monitoreo extends Component
                     ]);
                 }
             ])
-            ->where('id_compania', 19)//K15
+            //->where('id_compania', 19)//K15
             ->orderBy('orden');
     }
 
