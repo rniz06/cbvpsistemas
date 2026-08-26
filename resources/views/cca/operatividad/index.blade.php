@@ -17,12 +17,12 @@
     
 @stop
 
-{{-- Push extra CSS --}}
-
 @push('css')
+    {{-- Incluir estilos adicionales desde el componente --}}
+    @stack('styles')
 @endpush
 
-{{-- Push extra scripts --}}
-
 @push('js')
+    {{-- Incluir scripts js adicionales desde el componente --}}
+    @stack('scripts')
 @endpush

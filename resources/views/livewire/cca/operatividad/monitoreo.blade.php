@@ -1,5 +1,16 @@
 <div>
 
+    {{-- MODAL COMPONENTE DE ACTUALIZACION --}}
+    <div wire:ignore.self>
+        <x-adminlte-modal id="modal-actualizar" title="Actualizar Condición de guardia" theme="light" icon="fas fa-edit"
+            v-centered static-backdrop size="xl">
+            @if ($companiaId)
+                @livewire('cca.operatividad.form', ['companiaId' => $companiaId], key('modal-edit' . $companiaId))
+            @endif
+            <x-slot name="footerSlot"></x-slot>
+        </x-adminlte-modal>
+    </div>
+
     {{-- Tabla Monitoreo --}}
     <x-adminlte-card theme="secondary" theme-mode="outline" title="Situación operativa" maximizable collapsible>
 
@@ -106,9 +117,13 @@
                                         Acciones
                                     </button>
                                     <div class="dropdown-menu">
-                                        <button class="dropdown-item"><i class="fas fa-car mr-1"></i>Ver Móviles</button>
-                                        <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver historial</button>
-                                        <button class="dropdown-item"><i class="fas fa-edit mr-1"></i>Actualizar Condición</button>
+                                        <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
+                                            class="dropdown-item btn-sm" />
+                                        <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver
+                                            historial</button>
+                                        <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
+                                            class="dropdown-item btn-sm"
+                                            wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
                                     </div>
                                 </div>
                             </td>
@@ -122,3 +137,25 @@
     </x-adminlte-card>
     {{ $datos ?? 'S/D' }}
 </div>
+
+@push('styles')
+    {{-- <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}"> --}}
+@endpush
+
+@push('scripts')
+    {{-- <script src="{{ asset('js/slimselect.js') }}"></script> --}}
+
+    <script>
+        // new SlimSelect({
+        //     select: '#buscarCompaniaId'
+        // })
+
+        // ABRIR MODAL DE EDICION
+
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('abrir-modal-actualizar', () => {
+                $('#modal-actualizar').modal('show');
+            });
+        });
+    </script>
+@endpush

@@ -15,6 +15,7 @@ class Monitoreo extends Component
 
     public string $buscarCompania = '';
     public string $estado = 'todos';
+    public int $companiaId;
 
     /*
     |--------------------------------------------------------------------------
@@ -44,5 +45,12 @@ class Monitoreo extends Component
         return view('livewire.cca.operatividad.monitoreo', [
             'datos' => $this->queryBase()->get()
         ]);
+    }
+
+    public function abrirModalActualizar(int $companiaId)
+    {
+        $this->companiaId = $companiaId;
+
+        $this->dispatch('abrir-modal-actualizar');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models\Cca\Operatividad;
 use App\Models\Gral\Compania;
 use App\Models\Personal;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
