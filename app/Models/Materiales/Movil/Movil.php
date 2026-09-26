@@ -308,6 +308,16 @@ class Movil extends Model implements Auditable
         return $query->where('operatividad_id', 0); // 0 = INOPERATIVO
     }
 
+    public function scopeFiltrarOperativos(Builder $query)
+    {
+        return $query->where('operatividad_id', 1); // 0 = OPERATIVO
+    }
+
+    public function scopeFiltrarOperaInope(Builder $query)
+    {
+        return $query->whereIn('operatividad_id', [0, 1]); // 0 = OPERATIVO
+    }
+
     /*
     |---------------------------------------
     | FIN LOCAL SCOPE / FILTROS DE CONSULTAS

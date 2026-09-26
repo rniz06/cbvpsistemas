@@ -54,7 +54,7 @@ class Compania extends Model implements Auditable
 
     public function moviles()
     {
-        return $this->hasMany(Movil::class, 'modelo_id');
+        return $this->hasMany(Movil::class, 'compania_id');
     }
 
     public function asistencias()

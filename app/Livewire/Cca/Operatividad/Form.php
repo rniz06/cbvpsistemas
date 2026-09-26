@@ -3,10 +3,13 @@
 namespace App\Livewire\Cca\Operatividad;
 
 use App\Models\Cca\Operatividad\Operatividad;
+use App\Models\Cca\Operatividad\OperatividadMovil;
 use App\Models\Gral\Compania;
+use App\Models\Materiales\Movil\Movil;
 use App\Models\Personal;
 use App\Models\Personal\Comisionamiento;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -15,17 +18,21 @@ class Form extends Component
     # PROPIEDADES DEL FORMULARIO
     #[Validate]
     public string $acargo;
-    public int $cant_personal;
-    public int $cant_conductor;
-    public bool $equipo_hidraulico;
-    public bool $pileta;
-    public int $cant_autonomo;
-    public int $cant_espuma;
+    public int    $cant_personal;
+    public int    $cant_conductor;
+    public bool   $equipo_hidraulico;
+    public bool   $pileta;
+    public int    $cant_autonomo;
+    public int    $cant_espuma;
+    public array $moviles = [];
+    public $movilesSelect = [];
     public $compania, $ult_reg_operatividad;
 
     public function mount(int $companiaId)
     {
         $this->compania = Compania::findOrFail($companiaId);
+        $this->movilesSelect = Movil::filtrarOperaInope()->with('acronimo:id_movil_tipo,tipo')
+            ->where('compania_id', $this->compania->id_compania)->get(['id_movil', 'movil', 'movil_tipo_id']);
         $this->cargarUltRegOperatividad();
     }
 
@@ -41,7 +48,8 @@ class Form extends Component
             'pileta'            => ['required', 'boolean'],
             'cant_autonomo'     => ['required', 'integer', 'min:0'],
             'cant_espuma'       => ['required', 'integer', 'min:0'],
-            // 'compania_id'       => ['required', 'integer', 'exists:companias,id'],
+            'moviles'           => ['array'],
+            //'moviles.*'         => ['integer'],
         ];
     }
 
@@ -50,21 +58,41 @@ class Form extends Component
     {
         $this->validate();
 
+        // return dd($this->validate());
+
         try {
             $datosAcargo = $this->calcularAcargo();
-            Operatividad::create([
-                'fecha_hora'         => now(),
-                'acargo'             => $datosAcargo['acargo'],
-                'acargo_aux'         => $datosAcargo['acargo_aux'],
-                'cant_personal'      => $this->cant_personal,
-                'cant_conductor'     => $this->cant_conductor,
-                'equipo_hidraulico'  => $this->equipo_hidraulico,
-                'pileta'             => $this->pileta,
-                'cant_autonomo'      => $this->cant_autonomo,
-                'cant_espuma'        => $this->cant_espuma,
-                'compania_id'        => $this->compania->id_compania,
-                'creadoPor'          => Auth::id(),
-            ]);
+
+            DB::transaction(function () use ($datosAcargo) {
+                $operatividad = Operatividad::create([
+                    'fecha_hora'         => now(),
+                    'acargo'             => $datosAcargo['acargo'],
+                    'acargo_aux'         => $datosAcargo['acargo_aux'],
+                    'cant_personal'      => $this->cant_personal,
+                    'cant_conductor'     => $this->cant_conductor,
+                    'equipo_hidraulico'  => $this->equipo_hidraulico,
+                    'pileta'             => $this->pileta,
+                    'cant_autonomo'      => $this->cant_autonomo,
+                    'cant_espuma'        => $this->cant_espuma,
+                    'compania_id'        => $this->compania->id_compania,
+                    'creadoPor'          => Auth::id(),
+                ]);
+
+                // Recorremos todos los móviles disponibles
+                foreach ($this->movilesSelect as $movil) {
+
+                    // Verificamos si el ID está presente en los seleccionados del checkbox
+                    $esOperativo = in_array($movil->id_movil, $this->moviles);
+
+                    OperatividadMovil::create([
+                        'operatividad_detalle_id' => $operatividad->id_operatividad_detalle, // Asegúrate de que este sea el nombre real de tu PK
+                        'movil_id'                => $movil->id_movil,
+                        'operativo'               => $esOperativo, // Guardará true (1) o false (0)
+                        'creadoPor'               => Auth::id(),
+                    ]);
+                }
+            });
+
             session()->flash('success', 'REGISTRADO CORRECTAMENTE!');
         } catch (\Exception $e) {
             session()->flash('error', 'NO SE PUDO REGISTRAR-' . $e->getMessage());
@@ -89,7 +117,7 @@ class Form extends Component
             'pileta',
             'cant_autonomo',
             'cant_espuma',
-            'compania',
+            'moviles',
         ]);
 
         $this->resetValidation();
@@ -99,6 +127,7 @@ class Form extends Component
     public function cargarUltRegOperatividad()
     {
         $this->ult_reg_operatividad = Operatividad::where('compania_id', $this->compania->id_compania)
+            ->with(['acargo_rel'])
             ->latest()
             ->first();
 
@@ -111,6 +140,10 @@ class Form extends Component
             $this->pileta            = (bool) ($this->ult_reg_operatividad->pileta ?? false);
             $this->cant_autonomo     = $this->ult_reg_operatividad->cant_autonomo ?? 0;
             $this->cant_espuma       = $this->ult_reg_operatividad->cant_espuma ?? 0;
+            $this->moviles           = OperatividadMovil::where([
+                ['operatividad_detalle_id', $this->ult_reg_operatividad->id_operatividad_detalle],
+                ['operativo', true]
+            ])->pluck('movil_id')->toArray();
         }
     }
 

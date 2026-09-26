@@ -53,4 +53,9 @@ class Monitoreo extends Component
 
         $this->dispatch('abrir-modal-actualizar');
     }
+
+    public function cerrarModalActualizar()
+    {
+        $this->companiaId = 0;
+    }
 }

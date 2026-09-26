@@ -156,6 +156,11 @@
             Livewire.on('abrir-modal-actualizar', () => {
                 $('#modal-actualizar').modal('show');
             });
+
+            // Limpiar el ID en el componente padre cuando se CIERRA el modal
+            $('#modal-actualizar').on('hidden.bs.modal', function() {
+                @this.call('cerrarModalActualizar');
+            });
         });
     </script>
 @endpush
