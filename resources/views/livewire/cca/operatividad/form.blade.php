@@ -1,5 +1,4 @@
 <form wire:submit.prevent="guardar" class="row">
-
     {{-- Fila 1: Datos del Responsable --}}
     <div class="card card-primary col-md-12">
         <div class="card-header bg-light p-1">
@@ -7,9 +6,48 @@
         </div>
         <div class="card-body p-1 m-0">
             <div class="row">
+                {{-- Selec Operatividad --}}
+                <div class="col-md-4">
+    <div class="form-group">
+        <label class="text-black">
+            Cia Operatividad? *
+        </label>
+
+        <div class="custom-control custom-switch">
+            <input
+                type="checkbox"
+                class="custom-control-input"
+                id="cca_operativo"
+                wire:model.live="cca_operativo"
+            >
+
+            <label
+                class="custom-control-label"
+                for="cca_operativo"
+            >
+                @if ($cca_operativo)
+                    <span class="text-success">
+                        🟢 Operativo
+                    </span>
+                @else
+                    <span class="text-danger">
+                        🔴 Inoperativo
+                    </span>
+                @endif
+            </label>
+        </div>
+
+        @error('cca_operativo')
+            <span class="text-danger text-sm">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+</div>
+
                 {{-- A cargo --}}
                 <x-adminlte-input name="acargo" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()"
-                    placeholder="Ej: C151 o 8699" label-class="text-lightblue" fgroup-class="col-md-6">
+                    placeholder="Ej: C151 o 8699" label-class="text-lightblue" fgroup-class="col-md-4">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">A cargo *</div>
                     </x-slot>
@@ -17,7 +55,7 @@
 
                 {{-- Personal --}}
                 <x-adminlte-input name="cant_personal" wire:model.blur="cant_personal" type="number"
-                    placeholder="Ej: 1 o 5" label-class="text-lightblue" fgroup-class="col-md-6">
+                    placeholder="Ej: 1 o 5" label-class="text-lightblue" fgroup-class="col-md-4">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">Personal *</div>
                     </x-slot>
