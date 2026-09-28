@@ -41,14 +41,14 @@ class Form extends Component
     protected function rules()
     {
         return [
-            'acargo'            => ['required', 'string'],
-            'cant_personal'     => ['required', 'integer', 'min:0'],
-            'cant_conductor'    => ['required', 'integer', 'min:0'],
-            'equipo_hidraulico' => ['required', 'boolean'],
-            'pileta'            => ['required', 'boolean'],
-            'cant_autonomo'     => ['required', 'integer', 'min:0'],
-            'cant_espuma'       => ['required', 'integer', 'min:0'],
-            'moviles'           => ['array'],
+            'acargo'            => ['nullable', 'string'],
+            'cant_personal'     => ['nullable', 'integer', 'min:0'],
+            'cant_conductor'    => ['nullable', 'integer', 'min:0'],
+            'equipo_hidraulico' => ['nullable', 'boolean'],
+            'pileta'            => ['nullable', 'boolean'],
+            'cant_autonomo'     => ['nullable', 'integer', 'min:0'],
+            'cant_espuma'       => ['nullable', 'integer', 'min:0'],
+            'moviles'           => ['nullable', 'array'],
             //'moviles.*'         => ['integer'],
         ];
     }

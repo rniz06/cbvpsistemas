@@ -11,6 +11,52 @@
         </x-adminlte-modal>
     </div>
 
+    {{-- WIDGETS RESUMEN COMPACTOS --WIDGETS DE SITUACIÓN OPERATIVA --}}
+    {{-- <x-adminlte-card theme="secondary" theme-mode="outline"> --}}
+    <div class="row">
+        {{-- COMPANIAS OPERATIVAS --}}
+        <x-adminlte-info-box title="Compañías Operativas"
+            text="{{ $cant_companias_operativas ?? 'S/D' }}/{{ $cant_companias ?? 'S/D' }}" icon="fas fa-building"
+            class="col-xl-2 col-md-4 col-12 px-1" />
+
+        {{-- PERSONAL DE GUARDIA --}}
+        <x-adminlte-info-box title="Cant. Personal de guardia" text="{{ $cant_personal ?? 'S/D' }}"
+            icon="fas fa-user-friends" class="col-xl-2 col-md-4 col-12 px-1" />
+
+        {{-- EQUIPO HIDRAULICO --}}
+        <x-adminlte-info-box title="Comp. Con E. Hidraulico"
+            text="{{ $cant_hidraulico ?? 'S/D' }}/{{ $cant_companias ?? 'S/D' }}" icon="fas fa-building"
+            class="col-xl-2 col-md-4 col-12 px-1" />
+
+        {{-- CANTIDAD DE CONDUCTORES --}}
+        <x-adminlte-info-box title="Cantidad de Conductores" text="{{ $cant_conductores ?? 'S/D' }}"
+            icon="fas fa-building" class="col-xl-2 col-md-4 col-12 px-1" />
+
+
+        <x-adminlte-select name="buscarCompaniaId" wire:model.live.debounce.150ms="buscarCompaniaId" label-class="text-black"
+            fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Compañías">
+            <option value="">Todas las compañías</option>
+
+            @forelse ($companias as $compania)
+                <option value="{{ $compania->id_compania }}">
+                    {{ $compania->compania ?? 'S/D' }}
+                </option>
+            @empty
+                <option value="">Sin Datos...</option>
+            @endforelse
+        </x-adminlte-select>
+
+
+        <x-adminlte-select name="buscarOperatividad" wire:model.live.debounce.150ms="buscarOperatividad" label-class="text-black"
+            fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Operatividad">
+            <option value="">Todas Operativo/Inoperativo</option>
+            <option value="true">Operativo</option>
+            <option value="false">Inoperativo</option>
+        </x-adminlte-select>
+    </div>
+
+    {{-- </x-adminlte-card> --}}
+
     {{-- Tabla Monitoreo --}}
     <x-adminlte-card theme="secondary" theme-mode="outline" title="Situación operativa" maximizable collapsible>
 
@@ -56,19 +102,6 @@
                                         class="fas fa-id-card mr-1"></i>
                                     {{ $compania->ultimaOperatividad->cant_conductor ?? 'S/D' }}</span>
                             </td>
-                            {{-- <td>
-                                <ul>
-                                    @forelse ($compania->ultimaOperatividad->moviles as $movil)
-                                        @if ($movil->operativo == true)
-                                            <li><span class="badge badge-success">{{ $movil->movil->acronimo->tipo . '-' . $movil->movil->movil }}</span></li>
-                                        @else
-                                        <li><span class="badge badge-danger">{{ $movil->movil->acronimo->tipo . '-' . $movil->movil->movil }}</span></li>
-                                        @endif
-                                    @empty
-                                        <li>Sin datos de moviles</li>
-                                    @endforelse
-                                </ul>
-                            </td> --}}
                             <td class="text-center">
                                 @php
                                     $moviles = $compania->ultimaOperatividad?->moviles ?? collect();
@@ -117,10 +150,10 @@
                                         Acciones
                                     </button>
                                     <div class="dropdown-menu">
-                                        <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
+                                        {{-- <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
                                             class="dropdown-item btn-sm" />
                                         <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver
-                                            historial</button>
+                                            historial</button> --}}
                                         <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
                                             class="dropdown-item btn-sm"
                                             wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
@@ -135,23 +168,14 @@
             </table>
         </div>
     </x-adminlte-card>
-    {{ $datos ?? 'S/D' }}
 </div>
 
 @push('styles')
-    {{-- <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}"> --}}
 @endpush
 
 @push('scripts')
-    {{-- <script src="{{ asset('js/slimselect.js') }}"></script> --}}
-
     <script>
-        // new SlimSelect({
-        //     select: '#buscarCompaniaId'
-        // })
-
-        // ABRIR MODAL DE EDICION
-
+        //ABRIR MODAL DE EDICION
         document.addEventListener('livewire:init', () => {
             Livewire.on('abrir-modal-actualizar', () => {
                 $('#modal-actualizar').modal('show');

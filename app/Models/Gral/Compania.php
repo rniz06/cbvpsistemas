@@ -152,6 +152,25 @@ class Compania extends Model implements Auditable
         $query->whereNotIn('compania', ['ANB', 'DIRECTORIO', 'COMANDANCIA', 'BRAVO FENIX', 'BRAVO GOLF']);
     }
 
+    public function scopeBuscarOperatividad(Builder $query, $search = null): void
+    {
+        $query->when(
+            $search !== null && $search !== '',
+            function (Builder $query) use ($search) {
+
+                $valor = filter_var(
+                    $search,
+                    FILTER_VALIDATE_BOOLEAN,
+                    FILTER_NULL_ON_FAILURE
+                );
+
+                if ($valor !== null) {
+                    $query->where('cca_operativo', $valor);
+                }
+            }
+        );
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FIN SCOPES LOCALES PARA FILTROS
