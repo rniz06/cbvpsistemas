@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('CCA_operatividad_detalles', function (Blueprint $table) {
             $table->id('id_operatividad_detalle');
+            $table->boolean('operativo')->nullable()->default(null);
             $table->dateTime('fecha_hora');
             $table->integer('acargo')->nullable();
             $table->foreign('acargo')->references('idpersonal')->on('personal')->cascadeOnUpdate()->cascadeOnDelete();

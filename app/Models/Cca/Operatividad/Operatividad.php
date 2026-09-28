@@ -19,6 +19,7 @@ class Operatividad extends Model implements Auditable
     protected $primaryKey = 'id_operatividad_detalle';
 
     protected $fillable = [
+        'operativo',
         'fecha_hora',
         'acargo',
         'acargo_aux',
@@ -36,6 +37,7 @@ class Operatividad extends Model implements Auditable
     protected function casts(): array
     {
         return [
+            'operativo'         => 'boolean',
             'fecha_hora'        => 'datetime',
             'equipo_hidraulico' => 'boolean',
             'pileta'            => 'boolean',

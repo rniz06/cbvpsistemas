@@ -14,10 +14,16 @@ class OperatividadController extends Controller
     function __construct()
     {
         $this->middleware('permission:Cca Operatividad Listar', ['only' => ['index']]);
+        $this->middleware('permission:Cca Operatividad Dashboard', ['only' => ['index']]);
     }
 
     public function index()
     {
         return view('cca.operatividad.index');
+    }
+
+    public function dashboard()
+    {
+        return view('cca.operatividad.dashboard-operatividad');
     }
 }

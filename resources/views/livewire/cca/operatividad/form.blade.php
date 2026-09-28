@@ -8,46 +8,40 @@
             <div class="row">
                 {{-- Selec Operatividad --}}
                 <div class="col-md-4">
-    <div class="form-group">
-        <label class="text-black">
-            Cia Operatividad? *
-        </label>
+                    <div class="form-group">
+                        <label class="text-black">
+                            Cia Operatividad? *
+                        </label>
 
-        <div class="custom-control custom-switch">
-            <input
-                type="checkbox"
-                class="custom-control-input"
-                id="cca_operativo"
-                wire:model.live="cca_operativo"
-            >
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="cca_operativo"
+                                wire:model.live="cca_operativo">
 
-            <label
-                class="custom-control-label"
-                for="cca_operativo"
-            >
-                @if ($cca_operativo)
-                    <span class="text-success">
-                        🟢 Operativo
-                    </span>
-                @else
-                    <span class="text-danger">
-                        🔴 Inoperativo
-                    </span>
-                @endif
-            </label>
-        </div>
+                            <label class="custom-control-label" for="cca_operativo">
+                                @if ($cca_operativo)
+                                    <span class="text-success">
+                                        🟢 Operativo
+                                    </span>
+                                @else
+                                    <span class="text-danger">
+                                        🔴 Inoperativo
+                                    </span>
+                                @endif
+                            </label>
+                        </div>
 
-        @error('cca_operativo')
-            <span class="text-danger text-sm">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
-</div>
+                        @error('cca_operativo')
+                            <span class="text-danger text-sm">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
 
                 {{-- A cargo --}}
-                <x-adminlte-input name="acargo" wire:model.blur="acargo" oninput="this.value = this.value.toUpperCase()"
-                    placeholder="Ej: C151 o 8699" label-class="text-lightblue" fgroup-class="col-md-4">
+                <x-adminlte-input name="acargo" wire:model.blur="acargo"
+                    oninput="this.value = this.value.toUpperCase()" placeholder="Ej: C151 o 8699"
+                    label-class="text-lightblue" fgroup-class="col-md-4">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">A cargo *</div>
                     </x-slot>
@@ -79,25 +73,69 @@
                     </x-slot>
                 </x-adminlte-input>
 
-                {{-- Equipo Hidraulico --}}
-                <x-adminlte-select name="equipo_hidraulico" wire:model.blur="equipo_hidraulico"
-                    label-class="text-lightblue" fgroup-class="col-md-4">
-                    <option value="true">Operativo</option>
-                    <option value="false">Inoperativo</option>
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">E. Hidraulico *</div>
-                    </x-slot>
-                </x-adminlte-select>
+                {{-- Equipo Hidráulico --}}
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-black">
+                            E. Hidráulico *
+                        </label>
+
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="equipo_hidraulico"
+                                wire:model.live="equipo_hidraulico">
+
+                            <label class="custom-control-label" for="equipo_hidraulico">
+                                @if ($equipo_hidraulico)
+                                    <span class="text-success">
+                                        🟢 Operativo
+                                    </span>
+                                @else
+                                    <span class="text-danger">
+                                        🔴 Inoperativo
+                                    </span>
+                                @endif
+                            </label>
+                        </div>
+
+                        @error('equipo_hidraulico')
+                            <span class="text-danger text-sm">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
 
                 {{-- Pileta --}}
-                <x-adminlte-select name="pileta" wire:model.blur="pileta" label-class="text-lightblue"
-                    fgroup-class="col-md-4">
-                    <option value="1">Operativo</option>
-                    <option value="0">Inoperativo</option>
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">Pileta *</div>
-                    </x-slot>
-                </x-adminlte-select>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-black">
+                            Pileta *
+                        </label>
+
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="pileta" wire:model.live="pileta">
+
+                            <label class="custom-control-label" for="pileta">
+                                @if ($pileta)
+                                    <span class="text-success">
+                                        🟢 Operativo
+                                    </span>
+                                @else
+                                    <span class="text-danger">
+                                        🔴 Inoperativo
+                                    </span>
+                                @endif
+                            </label>
+                        </div>
+
+                        @error('pileta')
+                            <span class="text-danger text-sm">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
 
                 {{-- Autónomo --}}
                 <x-adminlte-input name="cant_autonomo" wire:model.blur="cant_autonomo" type="number"
@@ -120,7 +158,9 @@
                     </x-slot>
                 </x-adminlte-input>
 
-                <div class="col-md-12 text-center"><h5>Listado de Móviles</h5></div>
+                <div class="col-md-12 text-center">
+                    <h5>Listado de Móviles</h5>
+                </div>
 
                 <div class="d-flex flex-wrap col-md-12">
                     @forelse ($movilesSelect as $movil)
@@ -143,7 +183,7 @@
 
     {{-- <div class="col-md-12">{{ $ult_reg_operatividad ?? 's-d' }}</div> --}}
 
-    
+
 
     {{-- <div class="badge badge-success"> : {{  print_r($moviles) }}</div> --}}
     <div class="modal-footer col-md-12">

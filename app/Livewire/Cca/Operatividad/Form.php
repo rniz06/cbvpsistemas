@@ -173,6 +173,8 @@ class Form extends Component
 
                 $operatividad = Operatividad::create([
 
+                    'operativo' => $this->cca_operativo,
+
                     'fecha_hora' => now(),
 
                     'acargo' => $datosAcargo['acargo'],

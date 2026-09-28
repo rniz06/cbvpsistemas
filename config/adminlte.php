@@ -461,16 +461,20 @@ return [
                 ],
                 [
                     'text' => 'Operatividad',
-                    'route' => 'cca.operatividad.index',
+                    'url' => '#',
                     'icon' => 'mr-1 fas fa-ellipsis-h',
-                    'can' => 'Cca Operatividad Listar',
-                    // 'submenu' => [
-                    //     [
-                    //         'text' => 'Listar',
-                    //         'route' => 'cca.operatividad.index',
-                    //         'can' => 'Cca Operatividad Listar',
-                    //     ]
-                    // ],
+                    'submenu' => [
+                        [
+                            'text' => 'Situción Operativa',
+                            'route' => 'cca.operatividad.index',
+                            'can' => 'Cca Operatividad Listar',
+                        ],
+                        [
+                            'text' => 'Dashboard',
+                            'route' => 'cca.operatividad.dashboard',
+                            'can' => 'Cca Operatividad Dashboard',
+                        ],
+                    ],
                 ],
             ],
         ],
