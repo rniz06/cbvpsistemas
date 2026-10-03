@@ -52,6 +52,12 @@ class Ficha extends Component
 
     public $mostrarEvaluacionesPsico=false;
 
+    public $mostrarCedula = false;
+
+    public $fichaMedicaDetalle = null;
+    public $rotacionFrente = 0;
+public $rotacionAtras = 0;
+
 
     public function mount(
         Aspirante $aspirante
@@ -171,40 +177,56 @@ class Ficha extends Component
         $ficha->observacion=$this->observacion_medica;
 
         if($this->ficha_medica_archivo){
-            $ficha->ficha_medica_archivo=
-                $this->ficha_medica_archivo->store(
-                    'ecb/fichas_medicas',
-                    'public'
-                );
+                $extension = $this->ficha_medica_archivo->getClientOriginalExtension();
+
+                $nombre = $this->aspirante->cedula.'_ficha_medica.'.$extension;
+
+                $ficha->ficha_medica_archivo =
+                    $this->ficha_medica_archivo->storeAs(
+                        'ecb/fichas_medicas',
+                        $nombre,
+                        'public'
+                    );
         }
 
         if($this->ecg_archivo){
-            $ficha->ecg_archivo=
-                $this->ecg_archivo->store(
+            $extension = $this->ecg_archivo->getClientOriginalExtension();
+
+            $nombre = $this->aspirante->cedula.'_ecg.'.$extension;
+
+            $ficha->ecg_archivo =
+                $this->ecg_archivo->storeAs(
                     'ecb/fichas_medicas',
+                    $nombre,
                     'public'
                 );
         }
 
 
         if($this->radiografia_torax_archivo){
-            $ficha->radiografia_torax_archivo=
-                $this->radiografia_torax_archivo->store(
+            $extension = $this->radiografia_torax_archivo->getClientOriginalExtension();
+
+            $nombre = $this->aspirante->cedula.'_radiografia_torax.'.$extension;
+
+            $ficha->radiografia_torax_archivo =
+                $this->radiografia_torax_archivo->storeAs(
                     'ecb/fichas_medicas',
+                    $nombre,
                     'public'
                 );
         }
 
         if($this->laboratorio_archivo){
 
-            $ficha->laboratorio_archivo=
+            $extension = $this->laboratorio_archivo->getClientOriginalExtension();
 
-                $this->laboratorio_archivo->store(
+            $nombre = $this->aspirante->cedula.'_laboratorio.'.$extension;
 
+            $ficha->laboratorio_archivo =
+                $this->laboratorio_archivo->storeAs(
                     'ecb/fichas_medicas',
-
+                    $nombre,
                     'public'
-
                 );
 
         }
@@ -212,15 +234,15 @@ class Ficha extends Component
 
 
         if($this->documentacion_complementaria_archivo){
+            $extension = $this->documentacion_complementaria_archivo->getClientOriginalExtension();
 
-            $ficha->documentacion_complementaria_archivo=
+            $nombre = $this->aspirante->cedula.'_documentacion_complementaria.'.$extension;
 
-                $this->documentacion_complementaria_archivo->store(
-
+            $ficha->documentacion_complementaria_archivo =
+                $this->documentacion_complementaria_archivo->storeAs(
                     'ecb/fichas_medicas',
-
+                    $nombre,
                     'public'
-
                 );
 
         }
@@ -744,6 +766,36 @@ public function interpretarNeoFfi(
         default:
 
             return '-';
+    }
+}
+
+public function abrirCedula()
+{
+
+    $this->fichaMedicaDetalle =
+
+        $this->aspirante
+
+            ->fichaMedica;
+
+    $this->mostrarCedula = true;
+
+}
+public function girarFrente()
+{
+    $this->rotacionFrente += 90;
+
+    if($this->rotacionFrente == 360){
+        $this->rotacionFrente = 0;
+    }
+}
+
+public function girarAtras()
+{
+    $this->rotacionAtras += 90;
+
+    if($this->rotacionAtras == 360){
+        $this->rotacionAtras = 0;
     }
 }
 

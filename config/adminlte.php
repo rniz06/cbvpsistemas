@@ -457,6 +457,29 @@ return [
                             'route' => 'cca.reportes.graficos-por-compania',
                             'can' => 'Reportes Por Compania',
                         ],
+                        [
+                            'text' => 'Servicios Misionales',
+                            'route' => 'cca.reportes.misionales',
+                            'icon' => 'fas fa-fire',
+                            'can' => 'Reportes Por Compania',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Operatividad',
+                    'url' => '#',
+                    'icon' => 'mr-1 fas fa-ellipsis-h',
+                    'submenu' => [
+                        [
+                            'text' => 'Situción Operativa',
+                            'route' => 'cca.operatividad.index',
+                            'can' => 'Despacho Por Compania',
+                        ],
+                        [
+                            'text' => 'Dashboard',
+                            'route' => 'cca.operatividad.dashboard',
+                            'can' => 'Despacho Por Compania',
+                        ],
                     ],
                 ],
             ],

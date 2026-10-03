@@ -62,6 +62,10 @@ Route::prefix('anb')
         Route::get('/evaluacion-psicologica',[PsicoPortalController::class,'index'])
         ->name('psico.portal');   
         
+                Route::get('/psico-tests/recalcular', function(){
+        return view('anb.ecb.psico-tests.recalcular');})->name('anb.ecb.psico-tests.recalcular');
+        
+        
     });
 
     Route::prefix('ecb/reportes')
@@ -87,6 +91,10 @@ Route::prefix('anb')
             '/psicologicos',
             [ReportesController::class, 'psicologicos']
         )->name('psicologicos');
+
+        Route::get('consolidado', function () {
+            return view('anb.ecb.reportes.consolidado');
+        })->name('consolidado');
     });
 
 });

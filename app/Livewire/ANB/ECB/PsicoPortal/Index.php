@@ -704,13 +704,13 @@ private function calcularWonderlic()
 
 //private function calcularNeoFfi()
 //{
- //   $this->guardarResultadosPorDimension();
+//   $this->guardarResultadosPorDimension();
 //}
 
 private function calcularNeoFfi()
 {
-    app(PsicoMotorService::class)
-        ->corregir($this->sesionExamen);
+   app(PsicoMotorService::class)
+       ->corregir($this->sesionExamen);
 }
 
 private function calcularLsb50()

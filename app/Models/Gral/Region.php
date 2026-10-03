@@ -22,6 +22,10 @@ class Region extends Model implements Auditable
     // Relacion inversa
     public function companias()
     {
-        return $this->hasMany(Compania::class);
+        return $this->hasMany(
+            Compania::class,
+            'region_id',   // FK en GRAL_companias
+            'id_region'    // PK de GRAL_regiones
+        );
     }
 }

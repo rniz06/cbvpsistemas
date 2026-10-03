@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\ANB\ECB\Llamado;
 use App\Models\Gral\Compania;
 use App\Models\ANB\ECB\Aspirante;
+use App\Models\Gral\Region;
 
 class Index extends Component
 {
@@ -41,6 +42,8 @@ class Index extends Component
     public $estado='PRE_ASPIRANTE';
 
     public $sexo;
+
+    public $filtro_region = '';
 
     public function save()
     {
@@ -134,7 +137,8 @@ class Index extends Component
 
                 'llamado',
 
-                'compania'
+                'compania.region',
+                'fichaMedica'
 
             ]);
 
@@ -206,6 +210,16 @@ class Index extends Component
 
         }
 
+    if ($this->filtro_region) {
+
+        $query->whereHas('compania', function ($q) {
+
+            $q->where('region_id', $this->filtro_region);
+
+        });
+
+    }
+
 
 
         if($this->filtro_estado){
@@ -228,20 +242,62 @@ class Index extends Component
 
             [
 
-                'aspirantes'=>$query
+                'aspirantes' => $query
 
-                    ->latest()
+                    ->orderBy('nombre')
 
                     ->get(),
 
                 'llamados'=>Llamado::all(),
 
-                'companias'=>Compania::companiasValidas()->orderBy('orden')->get(['id_compania','compania']),
+                'companias' => Compania::companiasValidas()
+                ->orderBy('orden')
+                ->get(),
+
+            'regiones' => Region::whereHas('companias', function ($q) {
+
+                $q->companiasValidas();
+
+            })
+            ->orderBy('region')
+            ->get(),
 
             ]
 
         );
 
     }
+private function tieneCedula($aspirante)
+{
+    return filled($aspirante->cedula_frente)
+        && filled($aspirante->cedula_atras);
+}
+
+private function tieneFichaMedica($aspirante)
+{
+    if (!$aspirante->fichaMedica) {
+        return false;
+    }
+
+    return
+        filled($aspirante->fichaMedica->ficha_medica_archivo) &&
+        filled($aspirante->fichaMedica->ecg_archivo) &&
+        filled($aspirante->fichaMedica->radiografia_torax_archivo) &&
+        filled($aspirante->fichaMedica->laboratorio_archivo);
+}
+
+private function tieneExamenFisico($aspirante)
+{
+    return $aspirante->resultadosExamenFisico()
+        ->where('aprobado', true)
+        ->exists();
+}
+
+private function tienePsicologico($aspirante)
+{
+    return $aspirante->sesionesPsicologicas()
+        ->where('finalizado', true)
+        ->exists();
+}
 
 }

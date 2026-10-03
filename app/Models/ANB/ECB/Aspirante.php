@@ -4,6 +4,7 @@ namespace App\Models\ANB\ECB;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Gral\Compania;
 
 class Aspirante extends Model
 {
@@ -21,10 +22,11 @@ class Aspirante extends Model
     public function compania()
     {
         return $this->belongsTo(
-            \App\Models\Compania::class,
-            'compania_id'
+            Compania::class,
+            'compania_id',
+            'id_compania'
         );
-    }
+}
 
     public function fichaMedica()
     {

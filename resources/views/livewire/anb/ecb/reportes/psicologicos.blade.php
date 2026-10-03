@@ -92,7 +92,9 @@
                     $testSeleccionado->codigo == 'WONDERLIC'
                 )
 
-                    <table class="table table-bordered table-striped">
+                    <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped table-sm text-nowrap">
 
                         <thead>
 
@@ -126,7 +128,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $fila->aspirante->compania->descripcion ?? '' }}
+                                        {{ $fila->aspirante->compania->compania ?? '' }}
                                     </td>
 
                                     <td>
@@ -140,10 +142,17 @@
                         </tbody>
 
                     </table>
+                    </div>
+                                      <div class="mt-3">
 
+                        {{ $datos->links() }}
+
+                    </div>
                 @else
 
-                    <table class="table table-bordered table-striped">
+                    <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped table-sm text-nowrap">
 
                         <thead>
 
@@ -188,7 +197,7 @@
                                     @foreach($columnasDinamicas as $columna)
 
                                         <td>
-                                            {{ $fila[$columna] ?? '' }}
+                                            {!! $fila[$columna] ?? '' !!}
                                         </td>
 
                                     @endforeach
@@ -210,7 +219,12 @@
                         </tbody>
 
                     </table>
+                    </div>
+                                        <div class="mt-3">
 
+                        {{ $datos->links() }}
+
+                    </div>
                 @endif
 
             @else

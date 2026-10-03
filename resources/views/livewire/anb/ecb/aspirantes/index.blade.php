@@ -123,6 +123,9 @@ Seleccionar
 
 </div>
 
+
+
+
 <div class="col-md-4">
 
 <label>
@@ -368,7 +371,7 @@ Todos los llamados
 
 </div>
 
-<div class="col-md-3">
+<div class="col-md-2">
 
 <select
 wire:model.live="filtro_compania"
@@ -395,7 +398,31 @@ Todas las compañías
 
 </div>
 
-<div class="col-md-3">
+
+<div class="col-md-2">
+
+    <select
+        wire:model.live="filtro_region"
+        class="form-control"
+    >
+
+        <option value="">
+            Todas las regiones
+        </option>
+
+        @foreach($regiones as $region)
+
+            <option value="{{ $region->id_region }}">
+                {{ $region->region }}
+            </option>
+
+        @endforeach
+
+    </select>
+
+</div>
+
+<div class="col-md-2">
 
 <select
 wire:model.live="filtro_estado"
@@ -441,9 +468,13 @@ class="table table-bordered table-striped"
 <th>Llamado</th>
 
 <th>Compañía</th>
-
+<th>Origen</th>
 <th>Estado</th>
+<th width="180">
 
+    Documentación
+
+</th>
 <th>Acciones</th>
 
 </tr>
@@ -477,10 +508,46 @@ class="table table-bordered table-striped"
 
 <td>
 
-{{ $a->compania->compania ?? '-' }}
+@if($a->compania)
+
+    {{ $a->compania->compania }}
+
+@if($a->compania && $a->compania->region)
+    - R{{ $a->compania->region->region }}
+@endif
+
+@else
+
+    -
+
+@endif
 
 </td>
+<td>
 
+    @if($a->origen == 'PORTAL')
+
+        <span class="badge badge-info">
+
+            <i class="fas fa-globe"></i>
+
+            Portal
+
+        </span>
+
+    @else
+
+        <span class="badge badge-secondary">
+
+            <i class="fas fa-user"></i>
+
+            Manual
+
+        </span>
+
+    @endif
+
+</td>
 <td>
 
 @if(
@@ -504,7 +571,21 @@ ASPIRANTE
 @endif
 
 </td>
+<td>
 
+    
+
+   
+
+<i class="fas fa-circle {{ $this->tieneCedula($a) ? 'text-success' : 'text-danger' }}"></i> CI
+
+<i class="fas fa-circle {{ $this->tieneFichaMedica($a) ? 'text-success' : 'text-danger' }}"></i> FM
+
+<i class="fas fa-circle {{ $this->tieneExamenFisico($a) ? 'text-success' : 'text-danger' }}"></i> EF
+
+<i class="fas fa-circle {{ $this->tienePsicologico($a) ? 'text-success' : 'text-danger' }}"></i> PS
+
+</td>
 <td>
 
 <a

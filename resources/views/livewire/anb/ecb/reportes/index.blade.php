@@ -76,7 +76,35 @@
             </div>
 
         </div>
+        <div class="col-md-4">
 
+            <div class="card card-danger">
+
+                <div class="card-header">
+
+                    <h3 class="card-title">
+
+                        Consolidado Final
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <a
+                        href="{{ route('anb.ecb.reportes.consolidado') }}"
+                        class="btn btn-danger btn-block">
+
+                        Abrir Reporte
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
 </div>

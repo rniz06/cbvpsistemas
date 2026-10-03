@@ -15,6 +15,7 @@ use App\Http\Controllers\SessionesDirectorioController;
 use App\Http\Controllers\UsuarioController;
 use App\Livewire\VotacionPublica;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\ANB\ECB\Portal\Registro;
 
 include_once __DIR__.'/admin.php'; // Incluir las rutas de admin
 include_once __DIR__.'/anb.php'; // Incluir las rutas de anb
@@ -34,6 +35,7 @@ Route::get('/', function () {
 //     'verify' => false, // Desactivar route Email Verification...
 // ]);
 
+Route::get('/postulacion',Registro::class)->name('portal.postulacion');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');

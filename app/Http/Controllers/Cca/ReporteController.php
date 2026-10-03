@@ -26,4 +26,12 @@ class ReporteController extends Controller
     {
         return view('cca.reportes.graficos-por-compania');
     }
+
+    /**
+     * Dashboard de servicios misionales.
+     */
+    public function misionales()
+    {
+        return view('cca.reportes.misionales');
+    }
 }

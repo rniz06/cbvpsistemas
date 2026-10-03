@@ -4,6 +4,7 @@ use App\Http\Controllers\Cca\DespachoController;
 use App\Http\Controllers\Cca\DespachoPorCompaniaController;
 use App\Http\Controllers\Cca\ReporteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Cca\OperatividadController;
 
 /*
     |--------------------------------------------------------------------------
@@ -37,5 +38,14 @@ Route::prefix('cca')->middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/historico', 'historico')->name('cca.reportes.historico');
             Route::get('/graficos-por-compania', 'graficosPorCompania')->name('cca.reportes.graficos-por-compania');
+            Route::get('/misionales', 'misionales')->name('cca.reportes.misionales');
+        });
+        
+        // Rutas de Operatidad
+    Route::controller(OperatividadController::class)
+        ->prefix('operatividad')
+        ->group(function () {
+            Route::get('/', 'index')->name('cca.operatividad.index');
+            Route::get('/dashboard', 'dashboard')->name('cca.operatividad.dashboard');
         });
 });

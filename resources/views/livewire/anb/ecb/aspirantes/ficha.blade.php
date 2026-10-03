@@ -2,40 +2,6 @@
 
 <div class="card card-primary">
 
-<div class="card-header">
-
-<h3 class="card-title">
-
-Ficha del Aspirante
-
-</h3>
-
-<div class="card-tools">
-
-<button
-class="btn btn-warning btn-sm"
-wire:click="$toggle('modoEditar')"
->
-
-Editar
-
-</button>
-
-<button
-class="btn btn-danger btn-sm"
-wire:click="delete"
-wire:confirm="¿Dar de baja?"
-
->
-
-Baja Lógica
-
-</button>
-
-</div>
-
-</div>
-
 <div class="card-body">
 
 @if($modoEditar)
@@ -234,170 +200,305 @@ Guardar cambios
 
 <div class="mb-4">
 
-<div class="d-flex justify-content-between align-items-center">
+    {{-- CABECERA --}}
 
-<div>
+    <div class="d-flex justify-content-between align-items-start flex-wrap mb-4">
 
-<h3 class="font-weight-bold mb-0">
+        <div>
 
-{{ $aspirante->nombre }}
-{{ $aspirante->apellido }}
+            <h2 class="font-weight-bold mb-1 text-uppercase">
 
-</h3>
+                {{ $aspirante->nombre }} {{ $aspirante->apellido }}
 
-<div class="text-muted">
+            </h2>
 
-CI {{ $aspirante->cedula }}
+            <div class="text-muted">
+
+                C.I. Nº {{ number_format($aspirante->cedula,0,',','.') }}
+
+            </div>
+
+        </div>
+
+        <div class="text-right">
+
+            <span class="badge badge-warning px-3 py-2">
+
+                {{ str_replace('_',' ',$aspirante->estado) }}
+
+            </span>
+
+            <div class="mt-3">
+
+                <button
+                    class="btn btn-warning btn-sm"
+                    wire:click="$toggle('modoEditar')"
+                >
+
+                    <i class="fas fa-edit"></i>
+
+                    Editar
+
+                </button>
+
+                <button
+                    class="btn btn-info btn-sm"
+                    wire:click="abrirCedula"
+                >
+
+                    <i class="fas fa-id-card"></i>
+
+                    Documento
+
+                </button>
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    wire:click="delete"
+                    wire:confirm="¿Dar de baja?"
+                >
+
+                    <i class="fas fa-trash"></i>
+
+                    Baja
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        {{-- Compañía --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-fire text-danger"></i>
+
+                    Compañía
+
+                </small>
+
+                <h4 class="mb-0 mt-2">
+
+                    {{ $aspirante->compania->compania ?? '-' }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+
+        {{-- Llamado --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-bullhorn text-primary"></i>
+
+                    Llamado
+
+                </small>
+
+                <h4 class="mb-0 mt-2">
+
+                    {{ $aspirante->llamado->nombre ?? '-' }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+
+        {{-- Sexo --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-user text-info"></i>
+
+                    Sexo
+
+                </small>
+
+                <h4 class="mb-0 mt-2">
+
+                    {{ $aspirante->sexo=='M' ? 'Masculino' : 'Femenino' }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+
+        {{-- Fecha --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-calendar text-success"></i>
+
+                    Nacimiento
+
+                </small>
+
+                <h4 class="mb-0 mt-2">
+
+                    {{ \Carbon\Carbon::parse($aspirante->fecha_nacimiento)->format('d/m/Y') }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+
+        {{-- Celular --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-phone text-success"></i>
+
+                    Celular
+
+                </small>
+
+                <h5 class="mb-0 mt-2">
+
+                    {{ $aspirante->celular ?: '-' }}
+
+                </h5>
+
+            </div>
+
+        </div>
+
+
+        {{-- Ciudad --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-map-marker-alt text-danger"></i>
+
+                    Ciudad
+
+                </small>
+
+                <h5 class="mb-0 mt-2">
+
+                    {{ $aspirante->ciudad ?: '-' }}
+
+                </h5>
+
+            </div>
+
+        </div>
+
+
+        {{-- Correo --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-envelope text-primary"></i>
+
+                    Correo
+
+                </small>
+
+                <div class="font-weight-bold mt-2">
+
+                    {{ $aspirante->correo ?: '-' }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Documento --}}
+
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+
+            <div class="border rounded p-3 h-100">
+
+                <small class="text-muted">
+
+                    <i class="fas fa-id-card text-secondary"></i>
+
+                    Documento
+
+                </small>
+
+<div class="d-flex justify-content-between align-items-center mt-3">
+
+    <div>
+
+        <i class="fas fa-circle
+            {{ $aspirante->cedula_frente ? 'text-success' : 'text-danger' }}">
+        </i>
+
+        <span class="ml-1">
+
+            Frente
+
+        </span>
+
+    </div>
+
+    <div>
+
+        <i class="fas fa-circle
+            {{ $aspirante->cedula_atras ? 'text-success' : 'text-danger' }}">
+        </i>
+
+        <span class="ml-1">
+
+            Dorso
+
+        </span>
+
+    </div>
 
 </div>
 
-</div>
+            </div>
 
-<div>
+        </div>
 
-@if($aspirante->estado=='ACTIVO')
-
-<span class="badge badge-success px-3 py-2">
-
-ACTIVO
-
-</span>
-
-@else
-
-<span class="badge badge-secondary px-3 py-2">
-
-{{ $aspirante->estado }}
-
-</span>
-
-@endif
-
-</div>
-
-</div>
-
-<div class="row mt-4">
-
-<div class="col-md-3 mb-3">
-
-<small class="text-muted d-block">
-
-Compañía
-
-</small>
-
-<strong>
-
-{{ $aspirante->compania->compania ?? '-' }}
-
-</strong>
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-<small class="text-muted d-block">
-
-Llamado
-
-</small>
-
-<strong>
-
-{{ $aspirante->llamado->nombre ?? '-' }}
-
-</strong>
-
-</div>
-
-<div class="col-md-2 mb-3">
-
-<small class="text-muted d-block">
-
-Sexo
-
-</small>
-
-<strong>
-
-@if($aspirante->sexo=='M')
-Masculino
-@elseif($aspirante->sexo=='F')
-Femenino
-@else
-—
-@endif
-
-</strong>
-
-</div>
-
-<div class="col-md-2 mb-3">
-
-<small class="text-muted d-block">
-
-Nacimiento
-
-</small>
-
-<strong>
-
-{{ $aspirante->fecha_nacimiento }}
-
-</strong>
-
-</div>
-
-<div class="col-md-2 mb-3">
-
-<small class="text-muted d-block">
-
-Celular
-
-</small>
-
-<strong>
-
-{{ $aspirante->celular ?: '-' }}
-
-</strong>
-
-</div>
-
-<div class="col-md-6">
-
-<small class="text-muted d-block">
-
-Correo
-
-</small>
-
-<strong>
-
-{{ $aspirante->correo ?: '-' }}
-
-</strong>
-
-</div>
-
-<div class="col-md-6">
-
-<small class="text-muted d-block">
-
-Ciudad
-
-</small>
-
-<strong>
-
-{{ $aspirante->ciudad ?: '-' }}
-
-</strong>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -475,56 +576,18 @@ wire:submit.prevent="guardarFichaMedica"
 
     <div class="card-body">
 
-        <div class="row">
+        <label class="text-muted font-weight-bold small">
 
-            <div class="col-md-4">
+            OBSERVACIONES MÉDICAS
 
-                <label
-                    class="text-muted font-weight-bold small"
-                >
-                    REGISTRO MÉDICO
-                </label>
+        </label>
 
-                <div class="input-group">
-
-                    <div class="input-group-prepend">
-
-                        <span class="input-group-text">
-
-                            <i class="fas fa-user-md"></i>
-
-                        </span>
-
-                    </div>
-
-                    <input
-                        wire:model="registro_medico"
-                        class="form-control"
-                        placeholder="Ej: 12.345 MSPBS"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="col-md-8">
-
-                <label
-                    class="text-muted font-weight-bold small"
-                >
-                    OBSERVACIONES MÉDICAS
-                </label>
-
-                <textarea
-                    wire:model="observacion_medica"
-                    class="form-control"
-                    rows="1"
-                    placeholder="Observaciones, restricciones o comentarios del profesional..."
-                ></textarea>
-
-            </div>
-
-        </div>
+        <textarea
+            wire:model="observacion_medica"
+            class="form-control"
+            rows="2"
+            placeholder="Observaciones, restricciones o comentarios del profesional..."
+        ></textarea>
 
     </div>
 
@@ -1461,7 +1524,11 @@ Detalle
                         <thead>
 
                             <tr>
+    <th width="60">
 
+        Nº
+
+    </th>
                                 <th>
 
                                     Pregunta
@@ -1478,29 +1545,35 @@ Detalle
 
                         </thead>
 
-                        <tbody>
+<tbody>
 
-                            @foreach($detallePsico->respuestas as $r)
+@foreach($detallePsico->respuestas as $r)
 
-                                <tr>
+<tr>
 
-                                    <td>
+    <td width="60" class="text-center">
 
-                                        {{ $r->pregunta?->pregunta }}
+        {{ $loop->iteration }}
 
-                                    </td>
+    </td>
 
-                                    <td>
+    <td>
 
-                                        {{ $r->opcion?->texto ?? '-' }}
+        {{ $r->pregunta?->pregunta }}
 
-                                    </td>
+    </td>
 
-                                </tr>
+    <td>
 
-                            @endforeach
+        {{ $r->opcion?->texto ?? '-' }}
 
-                        </tbody>
+    </td>
+
+</tr>
+
+@endforeach
+
+</tbody>
 
                     </table>
 
@@ -1515,6 +1588,219 @@ Detalle
 </div>
 
 @endif
+
+@if($mostrarCedula)
+
+<div
+    class="modal fade show d-block"
+    style="background:rgba(0,0,0,.65);"
+>
+
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-id-card mr-2"></i>
+
+                    Documento de Identidad
+
+                </h5>
+
+                <button
+                    class="close"
+                    wire:click="$set('mostrarCedula',false)"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div
+                class="modal-body"
+                style="height:75vh;overflow:auto;"
+            >
+
+                <div class="row">
+
+                    {{-- ===========================
+                         FRENTE
+                    ============================ --}}
+
+                    <div class="col-md-6">
+
+                        <div class="card shadow-sm">
+
+                            <div class="card-header text-center">
+
+                                <strong>
+
+                                    Cédula - Frente
+
+                                </strong>
+
+                            </div>
+
+                            <div class="card-body text-center">
+
+                                @if($aspirante->cedula_frente)
+
+                                    <img
+                                        src="{{ asset('storage/'.$aspirante->cedula_frente) }}"
+                                        class="img-fluid img-thumbnail"
+                                        style="
+                                            max-height:500px;
+                                            transform:rotate({{ $rotacionFrente }}deg);
+                                            transition:.25s;
+                                        "
+                                    >
+
+                                    <div class="mt-3">
+
+                                        <button
+                                            class="btn btn-warning btn-sm"
+                                            wire:click="girarFrente"
+                                        >
+
+                                            <i class="fas fa-sync-alt"></i>
+
+                                            Girar
+
+                                        </button>
+
+                                        <a
+                                            href="{{ asset('storage/'.$aspirante->cedula_frente) }}"
+                                            target="_blank"
+                                            class="btn btn-outline-primary btn-sm"
+                                        >
+
+                                            <i class="fas fa-search-plus"></i>
+
+                                            Abrir Original
+
+                                        </a>
+
+                                    </div>
+
+                                @else
+
+                                    <div class="alert alert-warning mb-0">
+
+                                        No fue cargada la imagen del frente.
+
+                                    </div>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{-- ===========================
+                         DORSO
+                    ============================ --}}
+
+                    <div class="col-md-6">
+
+                        <div class="card shadow-sm">
+
+                            <div class="card-header text-center">
+
+                                <strong>
+
+                                    Cédula - Dorso
+
+                                </strong>
+
+                            </div>
+
+                            <div class="card-body text-center">
+
+                                @if($aspirante->cedula_atras)
+
+                                    <img
+                                        src="{{ asset('storage/'.$aspirante->cedula_atras) }}"
+                                        class="img-fluid img-thumbnail"
+                                        style="
+                                            max-height:500px;
+                                            transform:rotate({{ $rotacionAtras }}deg);
+                                            transition:.25s;
+                                        "
+                                    >
+
+                                    <div class="mt-3">
+
+                                        <button
+                                            class="btn btn-warning btn-sm"
+                                            wire:click="girarAtras"
+                                        >
+
+                                            <i class="fas fa-sync-alt"></i>
+
+                                            Girar
+
+                                        </button>
+
+                                        <a
+                                            href="{{ asset('storage/'.$aspirante->cedula_atras) }}"
+                                            target="_blank"
+                                            class="btn btn-outline-primary btn-sm"
+                                        >
+
+                                            <i class="fas fa-search-plus"></i>
+
+                                            Abrir Original
+
+                                        </a>
+
+                                    </div>
+
+                                @else
+
+                                    <div class="alert alert-warning mb-0">
+
+                                        No fue cargada la imagen del dorso.
+
+                                    </div>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    class="btn btn-secondary"
+                    wire:click="$set('mostrarCedula',false)"
+                >
+
+                    Cerrar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endif
+
 
    
 </div>

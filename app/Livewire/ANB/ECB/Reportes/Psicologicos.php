@@ -8,14 +8,19 @@ use App\Models\ANB\ECB\PsicoTest;
 use App\Models\ANB\ECB\PsicoDimension;
 use App\Models\ANB\ECB\PsicoSesion;
 use App\Models\ANB\ECB\PsicoResultado;
+use Livewire\WithPagination;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class Psicologicos extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $test_id = '';
 
     public $dimension_id = '';
 
-    public $datos = [];
 
     public $columnasDinamicas = [];
 
@@ -30,7 +35,7 @@ class Psicologicos extends Component
 
         $dimensiones = collect();
 
-        $this->datos = [];
+        $datos = [];
 
         $this->columnasDinamicas = [];
 
@@ -45,12 +50,12 @@ class Psicologicos extends Component
 
             if ($test && $test->codigo == 'WONDERLIC') {
 
-                $this->datos = PsicoSesion::with([
+                $datos = PsicoSesion::with([
                     'aspirante.compania'
                 ])
                 ->where('test_id', $this->test_id)
                 ->where('finalizado', 1)
-                ->get();
+                ->paginate(15);
 
             } else {
 
@@ -108,7 +113,7 @@ class Psicologicos extends Component
                                 $aspirante->nombre,
 
                             'compania' =>
-                                $aspirante->compania->descripcion
+                                $aspirante->compania->compania
                                 ?? ''
 
                         ];
@@ -122,15 +127,50 @@ class Psicologicos extends Component
                         }
                     }
 
-                    $agrupados[$id]
-                    [$resultado->dimension->nombre]
-                        = $resultado->puntaje;
+if ($test->codigo == 'LSB50-ORIGINAL') {
+
+    $agrupados[$id][$resultado->dimension->nombre] =
+
+        'PD: '.number_format($resultado->puntaje_directo,2).
+
+        '<br>'.
+
+        'PC: '.($resultado->percentil ?? '-');
+
+} else {
+
+    $agrupados[$id][$resultado->dimension->nombre] =
+        $resultado->puntaje;
+
+}
                 }
 
-                $this->datos =
-                    array_values(
-                        $agrupados
-                    );
+                $items = array_values($agrupados);
+
+                $page = $this->getPage();
+
+                $perPage = 15;
+
+                $datos = new LengthAwarePaginator(
+
+                    array_slice(
+                        $items,
+                        ($page-1)*$perPage,
+                        $perPage
+                    ),
+
+                    count($items),
+
+                    $perPage,
+
+                    $page,
+
+                    [
+                        'path' => request()->url(),
+                        'query' => request()->query(),
+                    ]
+
+                );
             }
         }
 
@@ -138,7 +178,8 @@ class Psicologicos extends Component
             'livewire.anb.ecb.reportes.psicologicos',
             compact(
                 'tests',
-                'dimensiones'
+                'dimensiones',
+                'datos'
             )
         );
     }

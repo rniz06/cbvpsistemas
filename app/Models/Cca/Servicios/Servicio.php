@@ -15,7 +15,7 @@ class Servicio extends Model implements Auditable
 
     protected $primaryKey = 'id_servicio';
 
-    protected $fillable = ['servicio', 'clasificacion_boolean'];
+    protected $fillable = ['servicio', 'clasificacion_boolean','misional','nombre'];
 
     public function clasificaciones()
     {

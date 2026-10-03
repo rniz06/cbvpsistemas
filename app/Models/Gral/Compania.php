@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\Cca\Operatividad\Operatividad;
+
 
 class Compania extends Model implements Auditable
 {
@@ -25,14 +27,62 @@ class Compania extends Model implements Auditable
         'ciudad_id',
         'region_id',
         'orden',
+        'cca_operativo',
     ];
+    
+    protected function casts(): array
+    {
+        return [
+            'cca_operativo' => 'boolean',
+        ];
+    }
 
     /*
     |--------------------------------------------------------------------------
     | RELACIONES
     |--------------------------------------------------------------------------
     */
+    
+    # OPERATIVIDAD EN CONDICION DE GUARDIA
+    public function operatividades()
+    {
+        return $this->hasMany(
+            Operatividad::class,
+            'compania_id',
+            'id_compania'
+        );
+    }
 
+    public function ultimaOperatividad()
+    {
+        return $this->hasOne(
+            Operatividad::class,
+            'compania_id',
+            'id_compania'
+        )->latestOfMany('fecha_hora');
+    }
+
+
+public function scopeBuscarOperatividad(Builder $query, $search = null): void
+    {
+        $query->when(
+            $search !== null && $search !== '',
+            function (Builder $query) use ($search) {
+
+                $valor = filter_var(
+                    $search,
+                    FILTER_VALIDATE_BOOLEAN,
+                    FILTER_NULL_ON_FAILURE
+                );
+
+                if ($valor !== null) {
+                    $query->where('cca_operativo', $valor);
+                }
+            }
+        );
+    }
+    
+    
     public function ciudad()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_id');
