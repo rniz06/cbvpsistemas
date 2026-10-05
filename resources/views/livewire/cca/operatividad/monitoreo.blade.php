@@ -85,7 +85,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="tabla-operatividad">
                     @forelse ($datos as $compania)
                         <tr>
                             <td>
@@ -150,8 +150,7 @@
                             </td>
                             <td>{{ $compania?->ultimaOperatividad?->fecha_hora?->format('d/m/Y H:i') ?? 'S/D' }}</td>
                             <td class="text-right">
-                                <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
-                                    class="btn-sm"
+                                <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit" class="btn-sm"
                                     wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
                                 {{-- <div class="btn-group btn-group-sm" role="group">
                                     <button type="button" class="btn btn-secondary dropdown-toggle"
@@ -180,6 +179,16 @@
 </div>
 
 @push('styles')
+    <style>
+        .tabla-operatividad tr td {
+            font-size: 1.3rem;
+            vertical-align: middle;
+        }
+
+        .tabla-operatividad .badge {
+            font-size: 1rem;
+        }
+    </style>
 @endpush
 
 @push('scripts')
