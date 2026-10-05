@@ -171,7 +171,8 @@ public function scopeBuscarOperatividad(Builder $query, $search = null): void
      */
     public function scopeCompaniasValidas(Builder $query): void
     {
-        $query->whereNotIn('compania', ['ANB', 'DIRECTORIO', 'COMANDANCIA', 'BRAVO FENIX', 'BRAVO GOLF']);
+        //$query->whereNotIn('compania', ['ANB', 'DIRECTORIO', 'COMANDANCIA', 'BRAVO FENIX', 'BRAVO GOLF']);
+        $query->whereNotIn('compania', ['ANB', 'DIRECTORIO', 'COMANDANCIA']);
     }
 
     /*

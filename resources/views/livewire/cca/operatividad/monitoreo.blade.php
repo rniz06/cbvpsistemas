@@ -150,21 +150,24 @@
                             </td>
                             <td>{{ $compania?->ultimaOperatividad?->fecha_hora?->format('d/m/Y H:i') ?? 'S/D' }}</td>
                             <td class="text-right">
-                                <div class="btn-group btn-group-sm" role="group">
+                                <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
+                                    class="btn-sm"
+                                    wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
+                                {{-- <div class="btn-group btn-group-sm" role="group">
                                     <button type="button" class="btn btn-secondary dropdown-toggle"
                                         data-toggle="dropdown" aria-expanded="false">
                                         Acciones
                                     </button>
                                     <div class="dropdown-menu">
-                                        {{-- <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
+                                        <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
                                             class="dropdown-item btn-sm" />
                                         <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver
-                                            historial</button> --}}
+                                            historial</button>
                                         <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
                                             class="dropdown-item btn-sm"
                                             wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
                                     </div>
-                                </div>
+                                </div> --}}
                             </td>
                         </tr>
                     @empty
