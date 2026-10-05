@@ -33,8 +33,8 @@
             icon="fas fa-building" class="col-xl-2 col-md-4 col-12 px-1" />
 
 
-        <x-adminlte-select name="buscarCompaniaId" wire:model.live.debounce.150ms="buscarCompaniaId" label-class="text-black"
-            fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Compañías">
+        <x-adminlte-select name="buscarCompaniaId" wire:model.live.debounce.150ms="buscarCompaniaId"
+            label-class="text-black" fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Compañías">
             <option value="">Todas las compañías</option>
 
             @forelse ($companias as $compania)
@@ -47,8 +47,8 @@
         </x-adminlte-select>
 
 
-        <x-adminlte-select name="buscarOperatividad" wire:model.live.debounce.150ms="buscarOperatividad" label-class="text-black"
-            fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Operatividad">
+        <x-adminlte-select name="buscarOperatividad" wire:model.live.debounce.150ms="buscarOperatividad"
+            label-class="text-black" fgroup-class="col-xl-2 col-md-4 col-12 px-1" label="Filtro por Operatividad">
             <option value="">Todas Operativo/Inoperativo</option>
             <option value="true">Operativo</option>
             <option value="false">Inoperativo</option>
@@ -59,6 +59,12 @@
 
     {{-- Tabla Monitoreo --}}
     <x-adminlte-card theme="secondary" theme-mode="outline" title="Situación operativa" maximizable collapsible>
+
+        <x-slot name="toolsSlot">
+            <button type="button" class="btn btn-sm btn-outline-success" wire:click="excelParaCondicionGuardia">
+                <i class="fas fa-file-excel"></i> Excel Para Condición de Guardia
+            </button>
+        </x-slot>
 
         <div class="table-responsive">
             <table class="table table-hover table-sm">

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Cca\Operatividad;
 
+use App\Exports\Excel\Cca\Operatividad\ExcelCondicionGuardiaExport;
 use App\Models\Gral\Compania;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Monitoreo extends Component
 {
@@ -61,7 +63,6 @@ class Monitoreo extends Component
         $this->companias = Compania::query()
             ->companiasValidas()
             ->orderBy('orden')->get(['id_compania', 'compania']);
-
     }
 
 
@@ -203,8 +204,8 @@ class Monitoreo extends Component
         */
 
         $this->cant_personal = $companiasOperativas->sum(
-            fn ($compania) =>
-                $compania->ultimaOperatividad?->cant_personal ?? 0
+            fn($compania) =>
+            $compania->ultimaOperatividad?->cant_personal ?? 0
         );
 
 
@@ -215,8 +216,8 @@ class Monitoreo extends Component
         */
 
         $this->cant_hidraulico = $companiasOperativas->filter(
-            fn ($compania) =>
-                $compania->ultimaOperatividad?->equipo_hidraulico === true
+            fn($compania) =>
+            $compania->ultimaOperatividad?->equipo_hidraulico === true
         )->count();
 
 
@@ -227,8 +228,18 @@ class Monitoreo extends Component
         */
 
         $this->cant_conductores = $companiasOperativas->sum(
-            fn ($compania) =>
-                $compania->ultimaOperatividad?->cant_conductor ?? 0
+            fn($compania) =>
+            $compania->ultimaOperatividad?->cant_conductor ?? 0
         );
+    }
+
+    public function excelParaCondicionGuardia()
+    {
+        //ExcelCondicionGuardiaExport
+        $query = $this->queryBase()
+            ->buscarIdCompania($this->buscarCompaniaId)
+            ->buscarOperatividad($this->buscarOperatividad)
+            ->get();
+        return Excel::download(new ExcelCondicionGuardiaExport($query), 'Condicion de Guardia.xlsx');
     }
 }
