@@ -25,6 +25,7 @@
                 <td>A Cargo</td>
                 <td>Chofer</td>
                 <td>Trip.</td>
+                <td>Km final</td>
                 <td>Fecha y Hora</td>
             </tr>
         </thead>
@@ -39,6 +40,7 @@
                     <td>{{ $historico->acargo ?? 'S/D' }}</td>
                     <td>{{ $historico->chofer ?? 'S/D' }}</td>
                     <td>{{ $historico->cantidad_tripulantes ?? 'S/D' }}</td>
+                    <td>{{ $historico->km_final ?? 'S/D' }}</td>
                     <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') ?? 'S/D' }}</td>
                 </tr>
             @empty

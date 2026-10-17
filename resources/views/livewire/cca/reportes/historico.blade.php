@@ -61,6 +61,7 @@
                 <th>A cargo:</th>
                 <th>Chófer:</th>
                 <th>Tripulantes:</th>
+                <th>Km final:</th>
                 <th>Fecha:</th>
                 <th>Ver:</th>
 
@@ -74,6 +75,7 @@
                     <td>{{ $historico->acargo ?? 'N/A' }}</td>
                     <td>{{ $historico->chofer ?? 'N/A' }}</td>
                     <td>{{ $historico->cantidad_tripulantes ?? 'N/A' }}</td>
+                    <td>{{ $historico->km_final ?? 'S/D' }}</td>
                     <td>{{ $historico->fecha_alfa->format('d/m/Y H:i:s') . ' Hs.' ?? 'N/A' }}</td>
                     <td><a href="{{ route('cca.despacho.ver-servicio', $historico->id_servicio_existente) }}"
                             class="btn btn-block btn-sm btn-success">Ver Servicio</a></td>

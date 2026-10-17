@@ -476,6 +476,11 @@ return [
                             'can' => 'Despacho Por Compania',
                         ],
                         [
+                            'text' => 'Monitoreo visual',
+                            'route' => 'cca.operatividad.monitoreo-visual',
+                            'can' => 'Despacho Por Compania',
+                        ],
+                        [
                             'text' => 'Dashboard',
                             'route' => 'cca.operatividad.dashboard',
                             'can' => 'Despacho Por Compania',

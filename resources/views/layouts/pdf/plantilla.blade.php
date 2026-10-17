@@ -12,6 +12,18 @@
     <link rel="stylesheet" href="{{ public_path('css/pdf/plantilla.css') }}">
     {{-- CSS opcionales --}}
     @stack('styles')
+    <style>
+    .footer-pdf {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 9px;
+        color: #666;
+    }
+</style>
 </head>
 
 <body>
@@ -24,7 +36,9 @@
     <main class="contenedor">
         @yield('contenido')
     </main>
-
+<div class="footer-pdf">
+    SINABOM - Sistema Nacional de Bomberos - Desarrollado por el Dpto. de TI
+</div>
 </body>
 
 </html>

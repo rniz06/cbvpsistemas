@@ -47,5 +47,6 @@ Route::prefix('cca')->middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/', 'index')->name('cca.operatividad.index');
             Route::get('/dashboard', 'dashboard')->name('cca.operatividad.dashboard');
+             Route::get('/monitoreo-visual', 'monitoreoVisual')->name('cca.operatividad.monitoreo-visual');
         });
 });

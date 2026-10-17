@@ -81,6 +81,7 @@ class Historico extends Component
                 'id_servicio_existente',
                 'compania',
                 'servicio',
+                'km_final',
                 'clasificacion',
                 DB::raw("CONCAT(tipo, '-', movil) AS tipo_movil"),
 
@@ -155,6 +156,7 @@ class Historico extends Component
                 "),
 
             'cantidad_tripulantes',
+            'km_final',
             'fecha_alfa'
         )
             ->where('estado_id', 4) // Servicio Culminado
@@ -184,16 +186,20 @@ class Historico extends Component
         return Excel::download(new ExcelHistoricosExport($query), 'Historico.xlsx');
     }
 
-    public function pdf()
-    {
-        $pdf = Pdf::loadView('cca.reportes.pdf.historico', [
-            'fecha_desde' => $this->fecha_desde,
-            'fecha_hasta' => $this->fecha_hasta,
-            'historicos'  => $this->cargarDatosExport(),
-            'usuario'     => Auth::user()
-        ]);
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->stream();
-        }, 'Historico.pdf');
-    }
+public function pdf()
+{
+    $pdf = Pdf::loadView('cca.reportes.pdf.historico', [
+        'fecha_desde' => $this->fecha_desde,
+        'fecha_hasta' => $this->fecha_hasta,
+        'historicos'  => $this->cargarDatosExport(),
+        'usuario'     => Auth::user(),
+    ]);
+
+    return response()->streamDownload(
+        function () use ($pdf) {
+            echo $pdf->output();
+        },
+        'Historico.pdf'
+    );
+}
 }

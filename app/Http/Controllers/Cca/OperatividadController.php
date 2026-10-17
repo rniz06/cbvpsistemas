@@ -26,4 +26,9 @@ class OperatividadController extends Controller
     {
         return view('cca.operatividad.dashboard-operatividad');
     }
+    
+        public function monitoreoVisual()
+    {
+        return view('cca.operatividad.monitoreo-visual');
+    }
 }

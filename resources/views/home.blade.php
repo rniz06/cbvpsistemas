@@ -9,7 +9,7 @@
 {{-- Content body: main page content --}}
 
 @section('content_body')
-    <p>Bienvenidos al panel de administración.</p>
+    @livewire('inicio.panel-inicio')
 @stop
 
 {{-- Push extra CSS --}}
