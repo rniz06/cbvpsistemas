@@ -124,6 +124,7 @@
                         <th class="text-center">Espuma</th>
                         <th class="text-center">Hidráulico</th>
                         <th class="text-center">Pileta</th>
+                        <th>Comunicado P.</th>
                         <th>Actualización</th>
                         <th class="text-center">Acciones</th>
                     </tr>
@@ -210,6 +211,7 @@
                                     {{ $compania->ultimaOperatividad?->pileta ? 'Operativo' : 'Inoperativo' }}
                                 </span>
                             </td>
+                            <td>{{ $compania?->ultimaOperatividad?->comunicado_por ?? 'S/D' }}</td>
                             <td>{{ $compania?->ultimaOperatividad?->fecha_hora?->format('d/m/Y H:i') ?? 'S/D' }}</td>
                             <td class="text-right">
                                 <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit" class="btn-sm"
