@@ -29,6 +29,7 @@ class Operatividad extends Model implements Auditable
         'pileta',
         'cant_autonomo',
         'cant_espuma',
+        'comunicado_por',
         'compania_id',
         'creadoPor',
         'actualizadoPor'

@@ -181,8 +181,14 @@
         </div>
     </div>
 
-    {{-- <div class="col-md-12">{{ $ult_reg_operatividad ?? 's-d' }}</div> --}}
 
+    {{-- Comunicado Por --}}
+    <x-adminlte-input name="comunicado_por" wire:model.blur="comunicado_por" placeholder="Ej: 8699"
+        label-class="text-lightblue" fgroup-class="col-md-12">
+        <x-slot name="prependSlot">
+            <div class="input-group-text">Comunicado Por</div>
+        </x-slot>
+    </x-adminlte-input>
 
 
     {{-- <div class="badge badge-success"> : {{  print_r($moviles) }}</div> --}}

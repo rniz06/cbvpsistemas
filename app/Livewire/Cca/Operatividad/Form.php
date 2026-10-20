@@ -22,6 +22,7 @@ class Form extends Component
     */
 
     #[Validate]
+    public string $comunicado_por = '';
     public string $acargo = '';
     public int $cant_personal = 0;
     public int $cant_conductor = 0;
@@ -85,6 +86,12 @@ class Form extends Component
     protected function rules()
     {
         return [
+
+            'comunicado_por' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
 
             'cca_operativo' => [
                 'required',
@@ -172,6 +179,8 @@ class Form extends Component
                 */
 
                 $operatividad = Operatividad::create([
+
+                    'comunicado_por' => $this->comunicado_por,
 
                     'operativo' => $this->cca_operativo,
 
@@ -268,6 +277,8 @@ class Form extends Component
             ->first();
 
         if ($this->ult_reg_operatividad) {
+
+            $this->comunicado_por = $this->ult_reg_operatividad->comunicado_por ?? '';
 
             $this->acargo = $this->getAcargoLabel();
 
@@ -405,6 +416,7 @@ class Form extends Component
     public function resetForm()
     {
         $this->reset([
+            'comunicado_por',
             'acargo',
             'cant_personal',
             'cant_conductor',
