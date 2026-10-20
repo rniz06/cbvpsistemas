@@ -431,7 +431,20 @@
                                 {{ trim(($movil->acronimo?->tipo ?? '') . ' ' . ($movil->movil ?? '')) }}
                             </strong>
 
-                            @if ($movil->operativo)
+                            {{-- @if ($movil->operativo)
+                                <span class="inicio-estado inicio-verde">
+                                    Operativo
+                                </span>
+                            @else
+                                <span class="inicio-estado inicio-rojo">
+                                    Inoperativo
+                                </span>
+                            @endif --}}
+
+                            {{-- operatividad_id = 0->INOPERATIVO
+                            operatividad_id = 1->OPERATIVO
+                            operatividad_id = 2->BAJA --}}
+                            @if ($movil->operatividad_id === 1)
                                 <span class="inicio-estado inicio-verde">
                                     Operativo
                                 </span>
