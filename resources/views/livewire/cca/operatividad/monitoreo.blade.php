@@ -182,6 +182,40 @@
                                 @php
                                     $moviles = $compania->ultimaOperatividad?->moviles ?? collect();
 
+                                    $operativos = $moviles->where('operativo', true);
+                                    $inoperativos = $moviles->where('operativo', false);
+
+                                    $formatearMoviles = fn($items) => $items
+                                        ->map(function ($item) {
+                                            $acronimo = $item->movil?->acronimo?->tipo;
+                                            $movil = $item->movil?->movil;
+
+                                            return $acronimo && $movil ? "{$acronimo}-{$movil}" : null;
+                                        })
+                                        ->filter()
+                                        ->implode(', ');
+                                @endphp
+
+                                {{-- Móviles operativos --}}
+                                <span class="badge badge-success mr-1"
+                                    title="Operativos: {{ $formatearMoviles($operativos) ?: 'Ninguno' }}"
+                                    style="cursor: help;">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    {{ $operativos->count() }}
+                                </span>
+
+                                {{-- Móviles inoperativos --}}
+                                <span class="badge badge-danger"
+                                    title="Inoperativos: {{ $formatearMoviles($inoperativos) ?: 'Ninguno' }}"
+                                    style="cursor: help;">
+                                    <i class="fas fa-times-circle mr-1"></i>
+                                    {{ $inoperativos->count() }}
+                                </span>
+                            </td>
+                            {{-- <td class="text-center">
+                                @php
+                                    $moviles = $compania->ultimaOperatividad?->moviles ?? collect();
+
                                     $operativos = $moviles->where('operativo', true)->count();
                                     $inoperativos = $moviles->where('operativo', false)->count();
                                 @endphp
@@ -195,7 +229,7 @@
                                     <i class="fas fa-times-circle mr-1"></i>
                                     {{ $inoperativos }}
                                 </span>
-                            </td>
+                            </td> --}}
                             <td class="text-center"><span
                                     class="badge badge-secondary">{{ $compania->ultimaOperatividad?->cant_autonomo ?? 'S/D' }}</span>
                             </td>
@@ -225,21 +259,7 @@
                                     wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
                                 <x-adminlte-button label="Historico" icon="fas fa-history" class="btn-sm"
                                     wire:click="abrirModalHistorico({{ $compania->id_compania }})" />
-                                {{-- <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle"
-                                        data-toggle="dropdown" aria-expanded="false">
-                                        Acciones
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <x-adminlte-button label="Ver Móviles" icon="fas fa-car"
-                                            class="dropdown-item btn-sm" />
-                                        <button class="dropdown-item"><i class="fas fa-history mr-1"></i>Ver
-                                            historial</button>
-                                        <x-adminlte-button label="Actualizar Condición" icon="fas fa-edit"
-                                            class="dropdown-item btn-sm"
-                                            wire:click="abrirModalActualizar({{ $compania->id_compania }})" />
-                                    </div>
-                                </div> --}}
+
                             </td>
                         </tr>
                     @empty

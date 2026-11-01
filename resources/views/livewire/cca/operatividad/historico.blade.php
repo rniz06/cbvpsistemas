@@ -37,7 +37,6 @@
             <table class="table table-hover table-sm">
                 <thead class="thead-light">
                     <tr>
-                        <th></th>
                         <th>Estado</th>
                         <th>A cargo</th>
                         <th class="text-center">Personal</th>
@@ -55,7 +54,6 @@
                 <tbody>
                     @forelse ($datos as $x)
                         <tr>
-                            <td>{{ $x->id_operatividad_detalle }} </td>
                             <td>
                                 @php
 
