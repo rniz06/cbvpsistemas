@@ -158,6 +158,19 @@ class Monitoreo extends Component
         $this->companiaId = 0;
     }
 
+    public function abrirModalHistorico(int $companiaId)
+    {
+        $this->companiaId = $companiaId;
+
+        $this->dispatch('abrir-modal-historico');
+    }
+
+
+    public function cerrarModalHistorico()
+    {
+        $this->companiaId = 0;
+    }
+
 
     /*
     |--------------------------------------------------------------------------
