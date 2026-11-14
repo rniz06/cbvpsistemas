@@ -3,82 +3,123 @@
 namespace App\Livewire\Personal\Asistencias;
 
 use App\Models\Personal\Asistencia\Detalle;
-use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Carga2 extends Component
 {
-  # REGISTRO ACTUAL
-  public $detalle;
+    public $detalle;
 
-  # CAMPOS DEL FORMULARIO
-  #[Validate]
-  public $practica, $guardia, $citacion;
+    public $practica;
+    public $guardia;
+    public $citacion;
 
-  public $bloqueoCitacion = true;
+    public function mount($detalle)
+    {
+        $this->detalle = Detalle::with([
+            'asistencia:id_asistencia,hubo_citacion,tipo_asistencia',
+            'personal:idpersonal,nombrecompleto,codigo',
+        ])->findOrFail($detalle);
 
-  public function mount($detalle)
-  {
-    $this->detalle = Detalle::with(['asistencia:id_asistencia,hubo_citacion', 'personal:idpersonal,nombrecompleto,codigo'])->findOrFail($detalle);
+        $this->guardia = $this->detalle->guardia;
+        $this->citacion = $this->detalle->citacion;
 
-    $this->practica = $this->detalle->practica;
-    $this->guardia  = $this->detalle->guardia;
-    $this->citacion = $this->detalle->citacion;
-  }
-
-  protected function rules()
-  {
-    return [
-      'practica' => ['required', 'integer', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
-      'guardia'  => ['required', 'integer', 'min_digits:1', 'max_digits:3', 'min:0', 'max:100'],
-      'citacion' => [
-        'nullable',
-        'integer',
-        'min_digits:1',
-        'max_digits:3',
-        'min:0',
-        'max:100',
-        Rule::requiredIf($this->detalle->asistencia->hubo_citacion == true)
-      ]
-    ];
-  }
-
-  public function guardar()
-  {
-    $this->validate();
-
-    try {
-      $this->detalle->update([
-        'practica' => $this->practica,
-        'guardia'  => $this->guardia,
-        'citacion' => $this->citacion,
-        'total'    => $this->calcularPromedio()
-      ]);
-      session()->flash('success', 'ASISTENCIA REGISTRADA CORRECTAMENTE!');
-    } catch (\Exception $e) {
-      session()->flash('error', 'NO SE PUDO REGISTRAR LA ASISTENCIAS' . $e->getMessage());
+        $this->practica = $this->esP5()
+            ? null
+            : $this->detalle->practica;
     }
 
-    # EMITE EVENTO QUE ESCUCHA EL COMPONENTE PRINCIPAL PARA REFRESCAR LOS DATOS SIN REFRESCAR LA PAGINA
-    $this->dispatch('asistencia-cargada');
-  }
-
-  private function calcularPromedio()
-  {
-    // SI NO HAY CITACION PROMEDIAR POR PRACTICA Y GUARDIA
-    if ($this->detalle->asistencia->hubo_citacion == true) {
-      return ($this->practica + $this->guardia + $this->citacion) / 3;
+    private function esP5(): bool
+    {
+        return $this->detalle->asistencia->tipo_asistencia === 'P5';
     }
 
-    if ($this->detalle->asistencia->hubo_citacion == false) {
-      return ($this->practica + $this->guardia) / 2;
-    }
-    return;
-  }
+    protected function rules(): array
+    {
+        $rules = [
+            'guardia' => [
+                'required',
+                'numeric',
+                'min:0',
+                'max:100',
+                'decimal:0,2',
+            ],
+            'citacion' => [
+                $this->detalle->asistencia->hubo_citacion
+                    ? 'required'
+                    : 'nullable',
+                'numeric',
+                'min:0',
+                'max:100',
+                'decimal:0,2',
+            ],
+        ];
 
-  public function render()
-  {
-    return view('livewire.personal.asistencias.carga2');
-  }
+        if (!$this->esP5()) {
+            $rules['practica'] = [
+                'required',
+                'numeric',
+                'min:0',
+                'max:100',
+                'decimal:0,2',
+            ];
+        }
+
+        return $rules;
+    }
+
+    public function guardar()
+    {
+        $this->validate();
+
+        try {
+            $esP5 = $this->esP5();
+            $huboCitacion = (bool) $this->detalle->asistencia->hubo_citacion;
+
+            $guardia = round((float) $this->guardia, 2);
+
+            $practica = $esP5
+                ? null
+                : round((float) $this->practica, 2);
+
+            $citacion = $huboCitacion
+                ? round((float) $this->citacion, 2)
+                : null;
+
+            if ($esP5) {
+                $total = $huboCitacion
+                    ? ($guardia + $citacion) / 2
+                    : $guardia;
+            } else {
+                $total = $huboCitacion
+                    ? ($practica + $guardia + $citacion) / 3
+                    : ($practica + $guardia) / 2;
+            }
+
+            $this->detalle->update([
+                'practica' => $practica,
+                'guardia' => $guardia,
+                'citacion' => $citacion,
+                'total' => number_format(round($total, 2), 2, '.', ''),
+            ]);
+
+            session()->flash(
+                'success',
+                'ASISTENCIA REGISTRADA CORRECTAMENTE.'
+            );
+        } catch (\Throwable $e) {
+            report($e);
+
+            session()->flash(
+                'error',
+                'NO SE PUDO REGISTRAR LA ASISTENCIA. Revisá el registro e intentá nuevamente.'
+            );
+        }
+
+        $this->dispatch('asistencia-cargada');
+    }
+
+    public function render()
+    {
+        return view('livewire.personal.asistencias.carga2');
+    }
 }

@@ -54,6 +54,15 @@
                     <a href="{{ route('personal.cambiarCodigo', $personal->idpersonal) }}" class="btn btn-sm btn-warning"><i
                             class="fas fa-sync-alt"></i> Cambiar Código</a>
                 @endcan
+                @can('Personal Enlazar Codigo')
+                    <a
+                        href="{{ route('personal.enlazarCodigo', $personal->idpersonal) }}"
+                        class="btn btn-sm btn-info"
+                    >
+                        <i class="fas fa-link"></i>
+                        Enlazar con código
+                    </a>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -343,6 +352,170 @@
     </div>
 
     @livewire('personal.resolucion', ['personal_id' => $personal->idpersonal])
+    
+    
+{{-- Historial de pasantías del personal --}}
+<div class="card card-primary mt-3">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-history mr-1"></i>
+            Historial de pasantías
+        </h3>
+    </div>
+
+    <div class="card-body table-responsive">
+        @if ($pasantias->isEmpty())
+            <p class="text-muted mb-0">
+                Este personal todavía no tiene pasantías registradas.
+            </p>
+        @else
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Compañía de origen</th>
+                        <th>Compañía de destino</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de fin</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
+                        <th>Registrado por</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pasantias as $pasantia)
+                        <tr>
+                            <td>
+                                {{ $pasantia->companiaOrigen?->compania ?? 'No disponible' }}
+                            </td>
+                            <td>
+                                {{ $pasantia->companiaDestino?->compania ?? 'No disponible' }}
+                            </td>
+                            <td>
+                                {{ $pasantia->fecha_inicio?->format('d/m/Y') ?? '—' }}
+                            </td>
+                            <td>
+                                {{ $pasantia->fecha_fin?->format('d/m/Y') ?? '—' }}
+                            </td>
+                            <td>
+                                @switch($pasantia->estado_calculado)
+                                    @case('VIGENTE')
+                                        <span class="badge badge-success">
+                                            VIGENTE
+                                        </span>
+                                        @break
+
+                                    @case('PENDIENTE')
+                                        <span class="badge badge-warning">
+                                            PENDIENTE
+                                        </span>
+                                        @break
+
+                                    @default
+                                        <span class="badge badge-secondary">
+                                            VENCIDA
+                                        </span>
+                                @endswitch
+                            </td>
+                            <td>
+                                {{ $pasantia->observaciones ?: '—' }}
+                            </td>
+                            <td>
+                                {{ $pasantia->registradoPor?->personal?->nombrecompleto
+                                    ?? $pasantia->registradoPor?->name
+                                    ?? 'No disponible' }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
+</div>
+
+
+@if(isset($enlaceCodigo) && $enlaceCodigo)
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-link mr-1"></i>
+                Enlace de códigos
+            </h3>
+        </div>
+
+        <div class="card-body">
+            @if((int) $personal->idpersonal === (int) $enlaceCodigo->id_anterior)
+                <p>
+                    <strong>Esta es la ficha anterior.</strong>
+                </p>
+
+                <p>
+                    Código anterior:
+                    <strong>{{ $enlaceCodigo->codigo_anterior }}</strong>
+                </p>
+
+                <p>
+                    Enlazado con el código nuevo:
+                    <strong>{{ $enlaceCodigo->codigo_nuevo ?? 'No disponible' }}</strong>
+                </p>
+
+                @if($enlaceCodigo->id_nueva)
+                    <a
+                        href="{{ route('personal.show', $enlaceCodigo->id_nueva) }}"
+                        class="btn btn-sm btn-primary"
+                    >
+                        <i class="fas fa-user"></i>
+                        Ver ficha nueva
+                    </a>
+                @endif
+            @else
+                <p>
+                    <strong>Esta es la ficha nueva.</strong>
+                </p>
+
+                <p>
+                    Código actual:
+                    <strong>{{ $enlaceCodigo->codigo_nuevo }}</strong>
+                </p>
+
+                <p>
+                    Enlazada con el código anterior:
+                    <strong>{{ $enlaceCodigo->codigo_anterior ?? 'No disponible' }}</strong>
+                </p>
+
+                @if($enlaceCodigo->id_anterior)
+                    <a
+                        href="{{ route('personal.show', $enlaceCodigo->id_anterior) }}"
+                        class="btn btn-sm btn-info"
+                    >
+                        <i class="fas fa-history"></i>
+                        Ver ficha anterior
+                    </a>
+                @endif
+            @endif
+
+            <p class="text-muted mt-2 mb-0">
+                Fecha de enlace:
+                {{ $enlaceCodigo->fecha_enlace
+                    ? \Carbon\Carbon::parse($enlaceCodigo->fecha_enlace)->format('d/m/Y H:i')
+                    : 'No disponible' }}
+            </p>
+            <div class="mt-3">
+                <strong>Observaciones del enlace:</strong>
+
+                @if (filled($enlaceCodigo->observaciones))
+                    <div class="alert alert-light border mt-2 mb-0">
+                        {!! nl2br(e($enlaceCodigo->observaciones)) !!}
+                    </div>
+                @else
+                    <p class="text-muted mb-0 mt-1">
+                        Sin observaciones registradas.
+                    </p>
+                @endif
+            </div>
+        </div>
+    </div>
+@endif
+
 @stop
 
 @section('plugins.Select2', true)

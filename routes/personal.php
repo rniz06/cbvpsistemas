@@ -31,15 +31,29 @@ Route::middleware('auth')->prefix('personal')->group(function () {
             Route::get('/cargos', 'index')->name('personal.cargos.index');
         });
 
+
     /*
     |--------------------------------------------------------------------------
     | Rutas del modulo Asistencias
     |--------------------------------------------------------------------------
     */
-    Route::controller(AsistenciaController::class)
-        ->group(function () {
-            Route::get('/asistencias', 'index')->name('personal.asistencias.index');
-            Route::get('/asistencias/generar-manualmente', 'generar_manualmente')->name('personal.asistencias.generar-manualmente');
-            Route::get('/asistencias/{asistencia}', 'show')->name('personal.asistencias.show');
-        });
+
+Route::controller(AsistenciaController::class)
+    ->group(function () {
+        Route::get('/asistencias', 'index')
+            ->name('personal.asistencias.index');
+
+        Route::get('/asistencias/generar-manualmente', 'generar_manualmente')
+            ->name('personal.asistencias.generar-manualmente');
+
+        Route::get('/asistencias/periodos/crear', 'crear_periodo')
+            ->name('personal.asistencias.crear-periodo');
+
+        Route::get('/asistencias/rectificaciones', 'rectificaciones')
+            ->name('personal.asistencias.rectificaciones');
+
+        Route::get('/asistencias/{asistencia}', 'show')
+            ->name('personal.asistencias.show');
+    });
+
 });

@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Personal\Pasantia;
 
 class PersonalController extends Controller
 {
@@ -48,7 +49,9 @@ class PersonalController extends Controller
         $this->middleware('permission:Personal Eliminar', ['only' => ['destroy']]);
         $this->middleware('permission:Personal Reportes Listar', ['only' => ['reportes']]);
         $this->middleware('permission:Personal Cambiar Codigo', ['only' => ['cambiarCodigo']]);
-    }
+        $this->middleware('permission:Personal Enlazar Codigo', ['only' => ['enlazarCodigo']]);
+        $this->middleware('permission:Personal Pasantias Listar', ['only' => ['pasantias'],]);
+        }
 
     /**
      * Display a listing of the resource.
@@ -64,6 +67,16 @@ class PersonalController extends Controller
     public function cambiarCodigo($personal)
     {
         return view('personal.cambiar-codigo', compact('personal'));
+    }
+
+
+    /**
+     * Mostrar la pantalla para enlazar una ficha anterior
+     * con una ficha nueva.
+     */
+    public function enlazarCodigo($personal)
+    {
+        return view('personal.enlazar-codigo', compact('personal'));
     }
 
     /**
@@ -187,7 +200,49 @@ class PersonalController extends Controller
              WHERE id_personal = ?',
             [$personal->idpersonal]
         );
-        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades', 'companias', 'resoluciones'));
+
+        // Historial de pasantías del personal mostrado en la ficha.
+        $pasantias = Pasantia::with([
+            'companiaOrigen',
+            'companiaDestino',
+            'registradoPor.personal',
+        ])
+            ->where('personal_id', $personal->idpersonal)
+            ->orderByDesc('fecha_inicio')
+            ->orderByDesc('id_pasantia')
+            ->get();
+
+        $enlaceCodigo = DB::table('personal_codigos_enlaces as e')
+            ->leftJoin(
+                'vt_personales as anterior',
+                'anterior.idpersonal',
+                '=',
+                'e.personal_anterior_id'
+            )
+            ->leftJoin(
+                'vt_personales as nueva',
+                'nueva.idpersonal',
+                '=',
+                'e.personal_nueva_id'
+            )
+            ->where(function ($query) use ($personal) {
+                $query->where('e.personal_anterior_id', $personal->idpersonal)
+                    ->orWhere('e.personal_nueva_id', $personal->idpersonal);
+            })
+            ->select([
+                'e.fecha_enlace',
+                'e.observaciones',
+                'anterior.idpersonal as id_anterior',
+                'anterior.codigo as codigo_anterior',
+                'anterior.nombrecompleto as nombre_anterior',
+                'nueva.idpersonal as id_nueva',
+                'nueva.codigo as codigo_nuevo',
+                'nueva.nombrecompleto as nombre_nuevo',
+            ])
+            ->first();
+
+
+        return view('personal.show', compact('personal', 'contactos', 'contactos_emergencias', 'tipo_contactos', 'parentescos', 'ciudades', 'companias', 'resoluciones','pasantias'))->with('enlaceCodigo', $enlaceCodigo);
     }
 
     /**
@@ -314,6 +369,16 @@ class PersonalController extends Controller
             'total_count' => $total
         ]);
     }
+
+    
+    /**
+     * Listado y gestión de pasantías del módulo Personal.
+     */
+    public function pasantias()
+    {
+        return view('personal.pasantias.index');
+    }
+
 
     public function reportes()
     {

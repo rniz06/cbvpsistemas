@@ -16,7 +16,25 @@ class Detalle extends Model implements Auditable
 
     protected $primaryKey = 'id_asistencia_detalle';
 
-    protected $fillable = ['asistencia_id', 'personal_id', 'practica', 'guardia', 'citacion', 'total'];
+    protected $fillable = [
+        'asistencia_id',
+        'personal_id',
+        'practica',
+        'guardia',
+        'citacion',
+        'total',
+    ];
+
+    /**
+     * Todos los valores de asistencia se manejan
+     * y se presentan con exactamente dos decimales.
+     */
+    protected $casts = [
+        'practica' => 'decimal:2',
+        'guardia' => 'decimal:2',
+        'citacion' => 'decimal:2',
+        'total' => 'decimal:2',
+    ];
 
     public $timestamps = false;
 
@@ -33,7 +51,8 @@ class Detalle extends Model implements Auditable
 
     public function personal()
     {
-        return $this->belongsTo(Personal::class, 'personal_id')->orderBy('codigo');
+        return $this->belongsTo(Personal::class, 'personal_id')
+            ->orderBy('codigo');
     }
 
     /*
@@ -48,11 +67,10 @@ class Detalle extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Busqueda por relacion personal campo nombrecompleto.
-     */
-    public function scopeBuscarNombrecompleto(Builder $query, $search = null): void
-    {
+    public function scopeBuscarNombrecompleto(
+        Builder $query,
+        $search = null
+    ): void {
         $query->when($search, function (Builder $query, $search) {
             $query->whereHas('personal', function (Builder $q) use ($search) {
                 $q->whereLike('nombrecompleto', "%$search%");
@@ -60,11 +78,10 @@ class Detalle extends Model implements Auditable
         });
     }
 
-    /**
-     * Busqueda por relacion personal campo codigo.
-     */
-    public function scopeBuscarCodigo(Builder $query, $search = null): void
-    {
+    public function scopeBuscarCodigo(
+        Builder $query,
+        $search = null
+    ): void {
         $query->when($search, function (Builder $query, $search) {
             $query->whereHas('personal', function (Builder $q) use ($search) {
                 $q->whereLike('codigo', "%$search%");

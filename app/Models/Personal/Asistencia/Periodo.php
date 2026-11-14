@@ -11,19 +11,21 @@ class Periodo extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $table = "PER_asistencias_periodos";
+    protected $table = 'PER_asistencias_periodos';
 
     protected $primaryKey = 'id_asistencia_periodo';
 
-    protected $fillable = ['anho_id', 'mes_id'];
+    protected $fillable = [
+        'anho_id',
+        'mes_id',
+        'fecha_vencimiento',
+    ];
+
+    protected $casts = [
+        'fecha_vencimiento' => 'date',
+    ];
 
     public $timestamps = false;
-    
-    /*
-    |--------------------------------------------------------------------------
-    | RELACIONES
-    |--------------------------------------------------------------------------
-    */
 
     public function anho()
     {
@@ -35,15 +37,8 @@ class Periodo extends Model implements Auditable
         return $this->belongsTo(Mes::class, 'mes_id');
     }
 
-    // Relacion Inversa
     public function asistencias()
     {
-        return $this->hasMany(Asistencia::class);    
+        return $this->hasMany(Asistencia::class, 'periodo_id', 'id_asistencia_periodo');
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FIN RELACIONES
-    |--------------------------------------------------------------------------
-    */
 }

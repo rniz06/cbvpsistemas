@@ -336,10 +336,36 @@ return [
                     'route' => 'personal.comisionamientos.index',
                     'can' => 'Comisionamientos Listar',
                 ],
+
                 [
-                    'text' => 'Asistencias',
-                    'route' => 'personal.asistencias.index',
-                    'can' => 'Personal Asistencias Listar',
+                'text' => 'Asistencias',
+                'icon' => 'fas fa-user-friends',
+                'submenu' => [
+                            [
+                                'text' => 'Asistencias',
+                                'route' => 'personal.asistencias.index',
+                                'can' => 'Personal Asistencias Listar',
+                            ],
+                            [
+                                'text' => 'Rectificaciones',
+                                'route' => 'personal.asistencias.rectificaciones',
+                                'can' => 'Personal Asistencias Listar',
+                            ],
+                              [
+                            'text' => 'Crear período',
+                            'route' => 'personal.asistencias.crear-periodo',
+                            'can' => 'Personal Asistencias Crear Periodo',
+                            ],
+                            [
+                                'text' => 'Generar asistencia',
+                                'route' => 'personal.asistencias.generar-manualmente',
+                                'can' => 'Personal Asistencias Generar Manualmente',
+                            ],
+                ]],            
+                [
+                    'text' => 'Pasantias',
+                    'route' => 'personal.pasantias',
+                    'can' => 'Personal Pasantias Listar',
                 ],
                 [
                     'text' => 'Reportes',
@@ -355,11 +381,6 @@ return [
                             'text' => 'Cargos',
                             'route' => 'personal.cargos.index',
                             'can' => 'Cargos Listar',
-                        ],
-                        [
-                            'text' => 'Asis. Gen. Manual',
-                            'route' => 'personal.asistencias.generar-manualmente',
-                            'can' => 'Personal Asistencias Generar Manualmente',
                         ],
                     ],
                 ],

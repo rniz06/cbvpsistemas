@@ -3,21 +3,30 @@
 namespace App\Http\Controllers\Personal;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AsistenciaController extends Controller
 {
-    /**
-     * Establece los middleware necesarios para gestionar permisos
-     * Se utilizan permisos específicos para cada acción del controlador.
-     */
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:Personal Asistencias Listar', ['only' => ['index']]);
-        // $this->middleware('permission:Comisionamientos Crear', ['only' => ['create']]);
-        // $this->middleware('permission:Comisionamientos Editar', ['only' => ['edit']]);
-        $this->middleware('permission:Personal Asistencias Ver', ['only' => ['show']]);
-        $this->middleware('permission:Personal Asistencias Generar Manualmente', ['only' => ['generar_manualmente']]);
+        $this->middleware('permission:Personal Asistencias Listar', [
+            'only' => ['index'],
+        ]);
+
+        $this->middleware('permission:Personal Asistencias Ver', [
+            'only' => ['show'],
+        ]);
+
+        $this->middleware('permission:Personal Asistencias Generar Manualmente', [
+            'only' => ['generar_manualmente'],
+        ]);
+
+        $this->middleware('permission:Personal Asistencias Crear Periodo', [
+            'only' => ['crear_periodo'],
+        ]);
+
+        $this->middleware('permission:Personal rectificaciones', [
+            'only' => ['rectificaciones'],
+        ]);
     }
 
     public function index()
@@ -33,5 +42,15 @@ class AsistenciaController extends Controller
     public function generar_manualmente()
     {
         return view('personal.asistencias.generar-manualmente');
+    }
+
+    public function crear_periodo()
+    {
+        return view('personal.asistencias.crear-periodo');
+    }
+
+    public function rectificaciones()
+    {
+        return view('personal.asistencias.rectificaciones');
     }
 }

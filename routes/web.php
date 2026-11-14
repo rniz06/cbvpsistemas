@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     */
     Route::controller(PersonalController::class)->group(function () {
         Route::get('personal', 'index')->name('personal.index');
+        Route::get('personal/pasantias','pasantias')->name('personal.pasantias');
         Route::get('personal/create', 'create')->name('personal.create');
         Route::post('personal/store', 'store')->name('personal.store');
         Route::get('personal/exportar', 'exportar')->name('personal.exportar');
@@ -72,8 +73,10 @@ Route::middleware('auth')->group(function () {
         Route::get('personal/{personal}/cambiar-codigo', 'cambiarCodigo')->name('personal.cambiarCodigo');
         Route::get('personal/{personal}/edit', 'edit')->name('personal.edit');
         Route::put('personal/{personal}', 'update')->name('personal.update');
+        Route::get('personal/{personal}/enlazar-codigo','enlazarCodigo')->name('personal.enlazarCodigo');
         // Route::delete('personal/{personal}', 'destroy')->name('personal.destroy');
         Route::get('personal/ficha/{personal}', 'fichapdf')->name('personal.fichapdf');
+        
     });
 
     /*
