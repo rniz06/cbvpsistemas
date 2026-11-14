@@ -25,7 +25,7 @@ class DespachoEnganchado extends Component
     // Propiedades para el formulario
     #[Validate]
     public $servicio_id, $clasificacion_id, $informacion_servicio, $ciudad_id, $calle_referencia;
-    public $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false, $cantidad_tripulantes;
+    public $movil_id, $acargo, $acargo_rentado = false, $chofer, $chofer_rentado = false;
 
     public function mount($servicioId)
     {

@@ -1,9 +1,7 @@
 <div>
-    {{-- Nothing in the world is as soft and yielding as water. --}}
-    {{-- ServicioID::{{ $servicio ?? 'NULO' }} --}}
 
     <x-adminlte-card theme="success" theme-mode="outline"
-        title="Ficha de despacho - Compañía {{ $servicio->compania->compania ?? 'S/D' }}">
+        title="Ficha de despacho - Compañía {{ $servicio->compania->compania ?? 'S/D' }} Móvil {{ $servicio->movil->acronimo->tipo ?? 'S/D' }}-{{ $servicio->movil->movil ?? 'S/D' }}">
 
         <form class="col-md-12 row" wire:submit="grabar">
             <div class="col-md-2">
@@ -69,3 +67,17 @@
     </x-adminlte-card>
 
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/slimselect.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/slimselect.js') }}"></script>
+
+    <script>
+        new SlimSelect({
+            select: '#ciudad_id'
+        })
+    </script>
+@endpush

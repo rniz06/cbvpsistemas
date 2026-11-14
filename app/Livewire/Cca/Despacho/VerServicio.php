@@ -3,10 +3,12 @@
 namespace App\Livewire\Cca\Despacho;
 
 use App\Models\Cca\Servicios\Comentario;
+use App\Models\Cca\Servicios\Enganchado;
 use App\Models\Cca\Servicios\Existente;
 use App\Models\Vistas\Cca\VtExistente;
 use App\Services\Cca\Servicio\FalsaAlarmaService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -28,25 +30,79 @@ class VerServicio extends Component
         $this->servicio = $servicio;
     }
 
+
     public function guardarDetalles()
     {
         $this->validate();
-        $existente = Existente::findOrFail($this->servicio->id_servicio_existente);
-        $existente->update([
-            'km_final'    => $this->km_final,
-            'desperfecto' => $this->desperfecto,
-            'fecha_base'  => now(),
-            'estado_id'   => 4, // Servicio Culminado
-        ]);
-        if (is_null($this->km_final)) {
-            $mensaje = "10.77 y Móvil en Base Asignado Correctamente!";
-        } else {
-            $mensaje = "Kilometraje Final y Móvil en Base Asignado Correctamente!";
-        }
 
-        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $this->servicio->id_servicio_existente])
-            ->with('success', $mensaje);
+        DB::transaction(function () {
+
+            $datos = [
+                'km_final'    => $this->km_final,
+                'desperfecto' => $this->desperfecto,
+                'fecha_base'  => now(),
+                'estado_id'   => 4, // Servicio Culminado
+            ];
+
+            $idServicioActual = $this->servicio->id_servicio_existente;
+
+            // Servicios que deben culminarse
+            $serviciosIds = collect([$idServicioActual]);
+
+            // Servicios pendientes de recorrer
+            $pendientes = collect([$idServicioActual]);
+
+            // Evitar ciclos y registros duplicados
+            while ($pendientes->isNotEmpty()) {
+
+                $enganchar = Enganchado::whereIn(
+                    'servicio_actual_id',
+                    $pendientes
+                )->get();
+
+                $nuevosPendientes = collect();
+
+                foreach ($enganchar as $enganche) {
+
+                    // Marcar el enganche como culminado
+                    if (!$enganche->culminado) {
+                        $enganche->update([
+                            'culminado' => true,
+                        ]);
+                    }
+
+                    $idAnterior = $enganche->servicio_anterior_id;
+
+                    // Agregar solamente servicios no procesados
+                    if (!$serviciosIds->contains($idAnterior)) {
+                        $serviciosIds->push($idAnterior);
+                        $nuevosPendientes->push($idAnterior);
+                    }
+                }
+
+                $pendientes = $nuevosPendientes;
+            }
+
+            // Actualizar individualmente cada servicio.
+            // Esto permite ejecutar los eventos de Eloquent
+            // y registrar cada modificación mediante Laravel Auditing.
+            foreach ($serviciosIds as $id) {
+
+                $existente = Existente::findOrFail($id);
+
+                $existente->update($datos);
+            }
+        });
+
+        $mensaje = is_null($this->km_final)
+            ? "10.77 y Móvil en Base Asignado Correctamente!"
+            : "Kilometraje Final y Móvil en Base Asignado Correctamente!";
+
+        return redirect()->route('cca.despacho.ver-servicio', [
+            'servicio' => $this->servicio->id_servicio_existente,
+        ])->with('success', $mensaje);
     }
+
 
     // Deshabilita el input desperfecto
     public function btndesperfecto()
@@ -101,7 +157,7 @@ class VerServicio extends Component
     }
 
     # FUNCIONES ADICIONALES
-    
+
     public function falsaAlarma(FalsaAlarmaService $servicio)
     {
         try {

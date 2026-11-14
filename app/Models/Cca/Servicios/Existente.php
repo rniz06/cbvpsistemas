@@ -3,6 +3,7 @@
 namespace App\Models\Cca\Servicios;
 
 use App\Models\Gral\Compania;
+use App\Models\Materiales\Movil\Movil;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -55,6 +56,11 @@ class Existente extends Model implements Auditable
     public function compania()
     {
         return $this->belongsTo(Compania::class, 'compania_id', 'id_compania');
+    }
+
+    public function movil()
+    {
+        return $this->belongsTo(Movil::class, 'movil_id', 'id_movil');
     }
 
     public function enganchadoAnterior()
