@@ -50,4 +50,14 @@ class Existente extends Model implements Auditable
         'desperfecto'      => 'boolean',
         'despacho_policia' => 'boolean'
     ];
+
+    public function enganchadoAnterior()
+    {
+        return $this->belongsTo(Enganchado::class, 'servicio_anterior_id', 'id_servicio_existente');
+    }
+
+    public function enganchadoActual()
+    {
+        return $this->belongsTo(Enganchado::class, 'servicio_actual_id', 'id_servicio_existente');
+    }
 }
