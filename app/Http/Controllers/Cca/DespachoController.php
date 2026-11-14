@@ -67,4 +67,9 @@ class DespachoController extends Controller
     {
         return view('cca.despacho.apoyos-activos');
     }
+
+    public function despachoEnganchado(int $servicioId)
+    {
+        return view('cca.despacho.despacho-enganchado', compact('servicioId'));
+    }
 }

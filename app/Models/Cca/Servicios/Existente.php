@@ -2,6 +2,7 @@
 
 namespace App\Models\Cca\Servicios;
 
+use App\Models\Gral\Compania;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,6 +51,11 @@ class Existente extends Model implements Auditable
         'desperfecto'      => 'boolean',
         'despacho_policia' => 'boolean'
     ];
+
+    public function compania()
+    {
+        return $this->belongsTo(Compania::class, 'compania_id', 'id_compania');
+    }
 
     public function enganchadoAnterior()
     {

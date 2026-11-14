@@ -32,7 +32,10 @@
                     Mas Acciones
                 </button>
                 <div class="dropdown-menu">
-                    {{-- <a class="btn-sm dropdown-item" href="#">Falsa Alarma</a> --}}
+                    <a class="btn-sm dropdown-item"
+                        target="_blank"
+                        href="{{ route('cca.despacho.despacho-enganchado', $servicio->id_servicio_existente) }}"><i class="fas fa-retweet mr-1"></i> Despacho
+                        Enganchado</a>
                     {{-- BTN FALSA ALARMA --}}
                     @if ($servicio->falsa_alarma == false)
                         <x-adminlte-button class="btn-sm dropdown-item" label="Falsa Alarma" icon="fas fa-times-circle"
@@ -40,7 +43,8 @@
                             wire:confirm="¿Estas Seguro de Declarar este Servicio Como una Falsa Alarma?" />
                     @else
                         {{-- BTN FALSA ALARMA DESHABILITADO --}}
-                        <x-adminlte-button class="btn-sm dropdown-item" label="Falsa Alarma" icon="fas fa-times-circle" disabled />
+                        <x-adminlte-button class="btn-sm dropdown-item" label="Falsa Alarma" icon="fas fa-times-circle"
+                            disabled />
                     @endif
                 </div>
             </div>
