@@ -62,11 +62,24 @@ class DespachoEnganchado extends Component
         ];
     }
 
+
     public function grabar()
     {
         $this->validate();
 
         $servicio = DB::transaction(function () {
+
+            $idServicioAnterior = $this->servicio->id_servicio_existente;
+
+            // Buscar si el servicio anterior ya pertenece
+            // a una cadena de enganches.
+            $servicioPadreId = Enganchado::where(
+                'servicio_actual_id',
+                $idServicioAnterior
+            )->value('servicio_padre_id');
+
+            // Si no pertenece a otra cadena, él mismo será el padre.
+            $servicioPadreId ??= $idServicioAnterior;
 
             $servicio = Existente::create([
                 'informacion_servicio' => $this->informacion_servicio,
@@ -83,32 +96,39 @@ class DespachoEnganchado extends Component
                 'chofer' => $this->servicio->chofer,
                 'chofer_aux' => $this->servicio->chofer_aux,
                 'chofer_rentado' => $this->servicio->chofer_rentado,
-                'estado_id' => 3, // Estado: Movil Despachado
+                'estado_id' => 3,
                 'fecha_cia' => now(),
                 'fecha_movil' => now(),
-                'creadoPor' => Auth::id()
+                'creadoPor' => Auth::id(),
             ]);
 
+            // Registrar el enganche y su servicio padre.
             Enganchado::create([
-                'servicio_anterior_id' => $this->servicio->id_servicio_existente,
-                'servicio_actual_id' => $servicio->id_servicio_existente
+                'servicio_anterior_id' => $idServicioAnterior,
+                'servicio_actual_id' => $servicio->id_servicio_existente,
+                'servicio_padre_id' => $servicioPadreId,
             ]);
 
+            // Cambiar estado del servicio anterior.
             $this->servicio->update([
-                'estado_id' => 5 // Enganchado
+                'estado_id' => 5, // Enganchado
             ]);
 
-            // Registrar el estado del movil cuando se despacha un servicio
-            app(RegistrarEstadoDeMovilAlDespachar::class)->ejecutar($servicio->id_servicio_existente, $servicio->movil_id);
+            // Registrar el estado del móvil.
+            app(RegistrarEstadoDeMovilAlDespachar::class)
+                ->ejecutar(
+                    $servicio->id_servicio_existente,
+                    $servicio->movil_id
+                );
 
             return $servicio;
         });
 
-
-
-        return redirect()->route('cca.despacho.ver-servicio', ['servicio' => $servicio->id_servicio_existente])
-            ->with('success', 'Servicio Despachado Correctamente!');
+        return redirect()->route('cca.despacho.ver-servicio', [
+            'servicio' => $servicio->id_servicio_existente,
+        ])->with('success', 'Servicio Despachado Correctamente!');
     }
+
 
     public function render()
     {

@@ -48,10 +48,26 @@ class Existente extends Model implements Auditable
     ];
 
     protected $casts = [
+        'fecha_alfa'       => 'datetime',
+        'fecha_cia'        => 'datetime',
+        'fecha_movil'      => 'datetime',
+        'fecha_servicio'   => 'datetime',
+        'fecha_base'       => 'datetime',
         'chofer_rentado'   => 'boolean',
         'desperfecto'      => 'boolean',
-        'despacho_policia' => 'boolean'
+        'despacho_policia' => 'boolean',
+        'falsa_alarma'     => 'boolean'
     ];
+
+    public function servicio()
+    {
+        return $this->belongsTo(Servicio::class, 'servicio_id', 'id_servicio');
+    }
+
+    public function clasificacion()
+    {
+        return $this->belongsTo(Clasificacion::class, 'clasificacion_id', 'id_clasificacion');
+    }
 
     public function compania()
     {

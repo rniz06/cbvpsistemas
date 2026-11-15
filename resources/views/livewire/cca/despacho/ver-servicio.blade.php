@@ -32,9 +32,9 @@
                     Mas Acciones
                 </button>
                 <div class="dropdown-menu">
-                    <a class="btn-sm dropdown-item"
-                        target="_blank"
-                        href="{{ route('cca.despacho.despacho-enganchado', $servicio->id_servicio_existente) }}"><i class="fas fa-retweet mr-1"></i> Despacho
+                    <a class="btn-sm dropdown-item" target="_blank"
+                        href="{{ route('cca.despacho.despacho-enganchado', $servicio->id_servicio_existente) }}"><i
+                            class="fas fa-retweet mr-1"></i> Despacho
                         Enganchado</a>
                     {{-- BTN FALSA ALARMA --}}
                     @if ($servicio->falsa_alarma == false)
@@ -193,6 +193,32 @@
                 <x-adminlte-input name="" label="Falsa Alarma:"
                     value="{{ $servicio->falsa_alarma ? 'SI' : 'NO' }}" fgroup-class="col-md-2" disabled />
             @endif
+
+            {{-- SERVICIOS ENCADENADOS --}}
+            <div class="col-md-2">
+
+                @if ($serviciosEnganchados->isNotEmpty())
+                    <h5>Servicios Enganchados</h5>
+                    <ul>
+                        <a href="{{ route('cca.despacho.ver-servicio', $servicioPadre->id_servicio_existente) }}"
+                            class="text-decoration-none text-dark" target="_blank">
+                            <li>{{ $servicioPadre?->servicio?->servicio }}
+                                {{-- {{ $servicioPadre?->fecha_alfa ? \Carbon\Carbon::parse($servicioPadre->fecha_alfa)->format('d/m H:i') : '--:--' }} --}}
+                            </li>
+                        </a>
+                        @foreach ($serviciosEnganchados as $enganche)
+                            <a href="{{ route('cca.despacho.ver-servicio', $enganche->actual?->id_servicio_existente) }}"
+                                class="text-decoration-none text-dark" target="_blank">
+                                <li>{{ $enganche->actual?->servicio?->servicio }}
+                                    {{-- {{ $enganche->actual?->fecha_alfa
+                                    ? \Carbon\Carbon::parse($enganche->actual->fecha_alfa)->format('H:i')
+                                    : '--:--' }} --}}
+                                </li>
+                            </a>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
         </div>
     </x-adminlte-card>
 

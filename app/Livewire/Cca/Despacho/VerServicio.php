@@ -14,9 +14,11 @@ use Livewire\Component;
 
 class VerServicio extends Component
 {
-    public $servicio, $mostrarFormAgregarDetalle = false;
+    public $servicio, $serviciosEnganchados, $mostrarFormAgregarDetalle = false;
 
     public $km_final = null, $desperfecto = false;
+
+    public $servicioPadre;
 
     public function rules()
     {
@@ -28,6 +30,26 @@ class VerServicio extends Component
     public function mount(VtExistente $servicio)
     {
         $this->servicio = $servicio;
+
+        $idServicio = $servicio->id_servicio_existente;
+
+        // Identificar el servicio padre de la cadena
+        $padreId = Enganchado::where('servicio_actual_id', $idServicio)
+            ->value('servicio_padre_id') ?? $idServicio;
+
+        // Obtener todos los servicios de la cadena
+        $this->serviciosEnganchados = Enganchado::with([
+            'anterior.servicio',
+            'actual.servicio',
+        ])
+            ->where('servicio_padre_id', $padreId)
+            ->get()
+            ->sortBy(fn($enganche) => $enganche->actual?->fecha_alfa)
+            ->values();
+
+        // Incluir el servicio original
+        $this->servicioPadre = Existente::with('servicio')
+            ->find($padreId);
     }
 
 

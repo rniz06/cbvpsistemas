@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_servicio_enganchado');
             $table->foreignId('servicio_anterior_id')->constrained('CCA_servicios_existentes', 'id_servicio_existente')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('servicio_actual_id')->constrained('CCA_servicios_existentes', 'id_servicio_existente')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('servicio_padre_id')->constrained('CCA_servicios_existentes', 'id_servicio_existente')->cascadeOnUpdate()->cascadeOnDelete();
             $table->boolean('culminado')->default(false);
             $table->timestamps();
             $table->softDeletes();

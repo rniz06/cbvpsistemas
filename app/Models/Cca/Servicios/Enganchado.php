@@ -14,7 +14,7 @@ class Enganchado extends Model implements Auditable
 
     protected $primaryKey = 'id_servicio_enganchado';
 
-    protected $fillable = ['servicio_anterior_id', 'servicio_actual_id','culminado'];
+    protected $fillable = ['servicio_anterior_id', 'servicio_actual_id', 'servicio_padre_id','culminado'];
 
     protected $casts = [
         'culminado'   => 'boolean',
@@ -28,5 +28,10 @@ class Enganchado extends Model implements Auditable
     public function actual()
     {
         return $this->belongsTo(Existente::class, 'servicio_actual_id', 'id_servicio_existente');
+    }
+
+    public function padre()
+    {
+        return $this->belongsTo(Existente::class, 'servicio_padre_id', 'id_servicio_existente');
     }
 }
