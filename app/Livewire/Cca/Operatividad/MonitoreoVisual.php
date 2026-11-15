@@ -7,12 +7,13 @@ use Livewire\Component;
 
 class MonitoreoVisual extends Component
 {
+    public int $companiaId;
     /**
-     * Organiza las compañías por Departamento -> Ciudad -> Compañías.
+     * Organiza las compaï¿½ï¿½as por Departamento -> Ciudad -> Compaï¿½ï¿½as.
      * Orden de departamentos:
      * 1. Capital (ID 18)
      * 2. Central (ID 1)
-     * 3. Los demás alfabéticamente.
+     * 3. Los demï¿½s alfabï¿½ticamente.
      */
     private function obtenerDatos()
     {
@@ -25,7 +26,7 @@ class MonitoreoVisual extends Component
             ->orderBy('orden')
             ->get();
 
-        // Excluir compañías sin ciudad o departamento relacionado.
+        // Excluir compaï¿½ï¿½as sin ciudad o departamento relacionado.
         $companias = $companias->filter(function ($compania) {
             return $compania->ciudad !== null
                 && $compania->ciudad->departamento !== null;
@@ -70,7 +71,7 @@ class MonitoreoVisual extends Component
                 ];
             });
 
-        // Capital primero, Central segundo y luego orden alfabético.
+        // Capital primero, Central segundo y luego orden alfabï¿½tico.
         return $departamentos
             ->sort(function ($a, $b) {
                 $prioridadA = match ((int) $a['id']) {

@@ -34,7 +34,7 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             Route::get('/despacho-enganchado/{servicioId}', 'despachoEnganchado')->name('cca.despacho.despacho-enganchado');
         });
 
-        // Rutas de Reportes
+    // Rutas de Reportes
     Route::controller(ReporteController::class)
         ->prefix('reportes')
         ->group(function () {
@@ -42,13 +42,14 @@ Route::prefix('cca')->middleware('auth')->group(function () {
             Route::get('/graficos-por-compania', 'graficosPorCompania')->name('cca.reportes.graficos-por-compania');
             Route::get('/misionales', 'misionales')->name('cca.reportes.misionales');
         });
-        
-        // Rutas de Operatidad
+
+    // Rutas de Operatidad
     Route::controller(OperatividadController::class)
         ->prefix('operatividad')
         ->group(function () {
             Route::get('/', 'index')->name('cca.operatividad.index');
             Route::get('/dashboard', 'dashboard')->name('cca.operatividad.dashboard');
-             Route::get('/monitoreo-visual', 'monitoreoVisual')->name('cca.operatividad.monitoreo-visual');
+            Route::get('/monitoreo-visual', 'monitoreoVisual')->name('cca.operatividad.monitoreo-visual');
+            Route::get('/{companiaId}/actualizar', 'actualizar')->name('cca.operatividad.actualizar');
         });
 });

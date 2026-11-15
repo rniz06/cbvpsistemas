@@ -15,11 +15,17 @@ class OperatividadController extends Controller
     {
         $this->middleware('permission:Despacho Por Compania', ['only' => ['index']]);
         $this->middleware('permission:Despacho Por Compania', ['only' => ['dashboard']]);
+        $this->middleware('permission:Despacho Por Compania', ['only' => ['actualizar']]);
     }
 
     public function index()
     {
         return view('cca.operatividad.index');
+    }
+
+    public function actualizar(int $companiaId)
+    {
+        return view('cca.operatividad.editar', compact('companiaId'));
     }
 
     public function dashboard()

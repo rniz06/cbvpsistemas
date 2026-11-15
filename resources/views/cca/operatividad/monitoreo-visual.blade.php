@@ -63,3 +63,13 @@
 @section('content')
     @livewire('cca.operatividad.monitoreo-visual')
 @stop
+
+@push('css')
+    {{-- Incluir estilos adicionales desde el componente --}}
+    @stack('styles')
+@endpush
+
+@push('js')
+    {{-- Incluir scripts js adicionales desde el componente --}}
+    @stack('scripts')
+@endpush
