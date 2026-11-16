@@ -1,5 +1,6 @@
 <div>
 
+    FECHA DESDE : {{ $fecha_hora_desde ?? 'NULLO' }}
     {{-- MODAL COMPONENTE DE HISTORICO --}}
     <div wire:ignore.self>
         <x-adminlte-modal id="modal-historico" title="Historial Condición de guardia" theme="light" icon="fas fa-history"
@@ -64,6 +65,12 @@
             <option value="true">Operativo</option>
             <option value="false">Inoperativo</option>
         </x-adminlte-select>
+
+        <x-adminlte-input type="datetime-local" name="fecha_hora_desde" wire:model.live.debounce.150ms="fecha_hora_desde"
+            label="Filtro desde" fgroup-class="col-md-2" />
+
+        <x-adminlte-input type="datetime-local" name="fecha_hora_hasta" wire:model.live.debounce.150ms="fecha_hora_hasta"
+            label="Filtro hasta" fgroup-class="col-md-2" />
     </div>
 
     {{-- </x-adminlte-card> --}}

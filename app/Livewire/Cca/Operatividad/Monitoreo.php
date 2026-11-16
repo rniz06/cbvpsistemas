@@ -30,6 +30,10 @@ class Monitoreo extends Component
 
     public string $buscarOperatividad = '';
 
+    public $fecha_hora_desde;
+    
+    public $fecha_hora_hasta;
+
     public int $companiaId = 0;
 
 
@@ -102,6 +106,8 @@ class Monitoreo extends Component
         $this->datos = $this->queryBase()
             ->buscarIdCompania($this->buscarCompaniaId)
             ->buscarOperatividad($this->buscarOperatividad)
+            ->buscarUltOpeDesde($this->fecha_hora_desde)
+            ->buscarUltOpeHasta($this->fecha_hora_hasta)
             ->get();
 
         $this->calcularDatosParaWidget($this->datos);
@@ -120,6 +126,16 @@ class Monitoreo extends Component
     }
 
     public function updatedBuscarOperatividad(): void
+    {
+        $this->actualizarDatos();
+    }
+
+    public function updatedFechaHoraDesde(): void
+    {
+        $this->actualizarDatos();
+    }
+
+    public function updatedFechaHoraHasta(): void
     {
         $this->actualizarDatos();
     }

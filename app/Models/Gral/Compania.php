@@ -29,7 +29,7 @@ class Compania extends Model implements Auditable
         'orden',
         'cca_operativo',
     ];
-    
+
     protected function casts(): array
     {
         return [
@@ -42,7 +42,7 @@ class Compania extends Model implements Auditable
     | RELACIONES
     |--------------------------------------------------------------------------
     */
-    
+
     # OPERATIVIDAD EN CONDICION DE GUARDIA
     public function operatividades()
     {
@@ -62,8 +62,27 @@ class Compania extends Model implements Auditable
         )->latestOfMany('fecha_hora');
     }
 
+    /**
+     * Se implementa funcion para filtrar por campo fecha hora a travez de relacion.
+     */
+    public function scopeBuscarUltOpeDesde(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereRelation('ultimaOperatividad', 'fecha_hora', '>=', $search);
+        });
+    }
 
-public function scopeBuscarOperatividad(Builder $query, $search = null): void
+    /**
+     * Se implementa funcion para filtrar por campo fecha hora a travez de relacion.
+     */
+    public function scopeBuscarUltOpeHasta(Builder $query, $search = null): void
+    {
+        $query->when($search, function (Builder $query, $search) {
+            $query->whereRelation('ultimaOperatividad', 'fecha_hora', '<=', $search);
+        });
+    }
+
+    public function scopeBuscarOperatividad(Builder $query, $search = null): void
     {
         $query->when(
             $search !== null && $search !== '',
@@ -81,8 +100,8 @@ public function scopeBuscarOperatividad(Builder $query, $search = null): void
             }
         );
     }
-    
-    
+
+
     public function ciudad()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_id');
