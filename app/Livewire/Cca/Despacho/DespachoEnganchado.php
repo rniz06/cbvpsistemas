@@ -110,9 +110,9 @@ class DespachoEnganchado extends Component
             ]);
 
             // Cambiar estado del servicio anterior.
-            $this->servicio->update([
-                'estado_id' => 5, // Enganchado
-            ]);
+            // $this->servicio->update([
+            //     'estado_id' => 5, // Enganchado
+            // ]);
 
             // Registrar el estado del móvil.
             app(RegistrarEstadoDeMovilAlDespachar::class)
