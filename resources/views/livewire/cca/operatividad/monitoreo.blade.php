@@ -1,6 +1,4 @@
 <div>
-
-    FECHA DESDE : {{ $fecha_hora_desde ?? 'NULLO' }}
     {{-- MODAL COMPONENTE DE HISTORICO --}}
     <div wire:ignore.self>
         <x-adminlte-modal id="modal-historico" title="Historial Condición de guardia" theme="light" icon="fas fa-history"
